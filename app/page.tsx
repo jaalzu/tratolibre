@@ -1,65 +1,80 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { getObjects } from '@/features/objects/actions'
+import { CATEGORIES } from '@/features/objects/utils'
 
-export default function Home() {
+export default async function HomePage() {
+  const objects = await getObjects()
+  const recent = objects.slice(0, 6)
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the asdasdasdpage.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main>
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-green-50 to-white py-20 px-4 text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          Alquilá o comprá lo que necesitás
+        </h1>
+        <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">
+          Conectamos personas que tienen objetos sin usar con quienes los necesitan. Simple, seguro y local.
+        </p>
+        <div className="flex gap-3 justify-center">
+          <Link href="/explore"
+            className="bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-xl transition-colors">
+            Explorar objetos
+          </Link>
+          <Link href="/object/new"
+            className="border border-gray-200 hover:border-green-300 text-gray-700 font-medium px-6 py-3 rounded-xl transition-colors">
+            Publicar objeto
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Categorías */}
+      <section className="max-w-5xl mx-auto px-4 py-14">
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Categorías</h2>
+        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-3">
+          {CATEGORIES.map(c => (
+            <Link key={c.id} href={`/explore?category=${c.id}`}
+              className="flex flex-col items-center gap-1 p-3 rounded-xl border border-gray-100 hover:border-green-200 hover:bg-green-50 transition-colors text-center">
+              <span className="text-2xl">{c.icon}</span>
+              <span className="text-xs text-gray-600">{c.label}</span>
+            </Link>
+          ))}
         </div>
-      </main>
-    </div>
-  );
+      </section>
+
+      {/* Últimos objetos */}
+      {recent.length > 0 && (
+        <section className="max-w-5xl mx-auto px-4 pb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold text-gray-900">Últimos publicados</h2>
+            <Link href="/explore" className="text-sm text-green-600 hover:underline">Ver todos</Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recent.map((obj: any) => (
+              <Link key={obj.id} href={`/object/${obj.id}`}
+                className="border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+                {obj.images?.[0] ? (
+                  <img src={obj.images[0]} className="w-full h-48 object-cover" />
+                ) : (
+                  <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-4xl">📦</div>
+                )}
+                <div className="p-4">
+                  <p className="font-medium text-gray-900 truncate">{obj.title}</p>
+                  <p className="text-sm text-gray-400 mt-0.5">{obj.city}</p>
+                  <div className="flex gap-2 mt-2">
+                    {obj.price_per_day && (
+                      <span className="text-sm font-semibold text-green-600">${obj.price_per_day}/día</span>
+                    )}
+                    {obj.sale_price && (
+                      <span className="text-sm font-semibold text-blue-600">${obj.sale_price}</span>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </main>
+  )
 }

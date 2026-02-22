@@ -1,0 +1,15 @@
+features/reservations/
+ ├── schemas/
+ │    ├── reservation.schema.ts
+ │    ├── availability.schema.ts
+ │    ├── deposit.schema.ts
+ │    ├── contract.schema.ts
+ │    ├── state-record.schema.ts
+ │    └── cancellation.schema.ts
+
+. faltan cosas
+
+domain/        → schemas
+actions/       → casos de uso
+services/      → infraestructura
+ui/            → componentes

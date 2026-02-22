@@ -18,47 +18,47 @@
 ## FASE 1 — Setup del proyecto
 - [x] `npx create-next-app@latest` ejecutado
 - [x] Dependencias instaladas (`npm install ...`)
-- [ ] `.env.local` creado con keys de Supabase
-- [ ] Clientes Supabase creados (`lib/supabase/client.ts` y `server.ts`)
-- [ ] Estructura de carpetas feature-based creada
-- [ ] `tailwind.config.ts` con paleta TratoLibre
+- [x ] `.env.local` creado con keys de Supabase
+- [ x] Clientes Supabase creados (`lib/supabase/client.ts` y `server.ts`)
+- [ x] Estructura de carpetas feature-based creada
+- [x ] `tailwind.config.ts` con paleta TratoLibre
 - [ ] `lib/utils.ts` con `cn()`, `formatCurrency()`, `formatDate()`
-- [ ] Middleware de protección de rutas (`middleware.ts`)
-- [ ] `npm run dev` levanta sin errores
+- [x ] Middleware de protección de rutas (`proxy.ts`)
+- [x ] `npm run dev` levanta sin errores
 
 ---
 
 ## FASE 2 — Supabase: Base de datos
-- [ ] Proyecto creado en supabase.com
-- [ ] SQL ejecutado: tabla `profiles`
-- [ ] SQL ejecutado: tabla `objects` (con campos `listing_type`: rent/sell/both, `price_per_day`, `sale_price`)
-- [ ] SQL ejecutado: tabla `reservations`
-- [ ] SQL ejecutado: tabla `messages`
-- [ ] SQL ejecutado: tabla `reviews`
-- [ ] SQL ejecutado: tabla `state_records`
-- [ ] SQL ejecutado: tabla `contracts`
-- [ ] SQL ejecutado: tabla `deposits`
-- [ ] RLS habilitado en todas las tablas
-- [ ] Todas las policies de RLS aplicadas
-- [ ] Trigger: crear perfil automático al registrarse
-- [ ] Trigger: actualizar rating al crear review
-- [ ] Storage buckets creados: `object-images`, `profile-avatars`, `state-records`
-- [ ] Policies de Storage aplicadas
-- [ ] Types de Supabase generados (`types/database.ts`)
+- [x ] Proyecto creado en supabase.com
+- [ x] SQL ejecutado: tabla `profiles`
+- [ x] SQL ejecutado: tabla `objects` (con campos `listing_type`: rent/sell/both, `price_per_day`, `sale_price`)
+- [x ] SQL ejecutado: tabla `reservations`
+- [x ] SQL ejecutado: tabla `messages`
+- [ x] SQL ejecutado: tabla `reviews`
+- [ x] SQL ejecutado: tabla `state_records`
+- [ x] SQL ejecutado: tabla `contracts`
+- [ x] SQL ejecutado: tabla `deposits`
+- [x ] RLS habilitado en todas las tablas
+- [x ] Todas las policies de RLS aplicadas
+- [x ] Trigger: crear perfil automático al registrarse
+- [x ] Trigger: actualizar rating al crear review
+- [ x] Storage buckets creados: `object-images`, `profile-avatars`, `state-records`
+- [ x] Policies de Storage aplicadas
+- [ x] Types de Supabase generados (`types/database.ts`)
 
 ---
 
 ## FASE 3 — Autenticación
-- [ ] `lib/supabase/client.ts` — cliente browser
-- [ ] `lib/supabase/server.ts` — cliente server
-- [ ] `middleware.ts` — protección de rutas
-- [ ] Server Action: `registerAction`
-- [ ] Server Action: `loginAction`
-- [ ] Server Action: `logoutAction`
-- [ ] Página `/register` funcional
-- [ ] Página `/login` funcional
-- [ ] Redirect post-login al dashboard
-- [ ] Redirect rutas protegidas al login
+- [ x] `lib/supabase/client.ts` — cliente browser
+- [ x] `lib/supabase/server.ts` — cliente server
+- [x ] `middleware.ts` — protección de rutas
+- [x ] Server Action: `registerAction`
+- [x ] Server Action: `loginAction`
+- [x ] Server Action: `logoutAction`
+- [x ] Página `/register` funcional
+- [x ] Página `/login` funcional
+- [x ] Redirect post-login al dashboard
+- [x ] Redirect rutas protegidas al login
 - [ ] Perfil de usuario editable (nombre, foto, bio)
 
 ---
