@@ -14,10 +14,7 @@ export async function createObjectAction(_prevState: any, formData: FormData) {
     title: formData.get('title'),
     description: formData.get('description'),
     category: formData.get('category'),
-    listing_type: formData.get('listing_type'),
-    price_per_day: formData.get('price_per_day') || undefined,
-    sale_price: formData.get('sale_price') || undefined,
-    deposit: formData.get('deposit') || 0,
+    sale_price: formData.get('sale_price'),
     location: formData.get('location'),
     city: formData.get('city'),
     condition: formData.get('condition'),
@@ -26,9 +23,7 @@ export async function createObjectAction(_prevState: any, formData: FormData) {
   }
 
   const parsed = ObjectSchema.safeParse(raw)
-  if (!parsed.success) {
-    return { error: parsed.error.flatten() }
-  }
+  if (!parsed.success) return { error: parsed.error.flatten() }
 
   const { data: object, error } = await supabase
     .from('objects')
@@ -53,10 +48,7 @@ export async function updateObjectAction(_prevState: any, formData: FormData) {
     title: formData.get('title'),
     description: formData.get('description'),
     category: formData.get('category'),
-    listing_type: formData.get('listing_type'),
-    price_per_day: formData.get('price_per_day') || undefined,
-    sale_price: formData.get('sale_price') || undefined,
-    deposit: formData.get('deposit') || 0,
+    sale_price: formData.get('sale_price'),
     location: formData.get('location'),
     city: formData.get('city'),
     condition: formData.get('condition'),
@@ -113,7 +105,6 @@ export async function getObjects(params: {
   query?: string
   category?: string
   city?: string
-  listing_type?: string
 } = {}) {
   const supabase = await createClient()
 
@@ -121,6 +112,7 @@ export async function getObjects(params: {
     .from('objects')
     .select('*, profiles(name, avatar_url, rating)')
     .eq('available', true)
+    .eq('sold', false)
     .order('created_at', { ascending: false })
 
   if (params.query) {
@@ -128,8 +120,28 @@ export async function getObjects(params: {
   }
   if (params.category) q = q.eq('category', params.category)
   if (params.city) q = q.ilike('city', `%${params.city}%`)
-  if (params.listing_type) q = q.eq('listing_type', params.listing_type)
 
   const { data } = await q
   return data ?? []
+}
+
+export async function toggleFavoriteAction(objectId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'No autorizado' }
+
+  const { data: existing } = await supabase
+    .from('favorites')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('object_id', objectId)
+    .single()
+
+  if (existing) {
+    await supabase.from('favorites').delete().eq('id', existing.id)
+    return { favorited: false }
+  } else {
+    await supabase.from('favorites').insert({ user_id: user.id, object_id: objectId })
+    return { favorited: true }
+  }
 }

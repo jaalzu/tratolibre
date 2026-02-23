@@ -3,19 +3,33 @@
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
-export default function ChatWindow({ reservationId, userId }: { reservationId: string, userId: string }) {
+export default function ChatWindow({
+  conversationId,
+  userId,
+  type,
+}: {
+  conversationId: string
+  userId: string
+  type?: string
+}) {
   const [messages, setMessages] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const supabase = createClient()
+
+  // Pre-llenar input según tipo
+  useEffect(() => {
+    if (type === 'offer') setInput('Hola, te quiero hacer una oferta por ')
+    if (type === 'buy') setInput('Hola, estoy interesado en comprar ')
+  }, [type])
 
   async function loadMessages() {
+    const supabase = createClient()
     const { data } = await supabase
       .from('messages')
       .select('*, profiles(name, avatar_url)')
-      .eq('reservation_id', reservationId)
+      .eq('conversation_id', conversationId)
       .order('created_at', { ascending: true })
     setMessages(data ?? [])
     setLoading(false)
@@ -24,16 +38,14 @@ export default function ChatWindow({ reservationId, userId }: { reservationId: s
 
   useEffect(() => {
     loadMessages()
-  }, [reservationId])
+  }, [conversationId])
 
   async function handleSend() {
     if (!input.trim() || sending) return
     setSending(true)
-
     const content = input.trim()
     setInput('')
 
-    // Agregar mensaje localmente de inmediato
     const tempMsg = {
       id: Date.now(),
       sender_id: userId,
@@ -44,12 +56,18 @@ export default function ChatWindow({ reservationId, userId }: { reservationId: s
     setMessages(prev => [...prev, tempMsg])
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
 
-    // Insertar en DB
+    const supabase = createClient()
     await supabase.from('messages').insert({
-      reservation_id: reservationId,
+      conversation_id: conversationId,
       sender_id: userId,
       content,
     })
+
+    // Actualizar updated_at de conversación
+    await supabase
+      .from('conversations')
+      .update({ updated_at: new Date().toISOString() })
+      .eq('id', conversationId)
 
     setSending(false)
   }
@@ -57,7 +75,7 @@ export default function ChatWindow({ reservationId, userId }: { reservationId: s
   if (loading) return <div className="text-sm text-gray-400 p-4">Cargando mensajes...</div>
 
   return (
-    <div className="flex flex-col h-[500px] border border-gray-100 rounded-2xl overflow-hidden">
+    <div className="flex flex-col h-full border border-gray-100 rounded-2xl overflow-hidden">
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.length === 0 && (
           <p className="text-center text-gray-400 text-sm mt-8">

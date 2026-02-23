@@ -1,11 +1,14 @@
 import { getObjectById } from '@/features/objects/actions'
 import { notFound } from 'next/navigation'
-import ReservationForm from './ReservationForm'
+import ContactForm from './ContactForm'
+import { createClient } from '@/lib/supabase/server'
 
 export default async function ObjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const object = await getObjectById(id)
   if (!object) notFound()
+    const supabase = await createClient()
+const { data: { user } } = await supabase.auth.getUser()
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
@@ -61,7 +64,8 @@ export default async function ObjectPage({ params }: { params: Promise<{ id: str
 
         {/* Columna derecha — formulario */}
         <div className="lg:col-span-1">
-          <ReservationForm object={object} />
+         <ContactForm object={object} userId={user?.id ?? null} />
+
         </div>
 
       </div>
