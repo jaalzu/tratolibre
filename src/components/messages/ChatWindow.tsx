@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { Box, Flex, Text, Input, Circle, Spinner, Stack } from '@chakra-ui/react'
+import { Button } from '@/components/ui/Button'
 
 export default function ChatWindow({
   conversationId,
@@ -18,7 +20,11 @@ export default function ChatWindow({
   const [sending, setSending] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
-  // Pre-llenar input según tipo
+  const scrollToBottom = (behavior: 'smooth' | 'auto' = 'smooth') => {
+    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior }), 100)
+  }
+
+  // Pre-llenar input según tipo (Interés de compra)
   useEffect(() => {
     if (type === 'offer') setInput('Hola, te quiero hacer una oferta por ')
     if (type === 'buy') setInput('Hola, estoy interesado en comprar ')
@@ -31,9 +37,10 @@ export default function ChatWindow({
       .select('*, profiles(name, avatar_url)')
       .eq('conversation_id', conversationId)
       .order('created_at', { ascending: true })
+    
     setMessages(data ?? [])
     setLoading(false)
-    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+    scrollToBottom('auto')
   }
 
   useEffect(() => {
@@ -53,8 +60,9 @@ export default function ChatWindow({
       created_at: new Date().toISOString(),
       profiles: null,
     }
+    
     setMessages(prev => [...prev, tempMsg])
-    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+    scrollToBottom()
 
     const supabase = createClient()
     await supabase.from('messages').insert({
@@ -63,7 +71,6 @@ export default function ChatWindow({
       content,
     })
 
-    // Actualizar updated_at de conversación
     await supabase
       .from('conversations')
       .update({ updated_at: new Date().toISOString() })
@@ -72,47 +79,99 @@ export default function ChatWindow({
     setSending(false)
   }
 
-  if (loading) return <div className="text-sm text-gray-400 p-4">Cargando mensajes...</div>
+  if (loading) {
+    return (
+      <Flex p="8" justify="center" align="center" direction="column" gap="2">
+        <Spinner color="brand.default" size="sm" />
+        <Text fontSize="xs" color="neutral.400">Cargando mensajes...</Text>
+      </Flex>
+    )
+  }
 
   return (
-    <div className="flex flex-col h-full border border-gray-100 rounded-2xl overflow-hidden">
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        {messages.length === 0 && (
-          <p className="text-center text-gray-400 text-sm mt-8">
+    <Flex 
+      direction="column" 
+      h="full" 
+      border="1px solid" 
+      borderColor="neutral.100" 
+      borderRadius="xl" 
+      overflow="hidden"
+      bg="white"
+    >
+      {/* Área de Mensajes */}
+      <Box flex="1" overflowY="auto" p="4">
+        {messages.length === 0 ? (
+          <Text textAlign="center" color="neutral.400" fontSize="sm" mt="8">
             No hay mensajes aún. ¡Empezá la conversación!
-          </p>
+          </Text>
+        ) : (
+          <Stack gap="3">
+            {messages.map((msg: any) => {
+              const isMine = msg.sender_id === userId
+              return (
+                <Flex 
+                  key={msg.id} 
+                  gap="2" 
+                  flexDirection={isMine ? 'row-reverse' : 'row'}
+                  alignItems="flex-end"
+                >
+                  <Circle 
+                    size="7" 
+                    bg={isMine ? "brand.default" : "neutral.100"} 
+                    color={isMine ? "white" : "neutral.700"} 
+                    fontSize="xs" 
+                    fontWeight="bold"
+                    flexShrink="0"
+                  >
+                    {msg.profiles?.name?.[0]?.toUpperCase() ?? '?'}
+                  </Circle>
+                  
+                  <Box 
+                    maxW="75%" 
+                    px="3" 
+                    py="2" 
+                    borderRadius="2xl" 
+                    fontSize="sm"
+                    bg={isMine ? "brand.default" : "neutral.100"}
+                    color={isMine ? "white" : "neutral.900"}
+                    borderBottomRightRadius={isMine ? "xs" : "2xl"}
+                    borderBottomLeftRadius={isMine ? "2xl" : "xs"}
+                  >
+                    {msg.content}
+                  </Box>
+                </Flex>
+              )
+            })}
+            <div ref={bottomRef} />
+          </Stack>
         )}
-        {messages.map((msg: any) => (
-          <div key={msg.id}
-            className={`flex gap-2 ${msg.sender_id === userId ? 'flex-row-reverse' : 'flex-row'}`}>
-            <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xs font-bold flex-shrink-0">
-              {msg.profiles?.name?.[0]?.toUpperCase() ?? '?'}
-            </div>
-            <div className={`max-w-[70%] px-3 py-2 rounded-2xl text-sm ${
-              msg.sender_id === userId
-                ? 'bg-green-500 text-white rounded-tr-sm'
-                : 'bg-gray-100 text-gray-900 rounded-tl-sm'
-            }`}>
-              {msg.content}
-            </div>
-          </div>
-        ))}
-        <div ref={bottomRef} />
-      </div>
+      </Box>
 
-      <div className="border-t border-gray-100 p-3 flex gap-2">
-        <input
+      {/* Input de Envío */}
+      <Flex p="3" gap="2" borderTop="1px solid" borderColor="neutral.100" bg="neutral.50">
+        <Input
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSend()}
           placeholder="Escribí un mensaje..."
-          className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500"
+          bg="white"
+          fontSize="sm"
+          borderColor="neutral.200"
+          borderRadius="xl"
+          _focus={{ 
+            borderColor: "brand.default", 
+            boxShadow: "focus" 
+          }}
         />
-        <button onClick={handleSend} disabled={sending}
-          className="bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors">
-          Enviar
-        </button>
-      </div>
-    </div>
+        <Button 
+          onClick={handleSend} 
+          disabled={sending || !input.trim()}
+          size="md"
+          px="6"
+        >
+          {sending ? <Spinner size="xs" /> : "Enviar"}
+        </Button>
+      </Flex>
+    </Flex>
   )
 }

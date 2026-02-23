@@ -1,6 +1,10 @@
 import { getMyConversations } from '@/features/conversations/actions'
 import { createClient } from '@/lib/supabase/server'
 import ChatWindow from '@/components/messages/ChatWindow'
+import NextLink from 'next/link'
+import { Box, Flex, Text, Grid, Heading, Circle, Image, Stack } from '@chakra-ui/react'
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Card } from '@/components/ui/Card'
 
 export default async function MessagesPage({
   searchParams,
@@ -17,67 +21,100 @@ export default async function MessagesPage({
     : conversations[0]
 
   return (
-    <div className="max-w-5xl mx-auto py-10 px-4">
-      <h1 className="text-2xl font-bold text-gray-900 mb-8">Mensajes</h1>
+    <PageContainer py="8">
+      <Heading as="h1" fontSize="2xl" fontWeight="bold" color="neutral.900" mb="8">
+        Mensajes
+      </Heading>
 
       {conversations.length === 0 ? (
-        <p className="text-gray-400 text-sm">No tenés conversaciones todavía</p>
+        <Text color="neutral.400" fontSize="sm">
+          No tenés conversaciones todavía
+        </Text>
       ) : (
-        <div className="grid grid-cols-3 gap-6 h-[600px]">
+        <Grid templateColumns={{ base: "1fr", md: "1fr 2fr" }} gap="6" h="600px">
 
           {/* Lista de conversaciones */}
-          <div className="col-span-1 border border-gray-100 rounded-2xl overflow-y-auto">
-            {conversations.map((conv: any) => {
-              const isBuyer = conv.buyer_id === user?.id
-              const other = isBuyer ? conv.seller : conv.buyer
-              const isActive = activeConversation?.id === conv.id
+          <Card p="0" overflowY="auto" borderColor="neutral.100" borderRadius="lg" shadow="base">
+            <Stack gap="0">
+              {conversations.map((conv: any) => {
+                const isBuyer = conv.buyer_id === user?.id
+                const other = isBuyer ? conv.seller : conv.buyer
+                const isActive = activeConversation?.id === conv.id
 
-              return (
-                <a key={conv.id}
-                  href={`/dashboard/messages?conversation=${conv.id}`}
-                  className={`flex items-center gap-3 p-4 hover:bg-gray-50 border-b border-gray-50 transition-colors ${isActive ? 'bg-green-50' : ''}`}>
-                  <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm flex-shrink-0">
-                    {other?.name?.[0]?.toUpperCase()}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{other?.name}</p>
-                    <p className="text-xs text-gray-400 truncate">{conv.objects?.title}</p>
-                  </div>
-                </a>
-              )
-            })}
-          </div>
+                return (
+                  <Box
+                    key={conv.id}
+                    asChild
+                    borderBottom="1px solid"
+                    borderColor="neutral.50"
+                    bg={isActive ? "neutral.50" : "transparent"}
+                    _hover={{ bg: "neutral.50" }}
+                    transition="background 0.2s"
+                  >
+                    <NextLink href={`/dashboard/messages?conversation=${conv.id}`}>
+                      <Flex align="center" gap="3" p="4">
+                        <Circle size="9" bg="brand.default" color="white" fontWeight="bold" fontSize="sm" flexShrink="0">
+                          {other?.name?.[0]?.toUpperCase()}
+                        </Circle>
+                        <Box minW="0">
+                          <Text fontSize="sm" fontWeight="bold" color="neutral.900" truncate>
+                            {other?.name}
+                          </Text>
+                          <Text fontSize="xs" color="neutral.400" truncate>
+                            {conv.objects?.title}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </NextLink>
+                  </Box>
+                )
+              })}
+            </Stack>
+          </Card>
 
           {/* Chat activo */}
-          <div className="col-span-2">
+          <Box h="full">
             {activeConversation ? (
-              <div className="h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
+              <Flex direction="column" h="full">
+                {/* Header del Chat */}
+                <Flex align="center" gap="3" mb="4" pb="4" borderBottom="1px solid" borderColor="neutral.100">
                   {activeConversation.objects?.images?.[0] && (
-                    <img src={activeConversation.objects.images[0]}
-                      className="w-10 h-10 rounded-lg object-cover" />
+                    <Image 
+                      src={activeConversation.objects.images[0]} 
+                      w="10" 
+                      h="10" 
+                      borderRadius="md" 
+                      objectFit="cover" 
+                      alt="Objeto"
+                    />
                   )}
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">{activeConversation.objects?.title}</p>
-                    <p className="text-xs text-gray-400">${activeConversation.objects?.sale_price?.toLocaleString('es-AR')}</p>
-                  </div>
-                </div>
-                <div className="flex-1">
+                  <Box>
+                    <Text fontWeight="bold" color="neutral.900" fontSize="sm">
+                      {activeConversation.objects?.title}
+                    </Text>
+                    <Text fontSize="xs" color="brand.default" fontWeight="bold">
+                      ${activeConversation.objects?.sale_price?.toLocaleString('es-AR')}
+                    </Text>
+                  </Box>
+                </Flex>
+
+                {/* Ventana de mensajes */}
+                <Box flex="1" minH="0">
                   <ChatWindow
                     conversationId={activeConversation.id}
                     userId={user?.id!}
                     type={params.type}
                   />
-                </div>
-              </div>
+                </Box>
+              </Flex>
             ) : (
-              <div className="h-full flex items-center justify-center text-gray-400 text-sm">
+              <Flex h="full" align="center" justify="center" color="neutral.400" fontSize="sm" border="1px dashed" borderColor="neutral.100" borderRadius="lg">
                 Seleccioná una conversación
-              </div>
+              </Flex>
             )}
-          </div>
-        </div>
+          </Box>
+        </Grid>
       )}
-    </div>
+    </PageContainer>
   )
 }

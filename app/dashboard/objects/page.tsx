@@ -1,6 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { deleteObjectAction } from '@/features/objects/actions'
+import { Box, Flex, Heading, Text, Stack, Image } from '@chakra-ui/react'
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card' // Tu componente
 
 export default async function MyObjectsPage() {
   const supabase = await createClient()
@@ -13,52 +17,83 @@ export default async function MyObjectsPage() {
     .order('created_at', { ascending: false })
 
   return (
-    <div className="max-w-3xl mx-auto py-10 px-4">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Mis objetos</h1>
-        <Link href="/object/new"
-          className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-          + Publicar objeto
-        </Link>
-      </div>
+    <PageContainer maxW="1280px" py="12">
+      <Flex alignItems="center" justifyContent="space-between" mb="8">
+        <Heading as="h1" fontSize="2xl" fontWeight="bold" color="neutral.900">
+          Mis objetos
+        </Heading>
+        <Button asChild size="md">
+          <NextLink href="/object/new">+ Publicar objeto</NextLink>
+        </Button>
+      </Flex>
 
       {objects?.length === 0 && (
-        <div className="text-center py-16 text-gray-400">
-          <p className="text-4xl mb-3">📦</p>
-          <p className="font-medium">No publicaste nada todavía</p>
-          <Link href="/object/new" className="text-green-600 text-sm mt-1 inline-block hover:underline">
-            Publicá tu primer objeto
-          </Link>
-        </div>
+        <Flex flexDirection="column" alignItems="center" justifyContent="center" py="24" textAlign="center">
+          <Text fontSize="3xl" mb="4">📦</Text>
+          <Text fontWeight="bold" color="neutral.400" fontSize="lg">No publicaste nada todavía</Text>
+          <Box asChild mt="2">
+            <NextLink href="/object/new" style={{ color: 'var(--colors-brand-default)', fontWeight: 600 }}>
+              Publicá tu primer objeto
+            </NextLink>
+          </Box>
+        </Flex>
       )}
 
-      <div className="space-y-4">
-        {objects?.map(obj => (
-          <div key={obj.id} className="border border-gray-100 rounded-xl p-4 flex gap-4 items-center">
+      <Stack gap="4">
+        {objects?.map((obj) => (
+          <Card 
+            key={obj.id} 
+            flexDirection="row" // Pisamos el column que tenés por defecto
+            alignItems="center" 
+            p="4" 
+            gap="4"
+          >
             {obj.images?.[0] && (
-              <img src={obj.images[0]} className="w-16 h-16 object-cover rounded-lg flex-shrink-0" />
+              <Image 
+                src={obj.images[0]} 
+                w="20" 
+                h="20" 
+                objectFit="cover" 
+                borderRadius="md" 
+                alt={obj.title}
+                flexShrink="0"
+              />
             )}
-            <div className="flex-1 min-w-0">
-              <p className="font-medium text-gray-900 truncate">{obj.title}</p>
-              <p className="text-sm text-gray-400">{obj.city} · {obj.listing_type === 'rent' ? 'Alquiler' : obj.listing_type === 'sell' ? 'Venta' : 'Alquiler y venta'}</p>
-              {obj.price_per_day && <p className="text-sm text-green-600 font-medium">${obj.price_per_day}/día</p>}
-              {obj.sale_price && <p className="text-sm text-blue-600 font-medium">${obj.sale_price}</p>}
-            </div>
-            <div className="flex gap-2">
-              <Link href={`/object/${obj.id}`}
-                className="text-sm text-gray-500 hover:text-gray-700 border border-gray-200 px-3 py-1.5 rounded-lg">
-                Ver
-              </Link>
-             <form action={async () => { 'use server'; await deleteObjectAction(obj.id) }}>
-  <button type="submit"
-    className="text-sm text-red-500 hover:text-red-700 border border-red-100 px-3 py-1.5 rounded-lg">
-    Eliminar
-  </button>
-</form>
-            </div>
-          </div>
+            
+            <Box flex="1" minW="0">
+              <Text fontWeight="bold" color="neutral.900" fontSize="md" truncate>
+                {obj.title}
+              </Text>
+              <Text fontSize="sm" color="neutral.400" mb="1">
+                {obj.city}
+              </Text>
+              <Text fontSize="md" color="brand.default" fontWeight="bold">
+                ${obj.sale_price?.toLocaleString('es-AR')}
+              </Text>
+            </Box>
+
+            <Flex gap="3">
+              <Button asChild variant="secondary" size="sm">
+                <NextLink href={`/object/${obj.id}`}>Ver</NextLink>
+              </Button>
+              
+              <form action={async () => { 'use server'; await deleteObjectAction(obj.id) }}>
+                <Button 
+                  type="submit" 
+                  size="sm"
+                  variant="ghost"
+                  color="feedback.error"
+                  borderWidth="1px"
+                  borderColor="neutral.100"
+                  _hover={{ bg: 'feedback.error', color: 'white', borderColor: 'feedback.error' }}
+                >
+                  Eliminar
+                </Button>
+              </form>
+            </Flex>
+          </Card>
         ))}
-      </div>
-    </div>
+      </Stack>
+    </PageContainer>
   )
 }

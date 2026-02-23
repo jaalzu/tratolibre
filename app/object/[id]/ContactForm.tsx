@@ -3,6 +3,10 @@
 import { useState } from 'react'
 import { getOrCreateConversation } from '@/features/conversations/actions'
 import { useRouter } from 'next/navigation'
+import { Box, Text, Stack, Flex } from '@chakra-ui/react'
+import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+import NextLink from 'next/link'
 
 export default function ContactForm({ object, userId }: { object: any, userId: string | null }) {
   const [loading, setLoading] = useState(false)
@@ -18,58 +22,82 @@ export default function ContactForm({ object, userId }: { object: any, userId: s
     setLoading(false)
   }
 
+  const priceContent = (
+    <Text fontSize="3xl" fontWeight="bold" color="neutral.900">
+      ${object.sale_price?.toLocaleString('es-AR')}
+    </Text>
+  )
+
   if (!userId) {
     return (
-      <div className="border border-gray-100 rounded-2xl p-5 space-y-3">
-        <p className="text-2xl font-bold text-gray-900">${object.sale_price?.toLocaleString('es-AR')}</p>
-        <p className="text-sm text-gray-500 text-center">Iniciá sesión para contactar al vendedor</p>
-        <a href="/login"
-          className="block w-full text-center bg-green-500 hover:bg-green-600 text-white font-medium py-2.5 rounded-xl text-sm transition-colors">
-          Iniciar sesión
-        </a>
-      </div>
+      <Card p={5}>
+        <Stack gap={3} align="center">
+          {priceContent}
+          <Text fontSize="sm" color="neutral.400" textAlign="center">
+            Iniciá sesión para contactar al vendedor
+          </Text>
+          <Button asChild width="full">
+            <NextLink href="/login">Iniciar sesión</NextLink>
+          </Button>
+        </Stack>
+      </Card>
     )
   }
 
   if (object.profiles?.id === userId) {
     return (
-      <div className="border border-gray-100 rounded-2xl p-5">
-        <p className="text-2xl font-bold text-gray-900 mb-1">${object.sale_price?.toLocaleString('es-AR')}</p>
-        <p className="text-sm text-gray-400 text-center mt-4">Este es tu objeto</p>
-      </div>
+      <Card p={5}>
+        <Stack gap={1} align="center">
+          {priceContent}
+          <Text fontSize="sm" color="neutral.400" mt={4}>
+            Este es tu objeto
+          </Text>
+        </Stack>
+      </Card>
     )
   }
 
   if (object.sold) {
     return (
-      <div className="border border-gray-100 rounded-2xl p-5">
-        <p className="text-2xl font-bold text-gray-900 mb-1">${object.sale_price?.toLocaleString('es-AR')}</p>
-        <p className="text-sm text-red-500 font-medium mt-2">Este objeto ya fue vendido</p>
-      </div>
+      <Card p={5}>
+        <Stack gap={2} align="center">
+          {priceContent}
+          <Text fontSize="sm" color="feedback.error" fontWeight="bold">
+            Este objeto ya fue vendido
+          </Text>
+        </Stack>
+      </Card>
     )
   }
 
   return (
-    <div className="border border-gray-100 rounded-2xl p-5 sticky top-20 space-y-4">
-      <div>
-        <p className="text-xs text-gray-400 uppercase tracking-wide">{object.title}</p>
-        <p className="text-3xl font-bold text-gray-900 mt-1">${object.sale_price?.toLocaleString('es-AR')}</p>
-      </div>
+    <Card p={5}>
+      <Stack gap={4}>
+        <Box>
+          <Text fontSize="xs" color="neutral.400" textTransform="uppercase" letterSpacing="wider">
+            {object.title}
+          </Text>
+          {priceContent}
+        </Box>
 
-      <div className="space-y-2">
-        <button
-          onClick={() => handleAction('buy')}
-          disabled={loading}
-          className="w-full bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white font-medium py-3 rounded-xl text-sm transition-colors">
-          Comprar
-        </button>
-        <button
-          onClick={() => handleAction('offer')}
-          disabled={loading}
-          className="w-full border border-gray-200 hover:border-green-400 hover:bg-green-50 text-gray-700 font-medium py-3 rounded-xl text-sm transition-colors">
-          Hacer oferta
-        </button>
-      </div>
-    </div>
+        <Stack gap={2}>
+          <Button 
+            width="full" 
+            onClick={() => handleAction('buy')} 
+            loading={loading}
+          >
+            Comprar
+          </Button>
+          <Button 
+            width="full" 
+            variant="secondary" 
+            onClick={() => handleAction('offer')} 
+            loading={loading}
+          >
+            Hacer oferta
+          </Button>
+        </Stack>
+      </Stack>
+    </Card>
   )
 }

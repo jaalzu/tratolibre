@@ -3,6 +3,23 @@
 import { useActionState, useState } from 'react'
 import { createObjectAction } from '@/features/objects/actions'
 import { CATEGORIES, CONDITIONS } from '@/features/objects/utils'
+import { 
+  chakra,
+  Box, 
+  Flex, 
+  Heading, 
+  Text, 
+  Input, 
+  Textarea, 
+  Stack, 
+  SimpleGrid, 
+  Image, 
+  Field,
+  NativeSelect
+} from '@chakra-ui/react'
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 
 export default function NewObjectPage() {
   const [state, formAction] = useActionState<any, FormData>(createObjectAction, null)
@@ -16,111 +33,201 @@ export default function NewObjectPage() {
     for (const file of files) {
       const fd = new FormData()
       fd.append('file', file)
-      const res = await fetch('/api/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      if (data.url) setImages(prev => [...prev, data.url])
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', body: fd })
+        const data = await res.json()
+        if (data.url) setImages(prev => [...prev, data.url])
+      } catch (err) {
+        console.error("Error subiendo imagen:", err)
+      }
     }
     setUploading(false)
   }
 
+  // Estilo base para inputs de tu sistema
+  const inputStyles = {
+    borderColor: "neutral.100",
+    bg: "white",
+    fontSize: "sm",
+    borderRadius: "md",
+    _focus: { 
+      borderColor: "brand.default", 
+      boxShadow: "focus" 
+    }
+  }
+
   return (
-    <div className="max-w-2xl mx-auto py-10 px-4">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">Publicar objeto</h1>
-      <p className="text-gray-500 text-sm mb-8">Completá los datos de tu objeto</p>
+    <PageContainer maxW="2xl" py="12">
+      <Box mb="8">
+        <Heading as="h1" fontSize="2xl" fontWeight="bold" color="neutral.900" mb="1">
+          Publicar objeto
+        </Heading>
+        <Text color="neutral.400" fontSize="sm">
+          Completá los datos para poner tu objeto a la venta
+        </Text>
+      </Box>
 
-      <form action={formAction} className="space-y-6">
+      <form action={formAction}>
+        <Card p="6">
+          <Stack gap="6">
+            
+            {/* Título */}
+            <Field.Root invalid={!!state?.error?.fieldErrors?.title}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Título</Field.Label>
+              <Input name="title" placeholder="Ej: iPhone 13 Pro 256GB" {...inputStyles} />
+              {state?.error?.fieldErrors?.title && (
+                <Field.ErrorText color="feedback.error" fontSize="xs">
+                  {state.error.fieldErrors.title[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Título</label>
-          <input name="title" type="text" placeholder="Ej: iPhone 13 Pro 256GB"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500" />
-          {state?.error?.fieldErrors?.title && <p className="text-red-500 text-xs mt-1">{state.error.fieldErrors.title[0]}</p>}
-        </div>
+            {/* Descripción */}
+            <Field.Root invalid={!!state?.error?.fieldErrors?.description}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Descripción</Field.Label>
+              <Textarea 
+                name="description" 
+                rows={4} 
+                placeholder="Describí el objeto, su estado, qué incluye..." 
+                {...inputStyles} 
+              />
+              {state?.error?.fieldErrors?.description && (
+                <Field.ErrorText color="feedback.error" fontSize="xs">
+                  {state.error.fieldErrors.description[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-          <textarea name="description" rows={4} placeholder="Describí el objeto, su estado, qué incluye..."
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500" />
-          {state?.error?.fieldErrors?.description && <p className="text-red-500 text-xs mt-1">{state.error.fieldErrors.description[0]}</p>}
-        </div>
+            <SimpleGrid columns={2} gap="4">
+              {/* Categoría */}
+              <Field.Root invalid={!!state?.error?.fieldErrors?.category}>
+                <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Categoría</Field.Label>
+                <NativeSelect.Root>
+                  <NativeSelect.Field name="category" {...inputStyles}>
+                    <option value="">Elegí una...</option>
+                    {CATEGORIES.map(c => (
+                      <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
+                    ))}
+                  </NativeSelect.Field>
+                </NativeSelect.Root>
+              </Field.Root>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-          <select name="category"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500">
-            <option value="">Elegí una categoría</option>
-            {CATEGORIES.map(c => (
-              <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
-            ))}
-          </select>
-          {state?.error?.fieldErrors?.category && <p className="text-red-500 text-xs mt-1">{state.error.fieldErrors.category[0]}</p>}
-        </div>
+              {/* Estado */}
+              <Field.Root>
+                <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Estado del objeto</Field.Label>
+                <NativeSelect.Root>
+                  <NativeSelect.Field name="condition" {...inputStyles}>
+                    {CONDITIONS.map(c => (
+                      <option key={c.id} value={c.id}>{c.label}</option>
+                    ))}
+                  </NativeSelect.Field>
+                </NativeSelect.Root>
+              </Field.Root>
+            </SimpleGrid>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
-          <input name="sale_price" type="number" min="0" placeholder="0"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500" />
-          {state?.error?.fieldErrors?.sale_price && <p className="text-red-500 text-xs mt-1">{state.error.fieldErrors.sale_price[0]}</p>}
-        </div>
+            {/* Precio de Venta */}
+            <Field.Root invalid={!!state?.error?.fieldErrors?.sale_price}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Precio de venta ($)</Field.Label>
+              <Input name="sale_price" type="number" min="0" placeholder="0" {...inputStyles} />
+              {state?.error?.fieldErrors?.sale_price && (
+                <Field.ErrorText color="feedback.error" fontSize="xs">
+                  {state.error.fieldErrors.sale_price[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Barrio / Zona</label>
-            <input name="location" type="text" placeholder="Ej: Palermo"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
-            <input name="city" type="text" placeholder="Ej: Buenos Aires"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500" />
-          </div>
-        </div>
+            {/* Ubicación */}
+            <SimpleGrid columns={2} gap="4">
+              <Field.Root>
+                <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Barrio / Zona</Field.Label>
+                <Input name="location" placeholder="Ej: Palermo" {...inputStyles} />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Ciudad</Field.Label>
+                <Input name="city" placeholder="Ej: Buenos Aires" {...inputStyles} />
+              </Field.Root>
+            </SimpleGrid>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Estado del objeto</label>
-          <select name="condition"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500">
-            {CONDITIONS.map(c => (
-              <option key={c.id} value={c.id}>{c.label}</option>
-            ))}
-          </select>
-        </div>
+            {/* Fotos con chakra.input corregido */}
+            <Field.Root invalid={!!state?.error?.fieldErrors?.images}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">Fotos</Field.Label>
+              
+              <chakra.input 
+                type="file" 
+                accept="image/*" 
+                multiple 
+                onChange={handleImageUpload}
+                display="block"
+                w="full"
+                fontSize="sm"
+                color="neutral.400"
+                cursor="pointer"
+                _file={{
+                  mr: "4",
+                  py: "2",
+                  px: "4",
+                  borderRadius: "md",
+                  border: "0",
+                  fontSize: "xs",
+                  fontWeight: "bold",
+                  bg: "brand.default",
+                  color: "white",
+                  cursor: "pointer",
+                  transition: "background 0.2s",
+                  _hover: { bg: "brand.hover" }
+                }}
+              />
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Condiciones <span className="text-gray-400">(opcional)</span>
-          </label>
-          <textarea name="rules" rows={2} placeholder="Ej: Solo vendo en mano, no envíos..."
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500" />
-        </div>
+              {uploading && (
+                <Text fontSize="xs" color="brand.default" mt="2" fontWeight="bold">
+                  Subiendo fotos...
+                </Text>
+              )}
+              
+              {images.length > 0 && (
+                <Flex gap="2" mt="3" flexWrap="wrap">
+                  {images.map((url, i) => (
+                    <Image 
+                      key={i} 
+                      src={url} 
+                      w="20" 
+                      h="20" 
+                      objectFit="cover" 
+                      borderRadius="md" 
+                      border="1px solid"
+                      borderColor="neutral.100"
+                      alt={`Preview ${i}`}
+                    />
+                  ))}
+                </Flex>
+              )}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Fotos</label>
-          <input type="file" accept="image/*" multiple onChange={handleImageUpload}
-            className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-700 hover:file:bg-green-100" />
-          {uploading && <p className="text-sm text-gray-400 mt-1">Subiendo fotos...</p>}
-          {images.length > 0 && (
-            <div className="flex gap-2 mt-3 flex-wrap">
-              {images.map((url, i) => (
-                <img key={i} src={url} className="w-20 h-20 object-cover rounded-lg border border-gray-200" />
+              {/* Inputs ocultos para el Server Action */}
+              {images.map(url => (
+                <input key={url} type="hidden" name="images" value={url} />
               ))}
-            </div>
-          )}
-          {images.map(url => (
-            <input key={url} type="hidden" name="images" value={url} />
-          ))}
-          {state?.error?.fieldErrors?.images && <p className="text-red-500 text-xs mt-1">{state.error.fieldErrors.images[0]}</p>}
-        </div>
+              
+              {state?.error?.fieldErrors?.images && (
+                <Field.ErrorText color="feedback.error" fontSize="xs">
+                  {state.error.fieldErrors.images[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
 
-        {state?.error && typeof state.error === 'string' && (
-          <p className="text-red-500 text-sm">{state.error}</p>
-        )}
+            {/* Error General */}
+            {state?.error && typeof state.error === 'string' && (
+              <Text color="feedback.error" fontSize="sm" textAlign="center" fontWeight="bold">
+                {state.error}
+              </Text>
+            )}
 
-        <button type="submit"
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 rounded-lg text-sm transition-colors">
-          Publicar
-        </button>
+            <Button type="submit" width="full" py="6" fontSize="md">
+              Publicar objeto
+            </Button>
+
+          </Stack>
+        </Card>
       </form>
-    </div>
+    </PageContainer>
   )
 }

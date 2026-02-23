@@ -1,80 +1,107 @@
-import Link from 'next/link'
+import NextLink from 'next/link'
+import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import { getObjects } from '@/features/objects/actions'
 import { CATEGORIES } from '@/features/objects/utils'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
+import { PageContainer } from '@/components/ui/PageContainer'
 
 export default async function HomePage() {
   const objects = await getObjects()
   const recent = objects.slice(0, 6)
 
   return (
-    <main>
+    <Box as="main">
+
       {/* Hero */}
-      <section className="bg-gradient-to-br from-green-50 to-white py-20 px-4 text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Alquilá o comprá lo que necesitás
-        </h1>
-        <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">
+      <Box bg="#f0fdf4" py={24} px={4} textAlign="center">
+        <Heading as="h1" fontSize="3xl" fontWeight="bold" color="#0f0d0d" mb={4}>
+          Comprá y vendé objetos cerca tuyo
+        </Heading>
+        <Text fontSize="lg" color="#958e8e" mb={8} maxW="560px" mx="auto">
           Conectamos personas que tienen objetos sin usar con quienes los necesitan. Simple, seguro y local.
-        </p>
-        <div className="flex gap-3 justify-center">
-          <Link href="/explore"
-            className="bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-xl transition-colors">
-            Explorar objetos
-          </Link>
-          <Link href="/object/new"
-            className="border border-gray-200 hover:border-green-300 text-gray-700 font-medium px-6 py-3 rounded-xl transition-colors">
-            Publicar objeto
-          </Link>
-        </div>
-      </section>
+        </Text>
+        <Flex gap={3} justify="center">
+        <Button asChild>
+  <NextLink href="/explore">Explorar objetos</NextLink>
+</Button>
+
+<Button asChild variant="secondary">
+  <NextLink href="/object/new">Publicar objeto</NextLink>
+</Button>
+        </Flex>
+      </Box>
 
       {/* Categorías */}
-      <section className="max-w-5xl mx-auto px-4 py-14">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Categorías</h2>
-        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-3">
+      <PageContainer>
+        <Heading as="h2" fontSize="xl" fontWeight="bold" color="#0f0d0d" mb={6}>
+          Categorías
+        </Heading>
+        <Grid templateColumns="repeat(7, 1fr)" gap={3}>
           {CATEGORIES.map(c => (
-            <Link key={c.id} href={`/explore?category=${c.id}`}
-              className="flex flex-col items-center gap-1 p-3 rounded-xl border border-gray-100 hover:border-green-200 hover:bg-green-50 transition-colors text-center">
-              <span className="text-2xl">{c.icon}</span>
-              <span className="text-xs text-gray-600">{c.label}</span>
-            </Link>
+            <NextLink key={c.id} href={`/explore?category=${c.id}`} style={{ textDecoration: 'none' }}>
+              <Flex
+                direction="column"
+                align="center"
+                gap={1}
+                p={3}
+                borderRadius="md"
+                border="1px solid"
+                borderColor="#e0e0e0"
+                textAlign="center"
+                cursor="pointer"
+                transition="all 0.2s"
+                _hover={{ borderColor: '#22c55e', bg: '#f0fdf4' }}
+              >
+                <Text fontSize="2xl">{c.icon}</Text>
+                <Text fontSize="xs" color="#615858">{c.label}</Text>
+              </Flex>
+            </NextLink>
           ))}
-        </div>
-      </section>
+        </Grid>
+      </PageContainer>
 
-      {/* Últimos objetos */}
+      {/* Últimos publicados */}
       {recent.length > 0 && (
-        <section className="max-w-5xl mx-auto px-4 pb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Últimos publicados</h2>
-            <Link href="/explore" className="text-sm text-green-600 hover:underline">Ver todos</Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <PageContainer pt={0}>
+          <Flex align="center" justify="space-between" mb={6}>
+            <Heading as="h2" fontSize="xl" fontWeight="bold" color="#0f0d0d">
+              Últimos publicados
+            </Heading>
+            <NextLink href="/explore" style={{ textDecoration: 'none' }}>
+              <Text fontSize="sm" color="#22c55e" _hover={{ textDecoration: 'underline' }}>
+                Ver todos
+              </Text>
+            </NextLink>
+          </Flex>
+
+          <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             {recent.map((obj: any) => (
-              <Link key={obj.id} href={`/object/${obj.id}`}
-                className="border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-                {obj.images?.[0] ? (
-                  <img src={obj.images[0]} className="w-full h-48 object-cover" />
-                ) : (
-                  <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-4xl">📦</div>
-                )}
-                <div className="p-4">
-                  <p className="font-medium text-gray-900 truncate">{obj.title}</p>
-                  <p className="text-sm text-gray-400 mt-0.5">{obj.city}</p>
-                  <div className="flex gap-2 mt-2">
-                    {obj.price_per_day && (
-                      <span className="text-sm font-semibold text-green-600">${obj.price_per_day}/día</span>
-                    )}
+              <NextLink key={obj.id} href={`/object/${obj.id}`} style={{ textDecoration: 'none' }}>
+                <Card p={0} overflow="hidden" _hover={{ boxShadow: 'md' }} transition="box-shadow 0.2s" cursor="pointer">
+                  {obj.images?.[0] ? (
+                    <Box as="img" src={obj.images[0]} w="100%" h="192px" objectFit="cover" />
+                  ) : (
+                    <Flex w="100%" h="192px" bg="#fafafa" align="center" justify="center" fontSize="4xl">
+                      📦
+                    </Flex>
+                  )}
+                  <Box p={4}>
+                    <Text fontWeight="bold" color="#0f0d0d">{obj.title}</Text>
+                    <Text fontSize="sm" color="#958e8e" mt={1}>{obj.city}</Text>
                     {obj.sale_price && (
-                      <span className="text-sm font-semibold text-blue-600">${obj.sale_price}</span>
+                      <Text fontSize="sm" fontWeight="bold" color="#22c55e" mt={2}>
+                        ${obj.sale_price.toLocaleString('es-AR')}
+                      </Text>
                     )}
-                  </div>
-                </div>
-              </Link>
+                  </Box>
+                </Card>
+              </NextLink>
             ))}
-          </div>
-        </section>
+          </Grid>
+        </PageContainer>
       )}
-    </main>
+
+    </Box>
   )
 }

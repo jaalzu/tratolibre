@@ -2,68 +2,106 @@
 
 import { registerAction } from '@/features/auth/actions'
 import { useActionState } from 'react'
-import Link from 'next/link'
+import NextLink from 'next/link'
+import { Flex, Text, Input, Field, Stack } from '@chakra-ui/react'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 
 export default function RegisterPage() {
-const [state, formAction] = useActionState<any, FormData>(registerAction, null)
+  const [state, formAction] = useActionState<any, FormData>(registerAction, null)
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">Crear cuenta</h1>
-      <p className="text-gray-500 text-sm mb-6">Empezá a alquilar y vender objetos</p>
-
-      <form action={formAction} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-          <input
-            name="name"
-            type="text"
-            placeholder="Tu nombre"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500"
-          />
-          {state?.error?.name && <p className="text-red-500 text-xs mt-1">{state.error.name[0]}</p>}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-          <input
-            name="email"
-            type="email"
-            placeholder="tu@email.com"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500"
-          />
-          {state?.error?.email && <p className="text-red-500 text-xs mt-1">{state.error.email[0]}</p>}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-          <input
-            name="password"
-            type="password"
-            placeholder="Mínimo 8 caracteres"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500"
-          />
-          {state?.error?.password && <p className="text-red-500 text-xs mt-1">{state.error.password[0]}</p>}
-        </div>
-
-        {state?.error?._form && (
-          <p className="text-red-500 text-sm">{state.error._form[0]}</p>
-        )}
-
-        <button
-          type="submit"
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2 rounded-lg text-sm transition-colors"
-        >
+    <Flex minH="100vh" align="center" justify="center" bg="neutral.50">
+      <Card p="8" w="full" maxW="440px" shadow="base" borderRadius="lg">
+        <Text fontSize="2xl" fontWeight="bold" color="neutral.900" mb="1">
           Crear cuenta
-        </button>
-      </form>
+        </Text>
+        <Text fontSize="sm" color="neutral.400" mb="6">
+          Empezá a comprar y vender objetos
+        </Text>
 
-      <p className="text-center text-sm text-gray-500 mt-6">
-        ¿Ya tenés cuenta?{' '}
-        <Link href="/login" className="text-green-600 font-medium hover:underline">
-          Iniciá sesión
-        </Link>
-      </p>
-    </div>
+        <form action={formAction}>
+          <Stack gap="4">
+
+            {/* Nombre */}
+            <Field.Root invalid={!!state?.error?.name}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">
+                Nombre
+              </Field.Label>
+              <Input 
+                name="name" 
+                placeholder="Tu nombre" 
+                borderColor="neutral.100"
+                _focus={{ borderColor: "brand.default", boxShadow: "focus" }}
+              />
+              {state?.error?.name && (
+                <Field.ErrorText fontSize="xs" color="feedback.error">
+                  {state.error.name[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
+
+            {/* Email */}
+            <Field.Root invalid={!!state?.error?.email}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">
+                Email
+              </Field.Label>
+              <Input 
+                name="email" 
+                type="email" 
+                placeholder="tu@email.com" 
+                borderColor="neutral.100"
+                _focus={{ borderColor: "brand.default", boxShadow: "focus" }}
+              />
+              {state?.error?.email && (
+                <Field.ErrorText fontSize="xs" color="feedback.error">
+                  {state.error.email[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
+
+            {/* Password */}
+            <Field.Root invalid={!!state?.error?.password}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">
+                Contraseña
+              </Field.Label>
+              <Input 
+                name="password" 
+                type="password" 
+                placeholder="Mínimo 8 caracteres" 
+                borderColor="neutral.100"
+                _focus={{ borderColor: "brand.default", boxShadow: "focus" }}
+              />
+              {state?.error?.password && (
+                <Field.ErrorText fontSize="xs" color="feedback.error">
+                  {state.error.password[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
+
+            {state?.error?._form && (
+              <Text fontSize="sm" color="feedback.error" textAlign="center">
+                {state.error._form[0]}
+              </Text>
+            )}
+
+            <Button type="submit" width="full" mt="2">
+              Crear cuenta
+            </Button>
+
+          </Stack>
+        </form>
+
+        <Text fontSize="sm" color="neutral.400" textAlign="center" mt="6">
+          ¿Ya tenés cuenta?{' '}
+          <NextLink 
+            href="/login" 
+            style={{ color: 'var(--colors-brand-default)', fontWeight: 600 }}
+          >
+            Iniciá sesión
+          </NextLink>
+        </Text>
+      </Card>
+    </Flex>
   )
 }

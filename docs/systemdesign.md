@@ -513,3 +513,26 @@ zIndex = {
 Este documento no es teórico: es un mapa de construcción.
 Se completa mientras se desarrolla la app.
 No se fuerza: se deja crecer.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

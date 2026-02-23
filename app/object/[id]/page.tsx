@@ -2,73 +2,100 @@ import { getObjectById } from '@/features/objects/actions'
 import { notFound } from 'next/navigation'
 import ContactForm from './ContactForm'
 import { createClient } from '@/lib/supabase/server'
+import { Box, Flex, Heading, Text, Grid, Stack, Image, Circle } from '@chakra-ui/react'
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Card } from '@/components/ui/Card'
 
 export default async function ObjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const object = await getObjectById(id)
   if (!object) notFound()
-    const supabase = await createClient()
-const { data: { user } } = await supabase.auth.getUser()
+
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <PageContainer py={10}>
+      <Grid templateColumns={{ base: "1fr", lg: "repeat(3, 1fr)" }} gap={8}>
 
         {/* Columna izquierda — info */}
-        <div className="lg:col-span-2">
+        <Box gridColumn={{ lg: "span 2" }}>
           {object.images?.length > 0 && (
-            <div className="flex gap-2 mb-6 overflow-x-auto rounded-xl">
+            <Flex gap={2} mb={6} overflowX="auto" scrollSnapType="x mandatory">
               {object.images.map((url: string, i: number) => (
-                <img key={i} src={url} className="w-full h-64 object-cover rounded-xl flex-shrink-0" />
+                <Image 
+                  key={i} 
+                  src={url} 
+                  alt={object.title}
+                  w="full" 
+                  h="64" 
+                  objectFit="cover" 
+                  borderRadius="xl" 
+                  flexShrink={0}
+                  scrollSnapAlign="start"
+                />
               ))}
-            </div>
+            </Flex>
           )}
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">{object.title}</h1>
-          <p className="text-gray-400 text-sm mb-4">{object.location}, {object.city}</p>
+          <Heading as="h1" fontSize="2xl" fontWeight="bold" color="neutral.900" mb={1}>
+            {object.title}
+          </Heading>
+          <Text color="neutral.400" fontSize="sm" mb={4}>
+            {object.location}, {object.city}
+          </Text>
 
-          <div className="flex gap-3 mb-6">
-            {object.price_per_day && (
-              <div className="bg-green-50 border border-green-100 rounded-xl px-4 py-3">
-                <p className="text-xs text-green-600 font-medium">Alquiler</p>
-                <p className="text-xl font-bold text-green-700">${object.price_per_day}<span className="text-sm font-normal">/día</span></p>
-              </div>
-            )}
+          <Flex gap={3} mb={6}>
             {object.sale_price && (
-              <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3">
-                <p className="text-xs text-blue-600 font-medium">Venta</p>
-                <p className="text-xl font-bold text-blue-700">${object.sale_price}</p>
-              </div>
+              <Card bg="brand.50" borderColor="brand.default" p={4} flex="1">
+                <Text fontSize="xs" color="brand.default" fontWeight="bold" textTransform="uppercase">
+                  Precio de Venta
+                </Text>
+                <Text fontSize="2xl" fontStyle="bold" color="brand.default">
+                  ${object.sale_price.toLocaleString('es-AR')}
+                </Text>
+              </Card>
             )}
-          </div>
+          </Flex>
 
-          <p className="text-gray-700 mb-6 leading-relaxed">{object.description}</p>
+          <Text color="neutral.700" mb={6} lineHeight="tall">
+            {object.description}
+          </Text>
 
           {object.rules && (
-            <div className="bg-gray-50 rounded-xl p-4 mb-6">
-              <p className="text-sm font-medium text-gray-700 mb-1">Condiciones del owner</p>
-              <p className="text-sm text-gray-500">{object.rules}</p>
-            </div>
+            <Box bg="neutral.50" borderRadius="xl" p={4} mb={6}>
+              <Text fontSize="sm" fontWeight="bold" color="neutral.700" mb={1}>
+                Condiciones del vendedor
+              </Text>
+              <Text fontSize="sm" color="neutral.500">
+                {object.rules}
+              </Text>
+            </Box>
           )}
 
-          <div className="flex items-center gap-3 border-t pt-6">
-            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-lg">
+          <Flex align="center" gap={3} borderTop="1px solid" borderColor="neutral.100" pt={6}>
+            <Circle size="10" bg="brand.default" color="white" fontWeight="bold" fontSize="lg">
               {object.profiles?.name?.[0]?.toUpperCase()}
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">{object.profiles?.name}</p>
-              <p className="text-xs text-gray-400">⭐ {object.profiles?.rating || 'Sin reviews aún'} · {object.profiles?.reviews_count || 0} reviews</p>
-            </div>
-          </div>
-        </div>
+            </Circle>
+            <Box>
+              <Text fontSize="sm" fontWeight="bold" color="neutral.900">
+                {object.profiles?.name}
+              </Text>
+              <Text fontSize="xs" color="neutral.400">
+                ⭐ {object.profiles?.rating || 'Sin reviews'} · {object.profiles?.reviews_count || 0} reviews
+              </Text>
+            </Box>
+          </Flex>
+        </Box>
 
         {/* Columna derecha — formulario */}
-        <div className="lg:col-span-1">
-         <ContactForm object={object} userId={user?.id ?? null} />
+        <Box gridColumn={{ lg: "span 1" }}>
+          <Box position="sticky" top="24px">
+            <ContactForm object={object} userId={user?.id ?? null} />
+          </Box>
+        </Box>
 
-        </div>
-
-      </div>
-    </div>
+      </Grid>
+    </PageContainer>
   )
 }

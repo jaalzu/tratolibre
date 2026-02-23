@@ -2,57 +2,83 @@
 
 import { loginAction } from '@/features/auth/actions'
 import { useActionState } from 'react'
-import Link from 'next/link'
+import NextLink from 'next/link'
+import { Flex, Text, Input, Field, Stack } from '@chakra-ui/react'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 
 export default function LoginPage() {
-const [state, formAction] = useActionState<any, FormData>(loginAction, null)
+  const [state, formAction] = useActionState<any, FormData>(loginAction, null)
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">Bienvenido</h1>
-      <p className="text-gray-500 text-sm mb-6">Iniciá sesión en TratoLibre</p>
+    <Flex minH="100vh" align="center" justify="center" bg="neutral.50">
+      <Card p={8} w="100%" maxW="440px">
+        <Text fontSize="2xl" fontWeight="bold" color="neutral.900" mb={1}>
+          Bienvenido
+        </Text>
+        <Text fontSize="sm" color="neutral.400" mb={6}>
+          Iniciá sesión en TratoLibre
+        </Text>
 
-      <form action={formAction} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-          <input
-            name="email"
-            type="email"
-            placeholder="tu@email.com"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500"
-          />
-          {state?.error?.email && <p className="text-red-500 text-xs mt-1">{state.error.email[0]}</p>}
-        </div>
+        <form action={formAction}>
+          <Stack gap={4}>
+            
+            <Field.Root invalid={!!state?.error?.email}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">
+                Email
+              </Field.Label>
+              <Input 
+                name="email" 
+                type="email" 
+                placeholder="tu@email.com" 
+                borderColor="neutral.100"
+                _focus={{ borderColor: "brand.default", ring: "1px", ringColor: "brand.default" }}
+              />
+              {state?.error?.email && (
+                <Field.ErrorText fontSize="xs" color="feedback.error" mt={1}>
+                  {state.error.email[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-          <input
-            name="password"
-            type="password"
-            placeholder="Tu contraseña"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500"
-          />
-          {state?.error?.password && <p className="text-red-500 text-xs mt-1">{state.error.password[0]}</p>}
-        </div>
+            <Field.Root invalid={!!state?.error?.password}>
+              <Field.Label fontSize="sm" fontWeight="bold" color="neutral.700">
+                Contraseña
+              </Field.Label>
+              <Input 
+                name="password" 
+                type="password" 
+                placeholder="Tu contraseña" 
+                borderColor="neutral.100"
+                _focus={{ borderColor: "brand.default", ring: "1px", ringColor: "brand.default" }}
+              />
+              {state?.error?.password && (
+                <Field.ErrorText fontSize="xs" color="feedback.error" mt={1}>
+                  {state.error.password[0]}
+                </Field.ErrorText>
+              )}
+            </Field.Root>
 
-        {state?.error?._form && (
-          <p className="text-red-500 text-sm">{state.error._form[0]}</p>
-        )}
+            {state?.error?._form && (
+              <Text fontSize="sm" color="feedback.error" textAlign="center">
+                {state.error._form[0]}
+              </Text>
+            )}
 
-        <button
-          type="submit"
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2 rounded-lg text-sm transition-colors"
-        >
-          Iniciar sesión
-        </button>
-      </form>
+            <Button type="submit" width="full" mt={2}>
+              Iniciar sesión
+            </Button>
 
-      <p className="text-center text-sm text-gray-500 mt-6">
-        ¿No tenés cuenta?{' '}
-        <Link href="/register" className="text-green-600 font-medium hover:underline">
-          Registrate
-        </Link>
-      </p>
-    </div>
+          </Stack>
+        </form>
+
+        <Text fontSize="sm" color="neutral.400" textAlign="center" mt={6}>
+          ¿No tenés cuenta?{' '}
+          <NextLink href="/register" style={{ color: 'var(--colors-brand-default)', fontWeight: 600 }}>
+            Registrate
+          </NextLink>
+        </Text>
+      </Card>
+    </Flex>
   )
 }
