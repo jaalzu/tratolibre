@@ -31,7 +31,7 @@
 ## FASE 2 — Supabase: Base de datos
 - [x ] Proyecto creado en supabase.com
 - [ x] SQL ejecutado: tabla `profiles`
-- [ x] SQL ejecutado: tabla `objects` (con campos `listing_type`: rent/sell/both, `price_per_day`, `sale_price`)
+- [ x] SQL ejecutado: tabla `Items` (con campos `listing_type`: rent/sell/both, `price_per_day`, `sale_price`)
 - [x ] SQL ejecutado: tabla `reservations`
 - [x ] SQL ejecutado: tabla `messages`
 - [ x] SQL ejecutado: tabla `reviews`
@@ -42,7 +42,7 @@
 - [x ] Todas las policies de RLS aplicadas
 - [x ] Trigger: crear perfil automático al registrarse
 - [x ] Trigger: actualizar rating al crear review
-- [ x] Storage buckets creados: `object-images`, `profile-avatars`, `state-records`
+- [ x] Storage buckets creados: `Item-images`, `profile-avatars`, `state-records`
 - [ x] Policies de Storage aplicadas
 - [ x] Types de Supabase generados (`types/database.ts`)
 
@@ -66,22 +66,22 @@
 ## FASE 4 — Módulo de Objetos
 - [ ] Schema Zod del objeto (con `listing_type`, `price_per_day`, `sale_price`)
 - [ ] Categorías definidas (abierto a cualquier objeto)
-- [ ] Server Action: `createObjectAction`
-- [ ] Server Action: `updateObjectAction`
-- [ ] Server Action: `deleteObjectAction`
+- [ ] Server Action: `createItemAction`
+- [ ] Server Action: `updateItemAction`
+- [ ] Server Action: `deleteItemAction`
 - [ ] Upload de fotos a Supabase Storage (`/api/upload`)
-- [ ] Página `/object/new` — formulario publicar objeto
-- [ ] Página `/object/[id]` — detalle del objeto
-- [ ] Página `/dashboard/objects` — mis objetos
+- [ ] Página `/Item/new` — formulario publicar objeto
+- [ ] Página `/Item/[id]` — detalle del objeto
+- [ ] Página `/dashboard/Items` — mis objetos
 - [ ] Componente `ImageUpload` (drag & drop, hasta 8 fotos)
 
 ---
 
 ## FASE 5 — Búsqueda y Descubrimiento
 - [ ] Índices full-text en Supabase (`pg_trgm`)
-- [ ] Hook `useObjects` con filtros (texto, categoría, ciudad, precio, tipo: alquiler/venta)
+- [ ] Hook `useItems` con filtros (texto, categoría, ciudad, precio, tipo: alquiler/venta)
 - [ ] Página `/explore` — listado con filtros
-- [ ] Componente `ObjectCard` (foto, título, precio, tipo, rating)
+- [ ] Componente `ItemCard` (foto, título, precio, tipo, rating)
 - [ ] Filtro por tipo de publicación (alquiler / venta / ambos)
 - [ ] Ordenamiento (precio, más nuevo, rating)
 - [ ] Landing page `/` con destacados y categorías

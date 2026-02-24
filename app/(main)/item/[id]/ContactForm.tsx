@@ -8,23 +8,23 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import NextLink from 'next/link'
 
-export default function ContactForm({ object, userId }: { object: any, userId: string | null }) {
+export default function ContactForm({ Item, userId }: { Item: any, userId: string | null }) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   async function handleAction(type: 'buy' | 'offer') {
     if (!userId) return router.push('/login')
     setLoading(true)
-    const result = await getOrCreateConversation(object.id, object.profiles?.id)
+    const result = await getOrCreateConversation(Item.id, Item.profiles?.id)
     if (result.data) {
-      router.push(`/dashboard/messages?conversation=${result.data.id}&type=${type}`)
+      router.push(`/messages?conversation=${result.data.id}&type=${type}`)
     }
     setLoading(false)
   }
 
   const priceContent = (
     <Text fontSize="3xl" fontWeight="bold" color="neutral.900">
-      ${object.sale_price?.toLocaleString('es-AR')}
+      ${Item.sale_price?.toLocaleString('es-AR')}
     </Text>
   )
 
@@ -44,7 +44,7 @@ export default function ContactForm({ object, userId }: { object: any, userId: s
     )
   }
 
-  if (object.profiles?.id === userId) {
+  if (Item.profiles?.id === userId) {
     return (
       <Card p={5}>
         <Stack gap={1} align="center">
@@ -57,7 +57,7 @@ export default function ContactForm({ object, userId }: { object: any, userId: s
     )
   }
 
-  if (object.sold) {
+  if (Item.sold) {
     return (
       <Card p={5}>
         <Stack gap={2} align="center">
@@ -75,7 +75,7 @@ export default function ContactForm({ object, userId }: { object: any, userId: s
       <Stack gap={4}>
         <Box>
           <Text fontSize="xs" color="neutral.400" textTransform="uppercase" letterSpacing="wider">
-            {object.title}
+            {Item.title}
           </Text>
           {priceContent}
         </Box>

@@ -1,15 +1,15 @@
 
 import NextLink from 'next/link'
 import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
-import { getObjects } from '@/features/objects/actions'
-import { CATEGORIES } from '@/features/objects/utils'
+import { getItems } from '@/features/items/actions'
+import { CATEGORIES } from '@/features/items/utils'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { PageContainer } from '@/components/ui/PageContainer'
 
 export default async function HomePage() {
-  const objects = await getObjects()
-  const recent = objects.slice(0, 6)
+  const Items = await getItems()
+  const recent = Items.slice(0, 6)
 
   return (
     <Box>
@@ -27,7 +27,7 @@ export default async function HomePage() {
           </Button>
 
           <Button asChild variant="secondary">
-            <NextLink href="/object/new">Publicar objeto</NextLink>
+            <NextLink href="/item/new">Publicar objeto</NextLink>
           </Button>
         </Flex>
       </Box>
@@ -77,10 +77,10 @@ export default async function HomePage() {
 
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
             {recent.map((obj: any) => (
-              <NextLink key={obj.id} href={`/object/${obj.id}`} style={{ textDecoration: 'none' }}>
+              <NextLink key={obj.id} href={`/item/${obj.id}`} style={{ textDecoration: 'none' }}>
                 <Card p={0} overflow="hidden" _hover={{ shadow: 'base' }} transition="all 0.2s">
                   {obj.images?.[0] ? (
-                    <Box as="img" src={obj.images[0]} w="100%" h="200px" objectFit="cover" />
+                    <Box as="img" src={obj.images[0]} w="100%" h="200px" ItemFit="cover" />
                   ) : (
                     <Flex w="100%" h="200px" bg="neutral.100" align="center" justify="center" fontSize="4xl">
                       📦

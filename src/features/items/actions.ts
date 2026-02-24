@@ -1,11 +1,11 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { ObjectSchema } from './schemas'
+import { ItemSchema } from './schemas'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-export async function createObjectAction(_prevState: any, formData: FormData) {
+export async function createItemAction(_prevState: any, formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
@@ -22,11 +22,11 @@ export async function createObjectAction(_prevState: any, formData: FormData) {
     images: formData.getAll('images') as string[],
   }
 
-  const parsed = ObjectSchema.safeParse(raw)
+  const parsed = ItemSchema.safeParse(raw)
   if (!parsed.success) return { error: parsed.error.flatten() }
 
-  const { data: object, error } = await supabase
-    .from('objects')
+  const { data: Item, error } = await supabase
+    .from('items')
     .insert({ ...parsed.data, owner_id: user.id })
     .select()
     .single()
@@ -34,10 +34,10 @@ export async function createObjectAction(_prevState: any, formData: FormData) {
   if (error) return { error: error.message }
 
   revalidatePath('/explore')
-  redirect(`/object/${object.id}`)
+  redirect(`/item/${Item.id}`)
 }
 
-export async function updateObjectAction(_prevState: any, formData: FormData) {
+export async function updateItemAction(_prevState: any, formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
@@ -56,43 +56,43 @@ export async function updateObjectAction(_prevState: any, formData: FormData) {
     images: formData.getAll('images') as string[],
   }
 
-  const parsed = ObjectSchema.safeParse(raw)
+  const parsed = ItemSchema.safeParse(raw)
   if (!parsed.success) return { error: parsed.error.flatten() }
 
   const { error } = await supabase
-    .from('objects')
+    .from('items')
     .update({ ...parsed.data, updated_at: new Date().toISOString() })
     .eq('id', id)
     .eq('owner_id', user.id)
 
   if (error) return { error: error.message }
 
-  revalidatePath(`/object/${id}`)
-  redirect(`/object/${id}`)
+  revalidatePath(`/item/${id}`)
+  redirect(`/item/${id}`)
 }
 
-export async function deleteObjectAction(id: string) {
+export async function deleteItemAction(id: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
 
   const { error } = await supabase
-    .from('objects')
+    .from('items')
     .delete()
     .eq('id', id)
     .eq('owner_id', user.id)
 
   if (error) return { error: error.message }
 
-  revalidatePath('/dashboard/objects')
-  redirect('/dashboard/objects')
+  revalidatePath('/items')
+  redirect('/items')
 }
 
-export async function getObjectById(id: string) {
+export async function getItemById(id: string) {
   const supabase = await createClient()
 
   const { data, error } = await supabase
-    .from('objects')
+    .from('items')
     .select('*, profiles(id, name, avatar_url, rating, reviews_count)')
     .eq('id', id)
     .single()
@@ -101,7 +101,7 @@ export async function getObjectById(id: string) {
   return data
 }
 
-export async function getObjects(params: {
+export async function getItems(params: {
   query?: string
   category?: string
   city?: string
@@ -109,7 +109,7 @@ export async function getObjects(params: {
   const supabase = await createClient()
 
   let q = supabase
-    .from('objects')
+    .from('items')
     .select('*, profiles(name, avatar_url, rating)')
     .eq('available', true)
     .eq('sold', false)
@@ -125,7 +125,7 @@ export async function getObjects(params: {
   return data ?? []
 }
 
-export async function toggleFavoriteAction(objectId: string) {
+export async function toggleFavoriteAction(ItemId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
@@ -134,14 +134,14 @@ export async function toggleFavoriteAction(objectId: string) {
     .from('favorites')
     .select('id')
     .eq('user_id', user.id)
-    .eq('object_id', objectId)
+    .eq('Item_id', ItemId)
     .single()
 
   if (existing) {
     await supabase.from('favorites').delete().eq('id', existing.id)
     return { favorited: false }
   } else {
-    await supabase.from('favorites').insert({ user_id: user.id, object_id: objectId })
+    await supabase.from('favorites').insert({ user_id: user.id, Item_id: ItemId })
     return { favorited: true }
   }
 }

@@ -1,8 +1,8 @@
 'use client'
 
 import { useActionState, useState } from 'react'
-import { createObjectAction } from '@/features/objects/actions'
-import { CATEGORIES, CONDITIONS } from '@/features/objects/utils'
+import { createItemAction } from '@/features/items/actions'
+import { CATEGORIES, CONDITIONS } from '@/features/items/utils'
 import { 
   chakra,
   Box, 
@@ -21,8 +21,8 @@ import { PageContainer } from '@/components/ui/PageContainer'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 
-export default function NewObjectPage() {
-  const [state, formAction] = useActionState<any, FormData>(createObjectAction, null)
+export default function NewItemPage() {
+  const [state, formAction] = useActionState<any, FormData>(createItemAction, null)
   const [images, setImages] = useState<string[]>([])
   const [uploading, setUploading] = useState(false)
 

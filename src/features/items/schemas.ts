@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const ObjectSchema = z.object({
+export const ItemSchema = z.object({
   title: z.string().min(5, 'Mínimo 5 caracteres').max(80),
   description: z.string().min(20, 'Describilo bien').max(1000),
   category: z.string().min(1, 'Elegí una categoría'),
@@ -12,4 +12,4 @@ export const ObjectSchema = z.object({
   images: z.array(z.string()).min(1, 'Al menos 1 foto').max(8),
 })
 
-export type ObjectInput = z.infer<typeof ObjectSchema>
+export type ItemInput = z.infer<typeof ItemSchema>

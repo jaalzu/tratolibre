@@ -134,8 +134,8 @@ Estos son los únicos componentes base obligatorios del sistema.
 <!-- esto si tengo q diseñar yo  -->
 > Estos ya representan dominio del negocio, no UI genérica.
 
-* Navbar
-* ObjectCard
+* Navbar . Finalizado!
+* ItemCard  
 * ReservationForm
 * ChatWindow
 * ReviewForm
@@ -241,7 +241,7 @@ Estos son los únicos componentes base obligatorios del sistema.
 * Component naming:
 Navbar → Barra de navegación principal (desktop)
 BottomNav → Barra inferior (mobile)
-ObjectCard → Card con información de objeto
+ItemCard → Card con información de objeto
 ReservationForm → Formulario de reserva
 ChatWindow → Ventana de chat
 ReviewForm → Formulario de reseña
@@ -249,7 +249,7 @@ StatusBadge → Badge de estado de reserva
 ImageUpload → Componente drag & drop de imágenes
 Button → Botones generales
 Input → Inputs de texto, email, password, number, date, select, textarea, search
-Card → ObjectCard, ProfileCard, ReviewCard, InfoCard
+Card → ItemCard, ProfileCard, ReviewCard, InfoCard
 Badge / Chip → StatusBadge, CategoryBadge, TagChip
 Avatar → User avatar, Placeholder avatar, Group avatar
 Modal → Confirm modal, Info modal, Form modal, Fullscreen modal (mobile)
@@ -422,10 +422,10 @@ zIndex = {
 * /register — Registro
 * /login — Login
 * /explore — Búsqueda con filtros + grid de objetos
-* /object/new — Formulario publicar objeto
-* /object/[id] — Detalle del objeto + ReservationForm
+* /Item/new — Formulario publicar objeto
+* /Item/[id] — Detalle del objeto + ReservationForm
 * /dashboard — Home con stats
-* /dashboard/objects — Mis objetos
+* /dashboard/Items — Mis objetos
 * /dashboard/reservations — Reservas como owner y renter
 * /dashboard/messages — Lista de chats
 
@@ -435,11 +435,11 @@ zIndex = {
 
 ## Navbar
 
-* Estado de autenticación
+* Estado de autenticación 
 * Navegación principal
 * Responsive
 
-## ObjectCard
+## ItemCard
 
 * Foto
 * Título
@@ -481,7 +481,7 @@ zIndex = {
 1. Foundations (theme)
 2. Componentes base (Button, Card, Container, Input, Badge)
 3. Navbar
-4. ObjectCard
+4. ItemCard
 5. ReservationForm
 6. Pages principales
 7. Dashboard

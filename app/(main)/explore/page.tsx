@@ -1,10 +1,10 @@
-import { getObjects } from '@/features/objects/actions'
+import { getItems } from '@/features/items/actions'
 import NextLink from 'next/link'
-import { CATEGORIES } from '@/features/objects/utils'
+import { CATEGORIES } from '@/features/items/utils'
 import { Box, Flex, Heading, Input, Text, SimpleGrid, Stack, NativeSelect } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { ObjectCard } from '@/components/ui/ObjectCard'
+import { ItemCard } from '@/components/ui/ItemCard'
 
 export default async function ExplorePage({
   searchParams,
@@ -12,7 +12,7 @@ export default async function ExplorePage({
   searchParams: Promise<{ query?: string; category?: string; city?: string; listing_type?: string }>
 }) {
   const params = await searchParams
-  const objects = await getObjects(params)
+  const Items = await getItems(params)
 
   return (
     <PageContainer py={12}>
@@ -54,7 +54,7 @@ export default async function ExplorePage({
         </Flex>
       </Box>
 
-      {objects.length === 0 ? (
+      {Items.length === 0 ? (
         <Stack align="center" justify="center" py={16} textAlign="center">
           <Text fontSize="4xl">🔍</Text>
           <Text fontWeight="bold" color="neutral.700">No encontramos objetos</Text>
@@ -62,8 +62,8 @@ export default async function ExplorePage({
         </Stack>
       ) : (
         <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} gap={6}>
-          {objects.map((obj: any) => (
-            <ObjectCard key={obj.id} obj={obj} />
+          {Items.map((obj: any) => (
+            <ItemCard key={obj.id} obj={obj} />
           ))}
         </SimpleGrid>
       )}

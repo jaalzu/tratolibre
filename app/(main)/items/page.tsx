@@ -1,17 +1,17 @@
 import { createClient } from '@/lib/supabase/server'
 import NextLink from 'next/link'
-import { deleteObjectAction } from '@/features/objects/actions'
+import { deleteItemAction } from '@/features/items/actions'
 import { Box, Flex, Heading, Text, Stack, Image } from '@chakra-ui/react'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card' // Tu componente
 
-export default async function MyObjectsPage() {
+export default async function MyItemsPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: objects } = await supabase
-    .from('objects')
+  const { data: Items } = await supabase
+    .from('items')
     .select('*')
     .eq('owner_id', user?.id)
     .order('created_at', { ascending: false })
@@ -23,16 +23,16 @@ export default async function MyObjectsPage() {
           Mis objetos
         </Heading>
         <Button asChild size="md">
-          <NextLink href="/object/new">+ Publicar objeto</NextLink>
+          <NextLink href="/Item/new">+ Publicar objeto</NextLink>
         </Button>
       </Flex>
 
-      {objects?.length === 0 && (
+      {Items?.length === 0 && (
         <Flex flexDirection="column" alignItems="center" justifyContent="center" py="24" textAlign="center">
           <Text fontSize="3xl" mb="4">📦</Text>
           <Text fontWeight="bold" color="neutral.400" fontSize="lg">No publicaste nada todavía</Text>
           <Box asChild mt="2">
-            <NextLink href="/object/new" style={{ color: 'var(--colors-brand-default)', fontWeight: 600 }}>
+            <NextLink href="/item/new" style={{ color: 'var(--colors-brand-default)', fontWeight: 600 }}>
               Publicá tu primer objeto
             </NextLink>
           </Box>
@@ -40,7 +40,7 @@ export default async function MyObjectsPage() {
       )}
 
       <Stack gap="4">
-        {objects?.map((obj) => (
+        {Items?.map((obj) => (
           <Card 
             key={obj.id} 
             flexDirection="row" // Pisamos el column que tenés por defecto
@@ -74,10 +74,10 @@ export default async function MyObjectsPage() {
 
             <Flex gap="3">
               <Button asChild variant="secondary" size="sm">
-                <NextLink href={`/object/${obj.id}`}>Ver</NextLink>
+                <NextLink href={`/item/${obj.id}`}>Ver</NextLink>
               </Button>
               
-              <form action={async () => { 'use server'; await deleteObjectAction(obj.id) }}>
+              <form action={async () => { 'use server'; await deleteItemAction(obj.id) }}>
                 <Button 
                   type="submit" 
                   size="sm"

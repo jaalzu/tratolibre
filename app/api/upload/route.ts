@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData()
   const file = formData.get('file') as File
-  const bucket = formData.get('bucket') as string || 'object-images'
+  const bucket = formData.get('bucket') as string || 'item-images'
 
   if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 })
 
@@ -19,7 +19,13 @@ export async function POST(req: NextRequest) {
     .from(bucket)
     .upload(filename, file, { contentType: file.type, upsert: false })
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    console.log('bucket recibido:', bucket)
+console.log('error:', error)
+
+ if (error) {
+  console.log('Supabase error:', error)
+  return NextResponse.json({ error: error.message }, { status: 500 })
+}
 
   const { data: { publicUrl } } = supabase.storage
     .from(bucket)

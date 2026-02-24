@@ -16,8 +16,8 @@ export default async function DashboardPage() {
     .single()
 
   // Conteo de objetos (solo compra/venta)
-  const { count: objectsCount } = await supabase
-    .from('objects')
+  const { count: ItemsCount } = await supabase
+    .from('Items')
     .select('*', { count: 'exact', head: true })
     .eq('owner_id', user?.id)
 
@@ -53,9 +53,9 @@ export default async function DashboardPage() {
           transition="all 0.2s"
           _hover={{ shadow: 'base', borderColor: 'brand.default' }}
         >
-          <NextLink href="/dashboard/objects">
+          <NextLink href="/items">
             <Text fontSize="3xl" fontWeight="bold" color="brand.default">
-              {objectsCount ?? 0}
+              {ItemsCount ?? 0}
             </Text>
             <Text fontSize="sm" color="neutral.700" fontWeight="bold" mt="1">
               Objetos publicados
@@ -78,7 +78,7 @@ export default async function DashboardPage() {
           transition="all 0.2s"
           _hover={{ borderColor: 'brand.default', bg: 'neutral.50' }}
         >
-          <NextLink href="/object/new">
+          <NextLink href="/item/new">
             <Text fontSize="3xl" mb="2">📦</Text>
             <Text fontSize="sm" fontWeight="bold" color="neutral.700">
               Publicar nuevo objeto

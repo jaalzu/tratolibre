@@ -6,13 +6,13 @@ import { Box, Flex, Text, Textarea, Stack, chakra } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 
-export default function ReviewForm({ object, userId }: { object: any, userId: string }) {
+export default function ReviewForm({ Item, userId }: { Item: any, userId: string }) {
   const [state, formAction] = useActionState<any, FormData>(createReviewAction, null)
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
 
-  const isSeller = object.owner_id === userId
-  const reviewedId = isSeller ? object.buyer_id : object.owner_id
+  const isSeller = Item.owner_id === userId
+  const reviewedId = isSeller ? Item.buyer_id : Item.owner_id
   const role = isSeller ? 'seller_to_buyer' : 'buyer_to_seller'
 
   if (state?.success) {
@@ -39,7 +39,7 @@ export default function ReviewForm({ object, userId }: { object: any, userId: st
             Dejar una reseña
           </Text>
 
-          <input type="hidden" name="object_id" value={object.id} />
+          <input type="hidden" name="Item_id" value={Item.id} />
           <input type="hidden" name="reviewed_id" value={reviewedId} />
           <input type="hidden" name="role" value={role} />
           <input type="hidden" name="rating" value={rating} />

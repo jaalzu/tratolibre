@@ -3,20 +3,20 @@ import { Box, Flex, Text, Stack } from '@chakra-ui/react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 
-interface ObjectCardProps {
+interface ItemCardProps {
   obj: any
 }
 
-export const ObjectCard = ({ obj }: ObjectCardProps) => {
+export const ItemCard = ({ obj }: ItemCardProps) => {
   return (
     <Card p={0} overflow="hidden" _hover={{ shadow: "md", borderColor: "brand.default" }} transition="all 0.2s">
       <Flex direction={{ base: "column", md: "row" }}>
         
         {/* FOTO Y DESCRIPCIÓN */}
         <Box w={{ base: "100%", md: "300px" }} borderRight={{ md: "1px solid" }} borderColor="neutral.100">
-          <NextLink href={`/object/${obj.id}`}>
+          <NextLink href={`/Item/${obj.id}`}>
             {obj.images?.[0] ? (
-              <Box as="img" src={obj.images[0]} w="100%" h="200px" objectFit="cover" />
+              <Box as="img" src={obj.images[0]} w="100%" h="200px" ItemFit="cover" />
             ) : (
               <Flex w="100%" h="200px" bg="neutral.50" align="center" justify="center" fontSize="4xl">📦</Flex>
             )}
@@ -54,7 +54,7 @@ export const ObjectCard = ({ obj }: ObjectCardProps) => {
 
           <Flex gap={3} mt={6}>
             <Button asChild flex="1">
-                <NextLink href={`/object/${obj.id}`}>Ver objeto</NextLink>
+                <NextLink href={`/Item/${obj.id}`}>Ver objeto</NextLink>
             </Button>
 </Flex>
         </Flex>

@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useRef, useState } from 'react'
 
-export function useChat(reservationId: string, userId: string) {
+export function useChat(conversationId: string, userId: string) {
   const [messages, setMessages] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -15,7 +15,7 @@ export function useChat(reservationId: string, userId: string) {
       const { data } = await supabase
         .from('messages')
         .select('*, profiles(name, avatar_url)')
-        .eq('reservation_id', reservationId)
+        .eq('conversation_id', conversationId)
         .order('created_at', { ascending: true })
       setMessages(data ?? [])
       setLoading(false)
@@ -25,12 +25,12 @@ export function useChat(reservationId: string, userId: string) {
     loadMessages()
 
     const channel = supabase
-      .channel(`chat:${reservationId}`)
+      .channel(`chat:${conversationId}`)
       .on('postgres_changes', {
         event: 'INSERT',
         schema: 'public',
         table: 'messages',
-        filter: `reservation_id=eq.${reservationId}`,
+        filter: `conversation_id=eq.${conversationId}`,
       }, async (payload) => {
         const { data: profile } = await supabase
           .from('profiles')
@@ -43,13 +43,13 @@ export function useChat(reservationId: string, userId: string) {
       .subscribe()
 
     return () => { supabase.removeChannel(channel) }
-  }, [reservationId])
+  }, [conversationId])
 
   const sendMessage = async (content: string) => {
     if (!content.trim()) return
     const supabase = createClient()
     await supabase.from('messages').insert({
-      reservation_id: reservationId,
+      conversation_id: conversationId,
       sender_id: userId,
       content: content.trim(),
     })

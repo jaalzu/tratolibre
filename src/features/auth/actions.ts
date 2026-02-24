@@ -27,7 +27,7 @@ export async function registerAction(_prevState: any, formData: FormData) {
   })
 
   if (error) return { error: { _form: [error.message] } }
-  redirect('/dashboard')
+  redirect('/')
 }
 
 export async function loginAction(_prevState: any, formData: FormData) {
@@ -47,7 +47,7 @@ export async function loginAction(_prevState: any, formData: FormData) {
 
   const { error } = await supabase.auth.signInWithPassword({ email, password })
   if (error) return { error: { _form: [error.message] } }
-  redirect('/dashboard')
+  redirect('/')
 }
 
 export async function logoutAction() {

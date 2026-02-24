@@ -51,7 +51,7 @@ export default async function MessagesPage({
                     _hover={{ bg: "neutral.50" }}
                     transition="background 0.2s"
                   >
-                    <NextLink href={`/dashboard/messages?conversation=${conv.id}`}>
+                    <NextLink href={`/messages?conversation=${conv.id}`}>
                       <Flex align="center" gap="3" p="4">
                         <Circle size="9" bg="brand.default" color="white" fontWeight="bold" fontSize="sm" flexShrink="0">
                           {other?.name?.[0]?.toUpperCase()}
@@ -61,7 +61,7 @@ export default async function MessagesPage({
                             {other?.name}
                           </Text>
                           <Text fontSize="xs" color="neutral.400" truncate>
-                            {conv.objects?.title}
+                            {conv.Items?.title}
                           </Text>
                         </Box>
                       </Flex>
@@ -78,9 +78,9 @@ export default async function MessagesPage({
               <Flex direction="column" h="full">
                 {/* Header del Chat */}
                 <Flex align="center" gap="3" mb="4" pb="4" borderBottom="1px solid" borderColor="neutral.100">
-                  {activeConversation.objects?.images?.[0] && (
+                  {activeConversation.Items?.images?.[0] && (
                     <Image 
-                      src={activeConversation.objects.images[0]} 
+                      src={activeConversation.Items.images[0]} 
                       w="10" 
                       h="10" 
                       borderRadius="md" 
@@ -90,10 +90,10 @@ export default async function MessagesPage({
                   )}
                   <Box>
                     <Text fontWeight="bold" color="neutral.900" fontSize="sm">
-                      {activeConversation.objects?.title}
+                      {activeConversation.Items?.title}
                     </Text>
                     <Text fontSize="xs" color="brand.default" fontWeight="bold">
-                      ${activeConversation.objects?.sale_price?.toLocaleString('es-AR')}
+                      ${activeConversation.Items?.sale_price?.toLocaleString('es-AR')}
                     </Text>
                   </Box>
                 </Flex>

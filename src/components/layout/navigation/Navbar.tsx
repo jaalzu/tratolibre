@@ -24,8 +24,8 @@ export default function Navbar({ user }: { user: any }) {
   const loggedNavItems = [
     { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
     { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
-    { label: 'Publicar', href: '/object/new', icon: 'bx-plus-circle' },
-    { label: 'Buzón', href: '/dashboard/messages', icon: 'bx-message-square-dots' },
+    { label: 'Publicar', href: '/item/new', icon: 'bx-plus-circle' },
+    { label: 'Buzón', href: '/messages', icon: 'bx-message-square-dots' },
     { label: 'Perfil', href: '/dashboard', icon: 'bx-user' },
   ];
 
@@ -40,7 +40,7 @@ export default function Navbar({ user }: { user: any }) {
             <Text fontWeight="bold" fontSize="md" color="neutral.50" whiteSpace="nowrap">TratoLibre</Text>
           </NextLink>
 
-          <Group flex="1" maxW={{ base: "full", md: "550px" }}>
+          <Group flex="1" maxW={{ base: "full", md: "600px" }}>
             <Box position="relative" w="full">
               <Box position="absolute" left="3" top="50%" transform="translateY(-40%)" zIndex={10}>
                 <i className='bx bx-search' style={{ color: 'var(--chakra-colors-neutral-300)', fontSize: '20px' }}></i>
@@ -88,7 +88,7 @@ export default function Navbar({ user }: { user: any }) {
                   </Box>
                 </NextLink>
                 
-                <NextLink href="/object/new">
+                <NextLink href="/Item/new">
                   <Box 
                     bg="neutral.50" color="brand.default" px={4} py={1.5} 
                     borderRadius="md" fontSize="sm" fontWeight="bold" 

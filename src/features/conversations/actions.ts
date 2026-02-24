@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-export async function getOrCreateConversation(objectId: string, sellerId: string) {
+export async function getOrCreateConversation(ItemId: string, sellerId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
@@ -13,7 +13,7 @@ export async function getOrCreateConversation(objectId: string, sellerId: string
   const { data: existing } = await supabase
     .from('conversations')
     .select('*')
-    .eq('object_id', objectId)
+    .eq('item_id', ItemId)
     .eq('buyer_id', user.id)
     .single()
 
@@ -22,7 +22,7 @@ export async function getOrCreateConversation(objectId: string, sellerId: string
   // Crear nueva
   const { data, error } = await supabase
     .from('conversations')
-    .insert({ object_id: objectId, buyer_id: user.id, seller_id: sellerId })
+    .insert({ Item_id: ItemId, buyer_id: user.id, seller_id: sellerId })
     .select()
     .single()
 
@@ -39,7 +39,7 @@ export async function getMyConversations() {
     .from('conversations')
     .select(`
       *,
-      objects(title, images, sale_price),
+      items(title, images, sale_price),
       buyer:profiles!conversations_buyer_id_fkey(name, avatar_url),
       seller:profiles!conversations_seller_id_fkey(name, avatar_url)
     `)
@@ -68,7 +68,7 @@ export async function sendMessageAction(conversationId: string, content: string)
     .update({ updated_at: new Date().toISOString() })
     .eq('id', conversationId)
 
-  revalidatePath('/dashboard/messages')
+  revalidatePath('/messages')
   return { success: true }
 }
 

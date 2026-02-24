@@ -8,7 +8,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
 
-  const object_id = formData.get('object_id') as string
+  const Item_id = formData.get('Item_id') as string
   const amount = Number(formData.get('amount'))
   const message = formData.get('message') as string || undefined
 
@@ -16,9 +16,9 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
 
   // Obtener objeto
   const { data: obj } = await supabase
-    .from('objects')
+    .from('items')
     .select('owner_id, sale_price, title')
-    .eq('id', object_id)
+    .eq('id', Item_id)
     .single()
 
   if (!obj) return { error: 'Objeto no encontrado' }
@@ -28,7 +28,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
   const { data: existing } = await supabase
     .from('offers')
     .select('id')
-    .eq('object_id', object_id)
+    .eq('item_id', Item_id)
     .eq('buyer_id', user.id)
     .eq('status', 'pending')
     .single()
@@ -36,7 +36,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
   if (existing) return { error: 'Ya tenés una oferta pendiente para este objeto' }
 
   const { error } = await supabase.from('offers').insert({
-    object_id,
+    Item_id,
     buyer_id: user.id,
     seller_id: obj.owner_id,
     amount,
@@ -45,7 +45,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
 
   if (error) return { error: error.message }
 
-  revalidatePath(`/object/${object_id}`)
+  revalidatePath(`/Item/${Item_id}`)
   return { success: true }
 }
 
@@ -58,21 +58,21 @@ export async function updateOfferStatusAction(id: string, status: 'accepted' | '
   if (status === 'accepted') {
     const { data: offer } = await supabase
       .from('offers')
-      .select('object_id')
+      .select('item_id')
       .eq('id', id)
       .single()
 
     if (offer) {
       await supabase
-        .from('objects')
+        .from('items')
         .update({ sold: true, sold_at: new Date().toISOString(), available: false })
-        .eq('id', offer.object_id)
+        .eq('id', offer.item_id)
 
       // Rechazar otras ofertas del mismo objeto
       await supabase
         .from('offers')
         .update({ status: 'rejected' })
-        .eq('object_id', offer.object_id)
+        .eq('Item_id', offer.item_id)
         .neq('id', id)
     }
   }
@@ -84,7 +84,7 @@ export async function updateOfferStatusAction(id: string, status: 'accepted' | '
     .or(`seller_id.eq.${user.id},buyer_id.eq.${user.id}`)
 
   if (error) return { error: error.message }
-  revalidatePath('/dashboard/offers')
+  revalidatePath('/offers')
   return { success: true }
 }
 
@@ -95,13 +95,13 @@ export async function getMyOffers() {
 
   const { data: asBuyer } = await supabase
     .from('offers')
-    .select('*, objects(title, images, sale_price)')
+    .select('*, items(title, images, sale_price)')
     .eq('buyer_id', user.id)
     .order('created_at', { ascending: false })
 
   const { data: asSeller } = await supabase
     .from('offers')
-    .select('*, objects(title, images, sale_price), profiles!offers_buyer_id_fkey(name, avatar_url)')
+    .select('*, items(title, images, sale_price), profiles!offers_buyer_id_fkey(name, avatar_url)')
     .eq('seller_id', user.id)
     .order('created_at', { ascending: false })
 
