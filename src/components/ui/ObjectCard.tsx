@@ -53,9 +53,9 @@ export const ObjectCard = ({ obj }: ObjectCardProps) => {
           </Flex>
 
           <Flex gap={3} mt={6}>
-  <Button asChild flex="1">
-    <NextLink href={`/object/${obj.id}`}>Ver objeto</NextLink>
-  </Button>
+            <Button asChild flex="1">
+                <NextLink href={`/object/${obj.id}`}>Ver objeto</NextLink>
+            </Button>
 </Flex>
         </Flex>
 

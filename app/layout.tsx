@@ -1,8 +1,8 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-<body className={geist.variable} suppressHydrationWarning>
+      <body className={geist.variable} suppressHydrationWarning>
         <Providers>
-          <Navbar />
+          {/* El Navbar VOLÓ de acá, se fue a (main)/layout.tsx */}
           {children}
         </Providers>
       </body>
