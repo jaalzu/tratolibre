@@ -24,7 +24,7 @@ export async function proxy(request: NextRequest) {
 
   const { data: { session } } = await supabase.auth.getSession()
 
-  const protectedPaths = ['/dashboard', '/item']
+  const protectedPaths = ['/dashboard']
   const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
 
   if (!session && isProtected) {
@@ -41,7 +41,6 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     '/dashboard/:path*', 
-    '/item/:path*',
     '/login',
     '/register'
   ],

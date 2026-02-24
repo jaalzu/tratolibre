@@ -145,3 +145,18 @@ export async function toggleFavoriteAction(ItemId: string) {
     return { favorited: true }
   }
 }
+
+
+export async function getItemsByCategory(category: string) {
+  const supabase = await createClient()
+
+  const { data } = await supabase
+    .from('items')
+    .select('*, profiles(name, avatar_url, rating, reviews_count)')
+    .eq('category', category)
+    .eq('available', true)
+    .eq('sold', false)
+    .order('created_at', { ascending: false })
+
+  return data ?? []
+}

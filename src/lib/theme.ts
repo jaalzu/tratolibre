@@ -17,7 +17,7 @@ const config = defineConfig({
     hover:   { value: '#448dfc' },
   },
   neutral: {
-    50:  { value: '#fafafa' },
+    50:  { value: '#ffffff' },
     100: { value: '#e0e0e0' },
     200: { value: '#c6c5c5' },
     300: { value: '#ada9a9' },

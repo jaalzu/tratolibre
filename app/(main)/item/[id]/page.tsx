@@ -1,101 +1,114 @@
 import { getItemById } from '@/features/items/actions'
 import { notFound } from 'next/navigation'
-import ContactForm from './ContactForm'
 import { createClient } from '@/lib/supabase/server'
-import { Box, Flex, Heading, Text, Grid, Stack, Image, Circle } from '@chakra-ui/react'
+import { Box, Flex, Separator } from '@chakra-ui/react'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { Card } from '@/components/ui/Card'
+import ItemImageSlider from '@/components/items/ItemImageSlider'
+import ItemInfo from '@/components/items/ItemInfo'
+import ItemDetails from '@/components/items/ItemDetails'
+import SellerCard from '@/components/items/SellerCard'
+import RelatedItems from '@/components/items/RelatedItems'
+import ItemActions from '@/components/items/ItemActions'
 
 export default async function ItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const Item = await getItemById(id)
-  if (!Item) notFound()
+  const item = await getItemById(id)
+  if (!item) notFound()
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
+  
   return (
-    <PageContainer py={10}>
-      <Grid templateColumns={{ base: "1fr", lg: "repeat(3, 1fr)" }} gap={8}>
+    <Box pb={{ base: "140px", md: 0 }}>
 
-        {/* Columna izquierda — info */}
-        <Box gridColumn={{ lg: "span 2" }}>
-          {Item.images?.length > 0 && (
-            <Flex gap={2} mb={6} overflowX="auto" scrollSnapType="x mandatory">
-              {Item.images.map((url: string, i: number) => (
-                <Image 
-                  key={i} 
-                  src={url} 
-                  alt={Item.title}
-                  w="full" 
-                  h="64" 
-                  objectFit="cover" 
-                  borderRadius="xl" 
-                  flexShrink={0}
-                  scrollSnapAlign="start"
-                />
-              ))}
-            </Flex>
-          )}
-
-          <Heading as="h1" fontSize="2xl" fontWeight="bold" color="neutral.900" mb={1}>
-            {Item.title}
-          </Heading>
-          <Text color="neutral.400" fontSize="sm" mb={4}>
-            {Item.location}, {Item.city}
-          </Text>
-
-          <Flex gap={3} mb={6}>
-            {Item.sale_price && (
-              <Card bg="brand.50" borderColor="brand.default" p={4} flex="1">
-                <Text fontSize="xs" color="brand.default" fontWeight="bold" textTransform="uppercase">
-                  Precio de Venta
-                </Text>
-                <Text fontSize="2xl" fontStyle="bold" color="brand.default">
-                  ${Item.sale_price.toLocaleString('es-AR')}
-                </Text>
-              </Card>
-            )}
-          </Flex>
-
-          <Text color="neutral.700" mb={6} lineHeight="tall">
-            {Item.description}
-          </Text>
-
-          {Item.rules && (
-            <Box bg="neutral.50" borderRadius="xl" p={4} mb={6}>
-              <Text fontSize="sm" fontWeight="bold" color="neutral.700" mb={1}>
-                Condiciones del vendedor
-              </Text>
-              <Text fontSize="sm" color="neutral.500">
-                {Item.rules}
-              </Text>
-            </Box>
-          )}
-
-          <Flex align="center" gap={3} borderTop="1px solid" borderColor="neutral.100" pt={6}>
-            <Circle size="10" bg="brand.default" color="white" fontWeight="bold" fontSize="lg">
-              {Item.profiles?.name?.[0]?.toUpperCase()}
-            </Circle>
-            <Box>
-              <Text fontSize="sm" fontWeight="bold" color="neutral.900">
-                {Item.profiles?.name}
-              </Text>
-              <Text fontSize="xs" color="neutral.400">
-                ⭐ {Item.profiles?.rating || 'Sin reviews'} · {Item.profiles?.reviews_count || 0} reviews
-              </Text>
-            </Box>
-          </Flex>
+      {/* ── MOBILE ── */}
+      <Box display={{ base: "block", md: "none" }}>
+        <Box pt={3}>
+          <ItemImageSlider images={item.images} title={item.title} />
         </Box>
 
-        {/* Columna derecha — formulario */}
-        <Box gridColumn={{ lg: "span 1" }}>
-          <Box position="sticky" top="24px">
-            <ContactForm Item={Item} userId={user?.id ?? null} />
+        <Box px={4} pt={2}>
+          <ItemInfo item={item} />
+
+          <Box mt={4}>
+            <SellerCard profile={item.profiles} itemId={item.id} />
           </Box>
+
+          <Separator my={5} borderColor="neutral.100" />
+
+          <ItemDetails item={item} />
+
+          <Separator my={6} borderColor="neutral.100" />
+
+          <RelatedItems category={item.category} excludeId={id} />
         </Box>
 
-      </Grid>
-    </PageContainer>
+        {/* Botones fijos encima del BottomNav */}
+        <Box
+          position="fixed"
+          bottom="60px"
+          left={0}
+          right={0}
+          px={4}
+          py={3}
+          bg="white"
+          borderTop="1px solid"
+          borderColor="neutral.100"
+          zIndex={40}
+        >
+          <ItemActions item={item} userId={user?.id ?? null} />
+        </Box>
+      </Box>
+
+      {/* ── DESKTOP ── */}
+      <Box display={{ base: "none", md: "block" }}>
+        <Box maxW="900px" mx="auto" px={10} py={10}>
+          <Flex gap={10} align="start">
+
+            {/* Izquierda — imagen + detalles */}
+            <Box flex="1" minW={0}>
+              <ItemImageSlider images={item.images} title={item.title} />
+
+              <Separator my={6} borderColor="neutral.100" />
+
+              <ItemDetails item={item} />
+
+              <Separator my={8} borderColor="neutral.100" />
+
+              <RelatedItems category={item.category} excludeId={id} />
+            </Box>
+
+            {/* Derecha — info + acciones + perfil */}
+            <Box w="300px" flexShrink={0}>
+              <Box position="sticky" top="24px">
+
+                {/* Contenedor info + botones */}
+                <Box
+                  border="1px solid"
+                  borderColor="neutral.100"
+                  borderRadius="xl"
+                  bg="neutral.50"
+                  px={4}
+                  py={6}
+                  mb={3}
+                >
+                  <ItemInfo item={item} />
+                  <Box mt={5}>
+                    <ItemActions item={item} userId={user?.id ?? null} />
+                  </Box>
+                </Box>
+
+                {/* Perfil debajo */}
+                <SellerCard profile={item.profiles} itemId={item.id} />
+              </Box>
+            </Box>
+
+          </Flex>
+        </Box>
+      </Box>
+
+    </Box>
   )
 }
