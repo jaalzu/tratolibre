@@ -4,7 +4,7 @@ import { CATEGORIES } from '@/features/items/utils'
 import { Box, Flex, Heading, Input, Text, SimpleGrid, Stack, NativeSelect } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { ItemCard } from '@/components/ui/ItemCard'
+import { ItemCard } from '@/components/items/ItemCard'
 
 export default async function ExplorePage({
   searchParams,

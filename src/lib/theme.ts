@@ -4,18 +4,27 @@ const config = defineConfig({
   theme: {
     tokens: {
       colors: {
-  brand: {
-    default: { value: '#22c55e' },
-    hover:   { value: '#60e491' },
-  },
-  secondary: {
-    default: { value: '#f59e0b' },
-    hover:   { value: '#face85' },
-  },
-  accent: {
-    default: { value: '#3483fa' },
-    hover:   { value: '#448dfc' },
-  },
+ brand: {
+  50:      { value: '#f0fdf4' }, // muy clarito
+  100:     { value: '#dcfce7' }, // clarito
+  default: { value: '#22c55e' }, // main
+  hover:   { value: '#16a34a' }, // más oscuro
+  dark:    { value: '#15803d' }, // muy oscuro
+},
+ secondary: {
+  50:      { value: '#fffbeb' },
+  100:     { value: '#fef3c7' },
+  default: { value: '#f59e0b' },
+  hover:   { value: '#d97706' },
+  dark:    { value: '#b45309' },
+},
+accent: {
+  50:      { value: '#eff6ff' },
+  100:     { value: '#dbeafe' },
+  default: { value: '#3483fa' },
+  hover:   { value: '#2563eb' },
+  dark:    { value: '#1d4ed8' },
+},
   neutral: {
     50:  { value: '#ffffff' },
     100: { value: '#e0e0e0' },

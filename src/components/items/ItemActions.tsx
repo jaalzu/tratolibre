@@ -22,7 +22,7 @@ export default function ItemActions({ item, userId }: { item: any, userId: strin
   }
 
   if (!userId) return (
-    <Button asChild width="full">
+    <Button asChild width="full" py={1}>
       <NextLink href="/login">Iniciá sesión para contactar</NextLink>
     </Button>
   )
@@ -36,10 +36,10 @@ export default function ItemActions({ item, userId }: { item: any, userId: strin
   )
 return (
  <Flex gap={3} direction={{ base: "row", md: "column" }}>
-  <Button flex="1" borderRadius="2xl" py={{ base: 5, md: 2 }} onClick={() => handleAction('buy')} loading={loading}>
+  <Button flex="1" borderRadius="2xl" py={{ base: 2, md: 1 }} onClick={() => handleAction('buy')} loading={loading}>
     Comprar
   </Button>
-  <Button flex="1" borderRadius="2xl" py={{ base: 5, md: 2 }} variant="secondary" onClick={() => handleAction('offer')} loading={loading}>
+  <Button flex="1" borderRadius="2xl" py={{ base: 2, md: 1 }} variant="secondary" onClick={() => handleAction('offer')} loading={loading}>
     Hacer oferta
   </Button>
 </Flex>

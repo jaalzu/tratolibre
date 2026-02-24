@@ -6,8 +6,8 @@ interface ItemCardProps {
 }
 
 export const ItemCard = ({ obj }: ItemCardProps) => {
-  const imgW = { base: "161px", md: "166px", lg: "180px" }
-  const imgH = { base: "195px", md: "271px", lg: "221px" }
+const imgW = "176px"
+const imgH = { base: "195px", md: "221px" }
 
   return (
     <NextLink href={`/item/${obj.id}`} style={{ textDecoration: 'none' }}>
@@ -29,13 +29,13 @@ export const ItemCard = ({ obj }: ItemCardProps) => {
         />
 
         {/* Texto */}
-        <Box pt={1}>
+        <Box pt={2}>
           {obj.sale_price && (
-            <Text fontSize="xs" fontWeight="bold" color="neutral.900">
+            <Text fontSize="md" fontWeight="bold" color="neutral.900">
               ${obj.sale_price.toLocaleString('es-AR')}
             </Text>
           )}
-          <Text fontSize="xs" color="neutral.700" lineClamp={1}>
+          <Text fontSize="md" color="neutral.700" lineClamp={1}>
             {obj.title}
           </Text>
         </Box>

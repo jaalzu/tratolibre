@@ -4,7 +4,7 @@ import { chakra, HTMLChakraProps, RecipeProps } from '@chakra-ui/react'
 
 // Definimos explícitamente qué variantes aceptamos para que no herede las de Chakra
 export interface ButtonProps extends HTMLChakraProps<'button'> {
-  variant?: 'primary' | 'secondary' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'amber' | 'blue'
   size?: 'sm' | 'md' | 'lg'
   width?: 'full'
   loading?: boolean
@@ -28,21 +28,31 @@ const StyledButton = chakra('button', {
   },
   variants: {
     variant: {
-      primary: {
-        bg: 'brand.default',
-        color: 'white',
-        _hover: { bg: 'brand.hover' },
-      },
-      secondary: {
-        border: '1px solid',
-        borderColor: 'brand.default',
-        color: 'brand.default',
-        _hover: { bg: 'neutral.50' },
-      },
-      ghost: {
-        color: 'neutral.700',
-        _hover: { bg: 'neutral.50' },
-      },
+    primary: {
+      bg: 'brand.default',
+      color: 'white',
+      _hover: { bg: 'brand.hover' },
+    },
+    secondary: {
+      border: '1px solid',
+      borderColor: 'brand.default',
+      color: 'brand.default',
+      _hover: { bg: 'neutral.50' },
+    },
+    ghost: {
+      color: 'neutral.700',
+      _hover: { bg: 'neutral.50' },
+    },
+    amber: {
+      bg: 'secondary.default',
+      color: 'white',
+      _hover: { bg: 'secondary.hover' },
+    },
+    blue: {
+      bg: 'accent.default',
+      color: 'white',
+      _hover: { bg: 'accent.hover' },
+    },
     },
     size: {
       sm: { px: 3, py: 2, fontSize: 'sm' },

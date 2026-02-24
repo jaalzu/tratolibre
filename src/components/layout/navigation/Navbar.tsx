@@ -88,7 +88,7 @@ export default function Navbar({ user }: { user: any }) {
                   </Box>
                 </NextLink>
                 
-                <NextLink href="/Item/new">
+                <NextLink href="/item/new">
                   <Box 
                     bg="neutral.50" color="brand.default" px={4} py={1.5} 
                     borderRadius="md" fontSize="sm" fontWeight="bold" 

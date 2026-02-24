@@ -1,5 +1,5 @@
 import { Box, Grid, Text } from '@chakra-ui/react'
-import { ItemCard } from '@/components/ui/ItemCard'
+import { ItemCard } from '@/components/items/ItemCard'
 import { getItemsByCategory } from '@/features/items/actions'
 
 export default async function RelatedItems({ category, excludeId }: { category: string, excludeId: string }) {
