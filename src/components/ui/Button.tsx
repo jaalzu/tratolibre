@@ -34,10 +34,11 @@ const StyledButton = chakra('button', {
       _hover: { bg: 'brand.hover' },
     },
     secondary: {
-      border: '1px solid',
-      borderColor: 'brand.default',
-      color: 'brand.default',
-      _hover: { bg: 'neutral.50' },
+     border: '1.5px solid',
+  borderColor: 'neutral.900',
+  color: 'neutral.900',
+  bg: 'transparent',
+  _hover: { bg: 'neutral.50' },
     },
     ghost: {
       color: 'neutral.700',
