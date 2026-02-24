@@ -19,8 +19,9 @@ export default function ItemImageSlider({ images, title }: { images: string[], t
         w="100%"
         h={{ base: "268px", md: "480px" }}
         objectFit="cover"
-        borderRadius="xl"
+        borderRadius="3xl"
         display="block"
+        px="10px"
         mx="auto"
       />
 

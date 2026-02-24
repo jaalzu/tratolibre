@@ -20,7 +20,6 @@ export default function ItemInfo({ item }: { item: any }) {
       {item.condition && (
         <Text fontSize="16px" color="neutral.400" mb={2}>
           {CONDITION_LABEL[item.condition] ?? item.condition}
-          {item.category && ` · ${item.category}`}
         </Text>
       )}
 

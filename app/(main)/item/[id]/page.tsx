@@ -1,9 +1,7 @@
 import { getItemById } from '@/features/items/actions'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { Box, Flex, Separator } from '@chakra-ui/react'
-import { PageContainer } from '@/components/ui/PageContainer'
-import { Card } from '@/components/ui/Card'
+import { Box, Flex, Separator , Text } from '@chakra-ui/react'
 import ItemImageSlider from '@/components/items/ItemImageSlider'
 import ItemInfo from '@/components/items/ItemInfo'
 import ItemDetails from '@/components/items/ItemDetails'
@@ -22,7 +20,6 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
   
   return (
     <Box pb={{ base: "140px", md: 0 }}>
-
       {/* ── MOBILE ── */}
       <Box display={{ base: "block", md: "none" }}>
         <Box pt={3}>
@@ -35,6 +32,12 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
           <Box mt={4}>
             <SellerCard profile={item.profiles} itemId={item.id} />
           </Box>
+
+            {item.category && (
+  <Box display="inline-block" mt={4} px={5} py={1} bg="neutral.100" borderRadius="full">
+    <Text fontSize="md" color="neutral.900" textTransform="capitalize">{item.category}</Text>
+  </Box>
+)}
 
           <Separator my={5} borderColor="neutral.100" />
 
@@ -70,6 +73,12 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
             {/* Izquierda — imagen + detalles */}
             <Box flex="1" minW={0}>
               <ItemImageSlider images={item.images} title={item.title} />
+
+              {item.category && (
+   <Box display="inline-block" mt={4} mx={3} px={5} py={1} bg="neutral.100" borderRadius="full">
+    <Text fontSize="md" color="neutral.900" textTransform="capitalize">{item.category}</Text>
+  </Box>
+)}
 
               <Separator my={6} borderColor="neutral.100" />
 
