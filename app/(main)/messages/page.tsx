@@ -61,7 +61,7 @@ export default async function MessagesPage({
                             {other?.name}
                           </Text>
                           <Text fontSize="xs" color="neutral.400" truncate>
-                            {conv.Items?.title}
+                            {conv.items?.title}
                           </Text>
                         </Box>
                       </Flex>
@@ -78,9 +78,9 @@ export default async function MessagesPage({
               <Flex direction="column" h="full">
                 {/* Header del Chat */}
                 <Flex align="center" gap="3" mb="4" pb="4" borderBottom="1px solid" borderColor="neutral.100">
-                  {activeConversation.Items?.images?.[0] && (
+                  {activeConversation.items?.images?.[0] && (
                     <Image 
-                      src={activeConversation.Items.images[0]} 
+                      src={activeConversation.items.images[0]} 
                       w="10" 
                       h="10" 
                       borderRadius="md" 
@@ -90,10 +90,10 @@ export default async function MessagesPage({
                   )}
                   <Box>
                     <Text fontWeight="bold" color="neutral.900" fontSize="sm">
-                      {activeConversation.Items?.title}
+                      {activeConversation.items?.title}
                     </Text>
                     <Text fontSize="xs" color="brand.default" fontWeight="bold">
-                      ${activeConversation.Items?.sale_price?.toLocaleString('es-AR')}
+                      ${activeConversation.items?.sale_price?.toLocaleString('es-AR')}
                     </Text>
                   </Box>
                 </Flex>

@@ -8,7 +8,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
 
-  const Item_id = formData.get('Item_id') as string
+  const item_id = formData.get('item_id') as string
   const amount = Number(formData.get('amount'))
   const message = formData.get('message') as string || undefined
 
@@ -18,7 +18,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
   const { data: obj } = await supabase
     .from('items')
     .select('owner_id, sale_price, title')
-    .eq('id', Item_id)
+    .eq('id', item_id)
     .single()
 
   if (!obj) return { error: 'Objeto no encontrado' }
@@ -28,7 +28,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
   const { data: existing } = await supabase
     .from('offers')
     .select('id')
-    .eq('item_id', Item_id)
+    .eq('item_id', item_id)
     .eq('buyer_id', user.id)
     .eq('status', 'pending')
     .single()
@@ -36,7 +36,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
   if (existing) return { error: 'Ya tenés una oferta pendiente para este objeto' }
 
   const { error } = await supabase.from('offers').insert({
-    Item_id,
+    item_id,
     buyer_id: user.id,
     seller_id: obj.owner_id,
     amount,
@@ -45,7 +45,7 @@ export async function createOfferAction(_prevState: any, formData: FormData) {
 
   if (error) return { error: error.message }
 
-  revalidatePath(`/Item/${Item_id}`)
+  revalidatePath(`/item/${item_id}`)
   return { success: true }
 }
 
@@ -72,7 +72,7 @@ export async function updateOfferStatusAction(id: string, status: 'accepted' | '
       await supabase
         .from('offers')
         .update({ status: 'rejected' })
-        .eq('Item_id', offer.item_id)
+        .eq('item_id', offer.item_id)
         .neq('id', id)
     }
   }
