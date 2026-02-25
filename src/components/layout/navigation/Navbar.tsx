@@ -78,7 +78,7 @@ export default function Navbar({ user }: { user: any }) {
               </>
             ) : (
               <>
-                <NextLink href="/login">
+                <NextLink href="/register">
                   <Box 
                     border="1px solid" borderColor="neutral.50" color="neutral.50" 
                     px={3} py={1.5} borderRadius="md" fontSize="sm" fontWeight="bold" 

@@ -4,14 +4,18 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterSchema, RegisterInput } from '@/features/auth/schemas'
-import { registerAction } from '@/features/auth/actions'
 import NextLink from 'next/link'
 import { Flex, Text, Input, Field, Stack, Checkbox, Box } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
+
 export const RegisterForm = () => {
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
+
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterInput>({
     resolver: zodResolver(RegisterSchema),
@@ -19,12 +23,18 @@ export const RegisterForm = () => {
 
   const onSubmit = async (data: RegisterInput) => {
     setServerError(null)
-    const formData = new FormData()
-    formData.append('name', data.name)
-    formData.append('email', data.email)
-    formData.append('password', data.password)
-    const result = await registerAction(null, formData)
-    if (result?.error && '_form' in result.error) setServerError(result.error._form[0])
+    const supabase = createClient()
+    const { error } = await supabase.auth.signUp({
+  email: data.email,
+  password: data.password,
+  options: { data: { name: `${data.firstName} ${data.lastName}` } }
+})
+    if (error) {
+      setServerError(error.message)
+      return
+    }
+    router.push('/')
+    router.refresh()
   }
 
  const inputStyles = {
@@ -41,11 +51,19 @@ export const RegisterForm = () => {
       <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>Crear cuenta</Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
-          <Field.Root invalid={!!errors.name}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Nombre y apellido</Field.Label>
-            <Input {...register('name')} placeholder="Pepe García" {...inputStyles} />
-            {errors.name && <Field.ErrorText fontSize="xs">{errors.name.message}</Field.ErrorText>}
-          </Field.Root>
+         <Flex gap={2} direction={{ base: 'column', md: 'row' }}>
+  <Field.Root invalid={!!errors.firstName} flex={1}>
+    <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Nombre</Field.Label>
+    <Input {...register('firstName')} placeholder="Juan" {...inputStyles} />
+    {errors.firstName && <Field.ErrorText fontSize="xs">{errors.firstName.message}</Field.ErrorText>}
+  </Field.Root>
+
+  <Field.Root invalid={!!errors.lastName} flex={1}>
+    <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Apellido</Field.Label>
+    <Input {...register('lastName')} placeholder="García" {...inputStyles} />
+    {errors.lastName && <Field.ErrorText fontSize="xs">{errors.lastName.message}</Field.ErrorText>}
+  </Field.Root>
+</Flex>
 
           <Field.Root invalid={!!errors.email}>
             <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Email</Field.Label>

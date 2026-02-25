@@ -21,9 +21,9 @@ interface HeroProps {
 const getSlides = (isLoggedIn: boolean): HeroSlide[] => [
     {
     image: '/hero/girl-in-pool.webp',
-    title: 'Compra y venta de artículos de segunda mano.',
+    title: 'Compra , venta e intercambio de artículos de segunda mano.',
     buttonLabel: 'Vender Ahora',
-    buttonHref: isLoggedIn ? '/item/new' : '/login',
+    buttonHref: isLoggedIn ? '/item/new' : '/register',
     bg: 'brand.100',
     buttonVariant: 'primary', 
   },
@@ -39,7 +39,7 @@ const getSlides = (isLoggedIn: boolean): HeroSlide[] => [
   image: '/hero/handshake.webp',
   title: '¡Es rápido, fácil y gratis!',
   buttonLabel: 'Comenzar a Vender',
-  buttonHref: isLoggedIn ? '/item/new' : '/login',
+  buttonHref: isLoggedIn ? '/item/new' : '/register',
   bg: 'accent.50',
   buttonVariant: 'blue',
 },

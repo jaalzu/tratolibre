@@ -5,12 +5,16 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginSchema, LoginInput } from '@/features/auth/schemas'
-import { loginAction } from '@/features/auth/actions'
 import NextLink from 'next/link'
 import { Flex, Text, Input, Field, Stack, Box } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
+import { SocialButtons } from '@/components/auth/SocialButtons'
+
 
 export const LoginForm = () => {
+      const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -18,13 +22,19 @@ export const LoginForm = () => {
     resolver: zodResolver(LoginSchema),
   })
 
-  const onSubmit = async (data: LoginInput) => {
+const onSubmit = async (data: LoginInput) => {
     setServerError(null)
-    const formData = new FormData()
-    formData.append('email', data.email)
-    formData.append('password', data.password)
-    const result = await loginAction(null, formData)
-    if (result?.error && '_form' in result.error) setServerError(result.error._form[0])
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    })
+    if (error) {
+      setServerError('Email o contraseña incorrectos')
+      return
+    }
+    router.push('/')
+    router.refresh()
   }
 
   const inputStyles = {
@@ -40,6 +50,7 @@ export const LoginForm = () => {
     <Flex direction="column" maxW="360px" mx="auto" w="full">
       <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>Bienvenido</Text>
       <Text fontSize="xs" color="neutral.400" mb={4}>Iniciá sesión en TratoLibre</Text>
+
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
@@ -90,6 +101,14 @@ export const LoginForm = () => {
           </Button>
         </Stack>
       </form>
+
+      <Flex align="center" gap={3} my={4}>
+        <Box flex={1} h="1px" bg="neutral.200" />
+        <Text fontSize="xs" color="neutral.400">o continuá con</Text>
+        <Box flex={1} h="1px" bg="neutral.200" />
+      </Flex>
+
+      <SocialButtons />
 
       <Text fontSize="xs" color="neutral.400" textAlign="center" mt="5">
         ¿No tenés cuenta?{' '}
