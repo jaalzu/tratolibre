@@ -8,6 +8,7 @@ import ItemDetails from '@/components/items/ItemDetails'
 import SellerCard from '@/components/items/SellerCard'
 import RelatedItems from '@/components/items/RelatedItems'
 import ItemActions from '@/components/items/ItemActions'
+import { Suspense } from 'react'
 
 export default async function ItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -16,7 +17,7 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-
+  
   
   return (
     <Box pb={{ base: "140px", md: 0 }}>
@@ -45,7 +46,9 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
 
           <Separator my={6} borderColor="neutral.100" />
 
-          <RelatedItems category={item.category} excludeId={id} />
+         <Suspense fallback={<Box h="200px" />}>
+  <RelatedItems category={item.category} excludeId={id} />
+</Suspense>
         </Box>
 
         {/* Botones fijos encima del BottomNav */}

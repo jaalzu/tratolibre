@@ -61,7 +61,7 @@ export default function SellerCard({ profile, itemId }: { profile: any, itemId?:
 
       {itemId && (
         <Button asChild variant="secondary" size="md" py={2} px={3}  flexShrink={0}>
-          <NextLink href={`/messages?item=${itemId}`}>Chat</NextLink>
+          <NextLink href={`/chat?item=${itemId}`}>Chat</NextLink>
         </Button>
       )}
     </Flex>

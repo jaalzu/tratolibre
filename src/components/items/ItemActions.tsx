@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { getOrCreateConversation } from '@/features/conversations/actions'
+import { getOrCreateConversation } from '@/features/chat/actions'
 import { useRouter } from 'next/navigation'
-import { Box, Text, Flex } from '@chakra-ui/react'
+import {  Text, Flex } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import NextLink from 'next/link'
 
@@ -16,7 +16,7 @@ export default function ItemActions({ item, userId }: { item: any, userId: strin
     setLoading(true)
     const result = await getOrCreateConversation(item.id, item.profiles?.id)
     if (result.data) {
-      router.push(`/messages?conversation=${result.data.id}&type=${type}`)
+      router.push(`/chat/${result.data.id}?type=${type}`)
     }
     setLoading(false)
   }

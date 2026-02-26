@@ -10,22 +10,34 @@ export async function createItemAction(_prevState: any, formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
 
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+  const { count } = await supabase
+    .from('items')
+    .select('*', { count: 'exact', head: true })
+    .eq('owner_id', user.id)
+    .gte('created_at', oneHourAgo)
+
+  if (count && count >= 8) {
+    return { error: 'Alcanzaste el límite de 8 publicaciones por hora. Intentá más tarde.' }
+  }
+
   const raw = {
-    title: formData.get('title'),
+    title:       formData.get('title'),
     description: formData.get('description'),
-    category: formData.get('category'),
-    sale_price: formData.get('sale_price'),
-    location: formData.get('location'),
-    city: formData.get('city'),
-    condition: formData.get('condition'),
-    rules: formData.get('rules') || undefined,
-    images: formData.getAll('images') as string[],
+    category:    formData.get('category'),
+    condition:   formData.get('condition'),
+    sale_price:  formData.get('sale_price'),
+    province:    formData.get('province'),
+    city:        formData.get('city') || undefined,
+    location:    formData.get('location') || undefined,
+    type:        formData.get('type'),
+    images:      formData.getAll('images') as string[],
   }
 
   const parsed = ItemSchema.safeParse(raw)
   if (!parsed.success) return { error: parsed.error.flatten() }
 
-  const { data: Item, error } = await supabase
+  const { data: item, error } = await supabase
     .from('items')
     .insert({ ...parsed.data, owner_id: user.id })
     .select()
@@ -34,7 +46,7 @@ export async function createItemAction(_prevState: any, formData: FormData) {
   if (error) return { error: error.message }
 
   revalidatePath('/explore')
-  redirect(`/item/${Item.id}`)
+  redirect(`/item/${item.id}`)
 }
 
 export async function updateItemAction(_prevState: any, formData: FormData) {
@@ -45,15 +57,16 @@ export async function updateItemAction(_prevState: any, formData: FormData) {
   const id = formData.get('id') as string
 
   const raw = {
-    title: formData.get('title'),
+    title:       formData.get('title'),
     description: formData.get('description'),
-    category: formData.get('category'),
-    sale_price: formData.get('sale_price'),
-    location: formData.get('location'),
-    city: formData.get('city'),
-    condition: formData.get('condition'),
-    rules: formData.get('rules') || undefined,
-    images: formData.getAll('images') as string[],
+    category:    formData.get('category'),
+    condition:   formData.get('condition'),
+    sale_price:  formData.get('sale_price'),
+    province:    formData.get('province'),
+    city:        formData.get('city') || undefined,
+    location:    formData.get('location') || undefined,
+    type:        formData.get('type'),
+    images:      formData.getAll('images') as string[],
   }
 
   const parsed = ItemSchema.safeParse(raw)
@@ -102,9 +115,11 @@ export async function getItemById(id: string) {
 }
 
 export async function getItems(params: {
-  query?: string
+  query?:    string
   category?: string
-  city?: string
+  city?:     string
+  province?: string
+  type?:     string
 } = {}) {
   const supabase = await createClient()
 
@@ -115,37 +130,15 @@ export async function getItems(params: {
     .eq('sold', false)
     .order('created_at', { ascending: false })
 
-  if (params.query) {
-    q = q.or(`title.ilike.%${params.query}%,description.ilike.%${params.query}%`)
-  }
+  if (params.query)    q = q.or(`title.ilike.%${params.query}%,description.ilike.%${params.query}%`)
   if (params.category) q = q.eq('category', params.category)
-  if (params.city) q = q.ilike('city', `%${params.city}%`)
+  if (params.city)     q = q.ilike('city', `%${params.city}%`)
+  if (params.province) q = q.eq('province', params.province)
+  if (params.type)     q = q.eq('type', params.type)
 
   const { data } = await q
   return data ?? []
 }
-
-export async function toggleFavoriteAction(ItemId: string) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'No autorizado' }
-
-  const { data: existing } = await supabase
-    .from('favorites')
-    .select('id')
-    .eq('user_id', user.id)
-    .eq('Item_id', ItemId)
-    .single()
-
-  if (existing) {
-    await supabase.from('favorites').delete().eq('id', existing.id)
-    return { favorited: false }
-  } else {
-    await supabase.from('favorites').insert({ user_id: user.id, Item_id: ItemId })
-    return { favorited: true }
-  }
-}
-
 
 export async function getItemsByCategory(category: string) {
   const supabase = await createClient()
@@ -159,4 +152,25 @@ export async function getItemsByCategory(category: string) {
     .order('created_at', { ascending: false })
 
   return data ?? []
+}
+
+export async function toggleFavoriteAction(itemId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'No autorizado' }
+
+  const { data: existing } = await supabase
+    .from('favorites')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('item_id', itemId)
+    .single()
+
+  if (existing) {
+    await supabase.from('favorites').delete().eq('id', existing.id)
+    return { favorited: false }
+  } else {
+    await supabase.from('favorites').insert({ user_id: user.id, item_id: itemId })
+    return { favorited: true }
+  }
 }

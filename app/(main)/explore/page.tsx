@@ -1,6 +1,6 @@
 import { getItems } from '@/features/items/actions'
 import NextLink from 'next/link'
-import { CATEGORIES } from '@/features/items/utils'
+import { CATEGORIES } from '@/lib/constants'
 import { Box, Flex, Heading, Input, Text, SimpleGrid, Stack, NativeSelect } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { PageContainer } from '@/components/ui/PageContainer'

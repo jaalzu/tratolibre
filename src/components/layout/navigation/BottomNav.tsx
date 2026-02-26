@@ -11,10 +11,11 @@ export default function BottomNav() {
     { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
     { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
     { label: 'Publicar', href: '/item/new', icon: 'bx-plus-circle' },
-    { label: 'Buzón', href: '/messages', icon: 'bx-message-square-dots' },
+    { label: 'Buzón', href: '/chat', icon: 'bx-message-square-dots' },
     { label: 'Perfil', href: '/dashboard', icon: 'bx-user' },
   ]
-
+  
+if (pathname.startsWith('/chat/')) return null
   return (
     <Box 
       display={{ base: 'block', md: 'none' }} 

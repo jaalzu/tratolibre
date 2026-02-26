@@ -19,7 +19,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" suppressHydrationWarning>
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
-          {/* El Navbar VOLÓ de acá, se fue a (main)/layout.tsx */}
           {children}
         </Providers>
       </body>

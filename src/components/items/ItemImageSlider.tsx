@@ -26,7 +26,7 @@ export default function ItemImageSlider({ images, title }: { images: string[], t
       />
 
       {images.length > 1 && (
-        <Flex gap={2} mt={2} px={{ base: 4, md: 0 }} overflowX="auto">
+        <Flex gap={2} mt={3} px={{ base: 4, md: 3 }} overflowX="auto">
           {images.map((url, i) => (
             <Box
               key={i}
@@ -36,7 +36,7 @@ export default function ItemImageSlider({ images, title }: { images: string[], t
               w="56px"
               h="56px"
               objectFit="cover"
-              borderRadius="md"
+              borderRadius="lg"
               flexShrink={0}
               cursor="pointer"
               opacity={active === i ? 1 : 0.45}

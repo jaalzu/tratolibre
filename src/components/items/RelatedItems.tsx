@@ -1,12 +1,20 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import { Box, Grid, Text } from '@chakra-ui/react'
 import { ItemCard } from '@/components/items/ItemCard'
 import { getItemsByCategory } from '@/features/items/actions'
 
-export default async function RelatedItems({ category, excludeId }: { category: string, excludeId: string }) {
-  const items = await getItemsByCategory(category)
-  const related = items.filter((i: any) => i.id !== excludeId).slice(0, 6)
+export default function RelatedItems({ category, excludeId }: { category: string, excludeId: string }) {
+  const [items, setItems] = useState<any[]>([])
 
-  if (!related.length) return null
+  useEffect(() => {
+    getItemsByCategory(category).then(data => {
+      setItems(data.filter((i: any) => i.id !== excludeId).slice(0, 6))
+    })
+  }, [category, excludeId])
+
+  if (!items.length) return null
 
   return (
     <Box>
@@ -14,7 +22,7 @@ export default async function RelatedItems({ category, excludeId }: { category: 
         Otras personas están viendo
       </Text>
       <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={4} justifyItems="start">
-        {related.map((obj: any) => (
+        {items.map((obj: any) => (
           <ItemCard key={obj.id} obj={obj} />
         ))}
       </Grid>
