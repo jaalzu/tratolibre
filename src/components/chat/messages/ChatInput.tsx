@@ -1,7 +1,7 @@
 'use client'
 
-import { Flex, Input, Spinner } from '@chakra-ui/react'
-import { Button } from '@/components/ui/Button'
+import { Flex, Input, Box } from '@chakra-ui/react'
+import 'boxicons/css/boxicons.min.css'
 
 interface ChatInputProps {
   value: string
@@ -11,20 +11,30 @@ interface ChatInputProps {
 }
 
 export const ChatInput = ({ value, onChange, onSend, sending }: ChatInputProps) => (
-  <Flex p="3" gap="2" borderTop="1px solid" borderColor="neutral.100" bg="neutral.50">
+  <Flex p="3" gap="2" borderTop="1px solid" borderColor="neutral.100" bg="white" align="center">
     <Input
       value={value}
       onChange={e => onChange(e.target.value)}
       onKeyDown={e => e.key === 'Enter' && onSend()}
-      placeholder="Escribí un mensaje..."
-      bg="white"
+      placeholder="   Escribí un mensaje..."
+      bg="neutral.50"
       fontSize="sm"
       borderColor="neutral.200"
-      borderRadius="xl"
-      _focus={{ borderColor: "brand.default", boxShadow: "none" }}
+      borderRadius="full"
+      pl="5"
+      _focus={{ borderColor: 'brand.default', boxShadow: 'none' }}
     />
-    <Button onClick={onSend} disabled={sending || !value.trim()} size="md" px="6">
-      {sending ? <Spinner size="xs" /> : "Enviar"}
-    </Button>
+    <Box
+      as="button"
+      onClick={onSend}
+      w="9" h="9" borderRadius="full"
+      bg={value.trim() && !sending ? 'brand.default' : 'neutral.200'}
+      display="flex" alignItems="center" justifyContent="center"
+      cursor={value.trim() && !sending ? 'pointer' : 'not-allowed'}
+      transition="all 0.2s"
+      flexShrink={0}
+    >
+      <i className="bx bx-send" style={{ fontSize: '18px', color: 'white' }} />
+    </Box>
   </Flex>
 )

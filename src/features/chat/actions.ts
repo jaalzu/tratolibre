@@ -49,18 +49,30 @@ export async function getMyConversations() {
 
   // Traer último mensaje de cada conversación
   const withLastMessage = await Promise.all(
-    conversations.map(async (conv) => {
-      const { data: lastMsg } = await supabase
-        .from('messages')
-        .select('content, created_at')
-        .eq('conversation_id', conv.id)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
+  conversations.map(async (conv) => {
+    const { data: lastMsg } = await supabase
+      .from('messages')
+      .select('content, created_at')
+      .eq('conversation_id', conv.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
 
-      return { ...conv, lastMessage: lastMsg ?? null }
-    })
-  )
+   const { count: unreadCount } = await supabase
+  .from('messages')
+  .select('*', { count: 'exact', head: true })
+  .eq('conversation_id', conv.id)
+  .eq('read', false)
+  .neq('sender_id', user.id)
+
+return { 
+  ...conv, 
+  lastMessage: lastMsg ?? null, 
+  hasUnread: (unreadCount ?? 0) > 0,
+  unreadCount: unreadCount ?? 0
+}
+  })
+)
 
   return withLastMessage
 }
@@ -78,6 +90,22 @@ export async function getMessages(conversationId: string) {
 
   return data ?? []
 }
+
+export async function markMessagesAsRead(conversationId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  await supabase
+    .from('messages')
+    .update({ read: true })
+    .eq('conversation_id', conversationId)
+    .neq('sender_id', user.id)
+    .eq('read', false)
+
+  revalidatePath('/chat', 'layout')
+}
+
 
 export async function sendMessageAction(conversationId: string, content: string) {
   const supabase = await createClient()
@@ -202,4 +230,18 @@ export async function getMyOffers() {
     .order('created_at', { ascending: false })
 
   return { asBuyer: asBuyer ?? [], asSeller: asSeller ?? [] }
+}
+
+
+export async function getUnreadCount(conversationId: string, userId: string) {
+  const supabase = await createClient()
+
+  const { count } = await supabase
+    .from('messages')
+    .select('*', { count: 'exact', head: true })
+    .eq('conversation_id', conversationId)
+    .eq('read', false)
+    .neq('sender_id', userId)
+
+  return count ?? 0
 }

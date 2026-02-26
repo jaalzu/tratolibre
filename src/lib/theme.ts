@@ -7,7 +7,7 @@ const config = defineConfig({
  brand: {
   50:      { value: '#f0fdf4' }, // muy clarito
   100:     { value: '#dcfce7' }, // clarito
-  default: { value: '#22c55e' }, // main
+  default: { value: '#25D366' }, // main
   hover:   { value: '#16a34a' }, // más oscuro
   dark:    { value: '#15803d' }, // muy oscuro
 },

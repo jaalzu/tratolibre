@@ -9,7 +9,6 @@ export interface Message {
     avatar_url: string
   }
 }
-
 export interface Conversation {
   id: string
   item_id: string
@@ -17,6 +16,12 @@ export interface Conversation {
   seller_id: string
   created_at: string
   updated_at: string
+  hasUnread?: boolean
+  unreadCount?: number
+  lastMessage?: {
+    content: string
+    created_at: string
+  } | null
   items?: {
     title: string
     images: string[]
@@ -30,10 +35,6 @@ export interface Conversation {
     name: string
     avatar_url: string
   }
-  lastMessage?: {
-  content: string
-  created_at: string
-} | null
 }
 
 export interface Offer {

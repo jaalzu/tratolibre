@@ -4,7 +4,6 @@ import { ChatWindow } from '@/components/chat/messages/ChatWindow'
 import { ChatHeader } from '@/components/chat/header/ChatHeader'
 import { ConversationList } from '@/components/chat/conversations/ConversationList'
 import { Box, Flex, Grid } from '@chakra-ui/react'
-import { PageContainer } from '@/components/ui/PageContainer'
 import { notFound } from 'next/navigation'
 
 export default async function ChatDetailPage({
@@ -46,22 +45,24 @@ export default async function ChatDetailPage({
   </Box>
 </Box>
 
-      {/* Desktop */}
-      <PageContainer py="8" display={{ base: 'none', md: 'block' }}>
-        <Grid templateColumns="1fr 2fr" gap="6" h="600px">
-          <ConversationList conversations={conversations}  activeId={id} />
-          <Flex direction="column" h="full">
-            <ChatHeader
-              item={{ id: conversation.item_id, ...conversation.items }}
-              seller={seller}
-              conversationId={id}
-            />
-            <Box flex="1" minH="0">
-              <ChatWindow conversationId={id} userId={user?.id!} type={type} />
-            </Box>
-          </Flex>
-        </Grid>
-      </PageContainer>
+{/* Desktop */}
+<Box 
+  display={{ base: 'none', md: 'flex' }} 
+  h="calc(100dvh - 90px)"
+  overflow="hidden"
+>
+  <ConversationList activeId={id} />
+  <Flex direction="column" flex="1" minW="0">
+    <ChatHeader
+      item={{ id: conversation.item_id, ...conversation.items }}
+      seller={seller}
+      conversationId={id}
+    />
+    <Box flex="1" minH="0">
+      <ChatWindow conversationId={id} userId={user?.id!} type={type} />
+    </Box>
+  </Flex>
+</Box>
     </>
   )
 }

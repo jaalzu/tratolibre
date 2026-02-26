@@ -1,6 +1,5 @@
 'use client'
 
-
 import { Box, Flex, Text } from '@chakra-ui/react'
 
 interface ChatBubbleProps {
@@ -17,31 +16,22 @@ function formatTime(dateStr: string) {
   })
 }
 
-export const ChatBubble = ({ content, isMine, senderInitial, createdAt }: ChatBubbleProps) => (
-  <Flex gap="2" flexDirection={isMine ? 'row-reverse' : 'row'} alignItems="flex-end">
-    <Flex
-      w="7" h="7" borderRadius="full" flexShrink={0}
-      bg={isMine ? "brand.default" : "neutral.200"}
-      color={isMine ? "white" : "neutral.700"}
-      align="center" justify="center"
-      fontSize="xs" fontWeight="bold"
+export const ChatBubble = ({ content, isMine, createdAt }: ChatBubbleProps) => (
+  <Flex justifyContent={isMine ? 'flex-end' : 'flex-start'}>
+    <Box
+      maxW="75%"
+      px="3" py="1"
+      borderRadius="full"
+      bg={isMine ? 'neutral.100' : 'white'}
+      border="1px solid"
+      borderColor="neutral.100"
     >
-      {senderInitial ?? '?'}
-    </Flex>
-
-    <Flex direction="column" gap="0.5" alignItems={isMine ? 'flex-end' : 'flex-start'}>
-      <Box
-        maxW="75%" px="3" py="2"
-        borderRadius="2xl"
-        bg={isMine ? "brand.default" : "neutral.100"}
-        color={isMine ? "white" : "neutral.900"}
-        borderBottomRightRadius={isMine ? "xs" : "2xl"}
-        borderBottomLeftRadius={isMine ? "2xl" : "xs"}
-        fontSize="sm"
-      >
+      <Text fontSize="sm" color="neutral.900" display="inline" mr="3">
         {content}
-      </Box>
-      <Text fontSize="2xs" color="neutral.400" px="1">{formatTime(createdAt)}</Text>
-    </Flex>
+      </Text>
+      <Text fontSize="2xs" color="neutral.400" display="inline" whiteSpace="nowrap">
+        {formatTime(createdAt)}
+      </Text>
+    </Box>
   </Flex>
 )
