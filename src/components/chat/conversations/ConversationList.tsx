@@ -22,7 +22,7 @@ export const ConversationList = ({ activeId }: ConversationListProps) => {
   overflow="hidden"
 >
       {/* Header */}
-      <Box px="4" py="3" borderBottom="1px solid" borderColor="neutral.100">
+      <Box px="4" py="3" borderBottom="1px solid" borderColor="neutral.200">
         <Text fontSize="sm" fontWeight="bold" color="neutral.900">Bandeja de entrada</Text>
       </Box>
 

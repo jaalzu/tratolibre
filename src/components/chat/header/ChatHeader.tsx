@@ -28,11 +28,16 @@ export const ChatHeader = ({ item, seller, conversationId, isOtherOnline }: Chat
   <Flex align="center" gap="3" px="3" py="2" bg="brand.default" position="sticky" top="0" zIndex={10}>
     
     {/* Flecha atrás */}
-    <NextLink href="/chat">
-      <Box color="white" cursor="pointer" _hover={{ opacity: 0.7 }}>
-        <i className="bx bx-arrow-back" style={{ fontSize: '23px' }} />
-      </Box>
-    </NextLink>
+<NextLink href="/chat">
+  <Box 
+    display={{ base: 'block', md: 'none' }} 
+    color="white" 
+    cursor="pointer" 
+    _hover={{ opacity: 0.7 }}
+  >
+    <i className="bx bx-arrow-back" style={{ fontSize: '23px' }} />
+  </Box>
+</NextLink>
 
     {/* Foto del producto */}
     {item.images?.[0] && (

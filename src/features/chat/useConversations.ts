@@ -7,7 +7,7 @@ export function useConversations() {
   const { data: conversations = [], isLoading } = useQuery({
     queryKey: ['conversations'],
     queryFn: getMyConversations,
-    refetchInterval: 35000,
+    refetchInterval: 3000,
   })
 
   return { conversations, loading: isLoading }

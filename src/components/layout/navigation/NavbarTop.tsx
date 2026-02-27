@@ -1,9 +1,11 @@
+'use client'
+
 import { Box, Flex, Text, Input, Group, IconButton } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { logoutAction } from '@/features/auth/actions'
 import NavLink from './NavLink'
-import { ChatNavLink } from './ChatNavLink'
 import 'boxicons/css/boxicons.min.css'
+import { ChatNavLink } from './ChatNavLink'
 
 const loggedNavItems = [
   { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
@@ -19,7 +21,7 @@ interface NavbarTopProps {
 
 export const NavbarTop = ({ user, onOpenMenu }: NavbarTopProps) => (
   <Box bg="brand.default">
-    <Flex maxW="1280px" mx="auto" px={3} h="54px" align="center" justify="space-between" gap={1}>
+    <Flex maxW="1280px" mx="auto" px={3} h="60px" align="center" justify="space-between" gap={1}>
       <NextLink href="/" passHref>
         <Text fontWeight="bold" fontSize="md" color="neutral.50" whiteSpace="nowrap">TratoLibre</Text>
       </NextLink>
@@ -39,17 +41,17 @@ export const NavbarTop = ({ user, onOpenMenu }: NavbarTopProps) => (
 
       <Flex align="center" gap={2} display={{ base: "none", md: "flex" }}>
         {user ? (
-  <>
-    {loggedNavItems.map((item) => (
-      <NavLink key={item.label} href={item.href} label={item.label} icon={item.icon} variant="desktop" />
-    ))}
-    <ChatNavLink />
-    <form action={logoutAction}>
-      <IconButton type="submit" variant="ghost" color="neutral.50" _hover={{ bg: "whiteAlpha.200" }}>
-        <i className='bx bx-log-out' style={{ fontSize: '18px' }}></i>
-      </IconButton>
-    </form>
-  </>
+          <>
+            {loggedNavItems.map((item) => (
+              <NavLink key={item.label} href={item.href} label={item.label} icon={item.icon} variant="desktop" />
+            ))}
+            <ChatNavLink userId={user.id} />
+            <form action={logoutAction}>
+              <IconButton type="submit" variant="ghost" color="neutral.50" _hover={{ bg: "whiteAlpha.200" }}>
+                <i className='bx bx-log-out' style={{ fontSize: '18px' }}></i>
+              </IconButton>
+            </form>
+          </>
         ) : (
           <>
             <NextLink href="/register">

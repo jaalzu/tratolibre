@@ -1,7 +1,6 @@
-// app/(main)/layout.tsx
 import Navbar from "@/components/layout/navigation/Navbar";
 import { createClient } from '@/lib/supabase/server';
-import BottomNav from "@/components/layout/navigation/BottomNav"; // Importalo
+import BottomNav from "@/components/layout/navigation/BottomNav";
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -11,7 +10,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
     <>
       <Navbar user={user} />
       <main>{children}</main>
-      <BottomNav />
+      <BottomNav userId={user?.id} />
     </>
   );
 }

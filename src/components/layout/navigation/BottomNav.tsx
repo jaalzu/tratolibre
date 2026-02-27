@@ -1,77 +1,41 @@
 'use client'
 
-import { Flex, Text, Box, Grid } from '@chakra-ui/react'
-import NextLink from 'next/link'
+import { Box, Grid } from '@chakra-ui/react'
 import { usePathname } from 'next/navigation'
+import NavLink from './NavLink'
+import { ChatNavLink } from './ChatNavLink'
 
-export default function BottomNav() {
+interface BottomNavProps {
+  userId?: string
+}
+
+const navItems = [
+  { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
+  { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
+  { label: 'Publicar', href: '/item/new', icon: 'bx-plus-circle' },
+  { label: 'Buzón', href: '/chat', icon: 'bx-message-square-dots', isChat: true },
+  { label: 'Perfil', href: '/dashboard', icon: 'bx-user' },
+]
+
+export default function BottomNav({ userId }: BottomNavProps) {
   const pathname = usePathname()
 
-  const navItems = [
-    { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
-    { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
-    { label: 'Publicar', href: '/item/new', icon: 'bx-plus-circle' },
-    { label: 'Buzón', href: '/chat', icon: 'bx-message-square-dots' },
-    { label: 'Perfil', href: '/dashboard', icon: 'bx-user' },
-  ]
-  
-if (pathname.startsWith('/chat/')) return null
+  if (pathname.startsWith('/chat/')) return null
+
   return (
-    <Box 
-      display={{ base: 'block', md: 'none' }} 
-      position="fixed" 
-      bottom={0} 
-      left={0} 
-      right={0} 
-      bg="brand.default" 
-      zIndex={100}
-      px={2}
+    <Box
+      display={{ base: 'block', md: 'none' }}
+      position="fixed" bottom={0} left={0} right={0}
+      bg="brand.default" zIndex={100} px={2}
       boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
     >
-      {/* Grid de 5 columnas iguales para que "Tu" no se desplace */}
-     <Grid templateColumns="repeat(5, 1fr)" h="60px" gap={0}> {/* gap 0 para asegurar */}
-  {navItems.map((item) => {
-    const isActive = pathname === item.href
-    
-    return (
-      <NextLink 
-        key={item.label} 
-        href={item.href} 
-        style={{ 
-          textDecoration: 'none', 
-          display: 'flex', 
-          width: '100%' 
-        }}
-      >
-        <Flex 
-          direction="column" 
-          align="center" 
-          justify="center"
-          w="full" 
-          h="full"
-        >
-          <i 
-            className={`bx ${item.icon}`} 
-            style={{ 
-              fontSize: '24px', 
-              color: 'var(--chakra-colors-neutral-50)',
-              display: 'block' 
-            }}
-          ></i>
-          <Text 
-            fontSize="sm" 
-            fontWeight={isActive ? 'bold' : 'medium'}
-            color="neutral.50"
-            lineHeight="1" 
-            mt={1}
-          >
-            {item.label}
-          </Text>
-        </Flex>
-      </NextLink>
-    )
-  })}
-</Grid>
+      <Grid templateColumns="repeat(5, 1fr)" h="60px" gap={0}>
+        {navItems.map((item) =>
+          item.isChat
+            ? <ChatNavLink key={item.label} userId={userId} variant="mobile" />
+            : <NavLink key={item.label} href={item.href} label={item.label} icon={item.icon} variant="mobile" />
+        )}
+      </Grid>
       <Box h="safe-bottom" bg="brand.default" />
     </Box>
   )
