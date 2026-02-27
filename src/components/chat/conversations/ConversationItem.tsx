@@ -24,15 +24,13 @@ export const ConversationItem = ({ conv, isActive }: ConversationItemProps) => {
     <Box
       asChild
       borderBottom="1px solid"
-      borderColor="neutral.100"
-      bg={isActive ? 'brand.50' : 'transparent'}
-      _hover={{ bg: 'neutral.50' }}
-      transition="background 0.2s"
+      borderColor="neutral.500"
+      bg={isActive ? 'accent.100' : 'transparent'}
     >
       <NextLink href={`/chat/${conv.id}`}>
-       <Flex align="flex-start" gap="3" px="4" py="3">
+       <Flex align="center"   gap="2" px="3" py="2">
   {/* Foto del artículo */}
-  <Box position="relative" w="14" h="14" borderRadius="md" overflow="hidden" flexShrink={0} bg="neutral.100">
+  <Box position="relative"  w="12" h="12" borderRadius="sm" overflow="hidden" flexShrink={0} bg="neutral.100">
     {conv.items?.images?.[0] ? (
       <Image src={conv.items.images[0]} alt={conv.items.title ?? ''} fill style={{ objectFit: 'cover' }} />
     ) : (
@@ -44,14 +42,14 @@ export const ConversationItem = ({ conv, isActive }: ConversationItemProps) => {
 
   {/* Info */}
   <Box flex="1" minW="0">
-    <Text fontSize="2xs" color="neutral.400" mb="0.5">
+    <Text fontSize="2xs" color="neutral.400" >
       {conv.buyer?.name ?? conv.seller?.name}
     </Text>
-    <Text fontSize="sm" fontWeight="bold" color="neutral.900" truncate>
+    <Text fontSize="xs" fontWeight="bold" color="neutral.800" truncate>
       {conv.items?.title}
     </Text>
     {lastMessage && (
-      <Text fontSize="xs" color="neutral.400" truncate mt="0.5">
+      <Text fontSize="2xs" color="neutral.500" truncate mt="1">
         {lastMessage.content}
       </Text>
     )}
@@ -65,7 +63,7 @@ export const ConversationItem = ({ conv, isActive }: ConversationItemProps) => {
       </Text>
     )}
     {conv.hasUnread && (
-      <Flex w="5" h="5" borderRadius="full" bg="brand.default" align="center" justify="center">
+      <Flex w="4" h="4" borderRadius="full" bg="brand.default" align="center" justify="center">
         <Text fontSize="2xs" color="white" fontWeight="bold">
           {(conv as any).unreadCount > 9 ? '9+' : (conv as any).unreadCount}
         </Text>

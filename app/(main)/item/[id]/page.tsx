@@ -89,7 +89,9 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
 
               <Separator my={8} borderColor="neutral.100" />
 
-              <RelatedItems category={item.category} excludeId={id} />
+              <Suspense fallback={<Box h="200px" />}>
+  <RelatedItems category={item.category} excludeId={id} />
+</Suspense>
             </Box>
 
             {/* Derecha — info + acciones + perfil */}

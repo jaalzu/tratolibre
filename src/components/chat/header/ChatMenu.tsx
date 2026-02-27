@@ -34,12 +34,12 @@ export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
     <Box position="relative" ref={ref}>
       <Box
         cursor="pointer"
-        p="1"
+        p={0}
         borderRadius="md"
         _hover={{ bg: 'whiteAlpha.200' }}
         onClick={() => setOpen(!open)}
       >
-        <i className="bx bx-dots-vertical-rounded" style={{ fontSize: '22px', color: 'white' }} />
+        <i className="bx bx-dots-vertical-rounded" style={{ fontSize: '17px', color: 'white' }} />
       </Box>
 
       {open && (
@@ -47,20 +47,20 @@ export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
           position="absolute"
           right="0"
           top="36px"
-          bg="white"
+          bg="neutral.50"
           borderRadius="xl"
-          shadow="lg"
+          shadow="sm"
           border="1px solid"
           borderColor="neutral.100"
           zIndex={50}
-          minW="200px"
+          minW="150px"
           overflow="hidden"
         >
           {options.map((opt) => (
             opt.href ? (
               <NextLink key={opt.label} href={opt.href} onClick={() => setOpen(false)}>
                 <Flex
-                  align="center" gap="3" px="4" py="3"
+                  align="center" gap="2" px="2" py="3"
                   _hover={{ bg: 'neutral.50' }}
                   cursor="pointer"
                 >
@@ -71,7 +71,7 @@ export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
             ) : (
               <Flex
                 key={opt.label}
-                align="center" gap="3" px="4" py="3"
+                align="center" gap="2" px="2" py="3"
                 _hover={{ bg: 'neutral.50' }}
                 cursor="pointer"
                 onClick={() => setOpen(false)}

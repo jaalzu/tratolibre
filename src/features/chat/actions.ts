@@ -112,6 +112,15 @@ export async function sendMessageAction(conversationId: string, content: string)
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
 
+    const oneMinuteAgo = new Date(Date.now() - 60 * 1000).toISOString()
+const { count } = await supabase
+  .from('messages')
+  .select('*', { count: 'exact', head: true })
+  .eq('sender_id', user.id)
+  .gte('created_at', oneMinuteAgo)
+
+if (count && count >= 20) return { error: 'Demasiados mensajes. Esperá un momento.' }
+
   const { error } = await supabase.from('messages').insert({
     conversation_id: conversationId,
     sender_id: user.id,
