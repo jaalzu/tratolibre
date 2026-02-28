@@ -1,20 +1,17 @@
 'use client'
 
-import { Flex, Spinner, Text, Box} from '@chakra-ui/react'
+import { Flex, Spinner, Text, Box } from '@chakra-ui/react'
 import { useChat } from '@/features/chat/useChat'
 import { ChatMessages } from './ChatMessages'
 import { ChatInput } from './ChatInput'
-import { ChatHeader } from '../header/ChatHeader'
 
 interface ChatWindowProps {
   conversationId: string
   userId: string
   type?: string
-  item?: any
-  seller?: any
 }
 
-export const ChatWindow = ({ conversationId, userId, type, item, seller }: ChatWindowProps) => {
+export const ChatWindow = ({ conversationId, userId, type }: ChatWindowProps) => {
   const { messages, loading, input, setInput, sending, sendMessage, bottomRef, isOtherOnline, isOtherTyping } = useChat(conversationId, userId, type)
 
   if (loading) {
@@ -28,12 +25,6 @@ export const ChatWindow = ({ conversationId, userId, type, item, seller }: ChatW
 
   return (
     <Flex direction="column" h="full" bg="white" overflow="hidden">
-      <ChatHeader 
-        item={item} 
-        seller={seller} 
-        conversationId={conversationId}
-        isOtherOnline={isOtherOnline}
-      />
       <Box flex="1" minH="0" overflowY="auto">
         <ChatMessages messages={messages} userId={userId} bottomRef={bottomRef} isOtherTyping={isOtherTyping} />
       </Box>

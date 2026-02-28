@@ -1,9 +1,13 @@
 'use client'
 
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Text , Spinner } from '@chakra-ui/react'
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { useState, useRef, useEffect } from 'react'
 import NextLink from 'next/link'
+import { useRouter } from 'next/navigation'
+import { deleteConversationAction } from '@/features/chat/actions'
 import 'boxicons/css/boxicons.min.css'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ChatMenuProps {
   itemId: string
@@ -13,6 +17,21 @@ interface ChatMenuProps {
 export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const router = useRouter()
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+
+const queryClient = useQueryClient()
+
+const handleDelete = async () => {
+  setDeleting(true)
+  const result = await deleteConversationAction(conversationId)
+  queryClient.clear()
+  router.push('/chat')
+  setDeleting(false)
+}
+
+  
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -27,7 +46,7 @@ export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
   const options = [
     { label: 'Ver publicación', icon: 'bx-link-external', href: `/item/${itemId}` },
     { label: 'Reportar usuario', icon: 'bx-flag', color: 'feedback.error' },
-    { label: 'Eliminar conversación', icon: 'bx-trash', color: 'feedback.error' },
+    { label: 'Eliminar conversación', icon: 'bx-trash', color: 'feedback.error', onClick: () => setConfirmOpen(true) }
   ]
 
   return (
@@ -74,7 +93,7 @@ export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
                 align="center" gap="2" px="2" py="3"
                 _hover={{ bg: 'neutral.50' }}
                 cursor="pointer"
-                onClick={() => setOpen(false)}
+                onClick={() => { opt.onClick?.(); setOpen(false) }}
               >
                 <i className={`bx ${opt.icon}`} style={{ fontSize: '16px', color: 'var(--chakra-colors-feedback-error)' }} />
                 <Text fontSize="sm" color="feedback.error">{opt.label}</Text>
@@ -82,7 +101,17 @@ export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
             )
           ))}
         </Box>
+        
       )}
+      <ConfirmDialog
+  open={confirmOpen}
+  onClose={() => setConfirmOpen(false)}
+  onConfirm={handleDelete}
+  title="Eliminar conversación"
+  description="Esta acción no se puede deshacer."
+  loading={deleting}
+  loadingLabel="Eliminando conversación..."
+/>
     </Box>
   )
 }

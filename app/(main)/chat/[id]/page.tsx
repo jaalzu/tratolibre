@@ -3,8 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import { ChatWindow } from '@/components/chat/messages/ChatWindow'
 import { ChatHeader } from '@/components/chat/header/ChatHeader'
 import { ConversationList } from '@/components/chat/conversations/ConversationList'
-import { Box, Flex, Grid } from '@chakra-ui/react'
-import { notFound } from 'next/navigation'
+import { Box, Flex } from '@chakra-ui/react'
+import { redirect } from 'next/navigation'
 
 export default async function ChatDetailPage({
   params,
@@ -21,7 +21,7 @@ export default async function ChatDetailPage({
   const conversations = await getMyConversations()
 
   const conversation = conversations.find((c: any) => c.id === id)
-  if (!conversation) notFound()
+  if (!conversation) redirect('/chat')
 
   const isBuyer = conversation.buyer_id === user?.id
   const seller = isBuyer ? conversation.seller : conversation.buyer
@@ -29,40 +29,33 @@ export default async function ChatDetailPage({
   return (
     <>
       {/* Mobile */}
-<Box display={{ base: 'flex', md: 'none' }} flexDirection="column" h="100dvh" overflow="hidden">
-  {/* Header fijo */}
-  <Box flexShrink={0}>
-    <ChatHeader
-      item={{ id: conversation.item_id, ...conversation.items }}
-      seller={seller}
-      conversationId={id}
-    />
-  </Box>
+      <Box display={{ base: 'flex', md: 'none' }} flexDirection="column" h="100dvh" overflow="hidden">
+        <Box flexShrink={0}>
+          <ChatHeader
+            item={{ id: conversation.item_id, ...conversation.items }}
+            seller={seller}
+            conversationId={id}
+          />
+        </Box>
+        <Box flex="1" minH="0" display="flex" flexDirection="column" overflow="hidden">
+          <ChatWindow conversationId={id} userId={user?.id!} type={type} />
+        </Box>
+      </Box>
 
-  {/* Chat — ocupa el espacio restante con scroll solo en mensajes */}
-  <Box flex="1" minH="0" display="flex" flexDirection="column" overflow="hidden">
-    <ChatWindow conversationId={id} userId={user?.id!} type={type} />
-  </Box>
-</Box>
-
-{/* Desktop */}
-<Box 
-  display={{ base: 'none', md: 'flex' }} 
-  h="calc(100dvh - 90px)"
-  overflow="hidden"
->
-  <ConversationList activeId={id} />
-  <Flex direction="column" flex="1" minW="0">
-    <ChatHeader
-      item={{ id: conversation.item_id, ...conversation.items }}
-      seller={seller}
-      conversationId={id}
-    />
-    <Box flex="1" minH="0">
-      <ChatWindow conversationId={id} userId={user?.id!} type={type} />
-    </Box>
-  </Flex>
-</Box>
+      {/* Desktop */}
+      <Box display={{ base: 'none', md: 'flex' }} h="calc(100dvh - 90px)" overflow="hidden">
+        <ConversationList activeId={id} />
+        <Flex direction="column" flex="1" minW="0">
+          <ChatHeader
+            item={{ id: conversation.item_id, ...conversation.items }}
+            seller={seller}
+            conversationId={id}
+          />
+          <Box flex="1" minH="0">
+            <ChatWindow conversationId={id} userId={user?.id!} type={type} />
+          </Box>
+        </Flex>
+      </Box>
     </>
   )
 }

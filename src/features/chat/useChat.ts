@@ -62,7 +62,7 @@ export function useChat(conversationId: string, userId: string, type?: string) {
   const { data: messages = [], isLoading: loading } = useQuery({
     queryKey: ['messages', conversationId],
     queryFn: () => fetchMessages(conversationId),
-    refetchInterval: 5000,
+    refetchInterval: 8000,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
     staleTime: 0,

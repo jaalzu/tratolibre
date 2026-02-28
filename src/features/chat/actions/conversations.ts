@@ -75,6 +75,22 @@ export async function getMyConversations() {
   return withLastMessage
 }
 
+export async function deleteConversationAction(conversationId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'No autorizado' }
+
+  const { error } = await supabase
+    .from('conversations')
+    .delete()
+    .eq('id', conversationId)
+    .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
+
+  if (error) return { error: error.message }
+  revalidatePath('/chat', 'layout')
+  return { success: true }
+}
+
 export async function getTotalUnreadCount() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
