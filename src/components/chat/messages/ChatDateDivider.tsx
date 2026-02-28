@@ -19,7 +19,7 @@ function formatDate(dateStr: string) {
 export const ChatDateDivider = ({ date }: ChatDateDividerProps) => (
   <Flex align="center" gap="3" my="4">
     <Flex flex="1" h="1px" bg="neutral.100" />
-    <Text fontSize="2xs" color="neutral.400" fontWeight="medium" whiteSpace="nowrap">
+    <Text fontSize="xs" color="neutral.400" fontWeight="medium" whiteSpace="nowrap">
       {formatDate(date)}
     </Text>
     <Flex flex="1" h="1px" bg="neutral.100" />

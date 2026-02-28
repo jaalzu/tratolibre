@@ -1,5 +1,5 @@
 import { ConversationList } from '@/components/chat/conversations/ConversationList'
-import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 
 export default async function ChatPage() {
   return (

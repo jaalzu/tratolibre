@@ -37,7 +37,7 @@ export async function getMyConversations() {
     .from('conversations')
     .select(`
       *,
-      items(title, images, sale_price),
+      items(title, images, sale_price, sold),
       buyer:profiles!conversations_buyer_id_fkey(name, avatar_url),
       seller:profiles!conversations_seller_id_fkey(name, avatar_url)
     `)

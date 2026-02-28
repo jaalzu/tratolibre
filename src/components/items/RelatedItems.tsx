@@ -18,7 +18,7 @@ export default function RelatedItems({ category, excludeId }: { category: string
 
   return (
     <Box>
-      <Text fontSize="18px" fontWeight="bold" color="neutral.900" mb={4}>
+      <Text fontSize="lg" fontWeight="bold" color="neutral.900" mb={4}>
         Otras personas están viendo
       </Text>
       <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={4} justifyItems="start">

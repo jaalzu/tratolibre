@@ -36,22 +36,31 @@ function formatTime(dateStr: string) {
     minute: '2-digit',
   })
 }
-
 export const ChatBubble = ({ content, isMine, createdAt }: ChatBubbleProps) => (
   <Flex justifyContent={isMine ? 'flex-end' : 'flex-start'}>
     <Box
       maxW="75%"
-      px="2" py="1"
+      px="3" py="1"
       borderRadius="full"
       bg={isMine ? 'neutral.100' : 'white'}
       border="1px solid"
       borderColor="neutral.100"
     >
-      <Text fontSize="xs" color="neutral.900" display="inline" mr="3">
+      <Text fontSize="xs" color="neutral.900" as="span">
         {renderContent(content)}
-      </Text>
-      <Text fontSize="2xs" color="neutral.400" display="inline" whiteSpace="nowrap">
-        {formatTime(createdAt)}
+        <Text
+          as="span"
+          fontSize="2xs"
+          color="neutral.400"
+          whiteSpace="nowrap"
+          float="right"
+          ml="3"
+          mt="1"
+          position="relative"
+          top="2px"
+        >
+          {formatTime(createdAt)}
+        </Text>
       </Text>
     </Box>
   </Flex>

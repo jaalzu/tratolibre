@@ -6,10 +6,10 @@ export default function ItemDetails({ item }: { item: any }) {
       {/* Detalles del producto */}
       {item.description && (
         <Box mb={6}>
-          <Text fontSize="20px" fontWeight="bold" color="neutral.900" mb={2}>
+          <Text fontSize="lg" fontWeight="bold" color="neutral.900" mb={2}>
             Detalles del producto
           </Text>
-          <Text fontSize="16px" color="neutral.600" lineHeight="tall">
+          <Text fontSize="md" color="neutral.700" lineHeight="tall">
             {item.description}
           </Text>
         </Box>
@@ -18,8 +18,8 @@ export default function ItemDetails({ item }: { item: any }) {
       {/* Condiciones del vendedor */}
       {item.rules && (
         <Box bg="neutral.50" borderRadius="xl" p={4} mb={6}>
-          <Text fontSize="14px" fontWeight="bold" color="neutral.700" mb={1}>Condiciones del vendedor</Text>
-          <Text fontSize="14px" color="neutral.500">{item.rules}</Text>
+          <Text fontSize="sm" fontWeight="bold" color="neutral.700" mb={1}>Condiciones del vendedor</Text>
+          <Text fontSize="sm" color="neutral.500">{item.rules}</Text>
         </Box>
       )}
 
@@ -29,14 +29,14 @@ export default function ItemDetails({ item }: { item: any }) {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#1a1a1a', flexShrink: 0 }}>
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          <Text fontSize="14px" color="neutral.500">
+          <Text fontSize="md" color="neutral.500">
             {[item.location, item.city].filter(Boolean).join(', ')}
           </Text>
         </Flex>
       )}
 
       {/* Denunciar */}
-      <Flex justify="center" mt={4} mb={2}>
+      <Flex justify="center" mt={12} mb={2}>
         <Box
           as="a"
           href="#"

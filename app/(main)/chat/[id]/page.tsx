@@ -38,7 +38,10 @@ export default async function ChatDetailPage({
           />
         </Box>
         <Box flex="1" minH="0" display="flex" flexDirection="column" overflow="hidden">
-          <ChatWindow conversationId={id} userId={user?.id!} type={type} />
+     <ChatWindow 
+conversationId={id} 
+  userId={user?.id!} 
+/>
         </Box>
       </Box>
 
@@ -52,7 +55,10 @@ export default async function ChatDetailPage({
             conversationId={id}
           />
           <Box flex="1" minH="0">
-            <ChatWindow conversationId={id} userId={user?.id!} type={type} />
+     <ChatWindow 
+ conversationId={id} 
+  userId={user?.id!} 
+/>
           </Box>
         </Flex>
       </Box>

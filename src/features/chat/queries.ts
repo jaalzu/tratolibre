@@ -9,3 +9,13 @@ export async function fetchMessages(conversationId: string) {
     .order('created_at', { ascending: true })
   return data ?? []
 }
+
+export async function fetchDealStatus(dealId: string) {
+  const supabase = createClient()
+  const { data } = await supabase
+    .from('deals')
+    .select('status')
+    .eq('id', dealId)
+    .single()
+  return data?.status ?? null
+}

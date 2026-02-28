@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { markMessagesAsRead } from '@/features/chat/actions'
 import { fetchMessages } from './queries'
 
-export function useChat(conversationId: string, userId: string, type?: string) {
+export function useChat(conversationId: string, userId: string) {
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
   const [isOtherOnline, setIsOtherOnline] = useState(false)
@@ -13,11 +13,6 @@ export function useChat(conversationId: string, userId: string, type?: string) {
   const typingTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const channelRef = useRef<any>(null)
   const queryClient = useQueryClient()
-
-  useEffect(() => {
-    if (type === 'offer') setInput('Hola, te quiero hacer una oferta por ')
-    if (type === 'buy') setInput('Hola, estoy interesado en comprar ')
-  }, [type])
 
   useEffect(() => {
     const supabase = createClient()

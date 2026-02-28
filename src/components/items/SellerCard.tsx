@@ -10,7 +10,7 @@ function StarRating({ rating }: { rating: number }) {
   return (
     <Flex gap="1px">
       {[1, 2, 3, 4, 5].map((star) => (
-        <Text key={star} fontSize="12px" color={star <= Math.round(rating) ? "#f5a623" : "neutral.200"}>★</Text>
+        <Text key={star} fontSize="md" color={star <= Math.round(rating) ? "#f5a623" : "neutral.200"}>★</Text>
       ))}
     </Flex>
   )
@@ -45,16 +45,16 @@ export default function SellerCard({ profile, itemId }: { profile: any, itemId?:
           </Circle>
         )}
         <Box>
-          <Text fontSize="16px" fontWeight="bold" color="neutral.900" lineHeight="1.2">{profile?.name}</Text>
+          <Text fontSize="md" fontWeight="bold" color="neutral.900" lineHeight="1.2">{profile?.name}</Text>
           <Flex align="center" gap={1} mt={0.5}>
             <StarRating rating={rating} />
-            <Text fontSize="11px" color="neutral.400">({profile?.reviews_count ?? 0})</Text>
+            <Text fontSize="xs" color="neutral.400">({profile?.reviews_count ?? 0})</Text>
           </Flex>
         </Box>
       </Flex>
 
       {itemId && (
-        <Button variant="secondary" size="md" py={2} px={3} flexShrink={0} onClick={handleChat} loading={loading}>
+        <Button variant="secondary" size="md" py={2} px={6} flexShrink={0} onClick={handleChat} loading={loading}>
           Chat
         </Button>
       )}
