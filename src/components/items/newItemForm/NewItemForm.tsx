@@ -9,8 +9,8 @@ import { Box, Heading, Text, Input, Textarea, Stack, Field, NativeSelect, Simple
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { LocationSelector } from '@/components/items/LocationSelector'
-import { ImageUploader } from '@/components/items/ImageUploader'
+import { LocationSelector } from '@/components/items/newItemForm/LocationSelector'
+import { ImageUploader } from '@/components/items/newItemForm/ImageUploader'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 export const NewItemForm = () => {

@@ -29,7 +29,13 @@ export default function BottomNav({ userId }: BottomNavProps) {
       bg="brand.default" zIndex={100} px={2}
       boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
     >
-      <Grid templateColumns="repeat(5, 1fr)" h="60px" gap={0}>
+      <Grid 
+  templateColumns="repeat(5, 1fr)" 
+  h="60px" 
+  gap={0} 
+  justifyItems="center" // Esto centra los hijos dentro de cada celda de la grid
+  alignItems="center"
+>
         {navItems.map((item) =>
           item.isChat
             ? <ChatNavLink key={item.label} userId={userId} variant="mobile" />

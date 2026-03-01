@@ -16,8 +16,8 @@ export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
   if (loading) {
     return (
       <Flex p="8" justify="center" align="center" direction="column" gap="2">
-        <Spinner color="brand.default" size="sm" />
-        <Text fontSize="xs" color="neutral.400">Cargando mensajes...</Text>
+        <Spinner color="brand.default" size="lg" />
+        <Text fontSize="lg" color="neutral.500">Cargando mensajes...</Text>
       </Flex>
     )
   }

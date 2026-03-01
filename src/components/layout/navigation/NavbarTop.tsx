@@ -9,8 +9,8 @@ import { ChatNavLink } from './ChatNavLink'
 
 const loggedNavItems = [
   { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
-  { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
   { label: 'Publicar', href: '/item/new', icon: 'bx-plus-circle' },
+  { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
   { label: 'Perfil', href: '/dashboard', icon: 'bx-user' },
 ]
 
@@ -47,8 +47,8 @@ export const NavbarTop = ({ user, onOpenMenu }: NavbarTopProps) => (
             ))}
             <ChatNavLink userId={user.id} />
             <form action={logoutAction}>
-              <IconButton type="submit" variant="ghost" color="neutral.50" _hover={{ bg: "whiteAlpha.200" }}>
-                <i className='bx bx-log-out' style={{ fontSize: '18px' }}></i>
+              <IconButton type="submit" p={1} variant="ghost" color="red" _hover={{ bg: "whiteAlpha.200" }}>
+                <i className='bx bx-log-out' style={{ fontSize: '24px' }}></i>
               </IconButton>
             </form>
           </>

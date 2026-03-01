@@ -21,7 +21,7 @@ interface ChatHeaderProps {
   conversationId: string
       isOtherOnline?: boolean
 }
-export const ChatHeader = ({ item, seller, conversationId, isOtherOnline }: ChatHeaderProps) => {
+export const ChatHeader = ({ item, seller, conversationId }: ChatHeaderProps) => {
   if (!item) return null
   
     return (
@@ -35,27 +35,27 @@ export const ChatHeader = ({ item, seller, conversationId, isOtherOnline }: Chat
     cursor="pointer" 
     _hover={{ opacity: 0.7 }}
   >
-    <i className="bx bx-arrow-back" style={{ fontSize: '23px' }} />
+    <i className="bx bx-arrow-back" style={{ fontSize: 'xl' }} />
   </Box>
 </NextLink>
 
     {/* Foto del producto */}
     {item.images?.[0] && (
-      <Box position="relative" w="8" h="8" borderRadius="sm" overflow="hidden" flexShrink={0}>
+      <Box position="relative" w="10" h="10" borderRadius="sm" overflow="hidden" flexShrink={0}>
         <Image src={item.images[0]} alt={item.title} fill style={{ objectFit: 'cover' }} />
       </Box>
     )}
 
     {/* Info del producto  */}
    <Box flex="1" minW="0">
-  <Text fontSize="sm" fontWeight="medium" color="whiteAlpha.900" truncate>{item.title}</Text>
-  <Text fontSize="sm" color="whiteAlpha.900" fontWeight="bold">
+  <Text fontSize="md" fontWeight="medium" color="whiteAlpha.900" truncate>{item.title}</Text>
+  <Text fontSize="md" color="whiteAlpha.900" fontWeight="bold">
     ${item.sale_price?.toLocaleString('es-AR')}
   </Text>
 </Box>
 
     {/* Avatar vendedor con indicador online */}
-<Box position="relative" w="8" h="8" flexShrink={0}>
+<Box position="relative" w="9" h="9" flexShrink={0}>
   <Box position="relative" w="full" h="full" borderRadius="full" overflow="hidden" border="1px solid" borderColor="whiteAlpha.400">
     {seller.avatar_url ? (
       <Image src={seller.avatar_url} alt={seller.name} fill style={{ objectFit: 'cover' }} />
@@ -65,20 +65,7 @@ export const ChatHeader = ({ item, seller, conversationId, isOtherOnline }: Chat
       </Flex>
     )}
   </Box>
-  {isOtherOnline && (
-    <Box
-      position="absolute"
-      bottom="-1px"
-      right="-1px"
-      w="10px"
-      h="10px"
-      borderRadius="full"
-      bg="green.400"
-      border="2px solid"
-      borderColor="brand.default"
-      zIndex={1}
-    />
-  )}
+ 
 </Box>
 
     {/* Menú */}
