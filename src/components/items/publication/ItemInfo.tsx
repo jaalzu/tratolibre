@@ -12,13 +12,13 @@ export default function ItemInfo({ item }: { item: any }) {
   return (
     <Box>
       {/* Título */}
-      <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>
+      <Text fontSize="xl" fontWeight="bold" color="neutral.900" >
         {item.title}
       </Text>
 
       {/* Estado */}
       {item.condition && (
-        <Text fontSize="md" color="neutral.400" mb={2}>
+        <Text fontSize="md" color="neutral.400" mb={3}>
           Estado del producto: {CONDITION_LABEL[item.condition] ?? item.condition}
         </Text>
       )}
@@ -33,7 +33,7 @@ export default function ItemInfo({ item }: { item: any }) {
 
       {/* Precio */}
       {item.sale_price && (
-        <Text fontSize="xl" fontWeight="bold" color="neutral.900" mt={1}>
+        <Text fontSize="2xl" fontWeight="bold" color="neutral.900" >
           ${item.sale_price.toLocaleString('es-AR')}
         </Text>
       )}

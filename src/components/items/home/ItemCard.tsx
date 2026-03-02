@@ -6,8 +6,8 @@ interface ItemCardProps {
 }
 
 export const ItemCard = ({ obj }: ItemCardProps) => {
-  const imgW = "176px"
-  const imgH = { base: "195px", md: "221px" }
+  const imgW = "186px"
+  const imgH = { base: "195px", md: "241px" }
 
   return (
     <NextLink href={`/item/${obj.id}`} style={{ textDecoration: 'none' }}>
@@ -21,7 +21,7 @@ export const ItemCard = ({ obj }: ItemCardProps) => {
     src={obj.images[0]}
     width={imgW}
     style={{ 
-      height: '195px', 
+      height: '225px', 
       objectFit: 'cover', 
       borderRadius: '6px',
       display: 'block',

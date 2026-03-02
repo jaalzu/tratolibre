@@ -1,128 +1,49 @@
 'use client'
 
-import { useState } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ItemSchema, ItemInput } from '@/features/items/schemas'
-import { createItemAction } from '@/features/items/actions'
+import { Stack, SimpleGrid, Input, Textarea, NativeSelect, Text } from '@chakra-ui/react'
 import { CATEGORIES, CONDITIONS } from '@/lib/constants'
-import { Box, Heading, Text, Input, Textarea, Stack, Field, NativeSelect, SimpleGrid } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { LocationSelector } from '@/components/items/newItemForm/LocationSelector'
-import { ImageUploader } from '@/components/items/newItemForm/ImageUploader'
-import { useForm, SubmitHandler } from 'react-hook-form'
+
+// Componentes del dominio (Location e Image)
+import { LocationSelector } from './LocationSelector'
+import { ImageUploader } from './ImageUploader'
+
+// Lógica y Componentes UI extraídos
+import { useNewItemForm } from '@/features/items/useNewItemForm'
+import { FormField, FormHeader, inputStyles } from './FormFields'
 
 export const NewItemForm = () => {
-  const [images, setImages] = useState<string[]>([])
-  const [uploading, setUploading] = useState(false)
-  const [serverError, setServerError] = useState<string | null>(null)
-
-  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm({
-  resolver: zodResolver(ItemSchema),
-  defaultValues: {
-    condition: 'good' as const,
-    images: [] as string[],
-  }
-})
-
-  const handleUpload = async (files: File[]) => {
-    setUploading(true)
-    for (const file of files) {
-      const fd = new FormData()
-      fd.append('file', file)
-      try {
-        const res = await fetch('/api/upload', { method: 'POST', body: fd })
-        const data = await res.json()
-        if (data.url) {
-          setImages(prev => {
-            const updated = [...prev, data.url]
-            setValue('images', updated)
-            return updated
-          })
-        }
-      } catch (err) {
-        console.error('Error subiendo imagen:', err)
-      }
-    }
-    setUploading(false)
-  }
-
-  const handleRemove = (index: number) => {
-    setImages(prev => {
-      const updated = prev.filter((_, i) => i !== index)
-      setValue('images', updated)
-      return updated
-    })
-  }
-
-  const onSubmit: SubmitHandler<ItemInput> = async (data) => {
-    setServerError(null)
-    const formData = new FormData()
-    Object.entries(data).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach(v => formData.append(key, v))
-      } else if (value !== undefined) {
-        formData.append(key, String(value))
-      }
-    })
-    const result = await createItemAction(null, formData)
-    if (result?.error && typeof result.error === 'string') {
-      setServerError(result.error)
-    }
-  }
-
-  const inputStyles = {
-    borderColor: 'neutral.500',
-    borderRadius: 'lg',
-    h: '44px',
-    px: '3',
-    _focus: { borderColor: 'brand.default', boxShadow: 'none' },
-    _placeholder: { color: 'neutral.400' },
-  }
+  const { 
+    register, handleSubmit, onSubmit, errors, isSubmitting, 
+    images, uploading, serverError, handleUpload, handleRemove, setValue 
+  } = useNewItemForm()
 
   return (
     <PageContainer maxW="2xl" pb={24}>
-      <Box mb="6">
-        <Heading as="h1" fontSize="2xl" fontWeight="bold" color="neutral.900" mb="1">
-          Publicar articulo
-        </Heading>
-        <Text color="neutral.400" fontSize="sm">
-          Completá los datos para poner tu objeto a la venta
-        </Text>
-      </Box>
+      <FormHeader />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card p="6">
           <Stack gap="5">
+            
+            <FormField label="Título" error={errors.title}>
+              <Input {...register('title')} placeholder="Ej: iPhone 13 Pro" {...inputStyles} />
+            </FormField>
 
-            {/* Título */}
-            <Field.Root invalid={!!errors.title}>
-              <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Título</Field.Label>
-              <Input {...register('title')} placeholder="Ej: iPhone 13 Pro 256GB" {...inputStyles} />
-              {errors.title && <Field.ErrorText fontSize="xs">{errors.title.message}</Field.ErrorText>}
-            </Field.Root>
-
-            {/* Descripción */}
-            <Field.Root invalid={!!errors.description}>
-              <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Descripción</Field.Label>
-              <Textarea
-                {...register('description')}
-                rows={4}
-                placeholder="Describí el objeto, su estado, qué incluye..."
-                borderColor="neutral.500"
-                borderRadius="lg"
-                px="3"
-                _focus={{ borderColor: 'brand.default', boxShadow: 'none' }}
-                _placeholder={{ color: 'neutral.400' }}
+            <FormField label="Descripción" error={errors.description}>
+              <Textarea 
+                {...register('description')} 
+                rows={4} 
+                placeholder="Detalles del producto..." 
+                {...inputStyles} 
+                h="auto"
               />
-              {errors.description && <Field.ErrorText fontSize="xs">{errors.description.message}</Field.ErrorText>}
-            </Field.Root>
+            </FormField>
 
-            {/* Categoría + Condición */}
             <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
-              <Field.Root invalid={!!errors.category}>
-                <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Categoría</Field.Label>
+              <FormField label="Categoría" error={errors.category}>
                 <NativeSelect.Root>
                   <NativeSelect.Field {...register('category')} {...inputStyles}>
                     <option value="">Elegí una...</option>
@@ -131,11 +52,9 @@ export const NewItemForm = () => {
                     ))}
                   </NativeSelect.Field>
                 </NativeSelect.Root>
-                {errors.category && <Field.ErrorText fontSize="xs">{errors.category.message}</Field.ErrorText>}
-              </Field.Root>
+              </FormField>
 
-              <Field.Root invalid={!!errors.condition}>
-                <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Estado del objeto</Field.Label>
+              <FormField label="Estado del objeto" error={errors.condition}>
                 <NativeSelect.Root>
                   <NativeSelect.Field {...register('condition')} {...inputStyles}>
                     {CONDITIONS.map(c => (
@@ -143,28 +62,18 @@ export const NewItemForm = () => {
                     ))}
                   </NativeSelect.Field>
                 </NativeSelect.Root>
-              </Field.Root>
+              </FormField>
             </SimpleGrid>
 
-            {/* Precio + Tipo */}
             <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
-              <Field.Root invalid={!!errors.sale_price}>
-                <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Precio ($)</Field.Label>
-                <Input {...register('sale_price')} type="number" min="1" placeholder="Ej: 50000" {...inputStyles} />
-                {errors.sale_price && <Field.ErrorText fontSize="xs">{errors.sale_price.message}</Field.ErrorText>}
-              </Field.Root>
-
-              
+              <FormField label="Precio ($)" error={errors.sale_price}>
+                <Input {...register('sale_price')} type="number" {...inputStyles} />
+              </FormField>
             </SimpleGrid>
 
-            {/* Ubicación */}
-            <LocationSelector
-              errors={errors}
-              register={register}
-              setValue={setValue}
-            />
+            {/* Componentes separados que manejan su propio registro al form */}
+            <LocationSelector errors={errors} register={register} setValue={setValue} />
 
-            {/* Imágenes */}
             <ImageUploader
               images={images}
               uploading={uploading}
@@ -173,12 +82,22 @@ export const NewItemForm = () => {
               error={errors.images?.message}
             />
 
+            {/* Error del Server Action */}
             {serverError && (
-              <Text fontSize="xs" color="feedback.error" textAlign="center">{serverError}</Text>
+              <Text fontSize="xs" color="red.500" textAlign="center" fontWeight="bold">
+                {serverError}
+              </Text>
             )}
 
-            <Button type="submit" py={1} width="full" borderRadius="full" loading={isSubmitting}>
-              Publicar 
+            <Button 
+              type="submit" 
+              py={1} 
+              width="full" 
+              borderRadius="full" 
+              loading={isSubmitting}
+              colorScheme="brand"
+            >
+              Publicar ahora
             </Button>
 
           </Stack>

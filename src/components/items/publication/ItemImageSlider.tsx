@@ -12,20 +12,23 @@ export default function ItemImageSlider({ images, title }: { images: string[], t
 
   return (
     <Box>
+<Box
+  w="100%"
+  h={{ base: "380px", md: "100%" }}
+  borderRadius="xl"
+  overflow="hidden"
+>
   <img
     src={images[active]}
     alt={title}
     style={{
       width: '100%',
-      height: '268px',
+      height: '100%',
       objectFit: 'cover',
-      borderRadius: '24px',
       display: 'block',
-      paddingLeft: '10px',
-      paddingRight: '10px',
-      margin: '0 auto',
     }}
   />
+</Box>
 
   {images.length > 1 && (
     <Flex gap={2} mt={3} px={{ base: 4, md: 3 }} overflowX="auto">

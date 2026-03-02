@@ -1,7 +1,7 @@
 import NextLink from 'next/link'
 import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { ItemCard } from '@/components/items/ItemCard'
+import { ItemCard } from '@/components/items/home/ItemCard'
 
 interface ItemsRowProps {
   title: string
@@ -37,7 +37,7 @@ export const ItemsCategorySection  = ({ title, items, viewMoreHref, viewMoreLabe
       >
         <Grid
           templateColumns="repeat(13, 176px)"
-          style={{ gap: '20px' }}
+          style={{ gap: '40px' }}
         >
           {items.map((obj: any) => (
             <ItemCard key={obj.id} obj={obj} />
