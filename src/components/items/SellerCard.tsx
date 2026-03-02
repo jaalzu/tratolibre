@@ -37,13 +37,17 @@ export default function SellerCard({ profile, itemId }: { profile: any, itemId?:
       border="1px solid" borderColor="neutral.100" borderRadius="xl" px={4} h="86px"
     >
       <Flex align="center" gap={3}>
-        {profile?.avatar_url ? (
-          <Box as="img" src={profile.avatar_url} w="48px" h="48px" borderRadius="full" objectFit="cover" flexShrink={0} />
-        ) : (
-          <Circle size="48px" bg="brand.default" color="white" fontWeight="bold" fontSize="lg" flexShrink={0}>
-            {profile?.name?.[0]?.toUpperCase()}
-          </Circle>
-        )}
+       {profile?.avatar_url ? (
+  <img
+    src={profile.avatar_url}
+    alt={profile?.name}
+    style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+  />
+) : (
+  <Circle size="48px" bg="brand.default" color="white" fontWeight="bold" fontSize="lg" flexShrink={0}>
+    {profile?.name?.[0]?.toUpperCase()}
+  </Circle>
+)}
         <Box>
           <Text fontSize="md" fontWeight="bold" color="neutral.900" lineHeight="1.2">{profile?.name}</Text>
           <Flex align="center" gap={1} mt={0.5}>

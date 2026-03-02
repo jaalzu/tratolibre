@@ -11,7 +11,7 @@ const loggedNavItems = [
   { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
   { label: 'Publicar', href: '/item/new', icon: 'bx-plus-circle' },
   { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
-  { label: 'Perfil', href: '/dashboard', icon: 'bx-user' },
+  { label: 'Perfil', href: '/profile', icon: 'bx-user' },
 ]
 
 interface NavbarTopProps {

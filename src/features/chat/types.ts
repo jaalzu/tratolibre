@@ -37,23 +37,23 @@ export interface Conversation {
   }
 }
 
-export interface Offer {
-  id: string
-  item_id: string
-  buyer_id: string
-  seller_id: string
-  amount: number
-  status: 'pending' | 'accepted' | 'rejected' | 'cancelled'
-  message?: string
-  created_at: string
-  updated_at: string
-  items?: {
-    title: string
-    images: string[]
-    sale_price: number
-  }
-  profiles?: {
-    name: string
-    avatar_url: string
-  }
-}
+// export interface Offer {
+//   id: string
+//   item_id: string
+//   buyer_id: string
+//   seller_id: string
+//   amount: number
+//   status: 'pending' | 'accepted' | 'rejected' | 'cancelled'
+//   message?: string
+//   created_at: string
+//   updated_at: string
+//   items?: {
+//     title: string
+//     images: string[]
+//     sale_price: number
+//   }
+//   profiles?: {
+//     name: string
+//     avatar_url: string
+//   }
+// }

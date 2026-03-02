@@ -36,20 +36,19 @@ export default function ItemDetails({ item }: { item: any }) {
       )}
 
       {/* Denunciar */}
-      <Flex justify="center" mt={12} mb={2}>
-        <Box
-          as="a"
-          href="#"
-          fontSize="15px"
-          color="accent.default"
-          _hover={{ color: 'accent.hover' }}
-          transition="color 0.2s"
-          textDecoration="underline"
-          textAlign="center"
-        >
-          Denunciar producto
-        </Box>
-      </Flex>
+     <Flex justify="center" mt={12} mb={2}>
+  <a
+    href="#"
+    style={{
+      fontSize: 'md',
+      color: 'var(--chakra-colors-accent-default)',
+      textDecoration: 'underline',
+      textAlign: 'center',
+    }}
+  >
+    Denunciar producto
+  </a>
+</Flex>
     </Box>
   )
 }

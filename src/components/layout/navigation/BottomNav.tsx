@@ -14,7 +14,7 @@ const navItems = [
   { label: 'Favoritos', href: '/favorites', icon: 'bx-heart' },
   { label: 'Publicar', href: '/item/new', icon: 'bx-plus-circle' },
   { label: 'Buzón', href: '/chat', icon: 'bx-message-square-dots', isChat: true },
-  { label: 'Perfil', href: '/dashboard', icon: 'bx-user' },
+  { label: 'Perfil', href: '/profile', icon: 'bx-user' },
 ]
 
 export default function BottomNav({ userId }: BottomNavProps) {

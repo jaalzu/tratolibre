@@ -6,8 +6,8 @@ interface ItemCardProps {
 }
 
 export const ItemCard = ({ obj }: ItemCardProps) => {
-const imgW = "176px"
-const imgH = { base: "195px", md: "221px" }
+  const imgW = "176px"
+  const imgH = { base: "195px", md: "221px" }
 
   return (
     <NextLink href={`/item/${obj.id}`} style={{ textDecoration: 'none' }}>
@@ -16,19 +16,23 @@ const imgH = { base: "195px", md: "221px" }
         transition="transform 0.2s ease"
         _hover={{ transform: 'translateY(-3px)' }}
       >
-        {/* Imagen o placeholder del mismo tamaño */}
-        <Box
-          as={obj.images?.[0] ? "img" : "div"}
-          src={obj.images?.[0] || undefined}
-          w={imgW}
-          h={imgH}
-          objectFit="cover"
-          borderRadius="lg"
-          display="block"
-          bg={obj.images?.[0] ? undefined : "neutral.100"}
-        />
+        {obj.images?.[0] ? (
+  <img
+    src={obj.images[0]}
+    width={imgW}
+    style={{ 
+      height: '195px', 
+      objectFit: 'cover', 
+      borderRadius: '6px',
+      display: 'block',
+      width: imgW
+    }}
+    alt={obj.title}
+  />
+) : (
+  <Box w={imgW} h={imgH} borderRadius="lg" bg="neutral.100" />
+)}
 
-        {/* Texto */}
         <Box pt={2}>
           {obj.sale_price && (
             <Text fontSize="md" fontWeight="bold" color="neutral.900">

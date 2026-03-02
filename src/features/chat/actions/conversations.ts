@@ -34,45 +34,34 @@ export async function getMyConversations() {
   if (!user) return []
 
   const { data: conversations } = await supabase
-    .from('conversations')
-    .select(`
-      *,
-      items(title, images, sale_price, sold),
-      buyer:profiles!conversations_buyer_id_fkey(name, avatar_url),
-      seller:profiles!conversations_seller_id_fkey(name, avatar_url)
-    `)
+    .from('conversation_summaries')
+    .select('*')
     .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
     .order('updated_at', { ascending: false })
 
   if (!conversations?.length) return []
 
-  const withLastMessage = await Promise.all(
-    conversations.map(async (conv) => {
-      const { data: lastMsg } = await supabase
-        .from('messages')
-        .select('content, created_at')
-        .eq('conversation_id', conv.id)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
+  const { data: unreadData } = await supabase
+    .from('messages')
+    .select('conversation_id')
+    .eq('read', false)
+    .neq('sender_id', user.id)
+    .in('conversation_id', conversations.map(c => c.id))
 
-      const { count: unreadCount } = await supabase
-        .from('messages')
-        .select('*', { count: 'exact', head: true })
-        .eq('conversation_id', conv.id)
-        .eq('read', false)
-        .neq('sender_id', user.id)
+  const unreadMap = (unreadData ?? []).reduce((acc: Record<string, number>, msg: any) => {
+    acc[msg.conversation_id] = (acc[msg.conversation_id] ?? 0) + 1
+    return acc
+  }, {})
 
-      return {
-        ...conv,
-        lastMessage: lastMsg ?? null,
-        hasUnread: (unreadCount ?? 0) > 0,
-        unreadCount: unreadCount ?? 0,
-      }
-    })
-  )
-
-  return withLastMessage
+  return conversations.map((conv) => ({
+    ...conv,
+    lastMessage: conv.last_message_content ? {
+      content: conv.last_message_content,
+      created_at: conv.last_message_at,
+    } : null,
+    hasUnread: (unreadMap[conv.id] ?? 0) > 0,
+    unreadCount: unreadMap[conv.id] ?? 0,
+  }))
 }
 
 export async function deleteConversationAction(conversationId: string) {

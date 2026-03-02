@@ -1,3 +1,6 @@
+'use client'
+
+
 import { Box, Flex, Text, IconButton, Stack } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { logoutAction } from '@/features/auth/actions'

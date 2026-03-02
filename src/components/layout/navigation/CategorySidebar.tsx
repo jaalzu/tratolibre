@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Flex, Text, IconButton } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import 'boxicons/css/boxicons.min.css'

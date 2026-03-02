@@ -5,10 +5,12 @@ import { getMyConversations } from '@/features/chat/actions'
 
 export function useConversations() {
   const { data: conversations = [], isLoading } = useQuery({
-    queryKey: ['conversations'],
-    queryFn: getMyConversations,
-    refetchInterval: 23000,
-  })
+  queryKey: ['conversations'],
+  queryFn: getMyConversations,
+  refetchInterval: 23000,
+  staleTime: 10000,
+  gcTime: 1000 * 60 * 5,
+})
 
   return { conversations, loading: isLoading }
 }

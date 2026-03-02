@@ -8,6 +8,7 @@ import { Conversation } from '@/features/chat/types'
 interface ConversationItemProps {
   conv: Conversation
   isActive?: boolean
+  userId?: string
 }
 
 function formatTime(dateStr: string) {
@@ -17,9 +18,12 @@ function formatTime(dateStr: string) {
   })
 }
 
-export const ConversationItem = ({ conv, isActive }: ConversationItemProps) => {
+export const ConversationItem = ({ conv, isActive, userId }: ConversationItemProps) => {
   const lastMessage = conv.lastMessage
+  const isBuyer = conv.buyer_id === userId
+  const otherPerson = isBuyer ? conv.seller : conv.buyer
 
+  
   return (
     <Box
       asChild
@@ -51,9 +55,9 @@ export const ConversationItem = ({ conv, isActive }: ConversationItemProps) => {
 
   {/* Info */}
   <Box flex="1" minW="0">
-    <Text fontSize="xs" color="neutral.400" >
-      {conv.buyer?.name ?? conv.seller?.name}
-    </Text>
+    <Text fontSize="xs" color="neutral.400">
+  {otherPerson?.name ?? 'Usuario'}
+</Text>
     <Text fontSize="md" fontWeight="bold" color="neutral.800" truncate>
       {conv.items?.title}
     </Text>

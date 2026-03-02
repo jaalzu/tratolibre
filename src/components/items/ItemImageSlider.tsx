@@ -12,42 +12,44 @@ export default function ItemImageSlider({ images, title }: { images: string[], t
 
   return (
     <Box>
-      <Box
-        as="img"
-        src={images[active]}
-        alt={title}
-        w="100%"
-        h={{ base: "268px", md: "480px" }}
-        objectFit="cover"
-        borderRadius="3xl"
-        display="block"
-        px="10px"
-        mx="auto"
-      />
+  <img
+    src={images[active]}
+    alt={title}
+    style={{
+      width: '100%',
+      height: '268px',
+      objectFit: 'cover',
+      borderRadius: '24px',
+      display: 'block',
+      paddingLeft: '10px',
+      paddingRight: '10px',
+      margin: '0 auto',
+    }}
+  />
 
-      {images.length > 1 && (
-        <Flex gap={2} mt={3} px={{ base: 4, md: 3 }} overflowX="auto">
-          {images.map((url, i) => (
-            <Box
-              key={i}
-              as="img"
-              src={url}
-              alt={`${title} ${i + 1}`}
-              w="56px"
-              h="56px"
-              objectFit="cover"
-              borderRadius="lg"
-              flexShrink={0}
-              cursor="pointer"
-              opacity={active === i ? 1 : 0.45}
-              border="2px solid"
-              borderColor={active === i ? "brand.default" : "transparent"}
-              onClick={() => setActive(i)}
-              transition="opacity 0.2s"
-            />
-          ))}
-        </Flex>
-      )}
-    </Box>
+  {images.length > 1 && (
+    <Flex gap={2} mt={3} px={{ base: 4, md: 3 }} overflowX="auto">
+      {images.map((url, i) => (
+        <img
+          key={i}
+          src={url}
+          alt={`${title} ${i + 1}`}
+          onClick={() => setActive(i)}
+          style={{
+            width: '56px',
+            height: '56px',
+            objectFit: 'cover',
+            borderRadius: '6px',
+            flexShrink: 0,
+            cursor: 'pointer',
+            opacity: active === i ? 1 : 0.45,
+            border: `2px solid ${active === i ? 'var(--chakra-colors-brand-default)' : 'transparent'}`,
+            transition: 'opacity 0.2s',
+          }}
+        />
+      ))}
+    </Flex>
+  )}
+</Box>
   )
 }

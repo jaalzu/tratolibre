@@ -1,7 +1,7 @@
 'use client'
 
 import { Flex, Spinner, Text, Box } from '@chakra-ui/react'
-import { useChat } from '@/features/chat/useChat'
+import { useChat } from '@/features/chat/hooks/useChat'
 import { ChatMessages } from './ChatMessages'
 import { ChatInput } from './ChatInput'
 
