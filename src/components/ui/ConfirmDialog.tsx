@@ -17,11 +17,11 @@ export const ConfirmDialog = ({
   open, onClose, onConfirm, title, description, 
   confirmLabel = 'Eliminar', loading = false, loadingLabel = 'Eliminando...'
 }: ConfirmDialogProps) => (
-  <Dialog.Root open={open} onOpenChange={(e) => !e.open && !loading && onClose()}>
-    <Portal>
+  <Dialog.Root  open={open} onOpenChange={(e) => !e.open && !loading && onClose()}>
+    <Portal >
       <Dialog.Backdrop />
-      <Dialog.Positioner>
-        <Dialog.Content borderRadius="2xl" p={4} maxW="320px">
+      <Dialog.Positioner mt={5}>
+        <Dialog.Content borderRadius="2xl" p={5} maxW="380px">
           {loading ? (
             <Flex align="center" gap={3} py={2}>
               <Spinner size="sm" color="brand.default" />
@@ -29,13 +29,13 @@ export const ConfirmDialog = ({
             </Flex>
           ) : (
             <>
-              <Dialog.Title fontSize="md" fontWeight="bold">{title}</Dialog.Title>
-              <Dialog.Description mt={1}>
-                <Text fontSize="sm" color="neutral.600">{description}</Text>
+              <Dialog.Title fontSize="lg" fontWeight="bold">{title}</Dialog.Title>
+              <Dialog.Description mt={4}>
+                <Text fontSize="md" color="neutral.600">{description}</Text>
               </Dialog.Description>
-              <Dialog.Footer mt={4} gap={2} p={0}>
-                <Button variant="ghost" size="sm" onClick={onClose}>Cancelar</Button>
-                <Button colorPalette="red" size="sm" onClick={() => { onConfirm() }}>{confirmLabel}</Button>
+              <Dialog.Footer mt={4} gap={2} pt={2}>
+                <Button variant="ghost" size="sm" p={2} onClick={onClose}>Cancelar</Button>
+                <Button colorPalette="red" size="sm" p={2} onClick={() => { onConfirm() }}>{confirmLabel}</Button>
               </Dialog.Footer>
             </>
           )}

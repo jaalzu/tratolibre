@@ -31,7 +31,8 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
           <ItemInfo item={item} />
 
           <Box mt={4}>
-            <SellerCard profile={item.profiles} itemId={item.id} />
+            <SellerCard profile={item.profiles} itemId={item.id} userId={user?.id ?? null} />
+
           </Box>
 
             {item.category && (
@@ -115,7 +116,8 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
                 </Box>
 
                 {/* Perfil debajo */}
-                <SellerCard profile={item.profiles} itemId={item.id} />
+                <SellerCard profile={item.profiles} itemId={item.id} userId={user?.id ?? null} />
+
               </Box>
             </Box>
 

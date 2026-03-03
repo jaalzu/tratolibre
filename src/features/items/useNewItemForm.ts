@@ -1,18 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm, SubmitHandler, Resolver } from 'react-hook-form' // Importamos Resolver
+import { useForm, SubmitHandler, Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ItemSchema, ItemInput } from '@/features/items/schemas'
-import { createItemAction } from '@/features/items/actions'
+import { createItemAction, updateItemAction } from '@/features/items/actions'
 
-export const useNewItemForm = () => {
-  const [images, setImages] = useState<string[]>([])
+export const useNewItemForm = (initialData?: any) => {
+  const [images, setImages] = useState<string[]>(initialData?.images ?? [])
   const [uploading, setUploading] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
 
-  // Forzamos el resolver para que coincida exactamente con ItemInput
-  // Esto quita el error de "sale_price: unknown" vs "number"
   const { 
     register, 
     handleSubmit, 
@@ -21,13 +19,14 @@ export const useNewItemForm = () => {
   } = useForm<ItemInput>({
     resolver: zodResolver(ItemSchema) as Resolver<ItemInput>, 
     defaultValues: {
-      title: '',
-      description: '',
-      category: '',
-      condition: 'good',
-      province: '',
-      images: [],
-      // No inicializamos sale_price aquí para evitar conflictos con coerce
+      title:       initialData?.title       ?? '',
+      description: initialData?.description ?? '',
+      category:    initialData?.category    ?? '',
+      condition:   initialData?.condition   ?? 'good',
+      province:    initialData?.province    ?? '',
+      city:        initialData?.city        ?? '',
+      images:      initialData?.images      ?? [],
+      sale_price:  initialData?.sale_price  ?? undefined,
     }
   })
 
@@ -39,11 +38,10 @@ export const useNewItemForm = () => {
       try {
         const res = await fetch('/api/upload', { method: 'POST', body: fd })
         const data = await res.json()
-        // Importante: Guardamos solo el nombre del archivo
         if (data.fileName || data.url) { 
-          const nameToSave = data.fileName || data.url.split('/').pop()
+          const urlToSave = data.url || `/${data.fileName}` 
           setImages(prev => {
-            const updated = [...prev, nameToSave]
+            const updated = [...prev, urlToSave]
             setValue('images', updated, { shouldValidate: true })
             return updated
           })
@@ -75,9 +73,18 @@ export const useNewItemForm = () => {
       }
     })
 
-    const result = await createItemAction(null, formData)
-    if (result?.error) {
-      setServerError(typeof result.error === 'string' ? result.error : 'Error en el servidor')
+
+    if (initialData?.id) {
+      formData.append('id', initialData.id)
+      const result = await updateItemAction(null, formData)
+      if (result?.error) {
+        setServerError(typeof result.error === 'string' ? result.error : 'Error en el servidor')
+      }
+    } else {
+      const result = await createItemAction(null, formData)
+      if (result?.error) {
+        setServerError(typeof result.error === 'string' ? result.error : 'Error en el servidor')
+      }
     }
   }
 

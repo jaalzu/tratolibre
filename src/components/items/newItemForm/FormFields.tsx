@@ -28,14 +28,10 @@ export const FormField = ({ label, error, children }: FormFieldProps) => (
   </Field.Root>
 )
 
-// El encabezado del form para limpiar el NewItemForm.tsx principal
-export const FormHeader = () => (
-  <Box mb="6">
-    <Heading as="h1" fontSize="2xl" fontWeight="bold" color="neutral.900" mb="1">
-      Publicar artículo
-    </Heading>
-    <Text color="neutral.400" fontSize="sm">
-      Completá los datos para poner tu objeto a la venta
+export const FormHeader = ({ isEditing = false }: { isEditing?: boolean }) => (
+  <Box mb={4}>
+    <Text fontSize="xl" fontWeight="bold">
+      {isEditing ? 'Editar publicación' : 'Publicar artículo'}
     </Text>
   </Box>
 )

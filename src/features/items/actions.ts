@@ -97,8 +97,8 @@ export async function deleteItemAction(id: string) {
 
   if (error) return { error: error.message }
 
-  revalidatePath('/items')
-  redirect('/items')
+  revalidatePath('/')
+  redirect('/')
 }
 
 export async function getItemById(id: string) {

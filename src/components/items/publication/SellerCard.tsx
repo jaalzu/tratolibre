@@ -20,7 +20,12 @@ function StarRating({ rating }: { rating: number }) {
   )
 }
 
-export default function SellerCard({ profile, itemId }: { profile: any, itemId?: string }) {
+export default function SellerCard({ profile, itemId, userId }: { 
+  profile: any, 
+  itemId?: string,
+  userId?: string | null 
+}) {
+  const isOwner = userId && profile?.id && userId === profile.id
   const rating = profile?.rating ?? 5
   const { startChat, loading } = useStartChat()
 
@@ -79,7 +84,7 @@ export default function SellerCard({ profile, itemId }: { profile: any, itemId?:
         </Box>
       </Flex>
 
-      {itemId && (
+      {itemId && !isOwner && (
      <Button
   variant="primary"
   size="md"

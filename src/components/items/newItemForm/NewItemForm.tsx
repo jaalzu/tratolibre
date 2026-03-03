@@ -14,15 +14,17 @@ import { ImageUploader } from './ImageUploader'
 import { useNewItemForm } from '@/features/items/useNewItemForm'
 import { FormField, FormHeader, inputStyles } from './FormFields'
 
-export const NewItemForm = () => {
+
+export const NewItemForm = ({ initialData }: { initialData?: any }) => {
   const { 
     register, handleSubmit, onSubmit, errors, isSubmitting, 
     images, uploading, serverError, handleUpload, handleRemove, setValue 
-  } = useNewItemForm()
+  } = useNewItemForm(initialData)
 
   return (
     <PageContainer maxW="2xl" pb={24}>
-      <FormHeader />
+      <FormHeader isEditing={!!initialData} />
+
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card p="6">
@@ -97,7 +99,7 @@ export const NewItemForm = () => {
               loading={isSubmitting}
               colorScheme="brand"
             >
-              Publicar ahora
+                            {initialData ? 'Guardar cambios' : 'Publicar ahora'}
             </Button>
 
           </Stack>

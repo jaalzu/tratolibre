@@ -109,7 +109,7 @@ export const ImageUploader = ({ images, uploading, onUpload, onRemove, error }: 
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         multiple
         onChange={handleChange}
         style={{ display: 'none' }}
