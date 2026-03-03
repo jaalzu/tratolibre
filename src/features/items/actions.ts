@@ -5,8 +5,10 @@ import { ItemSchema } from './schemas'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+type ActionState = { error?: string | object } | null
 
-export async function createItemAction(_prevState: any, formData: FormData) {
+export async function createItemAction(_prevState: ActionState, formData: FormData) {
+
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
@@ -49,7 +51,7 @@ export async function createItemAction(_prevState: any, formData: FormData) {
   redirect(`/item/${item.id}`)
 }
 
-export async function updateItemAction(_prevState: any, formData: FormData) {
+export async function updateItemAction(_prevState: ActionState, formData: FormData) {
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 

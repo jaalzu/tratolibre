@@ -5,8 +5,9 @@ import { useForm, SubmitHandler, Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ItemSchema, ItemInput } from '@/features/items/schemas'
 import { createItemAction, updateItemAction } from '@/features/items/actions'
+import { Item } from '@/features/items/types'
 
-export const useNewItemForm = (initialData?: any) => {
+export const useNewItemForm = (initialData?: Partial<Item>) => {
   const [images, setImages] = useState<string[]>(initialData?.images ?? [])
   const [uploading, setUploading] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
@@ -18,16 +19,16 @@ export const useNewItemForm = (initialData?: any) => {
     formState: { errors, isSubmitting } 
   } = useForm<ItemInput>({
     resolver: zodResolver(ItemSchema) as Resolver<ItemInput>, 
-    defaultValues: {
-      title:       initialData?.title       ?? '',
-      description: initialData?.description ?? '',
-      category:    initialData?.category    ?? '',
-      condition:   initialData?.condition   ?? 'good',
-      province:    initialData?.province    ?? '',
-      city:        initialData?.city        ?? '',
-      images:      initialData?.images      ?? [],
-      sale_price:  initialData?.sale_price  ?? undefined,
-    }
+   defaultValues: {
+  title:       initialData?.title       ?? '',
+  description: initialData?.description ?? '',
+  category:    initialData?.category    ?? '',
+  condition:   (initialData?.condition as ItemInput['condition']) ?? 'good',
+  province:    initialData?.province    ?? '',
+  city:        initialData?.city        ?? '',
+  images:      initialData?.images      ?? [],
+  sale_price:  initialData?.sale_price  ?? undefined,
+}
   })
 
   const handleUpload = async (files: File[]) => {
