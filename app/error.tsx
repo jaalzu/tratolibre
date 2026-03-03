@@ -25,7 +25,7 @@ export default function Error({ reset }: { reset: () => void }) {
           <Button borderRadius="full" py={1} px={6} onClick={reset}>
             Intentar de nuevo
           </Button>
-          <Button asChild borderRadius="full" py={1} px={6} variant="outline">
+          <Button asChild borderRadius="full" py={1} px={6} >
             <NextLink href="/">Volver al inicio</NextLink>
           </Button>
         </Flex>

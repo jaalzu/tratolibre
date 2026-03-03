@@ -33,3 +33,13 @@ export interface Conversation extends ConversationRow {
     avatar_url: string
   }
 }
+
+export interface ConversationBuyer {
+  id: string
+  buyer_id: string
+  buyer: {
+    id: string
+    name: string
+    avatar_url: string | null
+  }[] | null
+}

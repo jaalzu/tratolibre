@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation'
 import { SocialButtons } from '@/components/auth/SocialButtons'
 
 
+const supabase = createClient()
+
 export const LoginForm = () => {
       const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
@@ -24,7 +26,6 @@ export const LoginForm = () => {
 
 const onSubmit = async (data: LoginInput) => {
     setServerError(null)
-    const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,

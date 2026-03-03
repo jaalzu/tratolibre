@@ -6,9 +6,10 @@ import ItemDetails from './ItemDetails'
 import SellerCard from './SellerCard'
 import RelatedItems from './RelatedItems'
 import ItemActions from './ItemActions'
+import { ItemWithProfile } from '@/features/items/types'
 
 interface ItemPageContentProps {
-  item: any
+  item: ItemWithProfile
   userId: string | null
 }
 
@@ -18,7 +19,8 @@ export default function ItemPageContent({ item, userId }: ItemPageContentProps) 
       {/* ── MOBILE ── */}
       <Box display={{ base: "block", md: "none" }}>
         <Box pt={3}>
-          <ItemImageSlider images={item.images} title={item.title} />
+          <ItemImageSlider images={item.images ?? []} title={item.title} />
+
         </Box>
 
         <Box px={4} pt={2}>
@@ -64,7 +66,7 @@ export default function ItemPageContent({ item, userId }: ItemPageContentProps) 
         <Box maxW="900px" mx="auto" px={10} py={10}>
           <Flex gap={10} align="start">
             <Box flex="1" minW={0}>
-              <ItemImageSlider images={item.images} title={item.title} />
+              <ItemImageSlider images={item.images ?? []} title={item.title} />
 
               {item.category && (
                 <Box display="inline-block" mt={4} mx={3} px={5} py={1} bg="neutral.100" borderRadius="full">

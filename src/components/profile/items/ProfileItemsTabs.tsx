@@ -5,9 +5,10 @@ import { useState } from 'react'
 import { ProfileItemCard } from './ProfileItemCard'
 import { Button } from '@/components/ui/Button'
 import NextLink from 'next/link'
+import { ItemSummary } from '@/features/items/types'
 
 interface ProfileItemsTabsProps {
-  items: any[]
+   items: ItemSummary[]
   isOwner?: boolean
 }
 

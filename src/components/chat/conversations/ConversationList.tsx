@@ -3,6 +3,7 @@
 import { Box, Flex, Stack, Text, Spinner } from '@chakra-ui/react'
 import { ConversationItem } from './ConversationItem'
 import { useConversations } from '@/features/chat/useConversations'
+import { Conversation } from '@/features/chat/types'
 
 interface ConversationListProps {
   activeId?: string
@@ -46,7 +47,7 @@ export const ConversationList = ({ activeId }: ConversationListProps) => {
           </Flex>
         ) : (
           <Stack gap="0">
-            {conversations.map((conv: any) => (
+            {conversations.map((conv: Conversation) => (
               <ConversationItem key={conv.id} conv={conv} isActive={activeId === conv.id} />
             ))}
           </Stack>

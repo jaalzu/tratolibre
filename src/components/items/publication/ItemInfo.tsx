@@ -1,4 +1,6 @@
 import { Box, Text } from '@chakra-ui/react'
+import { Item } from '@/features/items/types'
+
 
 const CONDITION_LABEL: Record<string, string> = {
   new: 'Nuevo',
@@ -8,7 +10,7 @@ const CONDITION_LABEL: Record<string, string> = {
   poor: 'Muy usado',
 }
 
-export default function ItemInfo({ item }: { item: any }) {
+export default function ItemInfo({ item }: { item: Item }) {
   return (
     <Box>
       {/* Título */}

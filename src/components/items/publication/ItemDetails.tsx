@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
+import { Item } from '@/features/items/types'
 
-export default function ItemDetails({ item }: { item: any }) {
+export default function ItemDetails({ item }: { item: Item }) {
   return (
     <Box>
       {/* Detalles del producto */}

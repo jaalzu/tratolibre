@@ -1,17 +1,13 @@
 import { Box, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import NextLink from 'next/link'
+import { ItemSummary } from '@/features/items/types'
+
 
 interface ProfileItemCardProps {
-  item: {
-    id: string
-    title: string
-    images: string[]
-    sale_price: number
-    sold: boolean
-    city?: string
-  }
+  item: ItemSummary
 }
+
 export const ProfileItemCard = ({ item }: ProfileItemCardProps) => (
   <NextLink href={`/item/${item.id}`} style={{ textDecoration: 'none' }}>
     <Box opacity={item.sold ? 0.7 : 1} transition="all 0.2s">

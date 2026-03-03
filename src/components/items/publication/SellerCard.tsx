@@ -3,6 +3,15 @@
 import { Box, Flex, Text, Circle, Spinner } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { useStartChat } from '@/features/items/useStartChat'
+import { Profile } from '@/features/profile/types'
+
+interface SellerCardProfile {
+  id: string
+  name: string | null
+  avatar_url: string | null
+  rating: number | null
+  reviews_count: number | null
+}
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -21,8 +30,8 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export default function SellerCard({ profile, itemId, userId }: { 
-  profile: any, 
-  itemId?: string,
+  profile: SellerCardProfile | null
+  itemId?: string
   userId?: string | null 
 }) {
   const isOwner = userId && profile?.id && userId === profile.id
@@ -49,7 +58,7 @@ export default function SellerCard({ profile, itemId, userId }: {
         {profile?.avatar_url ? (
           <img
             src={profile.avatar_url}
-            alt={profile?.name}
+            alt={profile?.name ?? ''}
             style={{
               width: '48px',
               height: '48px',

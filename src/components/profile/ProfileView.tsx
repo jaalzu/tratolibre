@@ -1,10 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import { ProfileHeader } from './header/ProfileHeader'
 import { ProfileItemsTabs } from './items/ProfileItemsTabs'
+import { Profile } from '@/features/profile/types'
+import { ItemSummary } from '@/features/items/types'
 
 interface ProfileViewProps {
-  profile: any
-  items: any[]
+  profile: Profile
+  items: ItemSummary[]
   salesCount: number
   isOwner?: boolean
 }

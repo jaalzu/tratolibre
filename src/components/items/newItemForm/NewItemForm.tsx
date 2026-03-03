@@ -14,8 +14,10 @@ import { ImageUploader } from './ImageUploader'
 import { useNewItemForm } from '@/features/items/useNewItemForm'
 import { FormField, FormHeader, inputStyles } from './FormFields'
 
+import { Item } from '@/features/items/types'
 
-export const NewItemForm = ({ initialData }: { initialData?: any }) => {
+
+export const NewItemForm = ({ initialData }: { initialData?: Partial<Item> }) => {
   const { 
     register, handleSubmit, onSubmit, errors, isSubmitting, 
     images, uploading, serverError, handleUpload, handleRemove, setValue 

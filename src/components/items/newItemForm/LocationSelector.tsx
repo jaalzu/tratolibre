@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { Flex, Text, NativeSelect, Input, Field } from '@chakra-ui/react'
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { ItemInput } from '@/features/items/schemas'
 
 interface Province {
   id: string
@@ -19,14 +21,15 @@ interface LocationSelectorProps {
     city?: { message?: string }
     location?: { message?: string }
   }
-  register: any
-  setValue: any
+    register: UseFormRegister<ItemInput>
+  setValue: UseFormSetValue<ItemInput>
 }
 
 export const LocationSelector = ({ errors, register, setValue }: LocationSelectorProps) => {
   const [provinces, setProvinces] = useState<Province[]>([])
   const [municipalities, setMunicipalities] = useState<Municipality[]>([])
   const [selectedProvince, setSelectedProvince] = useState('')
+const { onChange, onBlur, name, ref } = register('city')
 
   const inputStyles = {
     borderColor: 'neutral.500',
@@ -82,12 +85,14 @@ export const LocationSelector = ({ errors, register, setValue }: LocationSelecto
         {/* Ciudad */}
         <Field.Root flex={1}>
           <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Ciudad <Text as="span" color="neutral.400">(opcional)</Text></Field.Label>
-          <NativeSelect.Root>
-            <NativeSelect.Field
-              {...register('city')}
-              {...inputStyles}
-              disabled={!selectedProvince}
-            >
+          <NativeSelect.Root disabled={!selectedProvince}>
+      <NativeSelect.Field
+    name={name}
+    onChange={onChange}
+    onBlur={onBlur}
+    ref={ref}
+    {...inputStyles}
+  >
               <option value="">{selectedProvince ? 'Elegí una ciudad...' : 'Primero elegí provincia'}</option>
               {municipalities.map(m => (
                 <option key={m.id} value={m.nombre}>{m.nombre}</option>

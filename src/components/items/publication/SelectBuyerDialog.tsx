@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { getConversationsByItem } from '@/features/chat/actions/conversations'
 import { markAsSoldToAction } from '@/features/items/actions'
 import Image from 'next/image'
+import { ConversationBuyer } from '@/features/chat/types'
 
 interface SelectBuyerDialogProps {
   open: boolean
@@ -14,7 +15,7 @@ interface SelectBuyerDialogProps {
 }
 
 export const SelectBuyerDialog = ({ open, onClose, itemId }: SelectBuyerDialogProps) => {
-  const [buyers, setBuyers] = useState<any[]>([])
+  const [buyers, setBuyers] = useState<ConversationBuyer[]>([])
   const [loading, setLoading] = useState(false)
   const [marking, setMarking] = useState<string | null>(null)
 
@@ -59,8 +60,8 @@ export const SelectBuyerDialog = ({ open, onClose, itemId }: SelectBuyerDialogPr
               </Text>
             ) : (
               <Flex direction="column" gap={2}>
-                {buyers.map((conv: any) => {
-                  const buyer = conv.buyer
+                {buyers.map((conv: ConversationBuyer) => {
+                  const buyer = conv.buyer?.[0]
                   const isMarking = marking === buyer?.id
                   return (
                     <Flex
@@ -74,8 +75,7 @@ export const SelectBuyerDialog = ({ open, onClose, itemId }: SelectBuyerDialogPr
                       cursor={marking ? 'not-allowed' : 'pointer'}
                       opacity={marking && !isMarking ? 0.5 : 1}
                       _hover={{ bg: 'neutral.50' }}
-                      onClick={() => !marking && handleSelect(buyer?.id)}
-                    >
+onClick={() => !marking && buyer?.id && handleSelect(buyer.id)}                    >
                       {buyer?.avatar_url ? (
                         <Box position="relative" w="40px" h="40px" borderRadius="full" overflow="hidden" flexShrink={0}>
                           <Image src={buyer.avatar_url} alt={buyer.name} fill style={{ objectFit: 'cover' }} />

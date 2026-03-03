@@ -2,6 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 import { getAuthUser } from '@/lib/supabase/getAuthUser'
+import { Database } from '@/lib/supabase/database.types'
+
+type MessageRow = Database['public']['Tables']['messages']['Row']
 
 export async function getOrCreateConversation(itemId: string, sellerId: string) {
   const { supabase, user } = await getAuthUser()
@@ -46,10 +49,11 @@ export async function getMyConversations() {
     .neq('sender_id', user.id)
     .in('conversation_id', conversations.map(c => c.id))
 
-  const unreadMap = (unreadData ?? []).reduce((acc: Record<string, number>, msg: any) => {
-    acc[msg.conversation_id] = (acc[msg.conversation_id] ?? 0) + 1
-    return acc
-  }, {})
+const unreadMap = (unreadData ?? []).reduce((acc: Record<string, number>, msg: Pick<MessageRow, 'conversation_id'>) => {
+  if (!msg.conversation_id) return acc
+  acc[msg.conversation_id] = (acc[msg.conversation_id] ?? 0) + 1
+  return acc
+}, {})
 
   return conversations.map((conv) => ({
     ...conv,

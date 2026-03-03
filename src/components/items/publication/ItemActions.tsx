@@ -9,8 +9,10 @@ import { useState } from 'react'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { SelectBuyerDialog } from './SelectBuyerDialog'
 import { deleteItemAction } from '@/features/items/actions'
+import { ItemWithProfile } from '@/features/items/types'
 
-export default function ItemActions({ item, userId }: { item: any, userId: string | null }) {
+
+export default function ItemActions({ item, userId }: { item: ItemWithProfile, userId: string | null }) {
   const router = useRouter()
   const { startChat, loading } = useStartChat()
   const [open, setOpen] = useState(false)

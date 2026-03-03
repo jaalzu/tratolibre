@@ -1,26 +1,24 @@
 import { getMyConversations } from '@/features/chat/actions'
-import { createClient } from '@/lib/supabase/server'
+import { getAuthUser } from '@/lib/supabase/getAuthUser'
 import { ChatWindow } from '@/components/chat/messages/ChatWindow'
 import { ChatHeader } from '@/components/chat/header/ChatHeader'
 import { ConversationList } from '@/components/chat/conversations/ConversationList'
+import { Conversation } from '@/features/chat/types'
 import { Box, Flex } from '@chakra-ui/react'
 import { redirect } from 'next/navigation'
 
 export default async function ChatDetailPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ id: string }>
   searchParams: Promise<{ type?: string }>
 }) {
   const { id } = await params
-  const { type } = await searchParams
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { user } = await getAuthUser()
   const conversations = await getMyConversations()
 
-  const conversation = conversations.find((c: any) => c.id === id)
+  const conversation = conversations.find((c: Conversation) => c.id === id)
   if (!conversation) redirect('/chat')
 
   const isBuyer = conversation.buyer_id === user?.id
@@ -38,10 +36,7 @@ export default async function ChatDetailPage({
           />
         </Box>
         <Box flex="1" minH="0" display="flex" flexDirection="column" overflow="hidden">
-     <ChatWindow 
-conversationId={id} 
-  userId={user?.id!} 
-/>
+          <ChatWindow conversationId={id} userId={user?.id!} />
         </Box>
       </Box>
 
@@ -55,10 +50,7 @@ conversationId={id}
             conversationId={id}
           />
           <Box flex="1" minH="0">
-     <ChatWindow 
- conversationId={id} 
-  userId={user?.id!} 
-/>
+            <ChatWindow conversationId={id} userId={user?.id!} />
           </Box>
         </Flex>
       </Box>

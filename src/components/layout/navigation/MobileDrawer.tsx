@@ -6,12 +6,13 @@ import NextLink from 'next/link'
 import { logoutAction } from '@/features/auth/actions'
 import 'boxicons/css/boxicons.min.css'
 import { CATEGORIES } from '@/lib/constants'
+import { User } from '@supabase/supabase-js'
 
 
 interface MobileDrawerProps {
   open: boolean
   onClose: () => void
-  user: any
+  user: User | null
 }
 
 export const MobileDrawer = ({ open, onClose, user }: MobileDrawerProps) => (

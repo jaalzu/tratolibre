@@ -2,10 +2,11 @@ import NextLink from 'next/link'
 import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { ItemCard } from '@/components/items/home/ItemCard'
+import { Item } from '@/features/items/types'
 
 interface ItemsRowProps {
   title: string
-  items: any[]
+  items: Item[]
   viewMoreHref?: string
   viewMoreLabel?: string
   userId?: string | null
@@ -42,7 +43,7 @@ export const ItemsCategorySection = ({ title, items, viewMoreHref, viewMoreLabel
           templateColumns="repeat(13, 176px)"
           style={{ gap: '40px' }}
         >
-          {items.map((obj: any) => (
+          {items.map((obj: Item) => (
             <ItemCard key={obj.id} obj={obj} userId={userId} initialFavorited={favoriteIds.includes(obj.id)} />
           ))}
         </Grid>

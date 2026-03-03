@@ -4,6 +4,7 @@ import { getAuthUser } from '@/lib/supabase/getAuthUser'
 import { redirect } from 'next/navigation'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { ItemCard } from '@/components/items/home/ItemCard'
+import { Item } from '@/features/items/types'
 
 export default async function FavoritesPage() {
   const { user } = await getAuthUser()
@@ -23,7 +24,7 @@ export default async function FavoritesPage() {
         </Text>
       ) : (
         <SimpleGrid columns={{ base: 2, md: 3 }} gap={6}>
-          {favorites.map((item: any) => (
+          {favorites.map((item: Item) => (
             <ItemCard
               key={item.id}
               obj={item}

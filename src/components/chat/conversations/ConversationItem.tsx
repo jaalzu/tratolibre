@@ -76,12 +76,12 @@ export const ConversationItem = ({ conv, isActive, userId }: ConversationItemPro
       </Text>
     )}
     {conv.hasUnread && (
-      <Flex w="4" h="4" borderRadius="full" bg="brand.default" align="center" justify="center">
-        <Text fontSize="xs" color="white" fontWeight="bold">
-          {(conv as any).unreadCount > 9 ? '9+' : (conv as any).unreadCount}
-        </Text>
-      </Flex>
-    )}
+  <Flex w="4" h="4" borderRadius="full" bg="brand.default" align="center" justify="center">
+    <Text fontSize="xs" color="white" fontWeight="bold">
+      {(conv.unreadCount ?? 0) > 9 ? '9+' : conv.unreadCount}
+    </Text>
+  </Flex>
+)}
   </Flex>
 </Flex>
       </NextLink>

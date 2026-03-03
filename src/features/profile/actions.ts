@@ -1,12 +1,12 @@
 'use server'
 
+import { getAuthUser } from '@/lib/supabase/getAuthUser'
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 export async function getMyProfile() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase
@@ -27,13 +27,7 @@ export async function getMyProfile() {
     .eq('owner_id', user.id)
     .eq('sold', true)
 
-    const { count: purchasesCount } = await supabase
-  .from('items')
-  .select('*', { count: 'exact', head: true })
-  .eq('sold', true)
-
-return { profile, items: items ?? [], salesCount: salesCount ?? 0, purchasesCount: purchasesCount ?? 0 }
-
+  return { profile, items: items ?? [], salesCount: salesCount ?? 0 }
 }
 
 export async function getUserProfile(userId: string) {
@@ -47,11 +41,11 @@ export async function getUserProfile(userId: string) {
 
   if (!profile) return null
 
-const { data: items } = await supabase
-  .from('items')
-  .select('id, title, images, sale_price, sold, available, created_at, city')
-  .eq('owner_id', userId)
-  .order('created_at', { ascending: false })  // ← sacá los filtros de sold y available
+  const { data: items } = await supabase
+    .from('items')
+    .select('id, title, images, sale_price, sold, available, created_at, city')
+    .eq('owner_id', userId)
+    .order('created_at', { ascending: false })
 
   const { data: reviews } = await supabase
     .from('reviews')
@@ -65,12 +59,11 @@ const { data: items } = await supabase
     .eq('owner_id', userId)
     .eq('sold', true)
 
-return { profile, items: items ?? [], reviews: reviews ?? [], salesCount: salesCount ?? 0 }
+  return { profile, items: items ?? [], reviews: reviews ?? [], salesCount: salesCount ?? 0 }
 }
 
 export async function updateProfileAction(formData: FormData) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) redirect('/login')
 
   const name = formData.get('name') as string

@@ -7,8 +7,10 @@ import { NavbarCategories } from './NavbarCategories'
 import { CategorySidebar } from './CategorySidebar'
 import { MobileDrawer } from './MobileDrawer'
 import { usePathname } from 'next/navigation'
+import { User } from '@supabase/supabase-js'
 
-export default function Navbar({ user }: { user: any }) {
+
+export default function Navbar({ user }: { user: User | null }) {
   const { open, onOpen, onClose } = useDisclosure()
   const { open: openCats, onOpen: onOpenCats, onClose: onCloseCats } = useDisclosure()
   const pathname = usePathname()

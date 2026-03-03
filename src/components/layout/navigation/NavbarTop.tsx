@@ -6,6 +6,8 @@ import { logoutAction } from '@/features/auth/actions'
 import NavLink from './NavLink'
 import 'boxicons/css/boxicons.min.css'
 import { ChatNavLink } from './ChatNavLink'
+import { User } from '@supabase/supabase-js'
+
 
 const loggedNavItems = [
   { label: 'Inicio', href: '/', icon: 'bx-home-alt' },
@@ -15,7 +17,7 @@ const loggedNavItems = [
 ]
 
 interface NavbarTopProps {
-  user: any
+  user: User | null
   onOpenMenu: () => void
 }
 

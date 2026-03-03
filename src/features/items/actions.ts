@@ -5,6 +5,8 @@ import { ItemSchema } from './schemas'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { Item } from '@/features/items/types'
+
 type ActionState = { error?: string | object } | null
 
 export async function createItemAction(_prevState: ActionState, formData: FormData) {
@@ -140,7 +142,7 @@ export async function getItems(params: {
   return data ?? []
 }
 
-export async function getUserFavorites() {
+export async function getUserFavorites(): Promise<Item[]> {
   const { supabase, user } = await getAuthUser()
   if (!user) return []
 
@@ -150,7 +152,7 @@ export async function getUserFavorites() {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
-  return data?.map(f => f.items).filter(Boolean) ?? []
+  return (data?.map(f => f.items).filter(Boolean) ?? []) as unknown as Item[]
 }
 
 export async function getUserFavoriteIds(userId: string): Promise<string[]> {
