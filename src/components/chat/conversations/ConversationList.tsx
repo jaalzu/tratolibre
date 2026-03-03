@@ -29,9 +29,17 @@ export const ConversationList = ({ activeId }: ConversationListProps) => {
       {/* Lista */}
       <Box flex="1" overflowY="auto">
         {loading ? (
-          <Flex h="full" align="center" justify="center">
-            <Spinner size="sm" color="brand.default" />
-          </Flex>
+          <Stack gap={0}>
+    {[...Array(6)].map((_, i) => (
+      <Flex key={i} gap={3} align="center" px={4} py={3}>
+        <Box w="48px" h="48px" borderRadius="xl" bg="neutral.100" flexShrink={0} />
+        <Box flex="1">
+          <Box w="70%" h="13px" bg="neutral.100" borderRadius="md" mb={1.5} />
+          <Box w="50%" h="11px" bg="neutral.100" borderRadius="md" />
+        </Box>
+      </Flex>
+    ))}
+  </Stack>
         ) : conversations.length === 0 ? (
           <Flex h="full" align="center" justify="center">
             <Text fontSize="sm" color="neutral.400">No tenés conversaciones</Text>

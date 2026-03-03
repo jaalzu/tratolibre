@@ -1,14 +1,16 @@
 import NextLink from 'next/link'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { FavoriteButton } from '@/components/ui/FavoriteButton'
+import { Item } from '@/features/items/types'
 
 interface ItemCardProps {
-  obj: any
-  userId: string | null
-  initialFavorited: boolean
+  obj: Item
+  userId?: string | null
+    initialFavorited?: boolean
+
 }
 
-export const ItemCard = ({ obj, userId, initialFavorited }: ItemCardProps) => {
+export const ItemCard = ({ obj, userId = null, initialFavorited = false }: ItemCardProps) => {
   const imgW = "186px"
 
   return (

@@ -64,41 +64,28 @@
 ---
 
 ## FASE 4 — Módulo de Objetos
-- [ ] Schema Zod del objeto (con `listing_type`, `price_per_day`, `sale_price`)
-- [ ] Categorías definidas (abierto a cualquier objeto)
-- [ ] Server Action: `createItemAction`
-- [ ] Server Action: `updateItemAction`
-- [ ] Server Action: `deleteItemAction`
-- [ ] Upload de fotos a Supabase Storage (`/api/upload`)
-- [ ] Página `/Item/new` — formulario publicar objeto
-- [ ] Página `/Item/[id]` — detalle del objeto
+- [x ] Categorías definidas (abierto a cualquier objeto)
+- [ x] Server Action: `createItemAction`
+- [x ] Server Action: `updateItemAction`
+- [x ] Server Action: `deleteItemAction`
+- [ x] Upload de fotos a Supabase Storage (`/api/upload`)
+- [x ] Página `/Item/new` — formulario publicar objeto
+- [x ] Página `/Item/[id]` — detalle del objeto
 - [ ] Página `/dashboard/Items` — mis objetos
-- [ ] Componente `ImageUpload` (drag & drop, hasta 8 fotos)
+- [ x] Componente `ImageUpload` (drag & drop, hasta 8 fotos)
 
 ---
 
 ## FASE 5 — Búsqueda y Descubrimiento
 - [ ] Índices full-text en Supabase (`pg_trgm`)
 - [ ] Hook `useItems` con filtros (texto, categoría, ciudad, precio, tipo: alquiler/venta)
-- [ ] Página `/explore` — listado con filtros
-- [ ] Componente `ItemCard` (foto, título, precio, tipo, rating)
-- [ ] Filtro por tipo de publicación (alquiler / venta / ambos)
+- [x ] Componente `ItemCard` (foto, título, precio, tipo, rating)
+- [ ] Filtro por tipo de publicación ( venta )
 - [ ] Ordenamiento (precio, más nuevo, rating)
 - [ ] Landing page `/` con destacados y categorías
 
 ---
 
-## FASE 6 — Reservas (para alquiler)
-- [ ] Schema Zod de reserva
-- [ ] Server Action: `createReservationAction`
-- [ ] Server Action: `updateReservationStatusAction`
-- [ ] Flujo completo: pending → accepted → active → completed
-- [ ] Cancelación con política simple
-- [ ] Página `/dashboard/reservations` — mis reservas
-- [ ] Componente `ReservationFlow` (selector fechas + precio calculado)
-- [ ] Componente `StatusBadge` (colores por estado)
-
----
 
 ## FASE 6B — Compras (para venta)
 - [ ] Flujo de compra: interesado contacta → owner confirma → marcado como vendido

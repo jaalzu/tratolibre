@@ -193,3 +193,23 @@ export async function toggleFavoriteAction(itemId: string) {
     return { favorited: true }
   }
 }
+
+
+export async function markAsSoldAction(id: string) {
+  const { supabase, user } = await getAuthUser()
+  if (!user) return { error: 'No autorizado' }
+
+  const { error } = await supabase
+    .from('items')
+    .update({ 
+      sold: true, 
+      available: false, 
+      sold_at: new Date().toISOString() 
+    })
+    .eq('id', id)
+    .eq('owner_id', user.id)
+
+  if (error) return { error: error.message }
+
+  revalidatePath(`/item/${id}`)
+}
