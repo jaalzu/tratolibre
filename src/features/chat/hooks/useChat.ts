@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/client'
 import { markMessagesAsRead } from '@/features/chat/actions'
 import { fetchMessages } from '../queries'
 import { useChannel } from './useChannel'
+import { Message } from '@/features/chat/types'
+
 
 const supabase = createClient()
 
@@ -68,10 +70,10 @@ export function useChat(conversationId: string, userId: string) {
     const content = input.trim()
     setInput('')
 
-    queryClient.setQueryData(['messages', conversationId], (prev: any[] = []) => [
-      ...prev,
-      { id: `temp-${Date.now()}`, sender_id: userId, content, created_at: new Date().toISOString(), profiles: null }
-    ])
+ queryClient.setQueryData(['messages', conversationId], (prev: Message[] = []) => [
+  ...prev,
+  { id: `temp-${Date.now()}`, sender_id: userId, content, created_at: new Date().toISOString(), profiles: null }
+])
 
     clearTimeout(scrollTimeoutRef.current)
     scrollTimeoutRef.current = setTimeout(() => {

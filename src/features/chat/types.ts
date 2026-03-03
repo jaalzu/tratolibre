@@ -1,21 +1,18 @@
-export interface Message {
-  id: string
-  conversation_id: string
-  sender_id: string
-  content: string
-  created_at: string
+import { Database } from '@/lib/supabase/database.types'
+
+// Tipos base de la DB
+type MessageRow = Database['public']['Tables']['messages']['Row']
+type ConversationRow = Database['public']['Tables']['conversations']['Row']
+
+// Tipos extendidos con campos calculados
+export interface Message extends MessageRow {
   profiles?: {
     name: string
     avatar_url: string
   }
 }
-export interface Conversation {
-  id: string
-  item_id: string
-  buyer_id: string
-  seller_id: string
-  created_at: string
-  updated_at: string
+
+export interface Conversation extends ConversationRow {
   hasUnread?: boolean
   unreadCount?: number
   lastMessage?: {
@@ -36,24 +33,3 @@ export interface Conversation {
     avatar_url: string
   }
 }
-
-// export interface Offer {
-//   id: string
-//   item_id: string
-//   buyer_id: string
-//   seller_id: string
-//   amount: number
-//   status: 'pending' | 'accepted' | 'rejected' | 'cancelled'
-//   message?: string
-//   created_at: string
-//   updated_at: string
-//   items?: {
-//     title: string
-//     images: string[]
-//     sale_price: number
-//   }
-//   profiles?: {
-//     name: string
-//     avatar_url: string
-//   }
-// }

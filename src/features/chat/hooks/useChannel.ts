@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
+import { RealtimeChannel } from '@supabase/supabase-js'
 
 const supabase = createClient()
 
@@ -13,7 +13,7 @@ interface UseChannelOptions {
 }
 
 export function useChannel({ conversationId, userId, onTyping, onNewMessage, onOnlineChange }: UseChannelOptions) {
-  const channelRef = useRef<any>(null)
+  const channelRef = useRef<RealtimeChannel | null>(null)
   const typingTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   useEffect(() => {

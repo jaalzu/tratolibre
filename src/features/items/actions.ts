@@ -196,22 +196,42 @@ export async function toggleFavoriteAction(itemId: string) {
   }
 }
 
-
-export async function markAsSoldAction(id: string) {
+export async function markAsSoldToAction(itemId: string, buyerId: string) {
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
-  const { error } = await supabase
+  // Obtenemos el precio del item
+  const { data: item } = await supabase
     .from('items')
-    .update({ 
-      sold: true, 
-      available: false, 
-      sold_at: new Date().toISOString() 
-    })
-    .eq('id', id)
+    .select('sale_price')
+    .eq('id', itemId)
+    .eq('owner_id', user.id)
+    .single()
+
+  if (!item) return { error: 'Item no encontrado' }
+
+  // Actualizamos el item
+  const { error: itemError } = await supabase
+    .from('items')
+    .update({ sold: true, available: false, sold_at: new Date().toISOString() })
+    .eq('id', itemId)
     .eq('owner_id', user.id)
 
-  if (error) return { error: error.message }
+  if (itemError) return { error: itemError.message }
 
-  revalidatePath(`/item/${id}`)
+  // Creamos el registro de compra
+  const { error: purchaseError } = await supabase
+    .from('purchases')
+    .insert({
+      item_id: itemId,
+      buyer_id: buyerId,
+      owner_id: user.id,
+      sale_price: item.sale_price,
+      status: 'completed',
+    })
+
+  if (purchaseError) return { error: purchaseError.message }
+
+  revalidatePath(`/item/${itemId}`)
+  revalidatePath('/profile')
 }

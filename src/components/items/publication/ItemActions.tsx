@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation'
 import { useStartChat } from '@/features/items/useStartChat'
 import { useState } from 'react'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
-import { deleteItemAction, markAsSoldAction } from '@/features/items/actions'
+import { SelectBuyerDialog } from './SelectBuyerDialog'
+import { deleteItemAction } from '@/features/items/actions'
 
 export default function ItemActions({ item, userId }: { item: any, userId: string | null }) {
   const router = useRouter()
@@ -15,7 +16,6 @@ export default function ItemActions({ item, userId }: { item: any, userId: strin
   const [open, setOpen] = useState(false)
   const [soldOpen, setSoldOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  const [marking, setMarking] = useState(false)
 
   const handleContact = () => {
     if (!userId) return router.push('/login')
@@ -29,13 +29,6 @@ export default function ItemActions({ item, userId }: { item: any, userId: strin
     setDeleting(false)
   }
 
-  const handleMarkAsSold = async () => {
-    setMarking(true)
-    await markAsSoldAction(item.id)
-    setMarking(false)
-    setSoldOpen(false)
-  }
-
   if (!userId) return (
     <Button asChild width="full" py={1}>
       <NextLink href="/login">Iniciá sesión para contactar</NextLink>
@@ -45,45 +38,40 @@ export default function ItemActions({ item, userId }: { item: any, userId: strin
   if (item.profiles?.id === userId) return (
     <>
       <Flex direction="column" gap={2}>
-      {!item.sold && (
-        <>
-          <Text
-            fontSize="sm"
-            color="neutral.700"
-            textAlign="center"
-            cursor="pointer"
-            textDecoration="underline"
-            onClick={() => setSoldOpen(true)}
-            _hover={{ color: 'neutral.900' }}
-          >
-            Marcar como vendido
-          </Text>
-          <Button asChild width="full" borderRadius="2xl" py={1} _hover={{ opacity: 0.85 }}>
-            <NextLink href={`/item/${item.id}/edit`}>Editar publicación</NextLink>
-          </Button>
-          <Button
-            width="full"
-            borderRadius="2xl"
-            py={1}
-            bg="feedback.error"
-            onClick={() => setOpen(true)}
-            _hover={{ opacity: 0.85 }}
-          >
-            Eliminar
-          </Button>
-        </>
-      )}
-    </Flex>
+        {!item.sold && (
+          <>
+            <Text
+              fontSize="sm"
+              color="neutral.700"
+              textAlign="center"
+              cursor="pointer"
+              textDecoration="underline"
+              onClick={() => setSoldOpen(true)}
+              _hover={{ color: 'neutral.900' }}
+            >
+              Marcar como vendido
+            </Text>
+            <Button asChild width="full" borderRadius="2xl" py={1} _hover={{ opacity: 0.85 }}>
+              <NextLink href={`/item/${item.id}/edit`}>Editar publicación</NextLink>
+            </Button>
+            <Button
+              width="full"
+              borderRadius="2xl"
+              py={1}
+              bg="feedback.error"
+              onClick={() => setOpen(true)}
+              _hover={{ opacity: 0.85 }}
+            >
+              Eliminar
+            </Button>
+          </>
+        )}
+      </Flex>
 
-      <ConfirmDialog
+      <SelectBuyerDialog
         open={soldOpen}
         onClose={() => setSoldOpen(false)}
-        onConfirm={handleMarkAsSold}
-        title="¿Marcar como vendido?"
-        description="El artículo se marcará como vendido y dejará de aparecer en las búsquedas."
-        confirmLabel="Confirmar venta"
-        loading={marking}
-        loadingLabel="Guardando..."
+        itemId={item.id}
       />
 
       <ConfirmDialog

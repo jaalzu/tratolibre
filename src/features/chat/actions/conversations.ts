@@ -1,11 +1,10 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { getAuthUser } from '@/lib/supabase/getAuthUser'
 
 export async function getOrCreateConversation(itemId: string, sellerId: string) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
   if (user.id === sellerId) return { error: 'No podés chatear con vos mismo' }
 
@@ -29,8 +28,7 @@ export async function getOrCreateConversation(itemId: string, sellerId: string) 
 }
 
 export async function getMyConversations() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return []
 
   const { data: conversations } = await supabase
@@ -65,8 +63,7 @@ export async function getMyConversations() {
 }
 
 export async function deleteConversationAction(conversationId: string) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
   const { error } = await supabase
@@ -81,8 +78,7 @@ export async function deleteConversationAction(conversationId: string) {
 }
 
 export async function getTotalUnreadCount() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return 0
 
   const { count } = await supabase
@@ -92,4 +88,17 @@ export async function getTotalUnreadCount() {
     .neq('sender_id', user.id)
 
   return count ?? 0
+}
+
+export async function getConversationsByItem(itemId: string) {
+  const { supabase, user } = await getAuthUser()
+  if (!user) return []
+
+  const { data } = await supabase
+    .from('conversations')
+    .select('id, buyer_id, buyer:profiles!conversations_buyer_id_fkey(id, name, avatar_url)')
+    .eq('item_id', itemId)
+    .eq('seller_id', user.id)
+
+  return data ?? []
 }
