@@ -1,13 +1,15 @@
 import NextLink from 'next/link'
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Flex, Text } from '@chakra-ui/react'
+import { FavoriteButton } from '@/components/ui/FavoriteButton'
 
 interface ItemCardProps {
   obj: any
+  userId: string | null
+  initialFavorited: boolean
 }
 
-export const ItemCard = ({ obj }: ItemCardProps) => {
+export const ItemCard = ({ obj, userId, initialFavorited }: ItemCardProps) => {
   const imgW = "186px"
-  const imgH = { base: "195px", md: "241px" }
 
   return (
     <NextLink href={`/item/${obj.id}`} style={{ textDecoration: 'none' }}>
@@ -17,28 +19,31 @@ export const ItemCard = ({ obj }: ItemCardProps) => {
         _hover={{ transform: 'translateY(-3px)' }}
       >
         {obj.images?.[0] ? (
-  <img
-    src={obj.images[0]}
-    width={imgW}
-    style={{ 
-      height: '225px', 
-      objectFit: 'cover', 
-      borderRadius: '6px',
-      display: 'block',
-      width: imgW
-    }}
-    alt={obj.title}
-  />
-) : (
-  <Box w={imgW} h={imgH} borderRadius="lg" bg="neutral.100" />
-)}
+          <img
+            src={obj.images[0]}
+            width={imgW}
+            style={{ 
+              height: '225px', 
+              objectFit: 'cover', 
+              borderRadius: '6px',
+              display: 'block',
+              width: imgW
+            }}
+            alt={obj.title}
+          />
+        ) : (
+          <Box w={imgW} h="225px" borderRadius="lg" bg="neutral.100" />
+        )}
 
         <Box pt={2}>
-          {obj.sale_price && (
-            <Text fontSize="md" fontWeight="bold" color="neutral.900">
-              ${obj.sale_price.toLocaleString('es-AR')}
-            </Text>
-          )}
+          <Flex justify="space-between" align="center">
+            {obj.sale_price && (
+              <Text fontSize="md" fontWeight="bold" color="neutral.900">
+                ${obj.sale_price.toLocaleString('es-AR')}
+              </Text>
+            )}
+            <FavoriteButton itemId={obj.id} initialFavorited={initialFavorited} userId={userId} />
+          </Flex>
           <Text fontSize="md" color="neutral.700" lineClamp={1}>
             {obj.title}
           </Text>

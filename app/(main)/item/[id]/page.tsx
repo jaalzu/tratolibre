@@ -12,11 +12,14 @@ import { Suspense } from 'react'
 
 export default async function ItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const item = await getItemById(id)
-  if (!item) notFound()
-
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  
+  const [item, { data: { user } }] = await Promise.all([
+    getItemById(id),
+    supabase.auth.getUser()
+  ])
+
+  if (!item) notFound()
   
   
   return (

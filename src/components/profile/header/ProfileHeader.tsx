@@ -1,7 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { ProfileAvatar } from './ProfileAvatar'
 import NextLink from 'next/link'
-import 'boxicons/css/boxicons.min.css'
 
 interface ProfileHeaderProps {
   name?: string | null
@@ -14,40 +13,85 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader = ({ name, avatarUrl, location, salesCount, reviewsCount, rating, isOwner }: ProfileHeaderProps) => (
-  <Box pt={2} pb={4}>
-    {/* Nombre + avatar */}
-    <Flex justify="space-between" align="flex-start" mb={3}>
-      <Box flex={1} pr={4}>
-        <Text fontWeight="bold" fontSize="2xl" color="neutral.900" lineHeight="1.2" mb={1}>{name ?? 'Sin nombre'}</Text>
-        <Flex align="center" gap={1}>
-          <Text fontSize="sm" color="neutral.900">{'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}</Text>
-          <Text fontSize="sm" fontWeight="bold" color="neutral.900">{rating > 0 ? rating.toFixed(1) : '—'}</Text>
-          <Text fontSize="xs" color="neutral.400">({reviewsCount})</Text>
+  <Box pt={2} pb={4} px={2}>
+    
+    {/* Mobile: layout original — nombre+rating arriba, avatar derecha */}
+    <Box display={{ base: 'block', md: 'none' }}>
+      <Flex justify="space-between" align="flex-start" mb={4}>
+        <Box flex={1} pr={4}>
+          <Text fontWeight="bold" fontSize="2xl" color="neutral.900" lineHeight="1.2" mb={1}>
+            {name ?? 'Sin nombre'}
+          </Text>
+          <Flex align="center" gap={1}>
+            <Text fontSize="sm" color="neutral.900">
+              {'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}
+            </Text>
+            <Text fontSize="sm" fontWeight="bold" color="neutral.900">
+              {rating > 0 ? rating.toFixed(1) : ''}
+            </Text>
+            <Text fontSize="xs" color="neutral.400">({reviewsCount})</Text>
+          </Flex>
+        </Box>
+        <Flex direction="column" align="center" gap={1}>
+          <ProfileAvatar avatarUrl={avatarUrl} name={name} size={72} />
+          {isOwner && (
+            <NextLink href="/profile/edit">
+              <Text fontSize="sm" color="accent.default" fontWeight="medium" cursor="pointer">Editar perfil</Text>
+            </NextLink>
+          )}
         </Flex>
-      </Box>
-
-      {/* Avatar + botón editar debajo */}
-      <Flex direction="column" align="center" gap={1}>
-        <ProfileAvatar avatarUrl={avatarUrl} name={name} size={72} />
-        {isOwner && (
-  <NextLink href="/profile/edit">
-    <Text fontSize="sm" color="accent.default" fontWeight="medium" cursor="pointer">Editar perfil</Text>
-  </NextLink>
-)}
       </Flex>
-    </Flex>
-
-    {/* Stats */}
-    <Flex gap={4} mb={2}>
-  <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">{salesCount}</Text> Ventas</Text>
-    </Flex>
-
-    {/* Ubicación */}
-    {location && (
-      <Flex align="center" gap={1}>
-        <i className="bx bx-current-location" style={{ fontSize: '15px', color: 'var(--chakra-colors-neutral-400)' }} />
-        <Text fontSize="sm" color="neutral.700">{location}</Text>
+      <Flex gap={6} mb={3}>
+        <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">{salesCount}</Text> Ventas</Text>
+        <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">0</Text> Compras</Text>
       </Flex>
-    )}
+      {location && (
+        <Flex align="center" gap={1}>
+          <i className="bx bx-current-location" style={{ fontSize: '16px', color: 'var(--chakra-colors-neutral-400)' }} />
+          <Text fontSize="md" color="neutral.700">{location}</Text>
+        </Flex>
+      )}
+    </Box>
+
+    {/* Desktop: avatar+nombre izquierda, stats derecha */}
+    <Box display={{ base: 'none', md: 'block' }}>
+      <Flex justify="space-between" align="center" gap={4}>
+        <Flex align="center" gap={3}>
+          <ProfileAvatar avatarUrl={avatarUrl} name={name} size={72} />
+          <Box>
+            <Text fontWeight="bold" fontSize="2xl" color="neutral.900" lineHeight="1.2" mb={1}>
+              {name ?? 'Sin nombre'}
+            </Text>
+            <Flex align="center" gap={1}>
+              <Text fontSize="sm" color="neutral.900">
+                {'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}
+              </Text>
+              <Text fontSize="sm" fontWeight="bold" color="neutral.900">
+                {rating > 0 ? rating.toFixed(1) : ''}
+              </Text>
+              <Text fontSize="xs" color="neutral.400">({reviewsCount})</Text>
+            </Flex>
+            {isOwner && (
+              <NextLink href="/profile/edit">
+                <Text fontSize="sm" color="accent.default" fontWeight="medium" cursor="pointer" mt={1}>Editar perfil</Text>
+              </NextLink>
+            )}
+          </Box>
+        </Flex>
+        <Flex direction="column" align="flex-end" gap={2}>
+          <Flex gap={6}>
+            <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">{salesCount}</Text> Ventas</Text>
+            <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">0</Text> Compras</Text>
+          </Flex>
+          {location && (
+            <Flex align="center" gap={1}>
+              <i className="bx bx-current-location" style={{ fontSize: '16px', color: 'var(--chakra-colors-neutral-400)' }} />
+              <Text fontSize="md" color="neutral.700">{location}</Text>
+            </Flex>
+          )}
+        </Flex>
+      </Flex>
+    </Box>
+
   </Box>
 )

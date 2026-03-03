@@ -1,21 +1,16 @@
 import { Box } from '@chakra-ui/react'
-import { getItems } from '@/features/items/actions'
 import { Hero } from '@/components/sections/Hero'
-import { ItemsCategorySection  } from '@/components/items/home/ItemsCategorySection'
+import { RecentItemsSection } from '@/components/items/home/RecentItemsSection'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function HomePage() {
-   const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  const items = await getItems()
-  const recent = items.slice(0, 13)
- 
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   return (
     <Box>
-           <Hero isLoggedIn={!!session} />
-      <ItemsCategorySection  title="Publicaciones recientes" items={recent} viewMoreHref="/explore" />
-   
+      <Hero isLoggedIn={!!user} />
+      <RecentItemsSection userId={user?.id ?? null} />
     </Box>
   )
 }

@@ -28,6 +28,7 @@ accent: {
   neutral: {
     50:  { value: '#ffffff' },
     100: { value: '#e0e0e0' },
+    150:  { value: '#eff3f6' },
     200: { value: '#c6c5c5' },
     300: { value: '#ada9a9' },
     400: { value: '#958e8e' },

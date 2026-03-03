@@ -25,38 +25,45 @@ export const ProfileItemsTabs = ({ items, isOwner }: ProfileItemsTabsProps) => {
 
   return (
     <Box>
-      <Flex borderBottom="1px solid" borderColor="neutral.100" mb={4}>
-        {tabs.map((t) => (
-          <Box
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            cursor="pointer"
-            pb={2}
-            px={1}
-            mr={6}
-            borderBottom="2px solid"
-            borderColor={tab === t.key ? 'accent.default' : 'transparent'}
-          >
-            <Text fontSize="sm" fontWeight={tab === t.key ? 'bold' : 'normal'} color={tab === t.key ? 'neutral.900' : 'neutral.400'}>
-              {t.key === 'active' ? active.length : sold.length} {t.label}
-            </Text>
-          </Box>
-        ))}
+      <Flex justify="center" gap={10} mb={8}>
+        {tabs.map((t) => {
+          const count = t.key === 'active' ? active.length : sold.length
+          const isActive = tab === t.key
+          return (
+            <Box key={t.key} onClick={() => setTab(t.key)} cursor="pointer" textAlign="center">
+              <Text fontSize="xl" fontWeight="bold" color={isActive ? 'neutral.900' : 'neutral.400'}>
+                {count}
+              </Text>
+              <Text
+                fontSize="md"
+                fontWeight={isActive ? 'bold' : 'normal'}
+                color={isActive ? 'neutral.900' : 'neutral.400'}
+                borderBottom="2px solid"
+                borderColor={isActive ? 'brand.default' : 'transparent'}
+                pb={0.5}
+                transition="all 0.15s"
+              >
+                {t.label}
+              </Text>
+            </Box>
+          )
+        })}
       </Flex>
 
       {current.length === 0 ? (
-        <Flex direction="column" align="center" py={10} gap={3}>
+        <Flex direction="column" align="center" py={5} gap={3}>
+          <img src="/svg/nothing-here.svg" alt="Sin artículos" style={{ width: '280px', opacity: 0.7 }} />
           <Text fontSize="sm" color="neutral.400">
-            {tab === 'active' ? 'No tenés publicaciones activas' : 'No tenés artículos vendidos'}
+            {tab === 'active' ? 'No hay publicaciones activas' : 'No hay artículos vendidos'}
           </Text>
           {tab === 'active' && isOwner && (
-            <Button asChild size="sm" borderRadius="full">
-              <NextLink href="/item/new">Publicar</NextLink>
+            <Button asChild size="md" p={3} borderRadius="full">
+              <NextLink href="/item/new">Empezá a vender</NextLink>
             </Button>
           )}
         </Flex>
       ) : (
-        <SimpleGrid columns={2} gap={3}>
+       <SimpleGrid columns={{ base: 2, md: 4 }} gap={3}>
           {current.map(item => (
             <ProfileItemCard key={item.id} item={item} />
           ))}

@@ -8,9 +8,12 @@ interface ItemsRowProps {
   items: any[]
   viewMoreHref?: string
   viewMoreLabel?: string
+  userId?: string | null
+  favoriteIds?: string[]
 }
 
-export const ItemsCategorySection  = ({ title, items, viewMoreHref, viewMoreLabel = 'Ver más' }: ItemsRowProps) => {
+export const ItemsCategorySection = ({ title, items, viewMoreHref, viewMoreLabel = 'Ver más', userId = null, favoriteIds = [] }: ItemsRowProps) => {
+
   if (!items.length) return null
 
   return (
@@ -40,7 +43,7 @@ export const ItemsCategorySection  = ({ title, items, viewMoreHref, viewMoreLabe
           style={{ gap: '40px' }}
         >
           {items.map((obj: any) => (
-            <ItemCard key={obj.id} obj={obj} />
+            <ItemCard key={obj.id} obj={obj} userId={userId} initialFavorited={favoriteIds.includes(obj.id)} />
           ))}
         </Grid>
       </Box>

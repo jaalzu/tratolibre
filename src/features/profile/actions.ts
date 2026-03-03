@@ -47,13 +47,11 @@ export async function getUserProfile(userId: string) {
 
   if (!profile) return null
 
-  const { data: items } = await supabase
-    .from('items')
-    .select('id, title, images, sale_price, sold, available, created_at, city')
-    .eq('owner_id', userId)
-    .eq('available', true)
-    .eq('sold', false)
-    .order('created_at', { ascending: false })
+const { data: items } = await supabase
+  .from('items')
+  .select('id, title, images, sale_price, sold, available, created_at, city')
+  .eq('owner_id', userId)
+  .order('created_at', { ascending: false })  // ← sacá los filtros de sold y available
 
   const { data: reviews } = await supabase
     .from('reviews')

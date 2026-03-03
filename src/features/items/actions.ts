@@ -1,13 +1,13 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { getAuthUser } from '@/lib/supabase/getAuthUser'
 import { ItemSchema } from './schemas'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
 
 export async function createItemAction(_prevState: any, formData: FormData) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
@@ -50,8 +50,7 @@ export async function createItemAction(_prevState: any, formData: FormData) {
 }
 
 export async function updateItemAction(_prevState: any, formData: FormData) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
   const id = formData.get('id') as string
@@ -85,8 +84,7 @@ export async function updateItemAction(_prevState: any, formData: FormData) {
 }
 
 export async function deleteItemAction(id: string) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
   const { error } = await supabase
@@ -140,6 +138,28 @@ export async function getItems(params: {
   return data ?? []
 }
 
+export async function getUserFavorites() {
+  const { supabase, user } = await getAuthUser()
+  if (!user) return []
+
+  const { data } = await supabase
+    .from('favorites')
+    .select('item_id, items(*, profiles(name, avatar_url, rating))')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+
+  return data?.map(f => f.items).filter(Boolean) ?? []
+}
+
+export async function getUserFavoriteIds(userId: string): Promise<string[]> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('favorites')
+    .select('item_id')
+    .eq('user_id', userId)
+  return data?.map(f => f.item_id) ?? []
+}
+
 export async function getItemsByCategory(category: string) {
   const supabase = await createClient()
 
@@ -155,8 +175,7 @@ export async function getItemsByCategory(category: string) {
 }
 
 export async function toggleFavoriteAction(itemId: string) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
   const { data: existing } = await supabase
