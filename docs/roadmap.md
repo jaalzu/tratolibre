@@ -71,7 +71,6 @@
 - [ x] Upload de fotos a Supabase Storage (`/api/upload`)
 - [x ] Página `/Item/new` — formulario publicar objeto
 - [x ] Página `/Item/[id]` — detalle del objeto
-- [ ] Página `/dashboard/Items` — mis objetos
 - [ x] Componente `ImageUpload` (drag & drop, hasta 8 fotos)
 
 ---
@@ -105,25 +104,11 @@
 ---
 
 ## FASE 8 — Confianza y Reputación
-- [ ] Server Action: `createReviewAction` (solo post-completed)
-- [ ] Reviews mutuas (owner califica renter, renter califica owner)
-- [ ] Componente `StarRating` (interactivo y display)
-- [ ] Server Action: `createStateRecordAction` (fotos antes/después)
-- [ ] Contrato digital generado automáticamente al aceptar reserva
-- [ ] PDF descargable del contrato
-
+- [x ] Server Action: `createReviewAction` (solo post-completed)
+- [ x] Reviews mutuas (owner califica renter, renter califica owner)
+- [ x] Componente `StarRating` (interactivo y display)
 ---
 
-## FASE 9 — Pagos con Stripe
-- [ ] `lib/stripe.ts` configurado
-- [ ] `/api/stripe/create-intent` — depósito con hold
-- [ ] `/api/stripe/webhook` — escucha eventos
-- [ ] Flujo de depósito en UI (modal con Stripe Elements)
-- [ ] Liberación de depósito post-devolución aprobada
-- [ ] Modo test funcionando end-to-end
-- [ ] Cambio a modo LIVE antes del launch
-
----
 
 ## FASE 10 — UI/UX y Diseño
 - [ ] Paleta de colores definida (verde TratoLibre)
@@ -131,7 +116,6 @@
 - [ ] Componente `Navbar` con auth state
 - [ ] Componente `Footer`
 - [ ] Componente `AvatarWithRating`
-- [ ] Componente `PriceDisplay` (precio/día o precio de venta)
 - [ ] Componente `CategoryGrid` para landing
 - [ ] Responsive mobile completo
 - [ ] Dark mode (opcional, post-MVP)

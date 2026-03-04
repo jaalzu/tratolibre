@@ -6,7 +6,8 @@ import { Bell } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { getMyNotifications, markAllNotificationsRead } from '@/features/notifications/actions'
 import { NotificationsPanel } from './NotificationsPanel'
-import type { Notification } from './actions'
+import type { Notification } from './types'
+
 
 interface NotificationBellProps {
   initialCount: number
@@ -66,11 +67,11 @@ export function NotificationBell({ initialCount, userId }: NotificationBellProps
   return (
     <Box ref={ref} position="relative" display="inline-flex">
       {/* Campana */}
-      <Box as="button" onClick={handleOpen} position="relative" display="inline-flex" p={1} color="white">
-        <Bell size={22} strokeWidth={1.75} />
+      <Box as="button" onClick={handleOpen} position="relative" display="inline-flex" p={2} color="neutral.50">
+        <Bell size={28} strokeWidth={1.75} />
         {count > 0 && (
           <Circle
-            size="16px" bg="feedback.error" color="white"
+            size="16px" bg="feedback.error" color="neutral.50"
             fontSize="9px" fontWeight="bold"
             position="absolute" top="-1px" right="-1px"
           >
@@ -97,11 +98,11 @@ export function NotificationBell({ initialCount, userId }: NotificationBellProps
       {open && (
         <Box
           display={{ base: 'block', md: 'none' }}
-          position="fixed" top="96px" left={3} right={3}
-          bg="white" borderRadius="2xl"
-          boxShadow="0 8px 32px rgba(0,0,0,0.15)"
+          position="fixed" top="92px" left={3} right={3}
+          bg="neutral.50" borderRadius="xl"
+          boxShadow="base"
           zIndex={201} overflow="hidden"
-          maxH="70vh"
+          maxH="80vh"
         >
           <NotificationsPanel notifications={notifications} loading={loading} onClose={handleClose} />
         </Box>

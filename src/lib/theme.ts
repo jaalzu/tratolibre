@@ -79,7 +79,7 @@ accent: {
         lg: { value: '6px' },
       },
       shadows: {
-        base:  { value: '0 1px 2px 0 rgba(0, 0, 0, 0.12)' },
+        base: { value: '0 2px 6px 0 rgba(0, 0, 0, 0.14)' },
         focus: { value: '0 0 0 2px rgba(34, 197, 94, 0.35)' },
       },
     },

@@ -10,7 +10,7 @@ import { User } from '@supabase/supabase-js'
 
 export default function Navbar({ user, unreadCount = 0 }: { user: User | null; unreadCount?: number }) {
   const { open: openCats,  onClose: onCloseCats } = useDisclosure()
-  const { open: openDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure()
+  const {  onOpen: onOpenDrawer, } = useDisclosure()
   const pathname = usePathname()
   const isChatDetail = !!pathname.match(/^\/chat\/.+/)
 

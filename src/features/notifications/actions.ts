@@ -2,18 +2,7 @@
 
 import { getAuthUser } from '@/lib/supabase/getAuthUser'
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
-
-export type NotificationType = 'sale_completed' | 'purchase_completed' | 'review_received'
-
-export interface Notification {
-  id: string
-  user_id: string
-  type: NotificationType
-  data: Record<string, unknown>
-  read: boolean
-  created_at: string
-}
+import type { Notification, NotificationType } from './types'
 
 /** Insertar notificación (uso interno desde otras actions) */
 export async function createNotification({
@@ -86,5 +75,7 @@ export async function markAllNotificationsRead() {
     .update({ read: true })
     .eq('user_id', user.id)
     .eq('read', false)
-
+    
 }
+
+

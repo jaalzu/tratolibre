@@ -24,11 +24,10 @@ interface NavbarTopProps {
 
 export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
   <Box bg="brand.default">
-    <Flex maxW="1080px" mx="auto" px={3} h="60px" align="center" gap={2}>
-
+    <Flex maxW="1280px" mx="auto" px={2} h="60px" align="center" gap={{ base: 2, md: 6 }}>
       {/* Logo */}
       <NextLink href="/" passHref>
-        <Text fontWeight="bold" fontSize="sm" color="neutral.50" whiteSpace="nowrap">
+        <Text fontWeight="bold" fontSize="md" color="neutral.50" whiteSpace="nowrap">
           TratoLibre
         </Text>
       </NextLink>
@@ -60,7 +59,7 @@ export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
             </Box>
             <form action={logoutAction}>
               <IconButton type="submit" p={1} variant="ghost" color="red" _hover={{ bg: 'whiteAlpha.200' }}>
-                <i className='bx bx-log-out' style={{ fontSize: '24px' }} />
+                <i className='bx bx-log-out' style={{ fontSize: '28px' }} />
               </IconButton>
             </form>
           </>

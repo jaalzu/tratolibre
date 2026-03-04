@@ -3,9 +3,8 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { ShoppingBag, Star, Tag } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import type { Notification } from './actions'
+import type { Notification, NotificationType } from './types'
 
-type NotificationType = 'sale_completed' | 'purchase_completed' | 'review_received'
 
 function getConfig(type: NotificationType, data: Record<string, unknown>) {
   switch (type) {
@@ -58,7 +57,7 @@ export function NotificationItem({ n, onClose }: { n: Notification; onClose: () 
         <Flex
           align="center" justify="center"
           w="32px" h="32px" borderRadius="full"
-          bg="neutral.100" flexShrink={0}
+          bg="neutral.150" flexShrink={0}
           style={{ color: cfg.color }}
         >
           {cfg.icon}
