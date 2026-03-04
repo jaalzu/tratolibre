@@ -1,19 +1,32 @@
 import { Box } from '@chakra-ui/react'
 import { ProfileHeader } from './header/ProfileHeader'
 import { ProfileItemsTabs } from './items/ProfileItemsTabs'
+import { PendingReviewBanner } from '@/features/reviews/PendingReviewBanner'
 import { Profile } from '@/features/profile/types'
 import { ItemSummary } from '@/features/items/types'
+import type { PendingReview } from '@/features/reviews/actions'
+
+
 
 interface ProfileViewProps {
-  profile: Profile
-  items: ItemSummary[]
-  salesCount: number
-  isOwner?: boolean
+  profile:        Profile
+  items:          ItemSummary[]
+  salesCount:     number
+  isOwner?:       boolean
+  pendingReviews?: PendingReview[]
 }
 
-export const ProfileView = ({ profile, items, salesCount, isOwner }: ProfileViewProps) => (
+export const ProfileView = ({ profile, items, salesCount, isOwner, pendingReviews = [] }: ProfileViewProps) => (
   <Box minH="100vh" bg="neutral.150" px={{ base: 4, md: 8 }}>
     <Box maxW="1200px" mx="auto">
+
+      {/* BANNER: reseñas pendientes — solo si es owner y tiene pendientes */}
+      {isOwner && pendingReviews.length > 0 && (
+        <Box pt={4}>
+          <PendingReviewBanner pendingReviews={pendingReviews} />
+        </Box>
+      )}
+
       {/* HEADER */}
       <Box
         bg="neutral.50"
@@ -22,7 +35,6 @@ export const ProfileView = ({ profile, items, salesCount, isOwner }: ProfileView
         px={{ base: 5, md: 8 }}
         pt={4}
         pb={6}
-
       >
         <ProfileHeader
           name={profile?.name}

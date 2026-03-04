@@ -7,15 +7,14 @@ import { useRouter } from 'next/navigation'
 import { useStartChat } from '@/features/items/useStartChat'
 import { useState } from 'react'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
-import { SelectBuyerDialog } from './SelectBuyerDialog'
+import { SelectBuyerDialog } from '@/components/items/publication/SelectBuyerDialog'
 import { deleteItemAction } from '@/features/items/actions'
 import { ItemWithProfile } from '@/features/items/types'
-
 
 export default function ItemActions({ item, userId }: { item: ItemWithProfile, userId: string | null }) {
   const router = useRouter()
   const { startChat, loading } = useStartChat()
-  const [open, setOpen] = useState(false)
+  const [open,     setOpen]     = useState(false)
   const [soldOpen, setSoldOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
 

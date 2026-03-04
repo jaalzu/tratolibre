@@ -120,11 +120,11 @@ Iconography system:
 <!-- esto ya viene hecho con charka  -->
 Componentes base reales:
 
-* Button
-* Card
-* Container
-* Input
-* Badge
+* Button done
+* Card done
+* Container done
+* Input done
+* Badge listo
 
 Estos son los únicos componentes base obligatorios del sistema.
 
@@ -135,21 +135,20 @@ Estos son los únicos componentes base obligatorios del sistema.
 > Estos ya representan dominio del negocio, no UI genérica.
 
 * Navbar . Finalizado!
-* ItemCard  
-* ReservationForm
-* ChatWindow
+* ItemCard  Done! 
+* ChatWindow listo
 * ReviewForm
-* StatusBadge
-* ImageUpload
+* StatusBadge listo
+* ImageUpload listo 
 
 ---
 
 # 4. Layout Components
 <!-- esto es una mezcla de core y lo q yo cree , quizas algunas cosas si tengo q hacerlas como el navbar o bottom bar  -->
-* Navbar (desktop)
-* Bottom bar (mobile)
-* Sidebar (dashboard)
-* Footer
+* Navbar (desktop) done
+* Bottom bar (mobile) done 
+* Sidebar (dashboard) listo
+* Footer 
 * Containers
 * Grids
 

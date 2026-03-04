@@ -88,20 +88,19 @@
 
 
 ## FASE 6B — Compras (para venta)
-- [ ] Flujo de compra: interesado contacta → owner confirma → marcado como vendido
-- [ ] Estado `sold` en el objeto
-- [ ] Página de confirmación de compra
-- [ ] Objeto se marca como no disponible tras venta
+- [ x] Flujo de compra: interesado contacta → owner confirma → marcado como vendido
+- [ x] Estado `sold` en el objeto
+- [ x] Página de confirmación de compra
+- [ x] Objeto se marca como no disponible tras venta
 
 ---
 
 ## FASE 7 — Mensajería en tiempo real
-- [ ] Hook `useChat` con Supabase Realtime
-- [ ] Mensajes llegan sin recargar página
-- [ ] Componente `ChatWindow`
-- [ ] Página `/dashboard/messages`
-- [ ] Badge de mensajes no leídos en navbar
-- [ ] Chat disponible para reservas Y para consultas de compra
+- [ x] Hook `useChat` con Supabase Realtime
+- [ x] Mensajes llegan sin recargar página
+- [ x] Componente `ChatWindow`
+- [ x] Página `/dashboard/messages`
+- [ x] Badge de mensajes no leídos en navbar
 
 ---
 

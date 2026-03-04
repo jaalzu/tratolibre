@@ -7,6 +7,10 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Item } from '@/features/items/types'
 
+// mucha logica tener este notifcation aca.. deberiamos moverlo
+import { createNotification } from '@/features/notifications/actions'
+
+
 type ActionState = { error?: string | object } | null
 
 export async function createItemAction(_prevState: ActionState, formData: FormData) {
@@ -202,17 +206,17 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
-  // Obtenemos el precio del item
+  // Obtener item + título para la notificación
   const { data: item } = await supabase
     .from('items')
-    .select('sale_price')
+    .select('sale_price, title')
     .eq('id', itemId)
     .eq('owner_id', user.id)
     .single()
 
   if (!item) return { error: 'Item no encontrado' }
 
-  // Actualizamos el item
+  // Actualizar item
   const { error: itemError } = await supabase
     .from('items')
     .update({ sold: true, available: false, sold_at: new Date().toISOString() })
@@ -221,19 +225,52 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
 
   if (itemError) return { error: itemError.message }
 
-  // Creamos el registro de compra
-  const { error: purchaseError } = await supabase
+  // Crear registro de compra
+  const { data: purchase, error: purchaseError } = await supabase
     .from('purchases')
     .insert({
-      item_id: itemId,
-      buyer_id: buyerId,
-      owner_id: user.id,
+      item_id:    itemId,
+      buyer_id:   buyerId,
+      owner_id:   user.id,
       sale_price: item.sale_price,
-      status: 'completed',
+      status:     'completed',
     })
+    .select()
+    .single()
 
-  if (purchaseError) return { error: purchaseError.message }
+  if (purchaseError) {
+  console.error('purchaseError:', purchaseError.message, purchaseError.code)
+  return { error: purchaseError.message }
+}
+
+  // Notificar al OWNER (vendedor): "Marcaste como vendido"
+  await createNotification({
+    supabase,
+    userId: user.id,
+    type:   'sale_completed',
+    data: {
+      item_id:     itemId,
+      item_title:  item.title,
+      buyer_id:    buyerId,
+      purchase_id: purchase.id,
+    },
+  })
+
+  // Notificar al COMPRADOR: "Fuiste marcado como comprador"
+  await createNotification({
+    supabase,
+    userId: buyerId,
+    type:   'purchase_completed',
+    data: {
+      item_id:     itemId,
+      item_title:  item.title,
+      owner_id:    user.id,
+      purchase_id: purchase.id,
+    },
+  })
 
   revalidatePath(`/item/${itemId}`)
   revalidatePath('/profile')
+
+  return { success: true, purchaseId: purchase.id }
 }
