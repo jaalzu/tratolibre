@@ -1,66 +1,110 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Box, Circle } from '@chakra-ui/react'
 import { Bell } from 'lucide-react'
-import NextLink from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { getMyNotifications, markAllNotificationsRead } from '@/features/notifications/actions'
+import { NotificationsPanel } from './NotificationsPanel'
+import type { Notification } from './actions'
 
 interface NotificationBellProps {
   initialCount: number
-  userId: string
+  userId:       string
 }
 
 export function NotificationBell({ initialCount, userId }: NotificationBellProps) {
-  const [count, setCount] = useState(initialCount)
+  const [count,         setCount]         = useState(initialCount)
+  const [open,          setOpen]          = useState(false)
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [loading,       setLoading]       = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const supabase = createClient()
-
-    // Suscripción realtime a notifications del usuario
     const channel = supabase
       .channel('notifications-badge')
-      .on(
-        'postgres_changes',
-        {
-          event:  '*',
-          schema: 'public',
-          table:  'notifications',
-          filter: `user_id=eq.${userId}`,
-        },
-        async () => {
-          // Re-fetch del count cuando hay cambios
-          const { count: newCount } = await supabase
-            .from('notifications')
-            .select('*', { count: 'exact', head: true })
-            .eq('user_id', userId)
-            .eq('read', false)
-
-          setCount(newCount ?? 0)
-        }
-      )
+      .on('postgres_changes', {
+        event: '*', schema: 'public', table: 'notifications',
+        filter: `user_id=eq.${userId}`,
+      }, async () => {
+        const { count: newCount } = await supabase
+          .from('notifications')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', userId)
+          .eq('read', false)
+        setCount(newCount ?? 0)
+      })
       .subscribe()
-
     return () => { supabase.removeChannel(channel) }
   }, [userId])
 
+  useEffect(() => {
+    if (!open) return
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [open])
+
+  const handleOpen = async () => {
+    if (open) return setOpen(false)
+    setOpen(true)
+    setLoading(true)
+    const data = await getMyNotifications()
+    setNotifications(data)
+    setLoading(false)
+    if (count > 0) {
+      await markAllNotificationsRead()
+      setCount(0)
+    }
+  }
+
+  const handleClose = () => setOpen(false)
+
   return (
-    <Box as={NextLink} href="/notifications" position="relative" display="inline-flex" p={1}>
-      <Bell size={22} color="var(--chakra-colors-neutral-700)" strokeWidth={1.75} />
-      {count > 0 && (
-        <Circle
-          size="16px"
-          bg="feedback.error"
-          color="white"
-          fontSize="9px"
-          fontWeight="bold"
-          position="absolute"
-          top="-1px"
-          right="-1px"
-          lineHeight="1"
+    <Box ref={ref} position="relative" display="inline-flex">
+      {/* Campana */}
+      <Box as="button" onClick={handleOpen} position="relative" display="inline-flex" p={1} color="white">
+        <Bell size={22} strokeWidth={1.75} />
+        {count > 0 && (
+          <Circle
+            size="16px" bg="feedback.error" color="white"
+            fontSize="9px" fontWeight="bold"
+            position="absolute" top="-1px" right="-1px"
+          >
+            {count > 9 ? '9+' : count}
+          </Circle>
+        )}
+      </Box>
+
+      {/* Desktop dropdown */}
+      {open && (
+        <Box
+          display={{ base: 'none', md: 'flex' }}
+          flexDirection="column"
+          position="absolute" top="calc(100% + 8px)" right={0}
+          w="320px" bg="white" borderRadius="2xl"
+          boxShadow="lg" border="1px solid" borderColor="neutral.100"
+          zIndex={300} overflow="hidden"
         >
-          {count > 9 ? '9+' : count}
-        </Circle>
+          <NotificationsPanel notifications={notifications} loading={loading} onClose={handleClose} />
+        </Box>
+      )}
+
+      {/* Mobile modal */}
+      {open && (
+        <Box
+          display={{ base: 'block', md: 'none' }}
+          position="fixed" top="96px" left={3} right={3}
+          bg="white" borderRadius="2xl"
+          boxShadow="0 8px 32px rgba(0,0,0,0.15)"
+          zIndex={201} overflow="hidden"
+          maxH="70vh"
+        >
+          <NotificationsPanel notifications={notifications} loading={loading} onClose={handleClose} />
+        </Box>
       )}
     </Box>
   )

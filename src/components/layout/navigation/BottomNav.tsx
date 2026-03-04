@@ -18,6 +18,8 @@ const navItems = [
 ]
 
 export default function BottomNav({ userId }: BottomNavProps) {
+  if (!userId) return null
+
   const pathname = usePathname()
 
   if (pathname.startsWith('/chat/')) return null

@@ -22,26 +22,32 @@ interface NavbarTopProps {
   unreadCount?: number
 }
 
-export const NavbarTop = ({ user, onOpenMenu, unreadCount = 0 }: NavbarTopProps) => (
+export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
   <Box bg="brand.default">
-    <Flex maxW="1280px" mx="auto" px={3} h="60px" align="center" justify="space-between" gap={1}>
+    <Flex maxW="1080px" mx="auto" px={3} h="60px" align="center" gap={2}>
+
+      {/* Logo */}
       <NextLink href="/" passHref>
-        <Text fontWeight="bold" fontSize="md" color="neutral.50" whiteSpace="nowrap">TratoLibre</Text>
+        <Text fontWeight="bold" fontSize="sm" color="neutral.50" whiteSpace="nowrap">
+          TratoLibre
+        </Text>
       </NextLink>
 
-      <Group flex="1" maxW={{ base: 'full', md: '600px' }}>
+      {/* Buscador */}
+      <Group flex="1" maxW={{ base: 'full', md: '700px' }}>
         <Box position="relative" w="full">
           <Box position="absolute" left="3" top="50%" transform="translateY(-40%)" zIndex={10}>
-            <i className='bx bx-search' style={{ color: 'var(--chakra-colors-neutral-300)', fontSize: '20px' }} />
+            <i className='bx bx-search' style={{ color: 'var(--chakra-colors-neutral-300)', fontSize: '18px' }} />
           </Box>
           <Input
-            placeholder="Buscar..." ps="10" h="32px" fontSize="sm"
+            placeholder="Buscar..." ps="9" h="32px" fontSize="sm"
             bg="neutral.50" color="neutral.900" borderRadius="full" border="none"
             _focus={{ shadow: 'focus' }}
           />
         </Box>
       </Group>
 
+      {/* Desktop nav */}
       <Flex align="center" gap={2} display={{ base: 'none', md: 'flex' }}>
         {user ? (
           <>
@@ -74,9 +80,21 @@ export const NavbarTop = ({ user, onOpenMenu, unreadCount = 0 }: NavbarTopProps)
         )}
       </Flex>
 
-      <IconButton display={{ base: 'flex', md: 'none' }} variant="ghost" size="sm" color="neutral.50" onClick={onOpenMenu}>
-        <i className='bx bx-category' style={{ fontSize: '28px' }} />
-      </IconButton>
+      {/* Mobile: campana o login */}
+      <Box display={{ base: 'flex', md: 'none' }} flexShrink={0}>
+        {user ? (
+          <Box color="white">
+            <NotificationBell initialCount={unreadCount} userId={user.id} />
+          </Box>
+        ) : (
+          <NextLink href="/login">
+           <Box bg="neutral.50" color="brand.default" fontSize="sm" fontWeight="bold" px={3} py={1} borderRadius="md">
+              Ingresar
+            </Box>
+          </NextLink>
+        )}
+      </Box>
+
     </Flex>
   </Box>
 )

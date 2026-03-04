@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { ProfileAvatar } from './ProfileAvatar'
+import { ProfileStats } from './ProfileStats'
 import NextLink from 'next/link'
 
 interface ProfileHeaderProps {
@@ -14,8 +15,8 @@ interface ProfileHeaderProps {
 
 export const ProfileHeader = ({ name, avatarUrl, location, salesCount, reviewsCount, rating, isOwner }: ProfileHeaderProps) => (
   <Box pt={2} pb={4} px={2}>
-    
-    {/* Mobile: layout original — nombre+rating arriba, avatar derecha */}
+
+    {/* Mobile */}
     <Box display={{ base: 'block', md: 'none' }}>
       <Flex justify="space-between" align="flex-start" mb={4}>
         <Box flex={1} pr={4}>
@@ -41,19 +42,17 @@ export const ProfileHeader = ({ name, avatarUrl, location, salesCount, reviewsCo
           )}
         </Flex>
       </Flex>
-      <Flex gap={6} mb={3}>
-        <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">{salesCount}</Text> Ventas</Text>
-        <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">0</Text> Compras</Text>
-      </Flex>
+
+<ProfileStats salesCount={salesCount} isOwner={isOwner} />
       {location && (
-        <Flex align="center" gap={1}>
+        <Flex align="center" gap={1} mt={3}>
           <i className="bx bx-current-location" style={{ fontSize: '16px', color: 'var(--chakra-colors-neutral-400)' }} />
           <Text fontSize="md" color="neutral.700">{location}</Text>
         </Flex>
       )}
     </Box>
 
-    {/* Desktop: avatar+nombre izquierda, stats derecha */}
+    {/* Desktop */}
     <Box display={{ base: 'none', md: 'block' }}>
       <Flex justify="space-between" align="center" gap={4}>
         <Flex align="center" gap={3}>
@@ -79,11 +78,7 @@ export const ProfileHeader = ({ name, avatarUrl, location, salesCount, reviewsCo
           </Box>
         </Flex>
         <Flex direction="column" align="flex-end" gap={2}>
-          <Flex gap={6}>
-            <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">{salesCount}</Text> Ventas</Text>
-            <Text fontSize="sm" color="neutral.700"><Text as="span" fontWeight="bold">0</Text> Compras</Text>
-          </Flex>
-          {location && (
+<ProfileStats salesCount={salesCount} isOwner={isOwner} />          {location && (
             <Flex align="center" gap={1}>
               <i className="bx bx-current-location" style={{ fontSize: '16px', color: 'var(--chakra-colors-neutral-400)' }} />
               <Text fontSize="md" color="neutral.700">{location}</Text>

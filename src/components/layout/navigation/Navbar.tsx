@@ -1,17 +1,16 @@
 'use client'
 
 import { Box } from '@chakra-ui/react'
-import { useDisclosure } from '@chakra-ui/react'
 import { NavbarTop } from './NavbarTop'
 import { NavbarCategories } from './NavbarCategories'
 import { CategorySidebar } from './CategorySidebar'
-import { MobileDrawer } from './MobileDrawer'
+import { useDisclosure } from '@chakra-ui/react'
 import { usePathname } from 'next/navigation'
 import { User } from '@supabase/supabase-js'
 
 export default function Navbar({ user, unreadCount = 0 }: { user: User | null; unreadCount?: number }) {
-  const { open, onOpen, onClose } = useDisclosure()
-  const { open: openCats, onOpen: onOpenCats, onClose: onCloseCats } = useDisclosure()
+  const { open: openCats,  onClose: onCloseCats } = useDisclosure()
+  const { open: openDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure()
   const pathname = usePathname()
   const isChatDetail = !!pathname.match(/^\/chat\/.+/)
 
@@ -24,10 +23,9 @@ export default function Navbar({ user, unreadCount = 0 }: { user: User | null; u
       shadow="base"
       display={isChatDetail ? { base: 'none', md: 'block' } : 'block'}
     >
-      <NavbarTop user={user} onOpenMenu={onOpen} unreadCount={unreadCount} />
-      <NavbarCategories onOpenCats={onOpenCats} />
+      <NavbarTop user={user} onOpenMenu={onOpenDrawer} unreadCount={unreadCount} />
+      <NavbarCategories />
       <CategorySidebar open={openCats} onClose={onCloseCats} />
-      <MobileDrawer open={open} onClose={onClose} user={user} />
     </Box>
   )
 }
