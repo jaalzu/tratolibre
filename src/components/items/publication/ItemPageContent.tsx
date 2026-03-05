@@ -4,7 +4,7 @@ import ItemImageSlider from './ItemImageSlider'
 import ItemInfo from './ItemInfo'
 import ItemDetails from './ItemDetails'
 import SellerCard from './SellerCard'
-import RelatedItems from './RelatedItems'
+import { RelatedItems } from './RelatedItems'
 import ItemActions from './ItemActions'
 import { ItemWithProfile } from '@/features/items/types'
 
@@ -41,8 +41,7 @@ export default function ItemPageContent({ item, userId }: ItemPageContentProps) 
           <Separator my={6} borderColor="neutral.100" />
 
           <Suspense fallback={<Box h="200px" />}>
-            <RelatedItems category={item.category} excludeId={item.id} />
-          </Suspense>
+<RelatedItems category={item.category} excludeId={item.id} userId={userId} />          </Suspense>
         </Box>
 
         <Box
@@ -79,8 +78,7 @@ export default function ItemPageContent({ item, userId }: ItemPageContentProps) 
               <Separator my={8} borderColor="neutral.100" />
 
               <Suspense fallback={<Box h="200px" />}>
-                <RelatedItems category={item.category} excludeId={item.id} />
-              </Suspense>
+<RelatedItems category={item.category} excludeId={item.id} userId={userId} />              </Suspense>
             </Box>
 
             <Box w="300px" flexShrink={0}>

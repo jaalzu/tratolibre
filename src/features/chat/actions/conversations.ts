@@ -104,6 +104,5 @@ export async function getConversationsByItem(itemId: string) {
     .eq('item_id', itemId)
     .eq('seller_id', user.id)
 
-    console.log(data)
   return data ?? []
 }

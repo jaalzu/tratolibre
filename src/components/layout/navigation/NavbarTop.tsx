@@ -1,12 +1,13 @@
 'use client'
 
-import { Box, Flex, Text, Input, Group, IconButton } from '@chakra-ui/react'
+import { Box, Flex, Text, Group, IconButton } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { logoutAction } from '@/features/auth/actions'
 import NavLink from './NavLink'
 import 'boxicons/css/boxicons.min.css'
 import { ChatNavLink } from './ChatNavLink'
 import { NotificationBell } from '@/features/notifications/NotificationBell'
+import { SearchBar } from '../../../features/search/SearchBar'
 import { User } from '@supabase/supabase-js'
 
 const loggedNavItems = [
@@ -25,6 +26,7 @@ interface NavbarTopProps {
 export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
   <Box bg="brand.default">
     <Flex maxW="1280px" mx="auto" px={2} h="60px" align="center" gap={{ base: 2, md: 6 }}>
+
       {/* Logo */}
       <NextLink href="/" passHref>
         <Text fontWeight="bold" fontSize="md" color="neutral.50" whiteSpace="nowrap">
@@ -34,16 +36,7 @@ export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
 
       {/* Buscador */}
       <Group flex="1" maxW={{ base: 'full', md: '700px' }}>
-        <Box position="relative" w="full">
-          <Box position="absolute" left="3" top="50%" transform="translateY(-40%)" zIndex={10}>
-            <i className='bx bx-search' style={{ color: 'var(--chakra-colors-neutral-300)', fontSize: '18px' }} />
-          </Box>
-          <Input
-            placeholder="Buscar..." ps="9" h="32px" fontSize="sm"
-            bg="neutral.50" color="neutral.900" borderRadius="full" border="none"
-            _focus={{ shadow: 'focus' }}
-          />
-        </Box>
+        <SearchBar />
       </Group>
 
       {/* Desktop nav */}
@@ -58,8 +51,8 @@ export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
               <NotificationBell initialCount={unreadCount} userId={user.id} />
             </Box>
             <form action={logoutAction}>
-              <IconButton type="submit" p={1} variant="ghost" color="red" _hover={{ bg: 'whiteAlpha.200' }}>
-                <i className='bx bx-log-out' style={{ fontSize: '28px' }} />
+              <IconButton type="submit" p={1} variant="ghost" color="neutral.50" _hover={{ bg: 'whiteAlpha.200' }}>
+       <i className='bx bx-log-out' style={{ fontSize: '28px' }} />
               </IconButton>
             </form>
           </>
@@ -87,7 +80,7 @@ export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
           </Box>
         ) : (
           <NextLink href="/login">
-           <Box bg="neutral.50" color="brand.default" fontSize="sm" fontWeight="bold" px={3} py={1} borderRadius="md">
+            <Box bg="neutral.50" color="brand.default" fontSize="sm" fontWeight="bold" px={3} py={1} borderRadius="md">
               Ingresar
             </Box>
           </NextLink>

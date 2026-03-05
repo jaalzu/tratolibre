@@ -15,7 +15,7 @@ export const ProfileStats = ({ salesCount, isOwner }: ProfileStatsProps) => (
       <Box display={{ base: 'block', md: 'none' }} ml="auto">
         <form action={logoutAction}>
           <button type="submit">
-            <i className="bx bx-log-out" style={{ fontSize: '22px', color: 'var(--chakra-colors-feedback-error)' }} />
+            <i className="bx bx-log-out" style={{ fontSize: '28px', color: 'var(--chakra-colors-feedback-error)' }} />
           </button>
         </form>
       </Box>

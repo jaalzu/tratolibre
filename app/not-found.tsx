@@ -20,7 +20,7 @@ export default function NotFound() {
         <Text fontSize="sm" color="neutral.400" textAlign="center" maxW="320px">
           No encontramos lo que buscabas. Quizás ya no existe o nunca existió.
         </Text>
-        <Button asChild borderRadius="full" py={1} px={6}>
+        <Button asChild borderRadius="full" py={2} px={6}>
           <NextLink href="/">Volver al inicio</NextLink>
         </Button>
       </Flex>

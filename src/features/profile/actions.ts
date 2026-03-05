@@ -79,3 +79,14 @@ export async function updateProfileAction(formData: FormData) {
   revalidatePath('/profile')
   redirect('/profile')
 }
+
+
+export async function getUserProvince(userId: string): Promise<string | null> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('profiles')
+    .select('province')
+    .eq('id', userId)
+    .single()
+  return data?.province ?? null
+}

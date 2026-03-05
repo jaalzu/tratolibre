@@ -5,16 +5,12 @@ import { ItemSchema } from './schemas'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { Item } from '@/features/items/types'
-
-// mucha logica tener este notifcation aca.. deberiamos moverlo
 import { createNotification } from '@/features/notifications/actions'
-
+import { Item } from '@/features/items/types'
 
 type ActionState = { error?: string | object } | null
 
 export async function createItemAction(_prevState: ActionState, formData: FormData) {
-
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
@@ -25,9 +21,8 @@ export async function createItemAction(_prevState: ActionState, formData: FormDa
     .eq('owner_id', user.id)
     .gte('created_at', oneHourAgo)
 
-  if (count && count >= 8) {
+  if (count && count >= 8)
     return { error: 'Alcanzaste el límite de 8 publicaciones por hora. Intentá más tarde.' }
-  }
 
   const raw = {
     title:       formData.get('title'),
@@ -53,7 +48,7 @@ export async function createItemAction(_prevState: ActionState, formData: FormDa
 
   if (error) return { error: error.message }
 
-  revalidatePath('/explore')
+  revalidatePath('/')
   redirect(`/item/${item.id}`)
 }
 
@@ -109,23 +104,35 @@ export async function deleteItemAction(id: string) {
 
 export async function getItemById(id: string) {
   const supabase = await createClient()
-
   const { data, error } = await supabase
     .from('items')
     .select('*, profiles(id, name, avatar_url, rating, reviews_count)')
     .eq('id', id)
     .single()
-
   if (error) return null
   return data
 }
 
+function getDateFrom(date?: 'today' | 'week' | 'month'): string | null {
+  if (!date) return null
+  const now = new Date()
+  if (date === 'today') { now.setHours(0, 0, 0, 0); return now.toISOString() }
+  if (date === 'week')  { now.setDate(now.getDate() - 7);  return now.toISOString() }
+  if (date === 'month') { now.setDate(now.getDate() - 30); return now.toISOString() }
+  return null
+}
+
 export async function getItems(params: {
-  query?:    string
-  category?: string
-  city?:     string
-  province?: string
-  type?:     string
+  query?:     string
+  category?:  string
+  city?:      string
+  province?:  string
+  type?:      string
+  condition?: string
+  min_price?: number
+  max_price?: number
+  date?:      'today' | 'week' | 'month'
+  order_by?:  'closest' | 'most_relevance' | 'price_asc' | 'price_desc'
 } = {}) {
   const supabase = await createClient()
 
@@ -134,13 +141,24 @@ export async function getItems(params: {
     .select('*, profiles(name, avatar_url, rating)')
     .eq('available', true)
     .eq('sold', false)
-    .order('created_at', { ascending: false })
 
-  if (params.query)    q = q.or(`title.ilike.%${params.query}%,description.ilike.%${params.query}%`)
-  if (params.category) q = q.eq('category', params.category)
-  if (params.city)     q = q.ilike('city', `%${params.city}%`)
-  if (params.province) q = q.eq('province', params.province)
-  if (params.type)     q = q.eq('type', params.type)
+  if (params.query)     q = q.ilike('title', `%${params.query}%`)
+  if (params.category)  q = q.eq('category', params.category)
+  if (params.city)      q = q.ilike('city', `%${params.city}%`)
+  if (params.province)  q = q.eq('province', params.province)
+  if (params.type)      q = q.eq('type', params.type)
+  if (params.condition) q = q.eq('condition', params.condition)
+  if (params.min_price) q = q.gte('sale_price', params.min_price)
+  if (params.max_price) q = q.lte('sale_price', params.max_price)
+
+  const dateFrom = getDateFrom(params.date)
+  if (dateFrom) q = q.gte('created_at', dateFrom)
+
+  switch (params.order_by) {
+    case 'price_asc':  q = q.order('sale_price', { ascending: true });  break
+    case 'price_desc': q = q.order('sale_price', { ascending: false }); break
+    default:           q = q.order('created_at', { ascending: false })
+  }
 
   const { data } = await q
   return data ?? []
@@ -168,20 +186,6 @@ export async function getUserFavoriteIds(userId: string): Promise<string[]> {
   return data?.map(f => f.item_id) ?? []
 }
 
-export async function getItemsByCategory(category: string) {
-  const supabase = await createClient()
-
-  const { data } = await supabase
-    .from('items')
-    .select('*, profiles(name, avatar_url, rating, reviews_count)')
-    .eq('category', category)
-    .eq('available', true)
-    .eq('sold', false)
-    .order('created_at', { ascending: false })
-
-  return data ?? []
-}
-
 export async function toggleFavoriteAction(itemId: string) {
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
@@ -206,7 +210,6 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
-  // Obtener item + título para la notificación
   const { data: item } = await supabase
     .from('items')
     .select('sale_price, title')
@@ -216,7 +219,6 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
 
   if (!item) return { error: 'Item no encontrado' }
 
-  // Actualizar item
   const { error: itemError } = await supabase
     .from('items')
     .update({ sold: true, available: false, sold_at: new Date().toISOString() })
@@ -225,7 +227,6 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
 
   if (itemError) return { error: itemError.message }
 
-  // Crear registro de compra
   const { data: purchase, error: purchaseError } = await supabase
     .from('purchases')
     .insert({
@@ -239,34 +240,22 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
     .single()
 
   if (purchaseError) {
-  console.error('purchaseError:', purchaseError.message, purchaseError.code)
-  return { error: purchaseError.message }
-}
+    console.error('purchaseError:', purchaseError.message, purchaseError.code)
+    return { error: purchaseError.message }
+  }
 
-  // Notificar al OWNER (vendedor): "Marcaste como vendido"
   await createNotification({
     supabase,
     userId: user.id,
     type:   'sale_completed',
-    data: {
-      item_id:     itemId,
-      item_title:  item.title,
-      buyer_id:    buyerId,
-      purchase_id: purchase.id,
-    },
+    data: { item_id: itemId, item_title: item.title, buyer_id: buyerId, purchase_id: purchase.id },
   })
 
-  // Notificar al COMPRADOR: "Fuiste marcado como comprador"
   await createNotification({
     supabase,
     userId: buyerId,
     type:   'purchase_completed',
-    data: {
-      item_id:     itemId,
-      item_title:  item.title,
-      owner_id:    user.id,
-      purchase_id: purchase.id,
-    },
+    data: { item_id: itemId, item_title: item.title, owner_id: user.id, purchase_id: purchase.id },
   })
 
   revalidatePath(`/item/${itemId}`)

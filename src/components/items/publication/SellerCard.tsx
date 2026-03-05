@@ -3,7 +3,6 @@
 import { Box, Flex, Text, Circle, Spinner } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { useStartChat } from '@/features/items/useStartChat'
-import { Profile } from '@/features/profile/types'
 
 interface SellerCardProfile {
   id: string

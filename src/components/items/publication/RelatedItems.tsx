@@ -1,20 +1,16 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { Box, Grid, Text } from '@chakra-ui/react'
 import { ItemCard } from '@/components/items/home/ItemCard'
-import { getItemsByCategory } from '@/features/items/actions'
-import { Item } from '@/features/items/types'
+import { getItems } from '@/features/items/actions'
 
-export default function RelatedItems({ category, excludeId }: { category: string, excludeId: string }) {
-  const [items, setItems] = useState<Item[]>([])
+interface RelatedItemsProps {
+  category:  string
+  excludeId: string
+  userId?:   string | null
+}
 
-
-  useEffect(() => {
-    getItemsByCategory(category).then(data => {
-      setItems(data.filter((i: Item) => i.id !== excludeId).slice(0, 6))
-    })
-  }, [category, excludeId])
+export async function RelatedItems({ category, excludeId, userId = null }: RelatedItemsProps) {
+  const all   = await getItems({ category })
+  const items = all.filter(i => i.id !== excludeId).slice(0, 6)
 
   if (!items.length) return null
 
@@ -23,9 +19,9 @@ export default function RelatedItems({ category, excludeId }: { category: string
       <Text fontSize="lg" fontWeight="bold" color="neutral.900" mb={4}>
         Otras personas están viendo
       </Text>
-      <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={4} justifyItems="start">
-        {items.map((obj: Item) => (
-          <ItemCard key={obj.id} obj={obj} />
+      <Grid templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }} gap={4} justifyItems="start">
+        {items.map(obj => (
+          <ItemCard key={obj.id} obj={obj} userId={userId} />
         ))}
       </Grid>
     </Box>
