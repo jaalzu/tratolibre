@@ -1,13 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import { Hero } from '@/components/sections/Hero'
-import { RecentItemsSection } from '@/components/items/home/RecentItemsSection'
-import { NearbyItemsSection } from '@/components/items/home/NearbyItemsSection'
-import { NewItemsSection } from '@/components/items/home/NewItemsSection'
-import { createClient } from '@/lib/supabase/server'
+import { RecentItemsSection } from '@/features/items/components/home/RecentItemsSection'
+import { NearbyItemsSection } from '@/features/items/components/home/NearbyItemsSection'
+import { NewItemsSection } from '@/features/items/components/home/NewItemsSection'
+import { getAuthUser } from '@/lib/supabase/getAuthUser'
 
 export default async function HomePage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { user } = await getAuthUser()
 
   return (
     <Box>

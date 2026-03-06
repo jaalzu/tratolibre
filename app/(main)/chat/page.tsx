@@ -1,4 +1,4 @@
-import { ConversationList } from '@/components/chat/conversations/ConversationList'
+import { ConversationList } from '@/features/chat/components/conversations/ConversationList'
 import { Box, Flex } from '@chakra-ui/react'
 
 export default async function ChatPage() {

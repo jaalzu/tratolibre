@@ -1,6 +1,6 @@
 'use client'
 
-import { useUnreadCount } from '@/features/chat/useUnreadCount'
+import { useUnreadCount } from '@/features/chat/hooks/useUnreadCount'
 import NavLink from './NavLink'
 
 interface ChatNavLinkProps {

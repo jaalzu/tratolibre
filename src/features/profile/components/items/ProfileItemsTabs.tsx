@@ -6,7 +6,7 @@ import { ProfileItemCard } from './ProfileItemCard'
 import { Button } from '@/components/ui/Button'
 import NextLink from 'next/link'
 import { ItemSummary } from '@/features/items/types'
-
+import { EmptyState } from '@/components/ui/EmptyState'
 interface ProfileItemsTabsProps {
    items: ItemSummary[]
   isOwner?: boolean
@@ -52,17 +52,13 @@ export const ProfileItemsTabs = ({ items, isOwner }: ProfileItemsTabsProps) => {
       </Flex>
 
       {current.length === 0 ? (
-        <Flex direction="column" align="center" py={5} gap={3}>
-          <img src="/svg/nothing-here.svg" alt="Sin artículos" style={{ width: '280px', opacity: 0.7 }} />
-          <Text fontSize="sm" color="neutral.400">
-            {tab === 'active' ? 'No hay publicaciones activas' : 'No hay artículos vendidos'}
-          </Text>
-          {tab === 'active' && isOwner && (
-            <Button asChild size="md" p={3} borderRadius="full">
-              <NextLink href="/item/new">Empezá a vender</NextLink>
-            </Button>
-          )}
-        </Flex>
+              <EmptyState
+          image="/svg/nothing-here.svg"
+          imageAlt="Buzon vacío"
+          title={tab === 'active' ? 'No hay publicaciones activas' : 'No hay artículos vendidos'}
+          actionLabel={tab === 'active' && isOwner ? 'Empezá a vender' : undefined}
+          actionHref={tab === 'active' && isOwner ? '/item/new' : undefined}
+        />
       ) : (
        <SimpleGrid columns={{ base: 2, md: 4 }} gap={3}>
           {current.map(item => (

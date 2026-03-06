@@ -1,5 +1,5 @@
 import { Box, Grid, Text } from '@chakra-ui/react'
-import { ItemCard } from '@/components/items/home/ItemCard'
+import { ItemCard } from '@/features/items/components/home/ItemCard'
 import { getItems } from '@/features/items/actions'
 
 interface RelatedItemsProps {

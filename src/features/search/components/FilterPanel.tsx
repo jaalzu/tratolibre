@@ -1,7 +1,7 @@
 'use client'
 
 import { Box, Flex, Text, Stack, NativeSelect } from '@chakra-ui/react'
-import { useSearchFilters } from './useSearchFilters'
+import { useSearchFilters } from '../useSearchFilters'
 import { CATEGORIES, CONDITIONS } from '@/lib/constants'
 import { Button } from '@/components/ui/Button'
 

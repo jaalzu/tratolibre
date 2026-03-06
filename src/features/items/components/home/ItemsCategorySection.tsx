@@ -1,7 +1,7 @@
 import NextLink from 'next/link'
 import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { ItemCard } from '@/components/items/home/ItemCard'
+import { ItemCard } from '@/features/items/components/home/ItemCard'
 import { Item } from '@/features/items/types'
 
 interface ItemsRowProps {

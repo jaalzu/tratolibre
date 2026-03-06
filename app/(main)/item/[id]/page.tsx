@@ -1,16 +1,12 @@
 import { getItemById } from '@/features/items/actions'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
-import ItemPageContent from '@/components/items/publication/ItemPageContent'
+import ItemPageContent from '@/features/items/components/publication/ItemPageContent'
+import { getAuthUser } from '@/lib/supabase/getAuthUser'
 
 export default async function ItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const supabase = await createClient()
-
-  const [item, { data: { user } }] = await Promise.all([
-    getItemById(id),
-    supabase.auth.getUser()
-  ])
+  const { user } = await getAuthUser()
+  const item = await getItemById(id)
 
   if (!item) notFound()
 

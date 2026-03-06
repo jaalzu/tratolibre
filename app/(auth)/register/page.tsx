@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import { Card } from '@/components/ui/Card'
-import { RegisterOptions } from '@/components/auth/RegisterOptions'
+import { RegisterOptions } from '@/features/auth/components/RegisterOptions'
 
 export default function RegisterPage() {
   return (

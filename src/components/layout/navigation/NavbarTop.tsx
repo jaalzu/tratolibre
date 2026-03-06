@@ -6,8 +6,8 @@ import { logoutAction } from '@/features/auth/actions'
 import NavLink from './NavLink'
 import 'boxicons/css/boxicons.min.css'
 import { ChatNavLink } from './ChatNavLink'
-import { NotificationBell } from '@/features/notifications/NotificationBell'
-import { SearchBar } from '../../../features/search/SearchBar'
+import { NotificationBell } from '@/features/notifications/components/NotificationBell'
+import { SearchBar } from '../../../features/search/components/SearchBar'
 import { User } from '@supabase/supabase-js'
 
 const loggedNavItems = [

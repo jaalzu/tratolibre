@@ -5,7 +5,7 @@ import { Dialog, Portal, Box, Flex, Text, Circle, Spinner } from '@chakra-ui/rea
 import { Button } from '@/components/ui/Button'
 import { getConversationsByItem } from '@/features/chat/actions/conversations'
 import { markAsSoldToAction } from '@/features/items/actions'
-import { ReviewModal } from '../../../features/reviews/ReviewModal'
+import { ReviewModal } from '../../../reviews/ReviewModal'
 import Image from 'next/image'
 import { ConversationBuyer } from '@/features/chat/types'
 

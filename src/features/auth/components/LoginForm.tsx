@@ -10,7 +10,7 @@ import { Flex, Text, Input, Field, Stack, Box } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { SocialButtons } from '@/components/auth/SocialButtons'
+import { SocialButtons } from '@/features/auth/components/SocialButtons'
 
 
 const supabase = createClient()

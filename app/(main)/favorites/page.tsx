@@ -3,7 +3,7 @@ import { getUserFavorites } from '@/features/items/actions'
 import { getAuthUser } from '@/lib/supabase/getAuthUser'
 import { redirect } from 'next/navigation'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { ItemCard } from '@/components/items/home/ItemCard'
+import { ItemCard } from '@/features/items/components/home/ItemCard'
 import { Item } from '@/features/items/types'
 
 export default async function FavoritesPage() {

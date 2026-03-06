@@ -1,7 +1,7 @@
 import { Box, Flex, Text, Stack } from '@chakra-ui/react'
 import { Bell, X } from 'lucide-react'
 import { NotificationItem } from './NotificationItem'
-import type { Notification } from './types'
+import type { Notification } from '../types'
 
 interface NotificationsPanelProps {
   notifications: Notification[]

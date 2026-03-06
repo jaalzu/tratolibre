@@ -4,7 +4,7 @@ import { Flex, Text } from '@chakra-ui/react'
 import { RegisterCollage } from './RegisterCollage'
 import NextLink from 'next/link'
 import { useRouter } from 'next/navigation'
-import { SocialButtons } from '@/components/auth/SocialButtons'
+import { SocialButtons } from '@/features/auth/components/SocialButtons'
 
 export const RegisterOptions = () => {
   const router = useRouter()

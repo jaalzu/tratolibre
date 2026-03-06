@@ -2,7 +2,7 @@
 
 import { Box, Flex, Stack, Text, Spinner } from '@chakra-ui/react'
 import { ConversationItem } from './ConversationItem'
-import { useConversations } from '@/features/chat/useConversations'
+import { useConversations } from '@/features/chat/hooks/useConversations'
 import { Conversation } from '@/features/chat/types'
 
 interface ConversationListProps {

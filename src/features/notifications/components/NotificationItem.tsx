@@ -2,8 +2,8 @@
 
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import type { NotificationType } from './types'
-import type { Notification } from './types'
+import type { NotificationType } from '../types'
+import type { Notification } from '../types'
 import 'boxicons/css/boxicons.min.css'
 
 // Payloads tipados por tipo

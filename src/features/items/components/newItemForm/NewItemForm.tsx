@@ -11,7 +11,7 @@ import { LocationSelector } from './LocationSelector'
 import { ImageUploader } from './ImageUploader'
 
 // Lógica y Componentes UI extraídos
-import { useNewItemForm } from '@/features/items/useNewItemForm'
+import { useNewItemForm } from '@/features/items/hooks/useNewItemForm'
 import { FormField, FormHeader, inputStyles } from './FormFields'
 
 import { Item } from '@/features/items/types'

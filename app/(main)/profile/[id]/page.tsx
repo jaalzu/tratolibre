@@ -1,5 +1,5 @@
 import { getUserProfile } from '@/features/profile/actions'
-import { ProfileView } from '@/components/profile/ProfileView'
+import { ProfileView } from '@/features/profile/components/ProfileView'
 import { notFound } from 'next/navigation'
 
 export default async function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {

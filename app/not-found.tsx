@@ -1,6 +1,8 @@
+'use client'
+
 import { Box, Text, Flex } from '@chakra-ui/react'
-import { Button } from '@/components/ui/Button'
 import NextLink from 'next/link'
+import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function NotFound() {
   return (
@@ -11,18 +13,17 @@ export default function NotFound() {
           <Text fontSize="xl" fontWeight="bold" color="neutral.900">TratoLibre</Text>
         </NextLink>
       </Box>
+       
 
       <Flex direction="column" align="center" justify="center" minH="100vh" gap={4} px={4}>
-        <img src="/404.webp" alt="Perro comiendo la página" style={{ width: '220px', borderRadius: '16px' }} />
-        <Text fontSize="2xl" fontWeight="bold" color="neutral.900" textAlign="center">
-          ¡Parece que un perro se comió esta página!
-        </Text>
-        <Text fontSize="sm" color="neutral.400" textAlign="center" maxW="320px">
-          No encontramos lo que buscabas. Quizás ya no existe o nunca existió.
-        </Text>
-        <Button asChild borderRadius="full" py={2} px={6}>
-          <NextLink href="/">Volver al inicio</NextLink>
-        </Button>
+      <EmptyState
+  image="/404.webp"
+  imageAlt="Perro comiendo la página"
+  title="¡Parece que un perro se comió esta página!"
+  description="No encontramos lo que buscabas. Quizás ya no existe o nunca existió."
+  actionLabel="Volver al inicio"
+  actionHref="/"
+/>
       </Flex>
     </Box>
   )

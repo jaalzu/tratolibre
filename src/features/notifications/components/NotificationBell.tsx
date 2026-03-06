@@ -6,7 +6,7 @@ import { Bell } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { getMyNotifications, markAllNotificationsRead } from '@/features/notifications/actions'
 import { NotificationsPanel } from './NotificationsPanel'
-import type { Notification } from './types'
+import type { Notification } from '../types'
 
 
 interface NotificationBellProps {
