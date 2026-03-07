@@ -2,7 +2,7 @@ import { Box, Flex, Text, SimpleGrid } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 export const Footer = () => (
-  <Box bg="white" px={{ base: 6, md: 16 }} pb={{ base: '80px', md: 10 }} pt={10}>
+  <Box  px={{ base: 6, md: 16 }} pb={{ base: '80px', md: 10 }} pt={10}>
     <Box maxW="1280px" mx="auto">
       <Box borderTop="1px solid" borderColor="neutral.100" pt={8}>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>

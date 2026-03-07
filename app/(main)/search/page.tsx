@@ -15,7 +15,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     return (
     <>
       <SearchFilterBar />
-      <PageContainer pt={{ base: 4, md: 8 }} pb={24} px={{ base: 4, md: 8 }}>
+      <PageContainer  pt={{ base: 4, md: 8 }} pb={24} px={{ base: 4, md: 8 }}>
         <Flex gap={8} align="flex-start">
           <FilterPanel />
           <SearchResults

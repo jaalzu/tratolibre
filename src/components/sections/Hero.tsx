@@ -23,6 +23,7 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
       title: 'Compra, venta e intercambio de artículos de segunda mano.',
       buttonLabel: 'Vender Ahora',
       buttonHref: isLoggedIn ? '/item/new' : '/register',
+      
       bg: 'brand.100',
     },
     {

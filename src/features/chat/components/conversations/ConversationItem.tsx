@@ -28,7 +28,7 @@ export const ConversationItem = ({ conv, isActive, userId }: ConversationItemPro
       asChild
       p={1}
       borderBottom="1px solid"
-      borderColor="neutral.300"
+      borderColor="neutral.100"
       bg={isActive ? 'accent.100' : 'transparent'}
     >
       <NextLink href={`/chat/${conv.id}`}>

@@ -27,7 +27,7 @@ accent: {
 },
   neutral: {
     50:  { value: '#ffffff' },
-    100: { value: '#e0e0e0' },
+    100: { value: '#e7e7e7' },
     150:  { value: '#eff3f6' },
     200: { value: '#c6c5c5' },
     300: { value: '#ada9a9' },
@@ -80,7 +80,7 @@ accent: {
         lg: { value: '6px' },
       },
       shadows: {
-        base: { value: '0 2px 6px 0 rgba(0, 0, 0, 0.14)' },
+        base: { value: '0 2px 12px 0 rgba(0,0,0,0.10)' },
         focus: { value: '0 0 0 2px rgba(34, 197, 94, 0.35)' },
       },
     },

@@ -17,14 +17,14 @@ export const ConversationList = ({ activeId }: ConversationListProps) => {
   direction="column" 
   w={{ base: 'full', md: '320px' }} 
   flexShrink={0} 
-  borderRight={{ base: 'none', md: '1px solid' }}
-  borderColor="neutral.100" 
+  borderRightWidth={{ base: '0', md: '2px' }}
+  borderColor="neutral.100"
   h="full" 
   overflow="hidden"
 >
       {/* Header */}
-      <Box px="4" py="3" borderBottom="1px solid" borderColor="neutral.200">
-        <Text fontSize="sm" fontWeight="bold" color="neutral.900">Bandeja de entrada</Text>
+      <Box px="4" py="5"  borderBottom="1px solid" borderColor="neutral.100">
+        <Text fontSize="md" fontWeight="bold" color="neutral.900">Bandeja de entrada</Text>
       </Box>
 
       {/* Lista */}

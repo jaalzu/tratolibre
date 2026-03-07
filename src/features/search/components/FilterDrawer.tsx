@@ -31,16 +31,16 @@ export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
 
       <Box
         position="fixed" top={0} left={0} h="100vh" w="280px"
-        bg="white" zIndex={201}
+        bg="#ffffff" zIndex={201}
         transform={open ? 'translateX(0)' : 'translateX(-100%)'}
         transition="transform 0.25s ease"
         display="flex" flexDirection="column"
         boxShadow="lg"
       >
-        <Flex align="center" justify="space-between" px={4} py={4} borderBottom="1px solid" borderColor="neutral.100">
+        <Flex align="center" justify="space-between" px={4} py={2} borderBottom="1px solid" borderColor="neutral.100">
           <Text fontWeight="bold" fontSize="md" color="neutral.900">Filtros</Text>
-          <IconButton variant="ghost" size="sm" onClick={onClose}>
-            <i className="bx bx-x" style={{ fontSize: '20px' }} />
+          <IconButton variant="ghost" onClick={onClose}>
+            <i className="bx bx-x" aria-label='close filter menu' style={{ fontSize: '28px' , color:'red' }} />
           </IconButton>
         </Flex>
 
@@ -123,7 +123,7 @@ export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
 
         <Flex gap={2} px={4} py={4} borderTop="1px solid" borderColor="neutral.100">
           <Button variant="ghost" flex={1} onClick={() => clear(onClose)}>Limpiar</Button>
-          <Button flex={1} onClick={() => apply(onClose)}>Aplicar</Button>
+          <Button flex={1} p={1} onClick={() => apply(onClose)}>Aplicar</Button>
         </Flex>
       </Box>
     </>

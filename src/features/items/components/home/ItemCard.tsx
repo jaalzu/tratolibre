@@ -9,32 +9,28 @@ interface ItemCardProps {
     initialFavorited?: boolean
 
 }
-
 export const ItemCard = ({ obj, userId = null, initialFavorited = false }: ItemCardProps) => {
-  const imgW = "186px"
-
   return (
     <NextLink href={`/item/${obj.id}`} style={{ textDecoration: 'none' }}>
       <Box
-        w={imgW}
+        w="full"
         transition="transform 0.2s ease"
         _hover={{ transform: 'translateY(-3px)' }}
       >
         {obj.images?.[0] ? (
           <img
             src={obj.images[0]}
-            width={imgW}
             style={{ 
-              height: '225px', 
+              width: '100%',
+              height: '245px', 
               objectFit: 'cover', 
-              borderRadius: '6px',
+              borderRadius: '8px',
               display: 'block',
-              width: imgW
             }}
             alt={obj.title}
           />
         ) : (
-          <Box w={imgW} h="225px" borderRadius="lg" bg="neutral.100" />
+          <Box w="full" h="245px" borderRadius="lg" bg="neutral.100" />
         )}
 
         <Box pt={2}>

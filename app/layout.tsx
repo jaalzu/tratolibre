@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Box } from "@chakra-ui/react";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -17,11 +18,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <link rel="preload" as="image" href="/hero/girl-in-pool.webp" fetchPriority="high"/>
+        <link
+          rel="preload"
+          as="image"
+          href="/hero/girl-in-pool.webp"
+          fetchPriority="high"
+        />
       </head>
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
-          {children}
+          <Box bg="#FAFAFA" minH="100vh">
+            {children}
+          </Box>
         </Providers>
       </body>
     </html>

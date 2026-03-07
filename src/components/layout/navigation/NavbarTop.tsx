@@ -64,7 +64,7 @@ export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
               </Box>
             </NextLink>
             <NextLink href="/register">
-              <Box bg="neutral.50" color="brand.default" px={4} py={1.5} borderRadius="md" fontSize="sm" fontWeight="bold" _hover={{ bg: 'neutral.100' }} shadow="base">
+              <Box bg="neutral.50" color="brand.default" px={4} py={1.5} borderRadius="md" fontSize="sm" fontWeight="bold" _hover={{ bg: 'neutral.100' }} >
                 Vender
               </Box>
             </NextLink>

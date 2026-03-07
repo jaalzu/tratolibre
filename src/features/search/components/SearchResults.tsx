@@ -13,7 +13,7 @@ interface SearchResultsProps {
 export function SearchResults({ items, favoriteIds, title, userId }: SearchResultsProps) {
   return (
     <Box flex={1}>
-      <Heading as="h1" fontSize="lg" fontWeight="bold" color="neutral.900" mb={6}>
+      <Heading as="h1" fontSize="lg" fontWeight="bold" color="neutral.900" mb={4}>
         {title}
         {items.length > 0 && (
           <Text as="span" fontSize="sm" fontWeight="normal" color="neutral.400" ml={2}>
@@ -32,16 +32,17 @@ export function SearchResults({ items, favoriteIds, title, userId }: SearchResul
           actionHref="/search?order_by=closest"
         />
       ) : (
-        <Flex wrap="wrap" gap={6}>
-          {items.map(item => (
-            <ItemCard
-              key={item.id}
-              obj={item}
-              userId={userId}
-              initialFavorited={favoriteIds.includes(item.id)}
-            />
-          ))}
-        </Flex>
+       <Flex wrap="wrap" gap={3}>
+  {items.map(item => (
+    <Box key={item.id} w={{ base: 'calc(50% - 8px)', md: 'calc(33.33% - 11px)' }}>
+      <ItemCard
+        obj={item}
+        userId={userId}
+        initialFavorited={favoriteIds.includes(item.id)}
+      />
+    </Box>
+  ))}
+</Flex>
       )}
     </Box>
   )

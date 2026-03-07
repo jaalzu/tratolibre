@@ -23,10 +23,10 @@ export function FilterPanel() {
   const { filters, setFilter, toggleFilter, apply, clear, provinces } = useSearchFilters()
 
   const SectionTitle = ({ children }: { children: string }) => (
-    <Text fontSize="xs" fontWeight="bold" color="neutral.400" mb={2} letterSpacing="wider">{children}</Text>
+    <Text fontSize="xs" fontWeight="bold" color="neutral.500" mb={2} letterSpacing="wider">{children}</Text>
   )
 
-  const OptionButton = ({ id, label, active, onClick }: { id: string; label: string; active: boolean; onClick: () => void }) => (
+  const OptionButton = ({  label, active, onClick }: { id: string; label: string; active: boolean; onClick: () => void }) => (
     <Box as="button" onClick={onClick} px={3} py={2} borderRadius="lg" textAlign="left" w="full" transition="all 0.15s"
       bg={active ? 'brand.50' : 'transparent'} border="1px solid" borderColor={active ? 'brand.default' : 'neutral.200'}
     >
@@ -96,7 +96,7 @@ export function FilterPanel() {
             <Text color="neutral.300" mt={4}>—</Text>
             <Box flex={1}>
               <Text fontSize="xs" color="neutral.400" mb={1}>Máximo</Text>
-              <input type="number" placeholder="$ ∞" value={filters.maxPrice} onChange={e => setFilter('maxPrice', e.target.value)} min={0}
+              <input type="number" placeholder="$ 10M" value={filters.maxPrice} onChange={e => setFilter('maxPrice', e.target.value)} min={0}
                 style={{ width: '100%', height: '38px', padding: '0 10px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', outline: 'none' }} />
             </Box>
           </Flex>
@@ -113,7 +113,7 @@ export function FilterPanel() {
 
       </Stack>
 
-      <Button mt={6} onClick={() => apply()} w="full">Aplicar filtros</Button>
+      <Button mt={4} p={1} onClick={() => apply()} w="full">Aplicar filtros</Button>
     </Box>
   )
 }

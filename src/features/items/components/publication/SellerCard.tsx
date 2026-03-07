@@ -48,6 +48,7 @@ export default function SellerCard({ profile, itemId, userId }: {
       justify="space-between"
       gap={3}
       border="1px solid"
+      bg="neutral.50"
       borderColor="neutral.100"
       borderRadius="xl"
       px={4}

@@ -25,7 +25,9 @@ export const ChatHeader = ({ item, seller, conversationId }: ChatHeaderProps) =>
   if (!item) return null
   
     return (
-  <Flex align="center" gap="3" px="3" py="2" bg="brand.default" position="sticky" top="0" zIndex={10}>
+  <Flex align="center" gap="4" px="3" py="2" bg="brand.default" position="sticky" top="0" 
+ 
+  zIndex={10}>
     
     {/* Flecha atrás */}
 <NextLink href="/chat">
@@ -33,15 +35,15 @@ export const ChatHeader = ({ item, seller, conversationId }: ChatHeaderProps) =>
     display={{ base: 'block', md: 'none' }} 
     color="white" 
     cursor="pointer" 
-    _hover={{ opacity: 0.7 }}
+    _hover={{ opacity: 0.9 }}
   >
-    <i className="bx bx-arrow-back" style={{ fontSize: 'xl' }} />
+    <i className="bx bx-arrow-back" style={{ fontSize: '24px' }} />
   </Box>
 </NextLink>
 
     {/* Foto del producto */}
     {item.images?.[0] && (
-      <Box position="relative" w="10" h="10" borderRadius="sm" overflow="hidden" flexShrink={0}>
+      <Box position="relative" w="12" h="12" borderRadius="sm" overflow="hidden" flexShrink={0}>
         <Image src={item.images[0]} alt={item.title} fill style={{ objectFit: 'cover' }} />
       </Box>
     )}
@@ -55,7 +57,7 @@ export const ChatHeader = ({ item, seller, conversationId }: ChatHeaderProps) =>
 </Box>
 
     {/* Avatar vendedor con indicador online */}
-<Box position="relative" w="9" h="9" flexShrink={0}>
+<Box position="relative" w="10" h="10" flexShrink={0}>
   <Box position="relative" w="full" h="full" borderRadius="full" overflow="hidden" border="1px solid" borderColor="whiteAlpha.400">
     {seller.avatar_url ? (
       <Image src={seller.avatar_url} alt={seller.name} fill style={{ objectFit: 'cover' }} />

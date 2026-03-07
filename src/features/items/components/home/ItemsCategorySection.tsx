@@ -18,7 +18,7 @@ export const ItemsCategorySection = ({ title, items, viewMoreHref, viewMoreLabel
   if (!items.length) return null
 
   return (
-    <PageContainer pt={{ base: 4, md: 8 }} pb={12} px={{ base: 4, md: 24 }}>
+    <PageContainer pt={{ base: 4, md: 8 }} pb={4} px={{ base: 3, md: 24 }}>
       <Flex align="center" justify="space-between" mb={6}>
         <Heading as="h2" fontSize="lg" fontWeight="bold" color="neutral.900">
           {title}
@@ -40,9 +40,10 @@ export const ItemsCategorySection = ({ title, items, viewMoreHref, viewMoreLabel
         }}
       >
         <Grid
-          templateColumns="repeat(13, 176px)"
-          style={{ gap: '40px' }}
-        >
+  templateColumns={{ base: 'repeat(10, 190px)', md: 'repeat(10, 226px)' }}
+    gap={{ base: '10px', md: '20px' }}
+
+>
           {items.map((obj: Item) => (
             <ItemCard key={obj.id} obj={obj} userId={userId} initialFavorited={favoriteIds.includes(obj.id)} />
           ))}

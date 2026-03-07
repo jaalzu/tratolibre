@@ -51,9 +51,9 @@ export default function ItemPageContent({ item, userId }: ItemPageContentProps) 
           right={0}
           px={4}
           py={3}
-          bg="white"
+          bg="neutral.100"
           borderTop="1px solid"
-          borderColor="neutral.100"
+          borderColor="neutral.200"
           zIndex={40}
         >
           <ItemActions item={item} userId={userId} />

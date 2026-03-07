@@ -46,18 +46,18 @@ export const ChatBubble = ({ content, isMine, createdAt }: ChatBubbleProps) => (
       border="1px solid"
       borderColor="neutral.100"
     >
-      <Text fontSize="xs" color="neutral.900" as="span">
+      <Text fontSize="md" color="neutral.900" as="span">
         {renderContent(content)}
         <Text
           as="span"
-          fontSize="2xs"
+          fontSize="xs"
           color="neutral.400"
           whiteSpace="nowrap"
           float="right"
-          ml="3"
+          ml="4"
           mt="1"
           position="relative"
-          top="2px"
+          top="4px"
         >
           {formatTime(createdAt)}
         </Text>

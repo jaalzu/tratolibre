@@ -1,7 +1,6 @@
 'use client'
 
-import { Box, Text, Flex } from '@chakra-ui/react'
-import { Button } from '@/components/ui/Button'
+import { Box, Text} from '@chakra-ui/react'
 import { EmptyState } from '@/components/ui/EmptyState'
 import NextLink from 'next/link'
 import 'boxicons/css/boxicons.min.css'

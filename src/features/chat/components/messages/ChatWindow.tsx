@@ -23,7 +23,7 @@ export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
   }
 
   return (
-    <Flex direction="column" h="full" bg="white" overflow="hidden">
+    <Flex direction="column" h="full"  overflow="hidden">
       <Box flex="1" minH="0" overflowY="auto">
         <ChatMessages
           messages={messages}

@@ -7,14 +7,14 @@ import { CATEGORIES } from '@/lib/constants'
 
 export const NavbarCategories = () => (
   <Box
-    bg="brand.default"
+    bg="#F8F9FA"
     overflowX="auto"
-    css={{ '&::-webkit-scrollbar': { display: 'none' }, scrollbarWidth: 'none' }}
+
   >
-    <Flex px={6} h="32px" align="center" gap={5} w="max-content" maxW="100%" mx="0">
+    <Flex px={5} h="32px" align="center" gap={5} w="max-content" maxW="100%" mx="0">
       {CATEGORIES.map((cat) => (
         <NextLink key={cat.id} href={`/category/${cat.id}`}>
-          <Text fontSize="xs" fontWeight="medium" color="whiteAlpha.900" _hover={{ color: 'white' }} whiteSpace="nowrap">
+          <Text fontSize="xs" fontWeight="medium" color="black" _hover={{ color: 'brand.hover' }} whiteSpace="nowrap">
             {cat.label}
           </Text>
         </NextLink>

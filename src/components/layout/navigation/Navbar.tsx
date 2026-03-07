@@ -3,13 +3,11 @@
 import { Box } from '@chakra-ui/react'
 import { NavbarTop } from './NavbarTop'
 import { NavbarCategories } from './NavbarCategories'
-import { CategorySidebar } from './CategorySidebar'
 import { useDisclosure } from '@chakra-ui/react'
 import { usePathname } from 'next/navigation'
 import { User } from '@supabase/supabase-js'
 
 export default function Navbar({ user, unreadCount = 0 }: { user: User | null; unreadCount?: number }) {
-  const { open: openCats,  onClose: onCloseCats } = useDisclosure()
   const {  onOpen: onOpenDrawer, } = useDisclosure()
   const pathname = usePathname()
   const isChatDetail = !!pathname.match(/^\/chat\/.+/)
@@ -25,7 +23,6 @@ export default function Navbar({ user, unreadCount = 0 }: { user: User | null; u
     >
       <NavbarTop user={user} onOpenMenu={onOpenDrawer} unreadCount={unreadCount} />
       <NavbarCategories />
-      <CategorySidebar open={openCats} onClose={onCloseCats} />
     </Box>
   )
 }

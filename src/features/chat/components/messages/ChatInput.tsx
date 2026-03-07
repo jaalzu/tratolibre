@@ -1,7 +1,6 @@
 'use client'
 
 import { Flex, Input, Box } from '@chakra-ui/react'
-import 'boxicons/css/boxicons.min.css'
 
 interface ChatInputProps {
   value: string
@@ -11,14 +10,13 @@ interface ChatInputProps {
 }
 
 export const ChatInput = ({ value, onChange, onSend, sending }: ChatInputProps) => (
-  <Flex p="3" gap="2" borderTop="1px solid" borderColor="neutral.100" bg="white" align="center">
+  <Flex p="4" gap="2" borderTop="1px solid" borderColor="neutral.100"  align="center">
     <Input
       value={value}
       onChange={e => onChange(e.target.value)}
       onKeyDown={e => e.key === 'Enter' && onSend()}
       placeholder="   Escribí un mensaje..."
-      bg="neutral.50"
-      fontSize="sm"
+      fontSize="md"
       borderColor="neutral.200"
       borderRadius="full"
       pl="5"
@@ -27,7 +25,7 @@ export const ChatInput = ({ value, onChange, onSend, sending }: ChatInputProps) 
     <Box
       as="button"
       onClick={onSend}
-      w="9" h="9" borderRadius="full"
+      w="10" h="10" borderRadius="full"
       bg={value.trim() && !sending ? 'brand.default' : 'neutral.200'}
       display="flex" alignItems="center" justifyContent="center"
       cursor={value.trim() && !sending ? 'pointer' : 'not-allowed'}

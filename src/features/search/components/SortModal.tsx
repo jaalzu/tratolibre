@@ -40,16 +40,15 @@ export function SortModal({ open, onClose }: SortModalProps) {
       <Box
         position="fixed" bottom={0} left={0} right={0}
         bg="white" borderTopRadius="2xl"
-        boxShadow="0 -4px 24px rgba(0,0,0,0.12)"
         zIndex={201}
         transform={open ? 'translateY(0)' : 'translateY(100%)'}
         transition="transform 0.25s ease"
         pb="env(safe-area-inset-bottom)"
       >
         <Flex px={4} pt={4} pb={3} align="center" justify="space-between" borderBottom="1px solid" borderColor="neutral.100">
-          <Text fontWeight="bold" fontSize="md" color="neutral.900">Ordenar por</Text>
+          <Text fontWeight="bold" fontSize="lg" color="neutral.900">Ordenar por</Text>
           <Box as="button" onClick={onClose} color="neutral.400">
-            <i className="bx bx-x" style={{ fontSize: '22px' }} />
+            <i className="bx bx-x " aria-label='close button' style={{ fontSize: '28px' ,color:'red' }} />
           </Box>
         </Flex>
 
@@ -67,14 +66,14 @@ export function SortModal({ open, onClose }: SortModalProps) {
               transition="background 0.15s"
             >
               <Text
-                fontSize="sm"
+                fontSize="md"
                 color={current === opt.id ? 'brand.default' : 'neutral.700'}
                 fontWeight={current === opt.id ? 'bold' : 'normal'}
               >
                 {opt.label}
               </Text>
               {current === opt.id && (
-                <i className="bx bx-check" style={{ fontSize: '20px', color: 'var(--chakra-colors-brand-default)' }} />
+                <i className="bx bx-check" aria-label='selected order' style={{ fontSize: '24px', color: 'var(--chakra-colors-brand-default)' }} />
               )}
             </Flex>
           ))}

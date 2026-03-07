@@ -2,7 +2,6 @@
 
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { useState, useRef, useEffect } from 'react'
-import 'boxicons/css/boxicons.min.css'
 
 interface Option {
   id:    string
@@ -39,12 +38,12 @@ export function FilterSelect({ value, onChange, options, placeholder }: FilterSe
         px={3} h="38px"
         border="1px solid" borderColor={open ? 'brand.default' : 'neutral.200'}
         borderRadius="lg"
-        bg="white"
+        bg="transparent"
         cursor="pointer"
         onClick={() => setOpen(o => !o)}
         transition="border-color 0.15s"
       >
-        <Text fontSize="sm" color={selected ? 'neutral.900' : 'neutral.400'} 
+        <Text fontSize="sm" color={selected ? 'neutral.700' : 'neutral.700'} 
   overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" flex={1}>
   {selected ? selected.label : placeholder}
 </Text>

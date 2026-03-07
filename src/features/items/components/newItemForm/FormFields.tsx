@@ -1,4 +1,4 @@
-import { Field, Input, Textarea, Box, Heading, Text } from '@chakra-ui/react'
+import { Field,   Box,  Text } from '@chakra-ui/react'
 import { FieldError } from 'react-hook-form'
 
 // Los estilos que vas a usar en TODO el formulario para que sea consistente

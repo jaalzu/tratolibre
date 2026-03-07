@@ -23,21 +23,21 @@ export const NewItemForm = ({ initialData }: { initialData?: Partial<Item> }) =>
   const { field: conditionField } = useController({ name: 'condition', control })
 
   return (
-    <PageContainer maxW="3xl" pb={24}>
+    <PageContainer maxW="4xl" pb={{ base: 24, lg: 10 }} pt={3}>
       <FormHeader isEditing={!!initialData} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card p="6">
-          <Stack gap="5">
+          <Stack gap="4">
 
             <FormField label="Título" error={errors.title}>
-              <Input {...register('title')} placeholder="Ej: iPhone 13 Pro" {...inputStyles} />
+              <Input {...register('title')} placeholder="Ej: iPhone 11" {...inputStyles} />
             </FormField>
 
             <FormField label="Descripción" error={errors.description}>
               <Textarea
                 {...register('description')}
-                rows={4}
+                rows={3}
                 p={2}
                 placeholder="Detalles del producto..."
                 {...inputStyles}
@@ -45,7 +45,8 @@ export const NewItemForm = ({ initialData }: { initialData?: Partial<Item> }) =>
               />
             </FormField>
 
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
+            {/* Categoría + Estado + Precio en una fila */}
+            <SimpleGrid columns={{ base: 1, sm: 3 }} gap="3">
               <FormField label="Categoría" error={errors.category}>
                 <FormSelect
                   value={categoryField.value ?? ''}
@@ -56,18 +57,16 @@ export const NewItemForm = ({ initialData }: { initialData?: Partial<Item> }) =>
                 />
               </FormField>
 
-              <FormField label="Estado del objeto" error={errors.condition}>
+              <FormField label="Estado" error={errors.condition}>
                 <FormSelect
                   value={conditionField.value ?? ''}
                   onChange={conditionField.onChange}
                   options={CONDITIONS.map(c => ({ id: c.id, label: c.label }))}
-                  placeholder="Elegí el estado..."
+                  placeholder="Estado..."
                   invalid={!!errors.condition}
                 />
               </FormField>
-            </SimpleGrid>
 
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
               <FormField label="Precio ($)" error={errors.sale_price}>
                 <Input {...register('sale_price')} type="number" {...inputStyles} />
               </FormField>
@@ -91,7 +90,7 @@ export const NewItemForm = ({ initialData }: { initialData?: Partial<Item> }) =>
 
             <Button
               type="submit"
-              py={1}
+              py={1.5}
               width="full"
               borderRadius="full"
               loading={isSubmitting}

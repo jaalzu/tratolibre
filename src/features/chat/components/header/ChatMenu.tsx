@@ -53,12 +53,12 @@ const handleDelete = async () => {
     <Box position="relative" ref={ref}>
       <Box
         cursor="pointer"
-        p={0}
+        p={1}
         borderRadius="md"
         _hover={{ bg: 'whiteAlpha.200' }}
         onClick={() => setOpen(!open)}
       >
-        <i className="bx bx-dots-vertical-rounded" style={{ fontSize: '17px', color: 'white' }} />
+        <i className="bx bx-dots-vertical-rounded" style={{ fontSize: '24px', color: 'white' }} />
       </Box>
 
       {open && (
@@ -68,7 +68,6 @@ const handleDelete = async () => {
           top="36px"
           bg="neutral.50"
           borderRadius="xl"
-          shadow="sm"
           border="1px solid"
           borderColor="neutral.100"
           zIndex={50}
