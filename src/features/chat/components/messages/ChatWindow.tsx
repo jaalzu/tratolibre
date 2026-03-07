@@ -11,7 +11,7 @@ interface ChatWindowProps {
 }
 
 export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
-  const { messages, loading, input, setInput, sending, sendMessage, bottomRef, isOtherTyping } = useChat(conversationId, userId )
+ const { messages, loading, input, setInput, sending, sendMessage, bottomRef, isOtherTyping, sendError } = useChat(conversationId, userId)
 
   if (loading) {
     return (
@@ -32,6 +32,12 @@ export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
           isOtherTyping={isOtherTyping}
         />
       </Box>
+      
+        {sendError && (
+    <Text fontSize="xs" color="red.500" textAlign="center" px={4} py={1}>
+      {sendError}
+    </Text>
+  )}
       <Box flexShrink={0}>
         <ChatInput value={input} onChange={setInput} onSend={sendMessage} sending={sending} />
       </Box>

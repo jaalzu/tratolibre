@@ -8,7 +8,7 @@ export function useConversations() {
   queryKey: ['conversations'],
   queryFn: getMyConversations,
   refetchInterval: 23000,
-  staleTime: 10000,
+  staleTime: 1000 * 30,
   gcTime: 1000 * 60 * 5,
 })
 

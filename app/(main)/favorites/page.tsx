@@ -19,8 +19,8 @@ export default async function FavoritesPage() {
       </Text>
 
       {favorites.length === 0 ? (
-        <Text color="neutral.400" textAlign="center" mt={12}>
-          Todavía no guardaste ningún favorito
+        <Text color="neutral.400" textAlign="center" mt={12} mb={10}>
+         Para guardar un producto , pulsa el icono de producto favorito 
         </Text>
       ) : (
         <SimpleGrid columns={{ base: 2, md: 3 }} gap={6}>

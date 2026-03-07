@@ -1,23 +1,27 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase/client'
-import { markMessagesAsRead } from '@/features/chat/actions'
+import { markMessagesAsRead, sendMessageAction } from '@/features/chat/actions/messages'
 import { fetchMessages } from '../queries'
 import { useChannel } from './useChannel'
 import { Message } from '@/features/chat/types'
 
-
-const supabase = createClient()
-
 export function useChat(conversationId: string, userId: string) {
-  const [input, setInput] = useState('')
-  const [sending, setSending] = useState(false)
+  const [input,         setInput]         = useState('')
+  const [sending,       setSending]       = useState(false)
+  const [sendError,     setSendError]     = useState<string | null>(null)
   const [isOtherOnline, setIsOtherOnline] = useState(false)
   const [isOtherTyping, setIsOtherTyping] = useState(false)
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const bottomRef        = useRef<HTMLDivElement>(null)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
-  const readTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
-  const queryClient = useQueryClient()
+  const readTimeoutRef   = useRef<NodeJS.Timeout | undefined>(undefined)
+  const queryClient      = useQueryClient()
+
+  const scrollToBottom = useCallback(() => {
+    clearTimeout(scrollTimeoutRef.current)
+    scrollTimeoutRef.current = setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }, [])
 
   const { sendTyping, sendNewMessage } = useChannel({
     conversationId,
@@ -32,22 +36,20 @@ export function useChat(conversationId: string, userId: string) {
   const { data: messages = [], isLoading: loading } = useQuery({
     queryKey: ['messages', conversationId],
     queryFn: () => fetchMessages(conversationId),
-    refetchInterval: 8000,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
-    staleTime: 4000,
+    staleTime: 1000 * 30,
     gcTime: 1000 * 60 * 2,
   })
 
+  // Scroll al último mensaje
   useEffect(() => {
     if (messages.length === 0) return
-    clearTimeout(scrollTimeoutRef.current)
-    scrollTimeoutRef.current = setTimeout(() => {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-    }, 100)
+    scrollToBottom()
     return () => clearTimeout(scrollTimeoutRef.current)
-  }, [messages.length])
+  }, [messages.length, scrollToBottom])
 
+  // Marcar como leídos
   useEffect(() => {
     if (messages.length === 0) return
     clearTimeout(readTimeoutRef.current)
@@ -67,32 +69,36 @@ export function useChat(conversationId: string, userId: string) {
   const sendMessage = useCallback(async () => {
     if (!input.trim() || sending) return
     setSending(true)
+    setSendError(null)
     const content = input.trim()
     setInput('')
 
- queryClient.setQueryData(['messages', conversationId], (prev: Message[] = []) => [
-  ...prev,
-  { id: `temp-${Date.now()}`, sender_id: userId, content, created_at: new Date().toISOString(), profiles: null }
-])
+    // Optimistic update
+    queryClient.setQueryData(['messages', conversationId], (prev: Message[] = []) => [
+      ...prev,
+      { id: `temp-${Date.now()}`, sender_id: userId, content, created_at: new Date().toISOString(), profiles: null }
+    ])
+    scrollToBottom()
 
-    clearTimeout(scrollTimeoutRef.current)
-    scrollTimeoutRef.current = setTimeout(() => {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-    }, 100)
+    const result = await sendMessageAction(conversationId, content)
 
-    await supabase.from('messages').insert({ conversation_id: conversationId, sender_id: userId, content })
-    await supabase.from('conversations').update({ updated_at: new Date().toISOString() }).eq('id', conversationId)
+    if (result?.error) {
+      setSendError(result.error)
+      // Revertir optimistic update
+      queryClient.invalidateQueries({ queryKey: ['messages', conversationId] })
+    } else {
+      sendNewMessage()
+      queryClient.invalidateQueries({ queryKey: ['messages', conversationId] })
+      queryClient.invalidateQueries({ queryKey: ['conversations'] })
+    }
 
-    sendNewMessage()
-    queryClient.invalidateQueries({ queryKey: ['messages', conversationId] })
-    queryClient.invalidateQueries({ queryKey: ['conversations'] })
     setSending(false)
-  }, [input, sending, conversationId, userId, queryClient, sendNewMessage])
+  }, [input, sending, conversationId, userId, queryClient, sendNewMessage, scrollToBottom])
 
   return {
     messages, loading, input,
     setInput: handleInputChange,
     sending, sendMessage, bottomRef,
-    isOtherOnline, isOtherTyping
+    isOtherOnline, isOtherTyping, sendError,
   }
 }

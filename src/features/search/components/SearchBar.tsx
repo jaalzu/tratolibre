@@ -24,7 +24,7 @@ export function SearchBar() {
   return (
     <Flex w="full" align="center" bg="neutral.50" borderRadius="full" h="32px" overflow="hidden">
       <Input
-        placeholder="Buscar..."
+        placeholder="Buscar en tratolibre"
         ps="4" h="32px" fontSize="sm"
         bg="transparent" color="neutral.900"
         border="none" borderRadius="0"

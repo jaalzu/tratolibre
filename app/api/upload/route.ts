@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { checkRateLimit } from '@/lib/rateLimit'
 
 const ALLOWED_TYPES: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -19,26 +20,15 @@ export async function POST(req: NextRequest) {
 
   if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 })
 
-  // Validar tipo de archivo
   const ext = ALLOWED_TYPES[file.type]
   if (!ext) return NextResponse.json({ error: 'Tipo de archivo no permitido' }, { status: 400 })
 
-  // Validar tamaño (5MB)
   if (file.size > 5 * 1024 * 1024) {
     return NextResponse.json({ error: 'El archivo es muy grande' }, { status: 400 })
   }
 
-  // Rate limit: máx 20 uploads por hora
-  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
-  const { count } = await supabase
-    .from('items')
-    .select('*', { count: 'exact', head: true })
-    .eq('owner_id', user.id)
-    .gte('created_at', oneHourAgo)
-
-  if (count && count >= 20) {
-    return NextResponse.json({ error: 'Límite de subidas alcanzado' }, { status: 429 })
-  }
+  const allowed = await checkRateLimit(supabase, user.id, 'upload_image', 20, 60)
+  if (!allowed) return NextResponse.json({ error: 'Límite de subidas alcanzado' }, { status: 429 })
 
   const filename = `${user.id}/${Date.now()}.${ext}`
 

@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createNotification } from '@/features/notifications/actions'
 import { Item } from '@/features/items/types'
+import { checkRateLimit } from '@/lib/rateLimit'
 
 type ActionState = { error?: string | object } | null
 
@@ -14,15 +15,9 @@ export async function createItemAction(_prevState: ActionState, formData: FormDa
   const { supabase, user } = await getAuthUser()
   if (!user) return { error: 'No autorizado' }
 
-  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
-  const { count } = await supabase
-    .from('items')
-    .select('*', { count: 'exact', head: true })
-    .eq('owner_id', user.id)
-    .gte('created_at', oneHourAgo)
-
-  if (count && count >= 8)
-    return { error: 'Alcanzaste el límite de 8 publicaciones por hora. Intentá más tarde.' }
+  // Rate limit: máx 8 items por hora
+  const allowed = await checkRateLimit(supabase, user.id, 'create_item', 8, 60)
+  if (!allowed) return { error: 'Alcanzaste el límite de 8 publicaciones por hora. Intentá más tarde.' }
 
   const raw = {
     title:       formData.get('title'),

@@ -23,7 +23,6 @@ export const ConversationItem = ({ conv, isActive, userId }: ConversationItemPro
   const isBuyer = conv.buyer_id === userId
   const otherPerson = isBuyer ? conv.seller : conv.buyer
 
-  
   return (
     <Box
       asChild

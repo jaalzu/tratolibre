@@ -4,6 +4,8 @@ import { getAuthUser } from '@/lib/supabase/getAuthUser'
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { EditProfileSchema } from '@/features/profile/schemas'
+import { checkRateLimit } from '@/lib/rateLimit'
 
 export async function getMyProfile() {
   const { supabase, user } = await getAuthUser()
@@ -66,18 +68,60 @@ export async function updateProfileAction(formData: FormData) {
   const { supabase, user } = await getAuthUser()
   if (!user) redirect('/login')
 
-  const name = formData.get('name') as string
+  // Rate limit: máx 5 updates cada 10 minutos
+  const allowed = await checkRateLimit(supabase, user.id, 'update_profile', 5, 10)
+  if (!allowed) return { error: 'Demasiados intentos, esperá unos minutos' }
+
+  const name     = formData.get('name')     as string
   const location = formData.get('location') as string
+  const province = formData.get('province') as string
+  const avatar   = formData.get('avatar')   as File | null
+
+  const parsed = EditProfileSchema.safeParse({ name, location, province })
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
+
+  const { name: safeName, location: safeLocation, province: safeProvince } = parsed.data
+
+  let avatarUrl: string | undefined
+
+  if (avatar && avatar.size > 0) {
+    const extMap: Record<string, string> = {
+      'image/jpeg': 'jpg',
+      'image/png':  'png',
+      'image/webp': 'webp',
+    }
+    const ext = extMap[avatar.type]
+    if (!ext) return { error: 'Tipo de imagen no permitido' }
+
+    const filename = `${user.id}/avatar.${ext}`
+
+    const { data, error: uploadError } = await supabase.storage
+      .from('profile-avatars')
+      .upload(filename, avatar, { contentType: avatar.type, upsert: true })
+
+    if (uploadError) return { error: uploadError.message }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('profile-avatars')
+      .getPublicUrl(data.path)
+
+    avatarUrl = publicUrl
+  }
 
   const { error } = await supabase
     .from('profiles')
-    .update({ name, location, updated_at: new Date().toISOString() })
+    .update({
+      name:     safeName,
+      location: safeLocation,
+      province: safeProvince,
+      ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
+      updated_at: new Date().toISOString(),
+    })
     .eq('id', user.id)
 
   if (error) return { error: error.message }
 
   revalidatePath('/profile')
-  redirect('/profile')
 }
 
 

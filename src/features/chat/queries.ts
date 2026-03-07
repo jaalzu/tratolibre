@@ -7,5 +7,6 @@ export async function fetchMessages(conversationId: string) {
     .select('*, profiles(name, avatar_url)')
     .eq('conversation_id', conversationId)
     .order('created_at', { ascending: true })
+    .limit(100)
   return data ?? []
 }
