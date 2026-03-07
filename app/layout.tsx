@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <link rel="preload" as="image" href="/hero/girl-in-pool.webp" />
+        <link rel="preload" as="image" href="/hero/girl-in-pool.webp" fetchPriority="high"/>
       </head>
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
