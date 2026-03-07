@@ -16,6 +16,7 @@ export const FavoriteButton = ({ itemId, initialFavorited, userId }: FavoriteBut
     <Box
       as="button"
       onClick={toggle}
+        aria-label={`Boton de Favorito`}
       cursor="pointer"
       transition="all 0.15s"
       bg="transparent"

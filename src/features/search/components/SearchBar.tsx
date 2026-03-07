@@ -36,6 +36,7 @@ export function SearchBar() {
       />
       <button
   type="button"
+    aria-label="Buscar"
   onClick={handleSearch}
   style={{
     height: '32px', padding: '0 12px',

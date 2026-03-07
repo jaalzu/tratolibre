@@ -67,7 +67,9 @@ export function NotificationBell({ initialCount, userId }: NotificationBellProps
   return (
     <Box ref={ref} position="relative" display="inline-flex">
       {/* Campana */}
-      <Box as="button" onClick={handleOpen} position="relative" display="inline-flex" p={2} color="neutral.50">
+      <Box as="button" onClick={handleOpen} position="relative" display="inline-flex" p={2} color="neutral.50"
+  aria-label={count > 0 ? `Notificaciones (${count} sin leer)` : 'Notificaciones'}
+>
         <Bell size={28} strokeWidth={1.75} />
         {count > 0 && (
           <Circle

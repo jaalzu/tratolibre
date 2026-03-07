@@ -20,7 +20,6 @@ export const Footer = () => (
           <Box>
             <Text fontSize="sm" fontWeight="bold" color="neutral.900" mb={3}>Explorá</Text>
             <Flex direction="column" gap={2}>
-              <NextLink href="/explore"><Text fontSize="sm" color="neutral.400">Publicaciones</Text></NextLink>
               <NextLink href="/item/new"><Text fontSize="sm" color="neutral.400">Publicar gratis</Text></NextLink>
             </Flex>
           </Box>

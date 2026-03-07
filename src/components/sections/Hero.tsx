@@ -29,7 +29,7 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
       image: '/hero/happy-couple.webp',
       title: 'Encontrá lo que buscás al mejor precio.',
       buttonLabel: 'Explorar',
-      buttonHref: '/explore',
+      buttonHref: '/',
       bg: 'secondary.50',
     },
     {
@@ -113,6 +113,7 @@ export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
           <Box
             key={i}
             as="button"
+              aria-label={`Ir a slide ${i + 1}`}
             w={selectedIndex === i ? '20px' : '8px'}
             h="8px"
             borderRadius="full"

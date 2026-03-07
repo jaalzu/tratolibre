@@ -46,9 +46,10 @@ accent: {
   },
 },
       fonts: {
-        heading: { value: 'var(--font-geist-sans), system-ui, sans-serif' },
-        body:    { value: 'var(--font-geist-sans), system-ui, sans-serif' },
-      },
+  heading: { value: 'var(--font-geist-sans), system-ui, sans-serif' },
+  body:    { value: 'var(--font-geist-sans), system-ui, sans-serif' },
+  mono:    { value: 'var(--font-geist-sans), monospace' }, 
+},
       fontSizes: {
         xs:  { value: '0.75rem' },
         sm:  { value: '0.875rem' },

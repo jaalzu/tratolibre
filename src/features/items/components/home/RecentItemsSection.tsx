@@ -11,7 +11,7 @@ export async function RecentItemsSection({ userId }: { userId: string | null }) 
     <ItemsCategorySection
       title="Publicaciones recientes"
       items={items.slice(0, 13)}
-      viewMoreHref="/explore"
+      viewMoreHref="/"
       userId={userId}
       favoriteIds={favoriteIds}
     />

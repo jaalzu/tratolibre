@@ -8,3 +8,13 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: local('Roboto');
+  font-display: swap;
+}
