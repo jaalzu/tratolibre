@@ -1,6 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
+const ALLOWED_TYPES: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png':  'png',
+  'image/webp': 'webp',
+}
+
+const BUCKET = 'item-images'
+
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -8,15 +16,12 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData()
   const file = formData.get('file') as File
-  const bucket = formData.get('bucket') as string || 'item-images'
 
   if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 })
 
   // Validar tipo de archivo
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
-  if (!allowedTypes.includes(file.type)) {
-    return NextResponse.json({ error: 'Tipo de archivo no permitido' }, { status: 400 })
-  }
+  const ext = ALLOWED_TYPES[file.type]
+  if (!ext) return NextResponse.json({ error: 'Tipo de archivo no permitido' }, { status: 400 })
 
   // Validar tamaño (5MB)
   if (file.size > 5 * 1024 * 1024) {
@@ -35,17 +40,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Límite de subidas alcanzado' }, { status: 429 })
   }
 
-  const ext = file.name.split('.').pop()
   const filename = `${user.id}/${Date.now()}.${ext}`
 
   const { data, error } = await supabase.storage
-    .from(bucket)
+    .from(BUCKET)
     .upload(filename, file, { contentType: file.type, upsert: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   const { data: { publicUrl } } = supabase.storage
-    .from(bucket)
+    .from(BUCKET)
     .getPublicUrl(data.path)
 
   return NextResponse.json({ url: publicUrl })

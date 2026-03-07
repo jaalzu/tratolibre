@@ -1,9 +1,10 @@
 'use client'
 
-import { Box, Flex, Text, Stack, NativeSelect } from '@chakra-ui/react'
+import { Box, Flex, Text, Stack } from '@chakra-ui/react'
 import { useSearchFilters } from '../useSearchFilters'
 import { CATEGORIES, CONDITIONS } from '@/lib/constants'
 import { Button } from '@/components/ui/Button'
+import { FilterSelect } from './FilterSelect'
 
 const DATE_OPTIONS = [
   { id: 'today', label: 'Hoy' },
@@ -17,13 +18,6 @@ const SORT_OPTIONS = [
   { id: 'price_asc',      label: 'Menor precio'   },
   { id: 'price_desc',     label: 'Mayor precio'   },
 ]
-
-const selectStyles = {
-  borderColor: 'neutral.200',
-  borderRadius: 'lg',
-  h: '38px',
-  fontSize: 'sm',
-}
 
 export function FilterPanel() {
   const { filters, setFilter, toggleFilter, apply, clear, provinces } = useSearchFilters()
@@ -39,6 +33,8 @@ export function FilterPanel() {
       <Text fontSize="sm" color={active ? 'brand.default' : 'neutral.700'} fontWeight={active ? 'bold' : 'normal'}>{label}</Text>
     </Box>
   )
+
+  const provinceOptions = provinces.map(p => ({ id: p.nombre, label: p.nombre }))
 
   return (
     <Box w="220px" flexShrink={0} display={{ base: 'none', md: 'flex' }} flexDirection="column"
@@ -62,22 +58,22 @@ export function FilterPanel() {
 
         <Box>
           <SectionTitle>CATEGORÍA</SectionTitle>
-          <NativeSelect.Root>
-            <NativeSelect.Field {...selectStyles} value={filters.category} onChange={e => setFilter('category', e.target.value)}>
-              <option value="">Todas</option>
-              {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
-            </NativeSelect.Field>
-          </NativeSelect.Root>
+          <FilterSelect
+            value={filters.category}
+            onChange={val => setFilter('category', val)}
+            options={CATEGORIES.map(c => ({ id: c.id, label: c.label }))}
+            placeholder="Todas"
+          />
         </Box>
 
         <Box>
           <SectionTitle>UBICACIÓN</SectionTitle>
-          <NativeSelect.Root>
-            <NativeSelect.Field {...selectStyles} value={filters.province} onChange={e => setFilter('province', e.target.value)}>
-              <option value="">Todas las provincias</option>
-              {provinces.map(p => <option key={p.id} value={p.nombre}>{p.nombre}</option>)}
-            </NativeSelect.Field>
-          </NativeSelect.Root>
+          <FilterSelect
+            value={filters.province}
+            onChange={val => setFilter('province', val)}
+            options={provinceOptions}
+            placeholder="Todas las provincias"
+          />
         </Box>
 
         <Box>

@@ -19,7 +19,7 @@ interface FormFieldProps {
 
 // El wrapper para no repetir el código de Field.Root y Field.ErrorText
 export const FormField = ({ label, error, children }: FormFieldProps) => (
-  <Field.Root invalid={!!error}>
+  <Field.Root invalid={!!error} w="full">
     <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
       {label}
     </Field.Label>

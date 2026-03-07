@@ -1,6 +1,6 @@
 // edit/page.tsx
 import { getMyProfile } from '@/features/profile/actions'
-import { EditProfileForm } from '@/components/profile/edit/EditProfileForm'
+import { EditProfileForm } from '@/features/profile/components/edit/EditProfileForm'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import NextLink from 'next/link'

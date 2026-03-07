@@ -16,6 +16,7 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     register, 
     handleSubmit, 
     setValue, 
+    control,
     formState: { errors, isSubmitting } 
   } = useForm<ItemInput>({
     resolver: zodResolver(ItemSchema) as Resolver<ItemInput>, 
@@ -90,16 +91,17 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
   }
 
   return {
-    register,
-    handleSubmit,
-    onSubmit,
-    errors,
-    isSubmitting,
-    images,
-    uploading,
-    serverError,
-    handleUpload,
-    handleRemove,
-    setValue
-  }
+  register,
+  handleSubmit,
+  onSubmit,
+  errors,
+  isSubmitting,
+  images,
+  uploading,
+  serverError,
+  handleUpload,
+  handleRemove,
+  setValue,
+  control,      
+}
 }

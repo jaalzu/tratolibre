@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import { Card } from '@/components/ui/Card'
-import { ForgotPasswordForm } from '@/features/auth/components/auth/ForgotPasswordForm'
+import { ForgotPasswordForm } from '@/features/auth/components/ForgotPasswordForm'
 
 export default function ForgotPasswordPage() {
   return (

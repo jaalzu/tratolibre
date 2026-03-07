@@ -1,9 +1,10 @@
 'use client'
 
-import { Box, Flex, Text, Stack, NativeSelect, IconButton } from '@chakra-ui/react'
+import { Box, Flex, Text, Stack, IconButton } from '@chakra-ui/react'
 import { useSearchFilters } from '../useSearchFilters'
 import { CATEGORIES, CONDITIONS } from '@/lib/constants'
 import { Button } from '@/components/ui/Button'
+import { FilterSelect } from './FilterSelect'
 import 'boxicons/css/boxicons.min.css'
 
 const DATE_OPTIONS = [
@@ -12,13 +13,6 @@ const DATE_OPTIONS = [
   { id: 'month', label: 'Últimos 30 días' },
 ]
 
-const selectStyles = {
-  borderColor: 'neutral.200',
-  borderRadius: 'lg',
-  h: '40px',
-  fontSize: 'sm',
-}
-
 interface FilterDrawerProps {
   open:    boolean
   onClose: () => void
@@ -26,6 +20,8 @@ interface FilterDrawerProps {
 
 export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
   const { filters, setFilter, toggleFilter, apply, clear, provinces } = useSearchFilters()
+
+  const provinceOptions = provinces.map(p => ({ id: p.nombre, label: p.nombre }))
 
   return (
     <>
@@ -53,22 +49,22 @@ export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
 
             <Box>
               <Text fontSize="xs" fontWeight="bold" color="neutral.400" mb={2} letterSpacing="wider">CATEGORÍA</Text>
-              <NativeSelect.Root>
-                <NativeSelect.Field {...selectStyles} value={filters.category} onChange={e => setFilter('category', e.target.value)}>
-                  <option value="">Todas</option>
-                  {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
-                </NativeSelect.Field>
-              </NativeSelect.Root>
+              <FilterSelect
+                value={filters.category}
+                onChange={val => setFilter('category', val)}
+                options={CATEGORIES.map(c => ({ id: c.id, label: c.label }))}
+                placeholder="Todas"
+              />
             </Box>
 
             <Box>
               <Text fontSize="xs" fontWeight="bold" color="neutral.400" mb={2} letterSpacing="wider">UBICACIÓN</Text>
-              <NativeSelect.Root>
-                <NativeSelect.Field {...selectStyles} value={filters.province} onChange={e => setFilter('province', e.target.value)}>
-                  <option value="">Todas las provincias</option>
-                  {provinces.map(p => <option key={p.id} value={p.nombre}>{p.nombre}</option>)}
-                </NativeSelect.Field>
-              </NativeSelect.Root>
+              <FilterSelect
+                value={filters.province}
+                onChange={val => setFilter('province', val)}
+                options={provinceOptions}
+                placeholder="Todas las provincias"
+              />
             </Box>
 
             <Box>

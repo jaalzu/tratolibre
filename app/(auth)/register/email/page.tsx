@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import { Card } from '@/components/ui/Card'
-import { RegisterForm } from '@/features/auth/components/auth/RegisterForm'
+import { RegisterForm } from '@/features/auth/components/RegisterForm'
 
 export default function RegisterEmailPage() {
   return (

@@ -1,7 +1,7 @@
 // app/login/page.tsx
 import { Flex } from '@chakra-ui/react'
 import { Card } from '@/components/ui/Card'
-import { LoginForm } from '@/features/auth/components/auth/LoginForm'
+import { LoginForm } from '@/features/auth/components/LoginForm'
 
 export default function LoginPage() {
   return (
