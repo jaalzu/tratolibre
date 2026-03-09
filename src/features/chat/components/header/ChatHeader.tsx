@@ -15,6 +15,7 @@ interface ChatHeaderProps {
 
   }
   seller: {
+    id: string
     name: string
     avatar_url?: string
   }
@@ -71,7 +72,7 @@ export const ChatHeader = ({ item, seller, conversationId }: ChatHeaderProps) =>
 </Box>
 
     {/* Menú */}
-    <ChatMenu itemId={item.id} conversationId={conversationId} />
+   <ChatMenu itemId={item.id} conversationId={conversationId} sellerId={seller.id} />
   </Flex>
 )
 }

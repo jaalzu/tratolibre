@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { Item } from '@/features/items/types'
+import { ReportButton } from '@/features/reports/components/ReportButton'
 
 export default function ItemDetails({ item }: { item: Item }) {
   return (
@@ -28,19 +29,9 @@ export default function ItemDetails({ item }: { item: Item }) {
         </Flex>
       )}
 
-      {/* Denunciar */}
-     <Flex justify="center" mt={12} mb={2}>
-  <a
-    href="#"
-    style={{
-      fontSize: 'md',
-      color: 'blue',
-      textDecoration: 'underline',
-      textAlign: 'center',
-    }}
-  >
-    Denunciar producto
-  </a>
+      {/* Reportar */}
+   <Flex justify="center" mt={12} mb={2}>
+  <ReportButton type="item" targetId={item.id} label="Reportar publicación" />
 </Flex>
     </Box>
   )

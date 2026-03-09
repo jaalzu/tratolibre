@@ -1,7 +1,8 @@
 'use client'
 
-import { Box, Flex, Text , Spinner } from '@chakra-ui/react'
+import { Box, Flex, Text  } from '@chakra-ui/react'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
+import { ReportModal } from '@/features/reports/components/ReportModal'
 import { useState, useRef, useEffect } from 'react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -12,10 +13,12 @@ import { useQueryClient } from '@tanstack/react-query'
 interface ChatMenuProps {
   itemId: string
   conversationId: string
+  sellerId: string 
 }
 
-export const ChatMenu = ({ itemId, conversationId }: ChatMenuProps) => {
+export const ChatMenu = ({ itemId, conversationId , sellerId}: ChatMenuProps) => {
   const [open, setOpen] = useState(false)
+  const [reportOpen, setReportOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const [confirmOpen, setConfirmOpen] = useState(false)
@@ -45,10 +48,10 @@ const handleDelete = async () => {
 
   const options = [
     { label: 'Ver publicación', icon: 'bx-link-external', href: `/item/${itemId}` },
-    { label: 'Reportar usuario', icon: 'bx-flag', color: 'feedback.error' },
+    { label: 'Ver perfil', icon: 'bx-user', href: `/profile/${sellerId}`,prefetch: false},
+  { label: 'Reportar usuario', icon: 'bx-flag', color: 'feedback.error', onClick: () => setReportOpen(true) },
     { label: 'Eliminar conversación', icon: 'bx-trash', color: 'feedback.error', onClick: () => setConfirmOpen(true) }
   ]
-
   return (
     <Box position="relative" ref={ref}>
       <Box
@@ -102,6 +105,12 @@ const handleDelete = async () => {
         </Box>
         
       )}
+      <ReportModal
+  open={reportOpen}
+  onClose={() => setReportOpen(false)}
+  type="conversation"
+  targetId={conversationId}
+/>
       <ConfirmDialog
   open={confirmOpen}
   onClose={() => setConfirmOpen(false)}

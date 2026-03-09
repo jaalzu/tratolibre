@@ -1,10 +1,11 @@
-import { Box } from '@chakra-ui/react'
+import { Box , Flex} from '@chakra-ui/react'
 import { ProfileHeader } from './header/ProfileHeader'
 import { ProfileItemsTabs } from './items/ProfileItemsTabs'
 import { PendingReviewBanner } from '@/features/reviews/PendingReviewBanner'
 import { Profile } from '@/features/profile/types'
 import { ItemSummary } from '@/features/items/types'
 import type { PendingReview } from '@/features/reviews/actions'
+import { ReportButton } from '@/features/reports/components/ReportButton'
 
 
 
@@ -28,24 +29,29 @@ export const ProfileView = ({ profile, items, salesCount, isOwner, pendingReview
       )}
 
       {/* HEADER */}
-      <Box
-        bg="neutral.50"
-        borderBottomLeftRadius="3xl"
-        borderBottomRightRadius="3xl"
-        px={{ base: 5, md: 8 }}
-        pt={4}
-        pb={6}
-      >
-        <ProfileHeader
-          name={profile?.name}
-          avatarUrl={profile?.avatar_url}
-          location={profile?.location}
-          salesCount={salesCount}
-          reviewsCount={profile?.reviews_count ?? 0}
-          rating={profile?.rating ?? 0}
-          isOwner={isOwner}
-        />
-      </Box>
+<Box
+  bg="neutral.50"
+  borderBottomLeftRadius="3xl"
+  borderBottomRightRadius="3xl"
+  px={{ base: 5, md: 8 }}
+  pt={4}
+  pb={6}
+>
+  <ProfileHeader
+    name={profile?.name}
+    avatarUrl={profile?.avatar_url}
+    location={profile?.location}
+    salesCount={salesCount}
+    reviewsCount={profile?.reviews_count ?? 0}
+    rating={profile?.rating ?? 0}
+    isOwner={isOwner}
+  />
+  {!isOwner && (
+    <Flex justify="center" mt={4}>
+      <ReportButton type="user" targetId={profile.id} label="Reportar perfil" />
+    </Flex>
+  )}
+</Box>
 
       {/* ITEMS */}
       <Box

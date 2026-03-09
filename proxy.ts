@@ -22,22 +22,42 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const { data: { session } } = await supabase.auth.getSession()
+  const { data: { user } } = await supabase.auth.getUser()
 
+  const pathname = request.nextUrl.pathname
+
+  // Rutas protegidas para usuarios autenticados
   const protectedPaths = [
-  '/item/new',
-  '/item/', // edit también
-  '/chat',
-  '/profile/edit',
-  '/favorites',
-]
-  const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
+    '/item/new',
+    '/item/',
+    '/chat',
+    '/profile/edit',
+    '/favorites',
+  ]
+  const isProtected = protectedPaths.some(p => pathname.startsWith(p))
+  if (!user && isProtected) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
 
-if (!session && isProtected) {
-  return NextResponse.redirect(new URL('/login', request.url))
-}
+  // Rutas solo admin
+  if (pathname.startsWith('/admin')) {
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
 
-  if (session && request.nextUrl.pathname === '/register') {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (profile?.role !== 'admin') {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+  }
+
+  // Redirigir usuarios logueados fuera del registro
+  if (user && pathname === '/register') {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
@@ -54,5 +74,6 @@ export const config = {
     '/login',
     '/register',
     '/register/:path*',
+    '/admin/:path*',
   ],
 }
