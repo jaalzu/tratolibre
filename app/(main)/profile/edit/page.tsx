@@ -1,14 +1,14 @@
 // edit/page.tsx
 import { getMyProfile } from '@/features/profile/actions'
 import { EditProfileForm } from '@/features/profile/components/edit/EditProfileForm'
-import { PageContainer } from '@/components/ui/PageContainer'
 import { Box, Flex, Text } from '@chakra-ui/react'
+import { PageContainer } from '@/components/ui/PageContainer'
 import NextLink from 'next/link'
 import 'boxicons/css/boxicons.min.css'
 
 export default async function EditProfilePage() {
   const { profile } = await getMyProfile()
-
+  
   return (
     <PageContainer maxW="480px">
       <Flex align="center" gap={3} mb={6}>

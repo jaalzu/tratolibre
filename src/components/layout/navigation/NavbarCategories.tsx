@@ -14,7 +14,7 @@ export const NavbarCategories = () => (
     <Flex px={5} h="32px" align="center" gap={5} w="max-content" maxW="100%" mx="0">
       {CATEGORIES.map((cat) => (
         <NextLink key={cat.id} href={`/category/${cat.id}`}>
-          <Text fontSize="xs" fontWeight="medium" color="black" _hover={{ color: 'brand.hover' }} whiteSpace="nowrap">
+          <Text fontSize="xs" fontWeight="medium" color="neutral.600" _hover={{ color: 'brand.hover' }} whiteSpace="nowrap">
             {cat.label}
           </Text>
         </NextLink>

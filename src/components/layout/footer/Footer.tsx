@@ -21,15 +21,16 @@ export const Footer = () => (
             <Text fontSize="sm" fontWeight="bold" color="neutral.900" mb={3}>Explorá</Text>
             <Flex direction="column" gap={2}>
               <NextLink href="/item/new"><Text fontSize="sm" color="neutral.400">Publicar gratis</Text></NextLink>
+              <NextLink href="/how-it-works"><Text fontSize="sm" color="neutral.400">Como funciona</Text></NextLink>
             </Flex>
           </Box>
 
           <Box>
             <Text fontSize="sm" fontWeight="bold" color="neutral.900" mb={3}>Legal</Text>
             <Flex direction="column" gap={2}>
-              <NextLink href="/about"><Text fontSize="sm" color="neutral.400">Quiénes somos</Text></NextLink>
-              <NextLink href="/terms"><Text fontSize="sm" color="neutral.400">Términos y condiciones</Text></NextLink>
-              <NextLink href="/privacy"><Text fontSize="sm" color="neutral.400">Política de privacidad</Text></NextLink>
+              <NextLink href="/who-we-are"><Text fontSize="sm" color="neutral.400">Quiénes somos</Text></NextLink>
+              <NextLink href="/terms-and-conditions"><Text fontSize="sm" color="neutral.400">Términos y condiciones</Text></NextLink>
+              <NextLink href="/privacy-policy"><Text fontSize="sm" color="neutral.400">Política de privacidad</Text></NextLink>
             </Flex>
           </Box>
         </SimpleGrid>
