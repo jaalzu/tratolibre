@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
-          <Box bg="#FAFAFA" minH="100vh">
+          <Box bg="neutral.150" minH="100vh">
             {children}
           </Box>
         </Providers>

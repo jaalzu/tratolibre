@@ -22,7 +22,7 @@ export const ItemCard = ({ obj, userId = null, initialFavorited = false }: ItemC
             src={obj.images[0]}
             style={{ 
               width: '100%',
-              height: '245px', 
+              height: '235px', 
               objectFit: 'cover', 
               borderRadius: '8px',
               display: 'block',
@@ -30,7 +30,7 @@ export const ItemCard = ({ obj, userId = null, initialFavorited = false }: ItemC
             alt={obj.title}
           />
         ) : (
-          <Box w="full" h="245px" borderRadius="lg" bg="neutral.100" />
+          <Box w="full" h="235px" borderRadius="lg" bg="neutral.100" />
         )}
 
         <Box pt={2}>

@@ -7,7 +7,7 @@ import { CATEGORIES } from '@/lib/constants'
 
 export const NavbarCategories = () => (
   <Box
-    bg="#F8F9FA"
+    bg="neutral.50"
     overflowX="auto"
 
   >

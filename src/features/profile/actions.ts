@@ -7,6 +7,19 @@ import { redirect } from 'next/navigation'
 import { EditProfileSchema } from '@/features/profile/schemas'
 import { checkRateLimit } from '@/lib/rateLimit'
 
+export async function getAuthProfile() {
+  const { supabase, user } = await getAuthUser()
+  if (!user) return null
+
+  const { data } = await supabase
+    .from('profiles')
+    .select('name, avatar_url')
+    .eq('id', user.id)
+    .single()
+
+  return data
+}
+
 export async function getMyProfile() {
   const { supabase, user } = await getAuthUser()
   if (!user) redirect('/login')
