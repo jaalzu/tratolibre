@@ -11,9 +11,10 @@ import { ItemWithProfile } from '@/features/items/types'
 interface ItemPageContentProps {
   item: ItemWithProfile
   userId: string | null
+  isAdmin?: boolean
 }
 
-export default function ItemPageContent({ item, userId }: ItemPageContentProps) {
+export default function ItemPageContent({ item, userId, isAdmin = false }: ItemPageContentProps) {
   return (
     <Box pb={{ base: "140px", md: 0 }}>
       {/* ── MOBILE ── */}
@@ -56,7 +57,7 @@ export default function ItemPageContent({ item, userId }: ItemPageContentProps) 
           borderColor="neutral.200"
           zIndex={40}
         >
-          <ItemActions item={item} userId={userId} />
+          <ItemActions item={item} userId={userId} isAdmin={isAdmin} />
         </Box>
       </Box>
 
@@ -94,7 +95,7 @@ export default function ItemPageContent({ item, userId }: ItemPageContentProps) 
                 >
                   <ItemInfo item={item} />
                   <Box mt={5}>
-                    <ItemActions item={item} userId={userId} />
+                    <ItemActions item={item} userId={userId} isAdmin={isAdmin} />
                   </Box>
                 </Box>
                 <SellerCard profile={item.profiles} itemId={item.id} userId={userId} />

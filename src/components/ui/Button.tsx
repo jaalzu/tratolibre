@@ -4,7 +4,7 @@ import { chakra, HTMLChakraProps, RecipeProps } from '@chakra-ui/react'
 
 // Definimos explícitamente qué variantes aceptamos para que no herede las de Chakra
 export interface ButtonProps extends HTMLChakraProps<'button'> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'amber' | 'blue'
+ variant?: 'primary' | 'secondary' | 'ghost' | 'amber' | 'blue' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   width?: 'full'
   loading?: boolean
@@ -35,7 +35,7 @@ const StyledButton = chakra('button', {
     },
     secondary: {
      border: '1.5px solid',
-  borderColor: 'neutral.900',
+  borderColor: 'neutral.300',
   color: 'neutral.900',
   bg: 'transparent',
   _hover: { bg: 'neutral.50' },
@@ -54,6 +54,13 @@ const StyledButton = chakra('button', {
       color: 'white',
       _hover: { bg: 'accent.hover' },
     },
+    danger: {
+  border: '1px solid',
+  borderColor: 'red.400',
+  color: 'red.600',
+  bg: 'transparent',
+  _hover: { bg: 'red.50' },
+},
     },
     size: {
       sm: { px: 3, py: 2, fontSize: 'sm' },

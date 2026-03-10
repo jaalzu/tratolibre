@@ -12,8 +12,8 @@ const config = defineConfig({
   dark:    { value: '#15803d' }, // muy oscuro
 },
  secondary: {
-  50:      { value: '#fffbeb' },
-  100:     { value: '#fef3c7' },
+  
+
   default: { value: '#f59e0b' },
   hover:   { value: '#d97706' },
   dark:    { value: '#b45309' },

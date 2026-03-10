@@ -9,7 +9,7 @@ export const NavbarCategories = () => (
   <Box
     bg="neutral.50"
     overflowX="auto"
-
+css={{ '&::-webkit-scrollbar': { display: 'none' }, scrollbarWidth: 'none' }}
   >
     <Flex px={5} h="32px" align="center" gap={5} w="max-content" maxW="100%" mx="0">
       {CATEGORIES.map((cat) => (

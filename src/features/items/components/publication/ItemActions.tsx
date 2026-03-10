@@ -9,9 +9,16 @@ import { useState } from 'react'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { SelectBuyerDialog } from '@/features/items/components/publication/SelectBuyerDialog'
 import { deleteItemAction } from '@/features/items/actions'
+import { AdminDeleteButton } from '@/features/admin/components/shared/AdminDeleteButton'
 import { ItemWithProfile } from '@/features/items/types'
 
-export default function ItemActions({ item, userId }: { item: ItemWithProfile, userId: string | null }) {
+interface ItemActionsProps {
+  item: ItemWithProfile
+  userId: string | null
+  isAdmin?: boolean
+}
+
+export default function ItemActions({ item, userId, isAdmin = false }: ItemActionsProps) {
   const router = useRouter()
   const { startChat, loading } = useStartChat()
   const [open,     setOpen]     = useState(false)
@@ -94,15 +101,18 @@ export default function ItemActions({ item, userId }: { item: ItemWithProfile, u
   )
 
   return (
-    <Button
-      width="full"
-      borderRadius="2xl"
-      bg="accent.default"
-      py={1.5}
-      onClick={handleContact}
-      loading={loading}
-    >
-      Contactar vendedor
-    </Button>
+    <Flex direction="column" gap={2}>
+      {isAdmin && <AdminDeleteButton itemId={item.id} />}
+      <Button
+        width="full"
+        borderRadius="2xl"
+        bg="accent.default"
+        py={1.5}
+        onClick={handleContact}
+        loading={loading}
+      >
+        Contactar vendedor
+      </Button>
+    </Flex>
   )
 }
