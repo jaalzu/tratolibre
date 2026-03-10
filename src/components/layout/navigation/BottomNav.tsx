@@ -7,6 +7,7 @@ import { ChatNavLink } from './ChatNavLink'
 
 interface BottomNavProps {
   userId?: string
+    isAdmin?: boolean
 }
 
 const navItems = [
@@ -17,7 +18,7 @@ const navItems = [
   { label: 'Perfil', href: '/profile', icon: 'bx-user' },
 ]
 
-export default function BottomNav({ userId }: BottomNavProps) {
+export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
   if (!userId) return null
 
   const pathname = usePathname()
@@ -32,16 +33,20 @@ export default function BottomNav({ userId }: BottomNavProps) {
       boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
     >
       <Grid 
-  templateColumns="repeat(5, 1fr)" 
+   templateColumns="repeat(auto-fit, minmax(0, 1fr))"
+
   h="60px" 
   gap={0} 
-  justifyItems="center" // Esto centra los hijos dentro de cada celda de la grid
+  justifyItems="center" 
   alignItems="center"
 >
         {navItems.map((item) =>
           item.isChat
             ? <ChatNavLink key={item.label} userId={userId} variant="mobile" />
             : <NavLink key={item.label} href={item.href} label={item.label} icon={item.icon} variant="mobile" />
+        )}
+        {isAdmin && (
+          <NavLink href="/admin" label="Admin" icon="bx-shield" variant="mobile" />
         )}
       </Grid>
       <Box h="safe-bottom" bg="brand.default" />

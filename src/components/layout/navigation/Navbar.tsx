@@ -7,7 +7,11 @@ import { useDisclosure } from '@chakra-ui/react'
 import { usePathname } from 'next/navigation'
 import { User } from '@supabase/supabase-js'
 
-export default function Navbar({ user, unreadCount = 0 }: { user: User | null; unreadCount?: number }) {
+export default function Navbar({ user, unreadCount = 0, isAdmin = false }: { 
+  user: User | null
+  unreadCount?: number
+  isAdmin?: boolean
+}) {
   const {  onOpen: onOpenDrawer, } = useDisclosure()
   const pathname = usePathname()
   const isChatDetail = !!pathname.match(/^\/chat\/.+/)
@@ -21,7 +25,8 @@ export default function Navbar({ user, unreadCount = 0 }: { user: User | null; u
       shadow="base"
       display={isChatDetail ? { base: 'none', md: 'block' } : 'block'}
     >
-      <NavbarTop user={user} onOpenMenu={onOpenDrawer} unreadCount={unreadCount} />
+            <NavbarTop user={user} onOpenMenu={onOpenDrawer} unreadCount={unreadCount} isAdmin={isAdmin} />
+
       <NavbarCategories />
     </Box>
   )

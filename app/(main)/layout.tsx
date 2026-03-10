@@ -1,20 +1,20 @@
+// app/(main)/layout.tsx
 import Navbar from "@/components/layout/navigation/Navbar";
 import BottomNav from "@/components/layout/navigation/BottomNav";
 import { FooterWrapper } from '@/components/layout/footer/FooterWrapper'
 import { getUnreadCount } from '@/features/notifications/actions'
-import { getAuthUser } from '@/lib/supabase/getAuthUser'
+import { getAuthUserWithRole } from '@/lib/supabase/getAuthUserWithRole'
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
-  const { user } = await getAuthUser()
-
+  const { user, role } = await getAuthUserWithRole()
   const unreadCount = user ? await getUnreadCount() : 0
 
   return (
     <>
-      <Navbar user={user} unreadCount={unreadCount} />
+      <Navbar user={user} unreadCount={unreadCount} isAdmin={role === 'admin'} />
       <main>{children}</main>
       <FooterWrapper />
-      <BottomNav userId={user?.id} />
+      <BottomNav userId={user?.id} isAdmin={role === 'admin'} />
     </>
   );
 }

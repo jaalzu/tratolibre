@@ -18,12 +18,13 @@ const loggedNavItems = [
 ]
 
 interface NavbarTopProps {
-  user:         User | null
-  onOpenMenu:   () => void
+  user: User | null
+  onOpenMenu: () => void
   unreadCount?: number
+  isAdmin?: boolean
 }
 
-export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
+export const NavbarTop = ({ user, unreadCount = 0,isAdmin= false }: NavbarTopProps) => (
   <Box bg="brand.default">
     <Flex maxW="1280px" mx="auto" px={2} h="60px" align="center" gap={{ base: 2, md: 6 }}>
 
@@ -47,6 +48,9 @@ export const NavbarTop = ({ user, unreadCount = 0 }: NavbarTopProps) => (
               <NavLink key={item.label} href={item.href} label={item.label} icon={item.icon} variant="desktop" />
             ))}
             <ChatNavLink userId={user.id} />
+            {isAdmin && (
+        <NavLink href="/admin" label="Admin" icon="bx-shield" variant="desktop" />
+      )}
             <Box color="neutral.50">
               <NotificationBell initialCount={unreadCount} userId={user.id} />
             </Box>
