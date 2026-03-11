@@ -3,6 +3,7 @@
 import { Box, Flex, Text, Circle, Spinner } from '@chakra-ui/react'
 import { Button } from '@/components/ui/Button'
 import { useStartChat } from '@/features/items/hooks/useStartChat'
+import NextLink from 'next/link'
 
 interface SellerCardProfile {
   id: string
@@ -81,9 +82,14 @@ export default function SellerCard({ profile, itemId, userId }: {
         )}
 
         <Box>
-          <Text fontSize="md" fontWeight="bold" color="neutral.900" lineHeight="1.2">
-            {profile?.name}
-          </Text>
+
+<Box asChild>
+  <NextLink href={`/profile/${profile?.id}`}>
+    <Text fontSize="md" fontWeight="bold" color="neutral.900" lineHeight="1.2" _hover={{ color: 'brand.default' }} transition="color 0.15s">
+      {profile?.name}
+    </Text>
+  </NextLink>
+</Box>
           <Flex align="center" gap={1} mt={0.5}>
             <StarRating rating={rating} />
             <Text fontSize="xs" color="neutral.400">

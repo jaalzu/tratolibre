@@ -38,7 +38,8 @@ export default function ItemPageContent({ item, userId, isAdmin = false }: ItemP
           )}
 
           <Separator my={5} borderColor="neutral.100" />
-          <ItemDetails item={item} />
+          <ItemDetails item={item} userId={userId} />
+
           <Separator my={6} borderColor="neutral.100" />
 
           <Suspense fallback={<Box h="200px" />}>
@@ -75,7 +76,8 @@ export default function ItemPageContent({ item, userId, isAdmin = false }: ItemP
               )}
 
               <Separator my={6} borderColor="neutral.100" />
-              <ItemDetails item={item} />
+              <ItemDetails item={item} userId={userId} />
+
               <Separator my={8} borderColor="neutral.100" />
 
               <Suspense fallback={<Box h="200px" />}>

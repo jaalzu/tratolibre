@@ -1,4 +1,5 @@
 import { Box, Heading, Text, Stack, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/react"
 
 export const metadata = {
   title: "Quiénes somos | TratoLibre",
@@ -141,22 +142,21 @@ export default function WhoWeArePage() {
           <Text color="fg.muted" mb={6}>
             Nos importa saber qué pensás. Tu feedback nos ayuda a mejorar la plataforma todos los días.
           </Text>
-          <Box
-            as="a"
-            href="mailto:contacto@tratolibre.com"
-            px={6}
-            py={3}
-            bg="brand.default"
-            color="white"
-            borderRadius="lg"
-            fontWeight="semibold"
-            fontSize="sm"
-            _hover={{ bg: "brand.hover" }}
-            transition="background 0.2s"
-            display="inline-block"
-          >
-            Contactanos
-          </Box>
+         <Link
+  href="mailto:contacto@tratolibre.com"
+  px={6}
+  py={3}
+  bg="brand.default"
+  color="white"
+  borderRadius="lg"
+  fontWeight="semibold"
+  fontSize="sm"
+  _hover={{ bg: "brand.hover" }}
+  transition="background 0.2s"
+  display="inline-block"
+>
+  Contactanos
+</Link>
         </Box>
 
       </Box>

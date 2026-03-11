@@ -18,7 +18,7 @@ export const EditProfileFields = ({ register, errors, control }: EditProfileFiel
   return (
     <Stack gap={4}>
       <FormField label="Nombre" error={errors.name}>
-        <Input {...register('name')} placeholder="Tu nombre" {...inputStyles} />
+        <Input {...register('name')} bg='neutral.50' placeholder="Tu nombre" {...inputStyles} />
       </FormField>
 
       <FormField label="Provincia" error={errors.province}>
@@ -31,7 +31,7 @@ export const EditProfileFields = ({ register, errors, control }: EditProfileFiel
       </FormField>
 
       <FormField label="Ciudad / Zona" error={errors.location}>
-        <Input {...register('location')} placeholder="Ej: Buenos Aires, Palermo..." {...inputStyles} />
+        <Input {...register('location')} bg='neutral.50' placeholder="Ej: Buenos Aires, Palermo..." {...inputStyles} />
       </FormField>
     </Stack>
   )

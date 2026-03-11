@@ -18,9 +18,35 @@ export async function createReportAction(input: unknown) {
 
   const { type, target_id, reason, description } = parsed.data
 
-  // No podés reportarte a vos mismo
+  // No podés reportarte a vos mismo (usuario)
   if (type === 'user' && target_id === user.id) {
     return { error: 'No podés reportarte a vos mismo' }
+  }
+
+  // No podés reportar tu propia publicación
+  if (type === 'item') {
+    const { data: item } = await supabase
+      .from('items')
+      .select('profile_id')
+      .eq('id', target_id)
+      .single()
+
+    if (item?.profile_id === user.id) {
+      return { error: 'No podés reportar tu propia publicación' }
+    }
+  }
+
+  // No podés reportar una conversación que no es tuya
+  if (type === 'conversation') {
+    const { data: conv } = await supabase
+      .from('conversations')
+      .select('buyer_id, seller_id')
+      .eq('id', target_id)
+      .single()
+
+    if (!conv || (conv.buyer_id !== user.id && conv.seller_id !== user.id)) {
+      return { error: 'No pertenecés a esta conversación' }
+    }
   }
 
   // Verificar que no exista un reporte previo del mismo usuario al mismo target

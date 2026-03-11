@@ -22,7 +22,6 @@ export default function Navbar({ user, unreadCount = 0, isAdmin = false }: {
       position="sticky"
       top={0}
       zIndex={50}
-      shadow="base"
       display={isChatDetail ? { base: 'none', md: 'block' } : 'block'}
     >
             <NavbarTop user={user} onOpenMenu={onOpenDrawer} unreadCount={unreadCount} isAdmin={isAdmin} />

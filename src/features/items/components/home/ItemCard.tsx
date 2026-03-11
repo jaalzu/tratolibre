@@ -15,22 +15,22 @@ export const ItemCard = ({ obj, userId = null, initialFavorited = false }: ItemC
       <Box
         w="full"
         transition="transform 0.2s ease"
-        _hover={{ transform: 'translateY(-3px)' }}
+        _hover={{ transform: 'translateY(-2px)' }}
       >
         {obj.images?.[0] ? (
           <img
             src={obj.images[0]}
             style={{ 
               width: '100%',
-              height: '235px', 
+              height: '240px', 
               objectFit: 'cover', 
-              borderRadius: '8px',
+              borderRadius: '5px',
               display: 'block',
             }}
             alt={obj.title}
           />
         ) : (
-          <Box w="full" h="235px" borderRadius="lg" bg="neutral.100" />
+          <Box w="full" h="240px" borderRadius="lg" bg="neutral.100" />
         )}
 
         <Box pt={2}>

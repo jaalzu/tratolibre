@@ -27,13 +27,6 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
       bg: 'brand.100',
     },
     {
-      image: '/hero/happy-couple.webp',
-      title: 'Encontrá lo que buscás al mejor precio.',
-      buttonLabel: 'Explorar',
-      buttonHref: '/',
-      bg: 'secondary.50',
-    },
-    {
       image: '/hero/handshake.webp',
       title: '¡Es rápido, fácil y gratis!',
       buttonLabel: 'Comenzar a Vender',

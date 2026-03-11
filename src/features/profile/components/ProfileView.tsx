@@ -48,7 +48,7 @@ export const ProfileView = ({ profile, items, salesCount, isOwner, pendingReview
   />
   {!isOwner && (
     <Flex justify="center" mt={4}>
-      <ReportButton type="user" targetId={profile.id} label="Reportar perfil" />
+      <ReportButton type="user" targetId={profile.id} color="accent.default" label="Reportar perfil" />
     </Flex>
   )}
 </Box>

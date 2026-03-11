@@ -2,7 +2,8 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import { Item } from '@/features/items/types'
 import { ReportButton } from '@/features/reports/components/ReportButton'
 
-export default function ItemDetails({ item }: { item: Item }) {
+export default function ItemDetails({ item,userId  }: { item: Item , userId?: string | null }) {
+const isOwner = item.owner_id === userId
   return (
     <Box>
       {/* Detalles del producto */}
@@ -30,9 +31,11 @@ export default function ItemDetails({ item }: { item: Item }) {
       )}
 
       {/* Reportar */}
-   <Flex justify="center" mt={12} mb={2}>
-  <ReportButton type="item" targetId={item.id} label="Reportar publicación" />
-</Flex>
+   {!isOwner && (
+        <Flex justify="center" mt={12} mb={2}>
+          <ReportButton type="item" targetId={item.id} label="Reportar publicación" color="accent.default" />
+        </Flex>
+      )}
     </Box>
   )
 }

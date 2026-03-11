@@ -1,7 +1,8 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react'
+import { Box,  Heading, Text } from '@chakra-ui/react'
 import { ItemCard } from '@/features/items/components/home/ItemCard'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Item } from '@/features/items/types'
+import { FadeInGrid } from '@/features/search/components/FadeInGrid'
 
 interface SearchResultsProps {
   items:       Item[]
@@ -32,17 +33,16 @@ export function SearchResults({ items, favoriteIds, title, userId }: SearchResul
           actionHref="/search?order_by=closest"
         />
       ) : (
-       <Flex wrap="wrap" gap={3}>
+<FadeInGrid>
   {items.map(item => (
-    <Box key={item.id} w={{ base: 'calc(50% - 8px)', md: 'calc(33.33% - 11px)' }}>
-      <ItemCard
-        obj={item}
-        userId={userId}
-        initialFavorited={favoriteIds.includes(item.id)}
-      />
-    </Box>
+    <ItemCard
+      key={item.id}
+      obj={item}
+      userId={userId}
+      initialFavorited={favoriteIds.includes(item.id)}
+    />
   ))}
-</Flex>
+</FadeInGrid>
       )}
     </Box>
   )

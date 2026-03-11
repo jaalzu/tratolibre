@@ -1,4 +1,5 @@
 import { Box, Heading, Text, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/react"
 
 export const metadata = {
   title: "Cómo funciona | TratoLibre",
@@ -214,38 +215,39 @@ export default function HowItWorksPage() {
     Explorá las publicaciones o publicá lo que ya no usás en minutos.
   </Text>
   <Flex justify="center" gap={3} flexWrap="wrap">
-    <Box
-      as="a"
-      href="/search"
-      px={6}
-      py={3}
-      bg="neutral.50"
-      color="neutral.900"
-      borderRadius="lg"
-      fontWeight="semibold"
-      fontSize="sm"
-      _hover={{ bg: "brand.hover" }}
-      transition="background 0.2s"
-    >
-      Explorar publicaciones
-    </Box>
-    <Box
-      as="a"
-      href="/item/new"
-      px={9}
-      py={3}
-      bg="brand.default"
-      color="fg"
-      borderRadius="lg"
-      fontWeight="semibold"
-      fontSize="sm"
-      border="1px solid"
-      borderColor="border"
-      _hover={{ bg: "bg.subtle" }}
-      transition="background 0.2s"
-    >
-      Publicar un artículo
-    </Box>
+  <Link
+  href="/search"
+  textDecoration="none"
+  _hover={{ bg: "brand.default", textDecoration: "none" }}
+  px={6}
+  py={3}
+  bg="neutral.50"
+  color="neutral.900"
+  borderRadius="lg"
+  fontWeight="semibold"
+  fontSize="sm"
+  transition="background 0.2s"
+>
+  Explorar publicaciones
+</Link>
+
+   <Link
+  href="/item/new"
+  textDecoration="none"
+  _hover={{ bg: "brand.dark", textDecoration: "none" }}
+  px={9}
+  py={3}
+  bg="brand.default"
+  color="fg"
+  borderRadius="lg"
+  fontWeight="semibold"
+  fontSize="sm"
+  border="1px solid"
+  borderColor="border"
+  transition="background 0.2s"
+>
+  Publicar un artículo
+</Link>
   </Flex>
 </Box>
 
