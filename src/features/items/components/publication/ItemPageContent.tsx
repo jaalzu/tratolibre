@@ -1,49 +1,63 @@
-import { Box, Flex, Separator, Text } from '@chakra-ui/react'
-import { Suspense } from 'react'
-import ItemImageSlider from './ItemImageSlider'
-import ItemInfo from './ItemInfo'
-import ItemDetails from './ItemDetails'
-import SellerCard from './SellerCard'
-import { RelatedItems } from './RelatedItems'
-import ItemActions from './ItemActions'
-import { ItemWithProfile } from '@/features/items/types'
+import { Box, Flex, Separator, Text } from "@chakra-ui/react";
+import ItemImageSlider from "./ItemImageSlider";
+import ItemInfo from "./ItemInfo";
+import ItemDetails from "./ItemDetails";
+import SellerCard from "./SellerCard";
+import ItemActions from "./ItemActions";
+import { ItemWithProfile } from "@/features/items/types";
 
 interface ItemPageContentProps {
-  item: ItemWithProfile
-  userId: string | null
-  isAdmin?: boolean
+  item: ItemWithProfile;
+  userId: string | null;
+  isAdmin?: boolean;
 }
 
-export default function ItemPageContent({ item, userId, isAdmin = false }: ItemPageContentProps) {
+export default function ItemPageContent({
+  item,
+  userId,
+  isAdmin = false,
+}: ItemPageContentProps) {
   return (
     <Box pb={{ base: "140px", md: 0 }}>
       {/* ── MOBILE ── */}
       <Box display={{ base: "block", md: "none" }}>
         <Box pt={3}>
           <ItemImageSlider images={item.images ?? []} title={item.title} />
-
         </Box>
 
         <Box px={4} pt={2}>
           <ItemInfo item={item} />
 
           <Box mt={4}>
-            <SellerCard profile={item.profiles} itemId={item.id} userId={userId} />
+            <SellerCard
+              profile={item.profiles}
+              itemId={item.id}
+              userId={userId}
+            />
           </Box>
 
           {item.category && (
-            <Box display="inline-block" mt={4} px={5} py={1} bg="neutral.100" borderRadius="full">
-              <Text fontSize="md" color="neutral.900" textTransform="capitalize">{item.category}</Text>
+            <Box
+              display="inline-block"
+              mt={4}
+              px={5}
+              py={1}
+              bg="neutral.100"
+              borderRadius="full"
+            >
+              <Text
+                fontSize="md"
+                color="neutral.900"
+                textTransform="capitalize"
+              >
+                {item.category}
+              </Text>
             </Box>
           )}
 
           <Separator my={5} borderColor="neutral.100" />
           <ItemDetails item={item} userId={userId} />
-
           <Separator my={6} borderColor="neutral.100" />
-
-          <Suspense fallback={<Box h="200px" />}>
-<RelatedItems category={item.category} excludeId={item.id} userId={userId} />          </Suspense>
         </Box>
 
         <Box
@@ -53,9 +67,9 @@ export default function ItemPageContent({ item, userId, isAdmin = false }: ItemP
           right={0}
           px={4}
           py={3}
-          bg="neutral.100"
+          bg="neutral.50"
           borderTop="1px solid"
-          borderColor="neutral.200"
+          borderColor="neutral.300"
           zIndex={40}
         >
           <ItemActions item={item} userId={userId} isAdmin={isAdmin} />
@@ -70,8 +84,22 @@ export default function ItemPageContent({ item, userId, isAdmin = false }: ItemP
               <ItemImageSlider images={item.images ?? []} title={item.title} />
 
               {item.category && (
-                <Box display="inline-block" mt={4} mx={3} px={5} py={1} bg="neutral.100" borderRadius="full">
-                  <Text fontSize="md" color="neutral.900" textTransform="capitalize">{item.category}</Text>
+                <Box
+                  display="inline-block"
+                  mt={4}
+                  mx={3}
+                  px={5}
+                  py={1}
+                  bg="neutral.100"
+                  borderRadius="full"
+                >
+                  <Text
+                    fontSize="md"
+                    color="neutral.900"
+                    textTransform="capitalize"
+                  >
+                    {item.category}
+                  </Text>
                 </Box>
               )}
 
@@ -79,9 +107,6 @@ export default function ItemPageContent({ item, userId, isAdmin = false }: ItemP
               <ItemDetails item={item} userId={userId} />
 
               <Separator my={8} borderColor="neutral.100" />
-
-              <Suspense fallback={<Box h="200px" />}>
-<RelatedItems category={item.category} excludeId={item.id} userId={userId} />              </Suspense>
             </Box>
 
             <Box w="300px" flexShrink={0}>
@@ -97,15 +122,23 @@ export default function ItemPageContent({ item, userId, isAdmin = false }: ItemP
                 >
                   <ItemInfo item={item} />
                   <Box mt={5}>
-                    <ItemActions item={item} userId={userId} isAdmin={isAdmin} />
+                    <ItemActions
+                      item={item}
+                      userId={userId}
+                      isAdmin={isAdmin}
+                    />
                   </Box>
                 </Box>
-                <SellerCard profile={item.profiles} itemId={item.id} userId={userId} />
+                <SellerCard
+                  profile={item.profiles}
+                  itemId={item.id}
+                  userId={userId}
+                />
               </Box>
             </Box>
           </Flex>
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
