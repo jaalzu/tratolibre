@@ -33,7 +33,6 @@ export async function getMyNotifications() {
     .order("created_at", { ascending: false })
     .limit(50);
 
-  console.log("[getMyNotifications] data:", data);
   return (data ?? []) as Notification[];
 }
 

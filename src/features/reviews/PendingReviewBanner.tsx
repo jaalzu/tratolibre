@@ -17,6 +17,7 @@ export function PendingReviewBanner({
   if (!pendingReviews.length || dismissed) return null;
 
   const review = pendingReviews[current];
+  if (!review) return null;
   const total = pendingReviews.length;
   const itemTitle =
     (review.items as { title: string } | null)?.title ?? "este artículo";
@@ -61,7 +62,7 @@ export function PendingReviewBanner({
                 : `Reseña ${current + 1} de ${total}`}
             </Text>
             <Text fontSize="xs" color="neutral.500">
-              Calificá tu experiencia con &quot;{itemTitle}&quot;
+              Calificá tu experiencia con {review.reviewedName ?? "el usuario"}
             </Text>
           </Box>
 
@@ -80,7 +81,7 @@ export function PendingReviewBanner({
                 >
                   <i
                     className="bx bx-chevron-left"
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "25px" }}
                   />
                 </Box>
 
@@ -96,7 +97,7 @@ export function PendingReviewBanner({
                 >
                   <i
                     className="bx bx-chevron-right"
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "25px" }}
                   />
                 </Box>
               </>
@@ -115,15 +116,6 @@ export function PendingReviewBanner({
               bg="brand.100"
             >
               Calificar
-            </Box>
-
-            <Box
-              as="button"
-              color="neutral.400"
-              onClick={() => setDismissed(true)}
-              _hover={{ color: "neutral.600" }}
-            >
-              <i className="bx bx-x" style={{ fontSize: "16px" }} />
             </Box>
           </Flex>
         </Flex>

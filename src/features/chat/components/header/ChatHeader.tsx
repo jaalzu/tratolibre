@@ -4,7 +4,6 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
 import { ChatMenu } from "./ChatMenu";
-import "boxicons/css/boxicons.min.css";
 
 interface ChatHeaderProps {
   item: {
@@ -118,7 +117,7 @@ export const ChatHeader = ({
       <ChatMenu
         itemId={item.id}
         conversationId={conversationId}
-        sellerId={seller.id}
+        otherUserId={seller.id}
       />
     </Flex>
   );

@@ -69,10 +69,6 @@ export async function getPendingReviews() {
   return (purchases as unknown as PurchaseWithRelations[])
     .filter((p) => !reviewedPurchaseIds.has(p.id))
     .map((p) => {
-      console.log("[getPendingReviews] p.buyer:", JSON.stringify(p.buyer));
-      console.log("[getPendingReviews] p.owner:", JSON.stringify(p.owner));
-      console.log("[getPendingReviews] p.items:", JSON.stringify(p.items));
-
       const isBuyer = p.buyer_id === user.id;
       const reviewedId = isBuyer ? p.owner_id : p.buyer_id;
       const reviewedRaw = isBuyer ? p.owner : p.buyer; // ← sin [0]

@@ -8,6 +8,7 @@ interface ProfileHeaderProps {
   avatarUrl?: string | null;
   location?: string | null;
   salesCount: number;
+  purchasesCount: number;
   reviewsCount: number;
   rating: number;
   isOwner?: boolean;
@@ -18,6 +19,7 @@ export const ProfileHeader = ({
   avatarUrl,
   location,
   salesCount,
+  purchasesCount,
   reviewsCount,
   rating,
   isOwner,
@@ -66,7 +68,11 @@ export const ProfileHeader = ({
         </Flex>
       </Flex>
 
-      <ProfileStats salesCount={salesCount} isOwner={isOwner} />
+      <ProfileStats
+        salesCount={salesCount}
+        purchasesCount={purchasesCount}
+        isOwner={isOwner}
+      />
       {location && (
         <Flex align="center" gap={1} mt={3}>
           <i
@@ -126,7 +132,11 @@ export const ProfileHeader = ({
           </Box>
         </Flex>
         <Flex direction="column" align="flex-end" gap={2}>
-          <ProfileStats salesCount={salesCount} isOwner={isOwner} />{" "}
+          <ProfileStats
+            salesCount={salesCount}
+            purchasesCount={purchasesCount}
+            isOwner={isOwner}
+          />{" "}
           {location && (
             <Flex align="center" gap={1}>
               <i
