@@ -18,7 +18,7 @@ export default function ItemPageContent({
   isAdmin = false,
 }: ItemPageContentProps) {
   return (
-    <Box pb={{ base: "140px", md: 0 }}>
+    <Box pb={{ base: "0px", md: 0 }}>
       {/* ── MOBILE ── */}
       <Box display={{ base: "block", md: "none" }}>
         <Box pt={3}>
@@ -67,7 +67,7 @@ export default function ItemPageContent({
           right={0}
           px={4}
           py={3}
-          bg="neutral.50"
+          bg="neutral.150"
           borderTop="1px solid"
           borderColor="neutral.300"
           zIndex={40}
@@ -113,9 +113,10 @@ export default function ItemPageContent({
               <Box position="sticky" top="24px">
                 <Box
                   border="1px solid"
-                  borderColor="neutral.100"
+                  boxShadow="base"
+                  borderColor="neutral.900"
                   borderRadius="xl"
-                  bg="neutral.50"
+                  bg="neutral.150"
                   px={4}
                   py={6}
                   mb={3}

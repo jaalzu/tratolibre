@@ -1,19 +1,19 @@
 // features/admin/components/AdminDeleteButton.tsx
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/Button'
-import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
-import { deleteItemAsAdminAction } from '@/features/admin/actions'
+import { useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { deleteItemAsAdminAction } from "@/features/admin/actions";
 
 export function AdminDeleteButton({ itemId }: { itemId: string }) {
-  const [open, setOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
-    setLoading(true)
-    await deleteItemAsAdminAction(itemId)
-    setLoading(false)
+    setLoading(true);
+    await deleteItemAsAdminAction(itemId);
+    setLoading(false);
   }
 
   return (
@@ -40,5 +40,5 @@ export function AdminDeleteButton({ itemId }: { itemId: string }) {
         loadingLabel="Eliminando..."
       />
     </>
-  )
+  );
 }

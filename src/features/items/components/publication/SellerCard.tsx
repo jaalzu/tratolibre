@@ -54,6 +54,7 @@ export default function SellerCard({
       gap={3}
       border="1px solid"
       bg="neutral.150"
+      boxShadow="base"
       borderColor="neutral.900"
       borderRadius="xl"
       px={5}
@@ -76,7 +77,7 @@ export default function SellerCard({
           <Circle
             size="48px"
             bg="brand.default"
-            color="white"
+            color="neutral.50"
             fontWeight="bold"
             fontSize="lg"
             flexShrink={0}
@@ -131,7 +132,7 @@ export default function SellerCard({
           {/* Spinner flotante centrado */}
           {loading && (
             <Flex position="absolute" inset={0} align="center" justify="center">
-              <Spinner size="sm" color="white" />
+              <Spinner size="sm" color="neutral.50" />
             </Flex>
           )}
         </Button>

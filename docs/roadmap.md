@@ -1,10 +1,12 @@
 # TratoLibre — Roadmap de Construcción
+
 > Plataforma de alquiler y venta de objetos entre personas  
 > Stack: Next.js 14 · Supabase · TypeScript · Tailwind · Stripe · Vercel
 
 ---
 
 ## FASE 0 — Prerrequisitos ✅
+
 - [x] Node.js instalado (18+)
 - [x] Git instalado
 - [x] Cuenta en Supabase
@@ -16,6 +18,7 @@
 ---
 
 ## FASE 1 — Setup del proyecto
+
 - [x] `npx create-next-app@latest` ejecutado
 - [x] Dependencias instaladas (`npm install ...`)
 - [x ] `.env.local` creado con keys de Supabase
@@ -29,6 +32,7 @@
 ---
 
 ## FASE 2 — Supabase: Base de datos
+
 - [x ] Proyecto creado en supabase.com
 - [ x] SQL ejecutado: tabla `profiles`
 - [ x] SQL ejecutado: tabla `Items` (con campos `listing_type`: rent/sell/both, `price_per_day`, `sale_price`)
@@ -49,6 +53,7 @@
 ---
 
 ## FASE 3 — Autenticación
+
 - [ x] `lib/supabase/client.ts` — cliente browser
 - [ x] `lib/supabase/server.ts` — cliente server
 - [x ] `middleware.ts` — protección de rutas
@@ -64,6 +69,7 @@
 ---
 
 ## FASE 4 — Módulo de Objetos
+
 - [x ] Categorías definidas (abierto a cualquier objeto)
 - [ x] Server Action: `createItemAction`
 - [x ] Server Action: `updateItemAction`
@@ -76,6 +82,7 @@
 ---
 
 ## FASE 5 — Búsqueda y Descubrimiento
+
 - [ ] Índices full-text en Supabase (`pg_trgm`)
 - [ ] Hook `useItems` con filtros (texto, categoría, ciudad, precio, tipo: alquiler/venta)
 - [x ] Componente `ItemCard` (foto, título, precio, tipo, rating)
@@ -85,8 +92,8 @@
 
 ---
 
-
 ## FASE 6B — Compras (para venta)
+
 - [ x] Flujo de compra: interesado contacta → owner confirma → marcado como vendido
 - [ x] Estado `sold` en el objeto
 - [ x] Página de confirmación de compra
@@ -95,6 +102,7 @@
 ---
 
 ## FASE 7 — Mensajería en tiempo real
+
 - [ x] Hook `useChat` con Supabase Realtime
 - [ x] Mensajes llegan sin recargar página
 - [ x] Componente `ChatWindow`
@@ -104,13 +112,15 @@
 ---
 
 ## FASE 8 — Confianza y Reputación
+
 - [x ] Server Action: `createReviewAction` (solo post-completed)
 - [ x] Reviews mutuas (owner califica renter, renter califica owner)
 - [ x] Componente `StarRating` (interactivo y display)
+
 ---
 
-
 ## FASE 10 — UI/UX y Diseño
+
 - [ ] Paleta de colores definida (verde TratoLibre)
 - [ ] Componentes UI base: Button, Input, Select, Modal, Toast
 - [ ] Componente `Navbar` con auth state
@@ -123,9 +133,9 @@
 ---
 
 ## FASE 11 — Testing
+
 - [ ] Auth: registro, login, logout, rutas protegidas
 - [ ] Objetos: publicar, editar, eliminar, no puede ser del mismo owner
-- [ ] Alquiler: flujo completo pending → completed
 - [ ] Compra: flujo completo contacto → vendido
 - [ ] Chat: tiempo real, privacidad entre partes
 - [ ] Reviews: solo post-completed, no se puede repetir
@@ -135,6 +145,7 @@
 ---
 
 ## FASE 12 — Deploy y Producción
+
 - [ ] Repo en GitHub con rama `main`
 - [ ] Proyecto conectado en Vercel
 - [ ] Variables de entorno cargadas en Vercel
@@ -150,24 +161,25 @@
 ---
 
 ## Progreso general
-| Fase | Estado |
-|------|--------|
-| 0 — Prerrequisitos | ✅ Completa |
+
+| Fase               | Estado         |
+| ------------------ | -------------- |
+| 0 — Prerrequisitos | ✅ Completa    |
 | 1 — Setup proyecto | 🟡 En progreso |
-| 2 — Supabase DB | ⬜ Pendiente |
-| 3 — Auth | ⬜ Pendiente |
-| 4 — Objetos | ⬜ Pendiente |
-| 5 — Búsqueda | ⬜ Pendiente |
-| 6 — Reservas | ⬜ Pendiente |
-| 6B — Compras | ⬜ Pendiente |
-| 7 — Mensajería | ⬜ Pendiente |
-| 8 — Confianza | ⬜ Pendiente |
-| 9 — Stripe | ⬜ Pendiente |
-| 10 — UI/UX | ⬜ Pendiente |
-| 11 — Testing | ⬜ Pendiente |
-| 12 — Deploy | ⬜ Pendiente |
+| 2 — Supabase DB    | ⬜ Pendiente   |
+| 3 — Auth           | ⬜ Pendiente   |
+| 4 — Objetos        | ⬜ Pendiente   |
+| 5 — Búsqueda       | ⬜ Pendiente   |
+| 6 — Reservas       | ⬜ Pendiente   |
+| 6B — Compras       | ⬜ Pendiente   |
+| 7 — Mensajería     | ⬜ Pendiente   |
+| 8 — Confianza      | ⬜ Pendiente   |
+| 9 — Stripe         | ⬜ Pendiente   |
+| 10 — UI/UX         | ⬜ Pendiente   |
+| 11 — Testing       | ⬜ Pendiente   |
+| 12 — Deploy        | ⬜ Pendiente   |
 
 ---
 
-*Actualizar los checkboxes a medida que se completa cada ítem.*  
-*TratoLibre · v1.0 · 2025*
+_Actualizar los checkboxes a medida que se completa cada ítem._  
+_TratoLibre · v1.0 · 2025_

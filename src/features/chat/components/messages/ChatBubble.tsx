@@ -1,48 +1,49 @@
-'use client'
+"use client";
 
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 interface ChatBubbleProps {
-  content: string
-  isMine: boolean
-  senderInitial?: string
-  createdAt: string
+  content: string;
+  isMine: boolean;
+  senderInitial?: string;
+  createdAt: string;
 }
 
 function renderContent(content: string) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g
-  const parts = content.split(urlRegex)
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = content.split(urlRegex);
 
   return parts.map((part, i) =>
     urlRegex.test(part) ? (
-      <a 
+      <a
         key={i}
         href={part}
         target="_blank"
         rel="noopener noreferrer"
-        style={{ textDecoration: 'underline', wordBreak: 'break-all' }}
+        style={{ textDecoration: "underline", wordBreak: "break-all" }}
       >
         {part}
       </a>
     ) : (
       <span key={i}>{part}</span>
-    )
-  )
+    ),
+  );
 }
 
 function formatTime(dateStr: string) {
-  return new Date(dateStr).toLocaleTimeString('es-AR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+  return new Date(dateStr).toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 export const ChatBubble = ({ content, isMine, createdAt }: ChatBubbleProps) => (
-  <Flex justifyContent={isMine ? 'flex-end' : 'flex-start'}>
+  <Flex justifyContent={isMine ? "flex-end" : "flex-start"}>
     <Box
       maxW="75%"
-      px="3" py="1"
+      px="3"
+      py="1"
       borderRadius="full"
-      bg={isMine ? 'neutral.100' : 'white'}
+      bg={isMine ? "neutral.100" : "neutral.50"}
       border="1px solid"
       borderColor="neutral.100"
     >
@@ -64,4 +65,4 @@ export const ChatBubble = ({ content, isMine, createdAt }: ChatBubbleProps) => (
       </Text>
     </Box>
   </Flex>
-)
+);
