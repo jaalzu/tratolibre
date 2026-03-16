@@ -1,19 +1,34 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Box, Flex, Text } from '@chakra-ui/react'
-import { Star, X } from 'lucide-react'
-import { ReviewModal } from '@/features/reviews/ReviewModal'
-import type { PendingReview } from '@/features/reviews/actions'
+import { useState } from "react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { ReviewModal } from "@/features/reviews/ReviewModal";
+import type { PendingReview } from "@/features/reviews/actions";
 
-export function PendingReviewBanner({ pendingReviews }: { pendingReviews: PendingReview[] }) {
-  const [current,   setCurrent]   = useState(0)
-  const [dismissed, setDismissed] = useState(false)
-  const [open,      setOpen]      = useState(false)
+export function PendingReviewBanner({
+  pendingReviews,
+}: {
+  pendingReviews: PendingReview[];
+}) {
+  const [current, setCurrent] = useState(0);
+  const [dismissed, setDismissed] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  if (!pendingReviews.length || dismissed) return null
+  if (!pendingReviews.length || dismissed) return null;
 
-  const review = pendingReviews[current]
+  const review = pendingReviews[current];
+  const total = pendingReviews.length;
+  const itemTitle =
+    (review.items as { title: string } | null)?.title ?? "este artículo";
+
+  const handleClose = () => {
+    setOpen(false);
+    if (current < total - 1) {
+      setCurrent((c) => c + 1);
+    } else {
+      setDismissed(true);
+    }
+  };
 
   return (
     <>
@@ -36,18 +51,57 @@ export function PendingReviewBanner({ pendingReviews }: { pendingReviews: Pendin
             color="brand.default"
             flexShrink={0}
           >
-            <Star size={18} />
+            <i className="bx bx-star" style={{ fontSize: "18px" }} />
           </Flex>
+
           <Box flex={1}>
             <Text fontSize="sm" fontWeight="semibold" color="neutral.900">
-              Tenés {pendingReviews.length === 1 ? 'una reseña' : `${pendingReviews.length} reseñas`} pendiente
-              {pendingReviews.length > 1 ? 's' : ''}
+              {total === 1
+                ? "Tenés una reseña pendiente"
+                : `Reseña ${current + 1} de ${total}`}
             </Text>
             <Text fontSize="xs" color="neutral.500">
-              Calificá tu experiencia con &quot;{review.items?.[0]?.title ?? 'este artículo'}&quot;
+              Calificá tu experiencia con &quot;{itemTitle}&quot;
             </Text>
           </Box>
-          <Flex gap={2} align="center">
+
+          <Flex gap={1} align="center">
+            {/* Flechas — solo si hay más de una */}
+            {total > 1 && (
+              <>
+                <Box
+                  as="button"
+                  onClick={() =>
+                    current > 0 && setCurrent((c) => Math.max(0, c - 1))
+                  }
+                  color={current === 0 ? "neutral.200" : "neutral.500"}
+                  aria-disabled={current === 0}
+                  px={1}
+                >
+                  <i
+                    className="bx bx-chevron-left"
+                    style={{ fontSize: "20px" }}
+                  />
+                </Box>
+
+                <Box
+                  as="button"
+                  onClick={() =>
+                    current < total - 1 &&
+                    setCurrent((c) => Math.min(total - 1, c + 1))
+                  }
+                  color={current === total - 1 ? "neutral.200" : "neutral.500"}
+                  aria-disabled={current === total - 1}
+                  px={1}
+                >
+                  <i
+                    className="bx bx-chevron-right"
+                    style={{ fontSize: "20px" }}
+                  />
+                </Box>
+              </>
+            )}
+
             <Box
               as="button"
               fontSize="xs"
@@ -62,13 +116,14 @@ export function PendingReviewBanner({ pendingReviews }: { pendingReviews: Pendin
             >
               Calificar
             </Box>
+
             <Box
               as="button"
               color="neutral.400"
               onClick={() => setDismissed(true)}
-              _hover={{ color: 'neutral.600' }}
+              _hover={{ color: "neutral.600" }}
             >
-              <X size={16} />
+              <i className="bx bx-x" style={{ fontSize: "16px" }} />
             </Box>
           </Flex>
         </Flex>
@@ -76,19 +131,13 @@ export function PendingReviewBanner({ pendingReviews }: { pendingReviews: Pendin
 
       <ReviewModal
         open={open}
-        onClose={() => {
-          setOpen(false)
-          if (current < pendingReviews.length - 1) {
-            setCurrent(c => c + 1)
-          } else {
-            setDismissed(true)
-          }
-        }}
+        onClose={handleClose}
         purchaseId={review.id}
         reviewedId={review.reviewedId}
-        reviewedName={review.reviewedName ?? 'el usuario'}
-        role={review.myRole as 'buyer' | 'seller'}
+        reviewedName={review.reviewedName ?? "el usuario"}
+        itemTitle={itemTitle}
+        role={review.myRole as "buyer" | "seller"}
       />
     </>
-  )
+  );
 }

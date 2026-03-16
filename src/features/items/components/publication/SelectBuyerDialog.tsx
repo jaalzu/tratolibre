@@ -21,18 +21,21 @@ interface SelectBuyerDialogProps {
   open: boolean;
   onClose: () => void;
   itemId: string;
+  itemTitle: string;
 }
 
 interface SaleResult {
   purchaseId: string;
   buyerId: string;
   buyerName: string;
+  itemTitle: string;
 }
 
 export const SelectBuyerDialog = ({
   open,
   onClose,
   itemId,
+  itemTitle,
 }: SelectBuyerDialogProps) => {
   const [buyers, setBuyers] = useState<ConversationBuyer[]>([]);
   const [loading, setLoading] = useState(false);
@@ -64,6 +67,7 @@ export const SelectBuyerDialog = ({
       purchaseId: result!.purchaseId!,
       buyerId,
       buyerName,
+      itemTitle,
     });
     onClose();
     setReviewOpen(true);
@@ -198,6 +202,7 @@ export const SelectBuyerDialog = ({
           purchaseId={saleResult.purchaseId}
           reviewedId={saleResult.buyerId}
           reviewedName={saleResult.buyerName}
+          itemTitle={saleResult.itemTitle} // ← nuevo
           role="seller"
         />
       )}

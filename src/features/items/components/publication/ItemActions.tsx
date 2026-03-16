@@ -94,6 +94,7 @@ export default function ItemActions({
           open={soldOpen}
           onClose={() => setSoldOpen(false)}
           itemId={item.id}
+          itemTitle={item.title}
         />
 
         <ConfirmDialog

@@ -11,7 +11,6 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
-import { Star } from "lucide-react";
 import { submitReviewAction } from "@/features/reviews/actions";
 
 interface ReviewModalProps {
@@ -20,6 +19,7 @@ interface ReviewModalProps {
   purchaseId: string;
   reviewedId: string;
   reviewedName: string;
+  itemTitle: string;
   role: "buyer" | "seller";
 }
 
@@ -29,6 +29,7 @@ export function ReviewModal({
   purchaseId,
   reviewedId,
   reviewedName,
+  itemTitle,
   role,
 }: ReviewModalProps) {
   const [rating, setRating] = useState(0);
@@ -88,18 +89,22 @@ export function ReviewModal({
               </Flex>
             ) : (
               <Stack gap={4}>
+                {/* Info contextual */}
                 <Box>
                   <Dialog.Title fontSize="md" fontWeight="bold" mb={1}>
                     Calificá a {reviewedName}
                   </Dialog.Title>
                   <Text fontSize="sm" color="neutral.500">
                     {role === "buyer"
-                      ? "Como vendedor, ¿cómo fue la experiencia con el comprador?"
-                      : "Como comprador, ¿cómo fue la experiencia con el vendedor?"}
+                      ? "Calificá al vendedor de"
+                      : "Calificá al comprador de"}{" "}
+                    <Text as="span" fontWeight="semibold" color="neutral.700">
+                      {itemTitle}
+                    </Text>
                   </Text>
                 </Box>
 
-                {/* Stars */}
+                {/* Estrellas */}
                 <Flex gap={1} justify="center">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Box
@@ -115,12 +120,13 @@ export function ReviewModal({
                       onClick={() => setRating(star)}
                       transition="color 0.1s"
                     >
-                      <Star
-                        size={36}
-                        fill={
-                          (hovered || rating) >= star ? "currentColor" : "none"
+                      <i
+                        className={
+                          (hovered || rating) >= star
+                            ? "bx bxs-star"
+                            : "bx bx-star"
                         }
-                        strokeWidth={1.5}
+                        style={{ fontSize: "36px" }}
                       />
                     </Box>
                   ))}
@@ -141,9 +147,8 @@ export function ReviewModal({
                   </Text>
                 )}
 
-                {/* Comentario */}
                 <Textarea
-                  placeholder="Contá tu experiencia "
+                  placeholder="Contá tu experiencia"
                   value={comment}
                   pt={2.5}
                   pb={6}
