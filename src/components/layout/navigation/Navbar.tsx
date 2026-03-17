@@ -2,9 +2,9 @@
 
 import { Box } from "@chakra-ui/react";
 import { NavbarTop } from "./NavbarTop";
-import { NavbarCategories } from "./NavbarCategories";
-import { useDisclosure } from "@chakra-ui/react";
+import { CategoriesDrawer } from "@/components/layout/navigation/CategoriesDrawer";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { User } from "@supabase/supabase-js";
 
 export default function Navbar({
@@ -16,7 +16,7 @@ export default function Navbar({
   unreadCount?: number;
   isAdmin?: boolean;
 }) {
-  const { onOpen: onOpenDrawer } = useDisclosure();
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
   const isChatDetail = !!pathname.match(/^\/chat\/.+/);
 
@@ -30,12 +30,15 @@ export default function Navbar({
     >
       <NavbarTop
         user={user}
-        onOpenMenu={onOpenDrawer}
+        onOpenMenu={() => setDrawerOpen(true)}
         unreadCount={unreadCount}
         isAdmin={isAdmin}
       />
 
-      {/* <NavbarCategories /> */}
+      <CategoriesDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
     </Box>
   );
 }

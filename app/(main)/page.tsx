@@ -1,26 +1,39 @@
-import { Box } from '@chakra-ui/react'
-import { Hero } from '@/components/sections/Hero'
-import { LoggedInHero } from '@/components/sections/LoggedInHero'
-import { RecentItemsSection } from '@/features/items/components/home/RecentItemsSection'
-import { NearbyItemsSection } from '@/features/items/components/home/NearbyItemsSection'
-import { NewItemsSection } from '@/features/items/components/home/NewItemsSection'
-import { getAuthUser } from '@/lib/supabase/getAuthUser'
-import { getAuthProfile } from '@/features/profile/actions'
+import { Box } from "@chakra-ui/react";
+import { Hero } from "@/components/sections/Hero";
+import { LoggedInHero } from "@/components/sections/LoggedInHero";
+import { RecentItemsSection } from "@/features/items/components/home/RecentItemsSection";
+import { NearbyItemsSection } from "@/features/items/components/home/NearbyItemsSection";
+import { CheapItemsSection } from "@/features/items/components/home/CheapItemsSection";
+import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthProfile } from "@/features/profile/actions";
+import { CategoriesGrid } from "@/components/sections/CategoriesGrid";
+import { Suspense } from "react";
 
 export default async function HomePage() {
-  const { user } = await getAuthUser()
-  const profile = user ? await getAuthProfile() : null
+  const { user } = await getAuthUser();
+  const profile = user ? await getAuthProfile() : null;
 
   return (
     <Box>
       {profile ? (
-        <LoggedInHero name={profile.name}  />
+        <>
+          <LoggedInHero name={profile.name} />
+        </>
       ) : (
-        <Hero isLoggedIn={false} />
+        <>
+          <Hero isLoggedIn={false} />
+        </>
       )}
-      <RecentItemsSection userId={user?.id ?? null} />
-      <NearbyItemsSection userId={user?.id ?? null} />
-      <NewItemsSection userId={user?.id ?? null} />
+      <Suspense fallback={null}>
+        <RecentItemsSection userId={user?.id ?? null} />
+      </Suspense>
+      <CategoriesGrid />
+      <Suspense fallback={null}>
+        <NearbyItemsSection userId={user?.id ?? null} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <CheapItemsSection userId={user?.id ?? null} />
+      </Suspense>
     </Box>
-  )
+  );
 }

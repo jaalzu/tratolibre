@@ -3,6 +3,7 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import NextLink from "next/link";
+import { PageContainer } from "@/components/ui/PageContainer";
 
 interface LoggedInHeroProps {
   name: string | null;
@@ -15,14 +16,12 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
     : null;
 
   return (
-    <Box px={{ base: 3, md: 8 }} pt={3} pb={1}>
+    <PageContainer pt={6} pb={2}>
       <Flex
         bg="neutral.50"
         borderRadius="2xl"
         px={{ base: 2, md: 8 }}
-        py={{ base: 10, md: 12 }}
-        maxW="1200px"
-        mx="auto"
+        py={{ base: 10, md: 10 }}
         direction="column"
         align="center"
         textAlign="center"
@@ -72,6 +71,6 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
           </Button>
         </Flex>
       </Flex>
-    </Box>
+    </PageContainer>
   );
 }

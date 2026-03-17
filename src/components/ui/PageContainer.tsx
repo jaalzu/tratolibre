@@ -1,13 +1,13 @@
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Box, BoxProps } from "@chakra-ui/react";
 
 interface PageContainerProps extends BoxProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function PageContainer({ children, ...props }: PageContainerProps) {
   return (
-    <Box maxW="1380px" mx="auto" px={4} py={10} {...props}>
+    <Box maxW="1300px" mx="auto" px={{ base: 3, md: 8 }} py={6} {...props}>
       {children}
     </Box>
-  )
+  );
 }
