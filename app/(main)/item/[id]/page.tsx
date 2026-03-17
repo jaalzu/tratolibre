@@ -1,9 +1,10 @@
-// app/(main)/item/[id]/page.tsx
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { getItemById } from "@/features/items/actions";
 import { notFound } from "next/navigation";
 import ItemPageContent from "@/features/items/components/publication/ItemPageContent";
 import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
+import { ItemPageSkeleton } from "@/features/items/components/publication/ItemPageSkeleton";
 
 export async function generateMetadata({
   params,
@@ -57,16 +58,19 @@ export default async function ItemPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  await new Promise((r) => setTimeout(r, 2000)); // ← delay artificial
   const { user, role } = await getAuthUserWithRole();
   const item = await getItemById(id);
 
   if (!item) notFound();
 
   return (
-    <ItemPageContent
-      item={item}
-      userId={user?.id ?? null}
-      isAdmin={role === "admin"}
-    />
+    <Suspense fallback={<ItemPageSkeleton />}>
+      <ItemPageContent
+        item={item}
+        userId={user?.id ?? null}
+        isAdmin={role === "admin"}
+      />
+    </Suspense>
   );
 }

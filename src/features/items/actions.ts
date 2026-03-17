@@ -195,7 +195,10 @@ export async function getUserFavorites(): Promise<Item[]> {
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
-  return (data?.map((f) => f.items).filter(Boolean) ?? []) as unknown as Item[];
+  return (data
+    ?.map((f) => f.items as unknown as Item)
+    .filter((item): item is Item => !!item && !item.sold && !!item.available) ??
+    []) as Item[];
 }
 
 export async function getUserFavoriteIds(userId: string): Promise<string[]> {

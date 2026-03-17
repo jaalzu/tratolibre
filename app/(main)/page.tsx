@@ -8,6 +8,7 @@ import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getAuthProfile } from "@/features/profile/actions";
 import { CategoriesGrid } from "@/components/sections/CategoriesGrid";
 import { Suspense } from "react";
+import { SectionSkeleton } from "@/components/sections/SectionSkeleton";
 
 export default async function HomePage() {
   const { user } = await getAuthUser();
@@ -24,14 +25,14 @@ export default async function HomePage() {
           <Hero isLoggedIn={false} />
         </>
       )}
-      <Suspense fallback={null}>
+      <Suspense fallback={<SectionSkeleton />}>
         <RecentItemsSection userId={user?.id ?? null} />
       </Suspense>
       <CategoriesGrid />
-      <Suspense fallback={null}>
+      <Suspense fallback={<SectionSkeleton />}>
         <NearbyItemsSection userId={user?.id ?? null} />
       </Suspense>
-      <Suspense fallback={null}>
+      <Suspense fallback={<SectionSkeleton />}>
         <CheapItemsSection userId={user?.id ?? null} />
       </Suspense>
     </Box>

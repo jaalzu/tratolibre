@@ -1,30 +1,80 @@
-import { Box, Flex } from '@chakra-ui/react'
-import { PageContainer } from '@/components/ui/PageContainer'
+import { Box, Flex } from "@chakra-ui/react";
+import { PageContainer } from "@/components/ui/PageContainer";
+import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 
-function SkeletonCard() {
+function Bone({
+  w = "100%",
+  h = "16px",
+  borderRadius = "md",
+}: {
+  w?: string;
+  h?: string;
+  borderRadius?: string;
+}) {
   return (
-    <Box w="186px">
-      <Box w="186px" h="225px" borderRadius="6px" bg="neutral.100" className="skeleton" />
+    <Box
+      w={w}
+      h={h}
+      bg="neutral.100"
+      borderRadius={borderRadius}
+      style={{ animation: "pulse 1.5s ease-in-out infinite" }}
+    />
+  );
+}
+
+function ItemCardSkeleton() {
+  return (
+    <Box w="full">
+      <Bone h="240px" borderRadius="5px" />
       <Box pt={2}>
         <Flex justify="space-between" align="center" mb={1}>
-          <Box h="18px" w="80px" borderRadius="md" bg="neutral.100" className="skeleton" />
-          <Box h="18px" w="24px" borderRadius="md" bg="neutral.100" className="skeleton" />
+          <Bone w="80px" h="18px" />
+          <Bone w="24px" h="24px" borderRadius="full" />
         </Flex>
-        <Box h="16px" w="140px" borderRadius="md" bg="neutral.100" className="skeleton" />
+        <Bone w="75%" h="16px" />
       </Box>
     </Box>
-  )
+  );
 }
 
 export default function SearchLoading() {
   return (
-    <PageContainer pt={{ base: 4, md: 8 }} pb={24} px={{ base: 4, md: 24 }}>
-      <Box h="28px" w="200px" borderRadius="md" bg="neutral.100" mb={6} className="skeleton" />
-      <Flex wrap="wrap" gap={6}>
-        {Array.from({ length: 5 }).map((_, i) => (
-          <SkeletonCard key={i} />
-        ))}
-      </Flex>
-    </PageContainer>
-  )
+    <>
+      <SearchFilterBar />
+      <PageContainer pt={{ base: 4, md: 8 }} pb={24} px={{ base: 4, md: 8 }}>
+        <Flex gap={8} align="flex-start">
+          {/* FilterPanel placeholder — solo desktop */}
+          <Box display={{ base: "none", md: "block" }} w="240px" flexShrink={0}>
+            <Bone h="400px" borderRadius="xl" />
+          </Box>
+
+          {/* Results */}
+          <Box flex={1}>
+            <Bone w="200px" h="24px" borderRadius="md" />
+            <Box
+              display="grid"
+              gridTemplateColumns={{
+                base: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(4, 1fr)",
+              }}
+              gap={{ base: 3, md: 5 }}
+              mt={4}
+            >
+              {[...Array(8)].map((_, i) => (
+                <ItemCardSkeleton key={i} />
+              ))}
+            </Box>
+          </Box>
+        </Flex>
+      </PageContainer>
+
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
+    </>
+  );
 }
