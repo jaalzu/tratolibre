@@ -1,29 +1,20 @@
-import Image from 'next/image'
-import { Box, Grid } from '@chakra-ui/react'
-
+import Image from "next/image";
+import { Box, Grid } from "@chakra-ui/react";
 const photos = [
-  '/hero/girl-in-pool.webp',
-  '/hero/happy-couple.webp',
-  '/hero/handshake.webp',
-  '/hero/girl-in-pool.webp',
-  '/hero/happy-couple.webp',
-]
+  "/login/bike-login.webp",
+  "/login/phones-login.webp",
+  "/login/guy-in-subte.webp",
+  "/login/deal-login.webp",
+];
 
-const accents = [
-  'brand.default',
-  'secondary.default',
-  'accent.default',
-  'brand.default',
-  'secondary.default',
-]
+const accents = ["brand.default", "secondary.default", "accent.hover", "red"];
 
 const areas = [
-  { colSpan: 2, rowSpan: 2, h: '100px' },
-  { colSpan: 1, rowSpan: 1, h: '45px' },
-  { colSpan: 1, rowSpan: 2, h: '100px' },
-  { colSpan: 1, rowSpan: 1, h: '45px' },
-  { colSpan: 1, rowSpan: 1, h: '45px' },
-]
+  { colSpan: 2, rowSpan: 2, h: "120px" }, // bike — ocupa 2 cols, 2 rows
+  { colSpan: 1, rowSpan: 1, h: "50px" }, // phones — 1 col, 1 row
+  { colSpan: 1, rowSpan: 2, h: "120px" }, // guy-in-subte — 1 col, 2 rows ← ocupa todo el alto
+  { colSpan: 2, rowSpan: 1, h: "50px" }, // deal — 1 col, 1 row
+];
 
 export const RegisterCollage = () => (
   <Grid
@@ -51,10 +42,22 @@ export const RegisterCollage = () => (
           zIndex={0}
         />
         {/* Photo */}
-        <Box position="relative" w="100%" h={areas[i].h} borderRadius="xl" overflow="hidden" zIndex={1}>
-          <Image src={src} alt={`photo-${i}`} fill style={{ objectFit: 'cover' }} />
+        <Box
+          position="relative"
+          w="100%"
+          h={areas[i].h}
+          borderRadius="xl"
+          overflow="hidden"
+          zIndex={1}
+        >
+          <Image
+            src={src}
+            alt={`photo-${i}`}
+            fill
+            style={{ objectFit: "cover" }}
+          />
         </Box>
       </Box>
     ))}
   </Grid>
-)
+);

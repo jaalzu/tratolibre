@@ -5,10 +5,8 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ReportModal } from "@/features/reports/components/ReportModal";
 import { useState, useRef, useEffect } from "react";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
-import { deleteConversationAction } from "@/features/chat/actions";
 import "boxicons/css/boxicons.min.css";
-import { useQueryClient } from "@tanstack/react-query";
+import { useDeleteConversation } from "../../hooks/useDeleteConversation";
 
 interface ChatMenuProps {
   itemId: string;
@@ -23,18 +21,15 @@ export const ChatMenu = ({
 }: ChatMenuProps) => {
   const [open, setOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const router = useRouter();
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [deleting, setDeleting] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const queryClient = useQueryClient();
+  // Usamos el hook
+  const { deleteConversation, isDeleting } = useDeleteConversation();
 
   const handleDelete = async () => {
-    setDeleting(true);
-    queryClient.clear();
-    router.push("/chat");
-    setDeleting(false);
+    const success = await deleteConversation(conversationId);
+    if (success) setConfirmOpen(false);
   };
 
   useEffect(() => {
@@ -72,6 +67,7 @@ export const ChatMenu = ({
       onClick: () => setConfirmOpen(true),
     },
   ];
+
   return (
     <Box position="relative" ref={ref}>
       <Box
@@ -156,6 +152,7 @@ export const ChatMenu = ({
           )}
         </Box>
       )}
+
       <ReportModal
         open={reportOpen}
         onClose={() => setReportOpen(false)}
@@ -168,7 +165,7 @@ export const ChatMenu = ({
         onConfirm={handleDelete}
         title="Eliminar conversación"
         description="Esta acción no se puede deshacer."
-        loading={deleting}
+        loading={isDeleting}
         loadingLabel="Eliminando conversación..."
       />
     </Box>

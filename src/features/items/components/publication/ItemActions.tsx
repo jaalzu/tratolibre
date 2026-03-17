@@ -1,6 +1,6 @@
 "use client";
 
-import { Text, Flex } from "@chakra-ui/react";
+import { Text, Flex, Box } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -43,9 +43,26 @@ export default function ItemActions({
 
   if (!userId)
     return (
-      <Button asChild width="full" py={1}>
-        <NextLink href="/login">Iniciá sesión para contactar</NextLink>
-      </Button>
+      <Box
+        position={{ base: "fixed", md: "static" }}
+        bottom={0}
+        left={0}
+        right={0}
+        p={{ base: 5, md: 0 }}
+        bg="neutral.150"
+        zIndex={100}
+      >
+        <Button
+          asChild
+          width="full"
+          p={{ base: 3, md: 2 }}
+          borderRadius="xl"
+          bg="accent.default"
+          _hover={{ opacity: 0.9 }}
+        >
+          <NextLink href="/login">Iniciar sesión para contactar</NextLink>
+        </Button>
+      </Box>
     );
 
   if (item.profiles?.id === userId)
