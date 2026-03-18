@@ -1,8 +1,7 @@
 "use client";
 
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
-import "boxicons/css/boxicons.min.css";
 
 interface Option {
   id: string;

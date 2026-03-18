@@ -1,7 +1,6 @@
 "use client";
 
 import { Box, Circle } from "@chakra-ui/react";
-import { Bell } from "lucide-react";
 import { useNotificationPanel } from "../hooks/useNotificationPanel";
 import { NotificationsPanel } from "./NotificationsPanel";
 
@@ -39,7 +38,7 @@ export function NotificationBell({
             : "Notificaciones"
         }
       >
-        <Bell size={28} strokeWidth={1.75} />
+        <i className="bx bx-bell" style={{ fontSize: "28px" }} />
         {unreadCount > 0 && (
           <Circle
             size="16px"

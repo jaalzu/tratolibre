@@ -2,7 +2,6 @@
 
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import "boxicons/css/boxicons.min.css";
 
 const SORT_OPTIONS = [
   { id: "closest", label: "Más recientes" },

@@ -8,7 +8,6 @@ import {
   type NotificationPayloads,
 } from "../notifications.constants";
 import type { Notification, NotificationType } from "../types";
-import "boxicons/css/boxicons.min.css";
 
 function NotificationLabel({ label }: { label: NotificationConfig["label"] }) {
   if (typeof label === "string") return <>{label}</>;

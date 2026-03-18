@@ -5,7 +5,6 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ReportModal } from "@/features/reports/components/ReportModal";
 import { useState, useRef, useEffect } from "react";
 import NextLink from "next/link";
-import "boxicons/css/boxicons.min.css";
 import { useDeleteConversation } from "../../hooks/useDeleteConversation";
 
 interface ChatMenuProps {

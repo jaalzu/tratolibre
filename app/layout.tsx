@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Box } from "@chakra-ui/react";
+import "boxicons/css/boxicons.min.css";
 
 const geist = Geist({
   variable: "--font-geist-sans",
