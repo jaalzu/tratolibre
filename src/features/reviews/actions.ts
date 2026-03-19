@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import type { ReviewWithReviewer, PurchaseWithRelations } from "./types";
 
-const ReviewSchema = z.object({
+export const ReviewSchema = z.object({
   purchase_id: z.string().uuid(),
   reviewed_id: z.string().uuid(),
   rating: z.number().int().min(1).max(5),

@@ -45,7 +45,7 @@ export async function getMyProfile() {
   const { count: purchasesCount } = await supabase
     .from("purchases")
     .select("*", { count: "exact", head: true })
-    .eq("buyer_id", true);
+    .eq("buyer_id", user.id);
 
   return {
     profile,
