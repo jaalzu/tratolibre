@@ -1,140 +1,118 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { RegisterSchema, RegisterInput } from '@/features/auth/schemas'
-import NextLink from 'next/link'
-import { Flex, Text, Input, Field, Stack, Checkbox, Box } from '@chakra-ui/react'
-import { Button } from '@/components/ui/Button'
-
-import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema, RegisterInput } from "@/features/auth/schemas";
+import NextLink from "next/link";
+import { Flex, Text, Stack } from "@chakra-ui/react";
+import { Button } from "@/components/ui/Button";
+import { registerAction } from "@/features/auth/actions";
+import { FormField } from "./FormField";
 
 export const RegisterForm = () => {
-  const [serverError, setServerError] = useState<string | null>(null)
-  const [showPassword, setShowPassword] = useState(false)
-  const router = useRouter()
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
-
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterInput>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterInput>({
     resolver: zodResolver(RegisterSchema),
-  })
+  });
 
   const onSubmit = async (data: RegisterInput) => {
-    setServerError(null)
-    const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
-  email: data.email,
-  password: data.password,
-  options: { data: { name: `${data.firstName} ${data.lastName}` } }
-})
-    if (error) {
-      setServerError(error.message)
-      return
-    }
-    router.push('/')
-    router.refresh()
-  }
-
- const inputStyles = {
-    borderColor: 'neutral.500',
-    borderRadius: 'lg',
-    h: '44px',
-    px: '3',
-    _focus: { borderColor: 'brand.default', boxShadow: 'none' },
-    _placeholder: { color: 'neutral.400' },
-  }
+    setServerError(null);
+    const result = await registerAction(data);
+    if (result?.error) setServerError(result.error);
+  };
 
   return (
     <Flex direction="column" maxW="360px" mx="auto" w="full">
-      <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>Crear cuenta</Text>
+      <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>
+        Crear cuenta
+      </Text>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
-         <Flex gap={2} direction={{ base: 'column', md: 'row' }}>
-  <Field.Root invalid={!!errors.firstName} flex={1}>
-    <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Nombre</Field.Label>
-    <Input {...register('firstName')} placeholder="Juan" {...inputStyles} />
-    {errors.firstName && <Field.ErrorText fontSize="xs">{errors.firstName.message}</Field.ErrorText>}
-  </Field.Root>
+          <Flex gap={2} direction={{ base: "column", md: "row" }}>
+            <FormField
+              label="Nombre"
+              name="firstName"
+              register={register}
+              error={errors.firstName}
+              placeholder="Juan"
+              required
+            />
+            <FormField
+              label="Apellido"
+              name="lastName"
+              register={register}
+              error={errors.lastName}
+              placeholder="García"
+              required
+            />
+          </Flex>
 
-  <Field.Root invalid={!!errors.lastName} flex={1}>
-    <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Apellido</Field.Label>
-    <Input {...register('lastName')} placeholder="García" {...inputStyles} />
-    {errors.lastName && <Field.ErrorText fontSize="xs">{errors.lastName.message}</Field.ErrorText>}
-  </Field.Root>
-</Flex>
+          <FormField
+            label="Email"
+            name="email"
+            register={register}
+            error={errors.email}
+            type="email"
+            placeholder="tucorreo@gmail.com"
+            required
+          />
 
-          <Field.Root invalid={!!errors.email}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Email</Field.Label>
-            <Input {...register('email')} type="email" placeholder="tucorreo@gmail.com" {...inputStyles} />
-            {errors.email && <Field.ErrorText fontSize="xs">{errors.email.message}</Field.ErrorText>}
-          </Field.Root>
-
-          <Field.Root invalid={!!errors.password}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">Contraseña</Field.Label>
-            <Box position="relative" w="full">
-              <Input
-                w="full" 
-                {...register('password')}
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Mínimo 8 caracteres"
-                {...inputStyles}
-                pr="40px"
-              />
+          <FormField
+            label="Contraseña"
+            name="password"
+            register={register}
+            error={errors.password}
+            type={showPassword ? "text" : "password"}
+            placeholder="Mínimo 8 caracteres"
+            rightElement={
               <Text
-                position="absolute"
-                right="12px"
-                top="50%"
-                transform="translateY(-50%)"
                 fontSize="xs"
                 color="neutral.400"
                 cursor="pointer"
                 userSelect="none"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? 'Ocultar' : 'Ver'}
+                {showPassword ? "Ocultar" : "Ver"}
               </Text>
-            </Box>
-            {errors.password && <Field.ErrorText fontSize="xs">{errors.password.message}</Field.ErrorText>}
-          </Field.Root>
-
-          <Flex align="flex-start" gap={2}>
-            <Checkbox.Root name="terms" colorPalette="green" mt="2px">
-              <Checkbox.HiddenInput />
-              <Checkbox.Control borderColor="neutral.300" borderRadius="sm" />
-            </Checkbox.Root>
-            <Text fontSize="xs" color="neutral.500" lineHeight="tall">
-              He leído y acepto las{' '}
-              <Text as="span" color="accent.default" fontWeight="600">
-                <NextLink href="/terms">Condiciones de uso</NextLink>
-              </Text>
-              {' '}y{' '}
-              <Text as="span" color="accent.default" fontWeight="600">
-                <NextLink href="/privacy">Política de privacidad</NextLink>
-              </Text>
-              {' '}de TratoLibre.
-            </Text>
-          </Flex>
+            }
+          />
 
           {serverError && (
-            <Text fontSize="xs" color="feedback.error" textAlign="center">{serverError}</Text>
+            <Text fontSize="xs" color="feedback.error" textAlign="center">
+              {serverError}
+            </Text>
           )}
 
-          <Button type="submit" width="full" borderRadius="full" py={1} loading={isSubmitting}>
+          <Button
+            type="submit"
+            width="full"
+            borderRadius="full"
+            py={1}
+            loading={isSubmitting}
+          >
             Crear cuenta
           </Button>
         </Stack>
       </form>
 
       <Text fontSize="xs" color="neutral.400" textAlign="center" mt="5">
-        ¿Ya tenés cuenta?{' '}
+        ¿Ya tenés cuenta?{" "}
         <Text as="span" color="accent.default" fontWeight="600">
           <NextLink href="/login">
-            <Text as="span" _hover={{ textDecoration: 'underline' }}>Iniciá sesión</Text>
+            <Text as="span" _hover={{ textDecoration: "underline" }}>
+              Iniciá sesión
+            </Text>
           </NextLink>
         </Text>
       </Text>
     </Flex>
-  )
-}
+  );
+};

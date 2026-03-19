@@ -1,4 +1,3 @@
-// components/auth/LoginForm.tsx
 "use client";
 
 import { useState } from "react";
@@ -6,16 +5,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, LoginInput } from "@/features/auth/schemas";
 import NextLink from "next/link";
-import { Flex, Text, Input, Field, Stack, Box } from "@chakra-ui/react";
+import { Flex, Text, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
-import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { loginAction } from "@/features/auth/actions";
 import { SocialButtons } from "@/features/auth/components/SocialButtons";
-
-const supabase = createClient();
+import { FormField } from "./FormField";
 
 export const LoginForm = () => {
-  const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -29,25 +25,8 @@ export const LoginForm = () => {
 
   const onSubmit = async (data: LoginInput) => {
     setServerError(null);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
-    });
-    if (error) {
-      setServerError("Email o contraseña incorrectos");
-      return;
-    }
-    router.push("/");
-    router.refresh();
-  };
-
-  const inputStyles = {
-    borderColor: "neutral.500",
-    borderRadius: "lg",
-    h: "44px",
-    px: "3",
-    _focus: { borderColor: "brand.default", boxShadow: "none" },
-    _placeholder: { color: "neutral.400" },
+    const result = await loginAction(data);
+    if (result?.error) setServerError(result.error);
   };
 
   return (
@@ -61,41 +40,24 @@ export const LoginForm = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
-          <Field.Root invalid={!!errors.email}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
-              Email
-            </Field.Label>
-            <Input
-              {...register("email")}
-              type="email"
-              placeholder="tucorreo@gmail.com"
-              {...inputStyles}
-            />
-            {errors.email && (
-              <Field.ErrorText fontSize="xs">
-                {errors.email.message}
-              </Field.ErrorText>
-            )}
-          </Field.Root>
+          <FormField
+            label="Email"
+            name="email"
+            register={register}
+            error={errors.email}
+            type="email"
+            placeholder="tucorreo@gmail.com"
+          />
 
-          <Field.Root invalid={!!errors.password}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
-              Contraseña
-            </Field.Label>
-            <Box position="relative" w="full">
-              <Input
-                w="full"
-                {...register("password")}
-                type={showPassword ? "text" : "password"}
-                placeholder="Tu contraseña"
-                {...inputStyles}
-                pr="40px"
-              />
+          <FormField
+            label="Contraseña"
+            name="password"
+            register={register}
+            error={errors.password}
+            type={showPassword ? "text" : "password"}
+            placeholder="Tu contraseña"
+            rightElement={
               <Text
-                position="absolute"
-                right="12px"
-                top="50%"
-                transform="translateY(-50%)"
                 fontSize="xs"
                 color="neutral.400"
                 cursor="pointer"
@@ -104,13 +66,8 @@ export const LoginForm = () => {
               >
                 {showPassword ? "Ocultar" : "Ver"}
               </Text>
-            </Box>
-            {errors.password && (
-              <Field.ErrorText fontSize="xs">
-                {errors.password.message}
-              </Field.ErrorText>
-            )}
-          </Field.Root>
+            }
+          />
 
           <Text
             fontSize="xs"
