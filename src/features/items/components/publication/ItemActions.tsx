@@ -99,6 +99,7 @@ export default function ItemActions({
                 py={1}
                 bg="feedback.error"
                 onClick={() => setOpen(true)}
+                data-testid="delete-item-button"
                 _hover={{ opacity: 0.85 }}
               >
                 Eliminar
@@ -148,6 +149,7 @@ export default function ItemActions({
         py={1.5}
         onClick={handleContact}
         loading={loading}
+        data-testid="contact-seller-button"
       >
         Contactar vendedor
       </Button>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Input, Box, Text } from "@chakra-ui/react";
-import { inputStyles } from "./auth.utils";
+import { inputStyles } from "./FormField";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface PasswordInputProps {

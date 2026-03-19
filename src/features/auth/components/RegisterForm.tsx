@@ -97,6 +97,7 @@ export const RegisterForm = () => {
             borderRadius="full"
             py={1}
             loading={isSubmitting}
+            data-testid="submit-button"
           >
             Crear cuenta
           </Button>

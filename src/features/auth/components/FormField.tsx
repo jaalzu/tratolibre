@@ -7,7 +7,7 @@ import {
   FieldValues,
 } from "react-hook-form";
 
-const inputStyles = {
+export const inputStyles = {
   borderColor: "neutral.500",
   borderRadius: "lg",
   h: "44px",
@@ -48,6 +48,7 @@ export function FormField<T extends FieldValues>({
           {...register(name)}
           type={type}
           placeholder={placeholder}
+          data-testid={name}
           {...inputStyles}
           pr={rightElement ? "40px" : "3"}
         />

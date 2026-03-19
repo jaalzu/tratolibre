@@ -42,6 +42,7 @@ export function FormSelect({
     <Box position="relative" ref={ref} w="full">
       <button
         type="button"
+        data-testid={`select-${placeholder?.toLowerCase().replace(/\s/g, "-")}`}
         onClick={() => {
           if (!disabled) setOpen((o) => !o);
         }}
@@ -107,6 +108,7 @@ export function FormSelect({
             <button
               key={opt.id}
               type="button"
+              data-testid={`option-${opt.id}`}
               onClick={() => {
                 onChange(opt.id);
                 setOpen(false);

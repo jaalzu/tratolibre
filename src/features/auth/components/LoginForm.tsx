@@ -93,6 +93,7 @@ export const LoginForm = () => {
             borderRadius="full"
             py={1}
             loading={isSubmitting}
+            data-testid="submit-button"
           >
             Iniciar sesión
           </Button>

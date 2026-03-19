@@ -119,6 +119,7 @@ export default function SellerCard({
           flexShrink={0}
           onClick={handleChat}
           disabled={loading}
+          data-testid="chat-button"
           position="relative"
         >
           {/* Texto siempre ocupa espacio */}
