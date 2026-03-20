@@ -18,7 +18,7 @@ export default function ItemPageContent({
   isAdmin = false,
 }: ItemPageContentProps) {
   return (
-    <Box pb={{ base: "0px", md: 0 }}>
+    <Box pb={{ base: "0px", md: 0 }} suppressHydrationWarning>
       {/* ── MOBILE ── */}
       <Box display={{ base: "block", md: "none" }}>
         <Box pt={3}>
