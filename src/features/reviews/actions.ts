@@ -6,14 +6,7 @@ import { createNotification } from "@/features/notifications/actions";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import type { ReviewWithReviewer, PurchaseWithRelations } from "./types";
-
-export const ReviewSchema = z.object({
-  purchase_id: z.string().uuid(),
-  reviewed_id: z.string().uuid(),
-  rating: z.number().int().min(1).max(5),
-  comment: z.string().max(500).optional(),
-  role: z.enum(["buyer", "seller"]),
-});
+import { ReviewSchema } from "./schemas";
 
 export async function getReviewsByProfile(
   profileId: string,
@@ -63,7 +56,7 @@ export async function getPendingReviews() {
     .eq("reviewer_id", user.id);
 
   const reviewedPurchaseIds = new Set(
-    myReviews?.map((r) => r.purchase_id) ?? [],
+    myReviews?.map((r: { purchase_id: string }) => r.purchase_id) ?? [],
   );
 
   return (purchases as unknown as PurchaseWithRelations[])

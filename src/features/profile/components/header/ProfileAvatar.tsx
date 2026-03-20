@@ -25,6 +25,7 @@ export const ProfileAvatar = ({
         src={avatarUrl}
         alt={name ?? "Usuario"}
         fill
+        sizes={`${size}px`}
         style={{ objectFit: "cover" }}
       />
     ) : (

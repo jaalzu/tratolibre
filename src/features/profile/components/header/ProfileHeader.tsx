@@ -29,13 +29,7 @@ export const ProfileHeader = ({
     <Box display={{ base: "block", md: "none" }}>
       <Flex justify="space-between" align="flex-start" mb={4}>
         <Box flex={1} pr={4}>
-          <Text
-            fontWeight="bold"
-            fontSize="2xl"
-            color="neutral.900"
-            lineHeight="1.2"
-            mb={1}
-          >
+          <Text fontWeight="bold" color="neutral.900" lineHeight="1.2" mb={1}>
             {name ?? "Sin nombre"}
           </Text>
           <Flex align="center" gap={1}>
