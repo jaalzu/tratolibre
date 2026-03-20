@@ -41,7 +41,7 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
             Encontrá lo que buscás o publicá lo que ya no usás.
           </Text>
           <Text fontSize="md" color="fg.muted">
-            Gratis, simple y rápido.
+            Es gratis, simple y rápido.
           </Text>
         </Box>
 
