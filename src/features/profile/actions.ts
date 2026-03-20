@@ -24,28 +24,31 @@ export async function getMyProfile() {
   const { supabase, user } = await getAuthUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
+  const supabaseClient = supabase!;
+  const userId = user!.id;
+
+  const { data: profile } = await supabaseClient
     .from("profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", userId)
     .single();
 
-  const { data: items } = await supabase
+  const { data: items } = await supabaseClient
     .from("items")
     .select("id, title, images, sale_price, sold, available, created_at, city")
-    .eq("owner_id", user.id)
+    .eq("owner_id", userId)
     .order("created_at", { ascending: false });
 
-  const { count: salesCount } = await supabase
+  const { count: salesCount } = await supabaseClient
     .from("items")
     .select("*", { count: "exact", head: true })
-    .eq("owner_id", user.id)
+    .eq("owner_id", userId)
     .eq("sold", true);
 
-  const { count: purchasesCount } = await supabase
+  const { count: purchasesCount } = await supabaseClient
     .from("purchases")
     .select("*", { count: "exact", head: true })
-    .eq("buyer_id", user.id);
+    .eq("buyer_id", userId);
 
   return {
     profile,
