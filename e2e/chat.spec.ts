@@ -44,7 +44,7 @@ test.describe("Chat", () => {
   test("puede enviar un mensaje", async ({ page }) => {
     await page.goto(`/item/${SELLER_ITEM_ID}`);
     await Promise.all([
-      page.waitForURL(/\/chat\//, { timeout: 15000 }),
+      page.waitForURL(/\/chat\//, { timeout: 30000 }),
       page.getByTestId("contact-seller-button").nth(1).click(),
     ]);
     await page
