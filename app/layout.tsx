@@ -50,15 +50,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/hero/girl-in-pool.webp"
-          fetchPriority="high"
-        />
-      </head>
-
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
           <Box bg="neutral.150" minH="100vh">

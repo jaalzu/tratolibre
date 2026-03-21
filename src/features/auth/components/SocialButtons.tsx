@@ -24,14 +24,14 @@ export const SocialButtons = ({
 
   const buttons = [
     {
-      label: "Continuar con Google",
+      label: "Registrarse con Google",
       icon: "/svg/google.svg",
       onClick: handleGoogle,
     },
     ...(showEmail && onEmailClick
       ? [
           {
-            label: "Continuar con email",
+            label: "Registrarse con email",
             icon: "/svg/email.svg",
             onClick: onEmailClick,
           },

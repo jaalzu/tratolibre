@@ -24,7 +24,7 @@ function Bone({
 export function SectionSkeleton() {
   return (
     <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
-      <Box bg="neutral.50" borderRadius="2xl" p={4}>
+      <Box bg="neutral.50" borderRadius="2xl" p={4} minH="381px">
         {/* Título */}
         <Bone w="200px" h="20px" borderRadius="md" />
         <Box borderTop="1px solid" borderColor="neutral.100" my={4} mx={-4} />
@@ -32,7 +32,8 @@ export function SectionSkeleton() {
         <Flex gap={3} overflow="hidden">
           {[...Array(5)].map((_, i) => (
             <Box key={i} flexShrink={0} w="190px">
-              <Bone h="200px" borderRadius="xl" />
+              <Bone h="240px" borderRadius="xl" />{" "}
+              {/* ← 240px igual que la card real */}
               <Box mt={2}>
                 <Bone w="80%" h="14px" />
               </Box>

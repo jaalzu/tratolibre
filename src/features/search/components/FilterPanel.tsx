@@ -83,7 +83,7 @@ export function FilterPanel() {
       top="110px"
       alignSelf="flex-start"
     >
-      <Flex align="center" justify="space-between" mb={4}>
+      <Flex align="center" justify="space-between" mb={1}>
         <Text fontWeight="bold" fontSize="sm" color="neutral.900">
           Filtros
         </Text>
@@ -97,6 +97,11 @@ export function FilterPanel() {
           Limpiar
         </Box>
       </Flex>
+      <Box mb={5}>
+        <Button mt={4} p={1} onClick={() => apply()} w="full">
+          Aplicar filtros
+        </Button>
+      </Box>
 
       <Stack gap={5}>
         <Box>
@@ -215,10 +220,6 @@ export function FilterPanel() {
           </Stack>
         </Box>
       </Stack>
-
-      <Button mt={4} p={1} onClick={() => apply()} w="full">
-        Aplicar filtros
-      </Button>
     </Box>
   );
 }
