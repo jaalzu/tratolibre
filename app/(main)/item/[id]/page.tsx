@@ -58,7 +58,6 @@ export default async function ItemPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  await new Promise((r) => setTimeout(r, 2000)); // ← delay artificial
   const { user, role } = await getAuthUserWithRole();
   const item = await getItemById(id);
 

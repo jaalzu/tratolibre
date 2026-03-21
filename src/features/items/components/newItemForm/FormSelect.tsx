@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 interface Option {
   id: string;
   label: string;
+  iconClass?: string;
 }
 
 interface FormSelectProps {
@@ -61,17 +62,32 @@ export function FormSelect({
           transition: "border-color 0.15s",
         }}
       >
-        <Text
-          fontSize="sm"
-          color={selected ? "neutral.900" : "neutral.400"}
-          overflow="hidden"
-          textOverflow="ellipsis"
-          whiteSpace="nowrap"
-          flex={1}
-          textAlign="left"
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            flex: 1,
+            overflow: "hidden",
+          }}
         >
-          {selected ? selected.label : placeholder}
-        </Text>
+          {selected?.iconClass && (
+            <i
+              className={`bx ${selected.iconClass}`}
+              style={{ fontSize: "16px", flexShrink: 0 }}
+            />
+          )}
+          <Text
+            fontSize="sm"
+            color={selected ? "neutral.900" : "neutral.400"}
+            overflow="hidden"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            textAlign="left"
+          >
+            {selected ? selected.label : placeholder}
+          </Text>
+        </div>
         <i
           className={open ? "bx bx-chevron-up" : "bx bx-chevron-down"}
           style={{
@@ -138,13 +154,23 @@ export function FormSelect({
                     "transparent";
               }}
             >
-              <Text
-                fontSize="sm"
-                color={value === opt.id ? "brand.default" : "neutral.700"}
-                fontWeight={value === opt.id ? "bold" : "normal"}
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
-                {opt.label}
-              </Text>
+                {opt.iconClass && (
+                  <i
+                    className={`bx ${opt.iconClass}`}
+                    style={{ fontSize: "16px" }}
+                  />
+                )}
+                <Text
+                  fontSize="sm"
+                  color={value === opt.id ? "brand.default" : "neutral.700"}
+                  fontWeight={value === opt.id ? "bold" : "normal"}
+                >
+                  {opt.label}
+                </Text>
+              </div>
               {value === opt.id && (
                 <i
                   className="bx bx-check"

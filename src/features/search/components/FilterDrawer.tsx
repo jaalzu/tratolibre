@@ -71,6 +71,20 @@ export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
             />
           </IconButton>
         </Flex>
+        <Flex
+          gap={2}
+          px={4}
+          py={4}
+          borderTop="1px solid"
+          borderColor="neutral.100"
+        >
+          <Button variant="ghost" flex={1} onClick={() => clear(onClose)}>
+            Limpiar
+          </Button>
+          <Button flex={1} p={1} onClick={() => apply(onClose)}>
+            Aplicar
+          </Button>
+        </Flex>
 
         <Box overflowY="auto" flex={1} px={4} py={4}>
           <Stack gap={5}>
@@ -260,21 +274,6 @@ export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
             </Box>
           </Stack>
         </Box>
-
-        <Flex
-          gap={2}
-          px={4}
-          py={4}
-          borderTop="1px solid"
-          borderColor="neutral.100"
-        >
-          <Button variant="ghost" flex={1} onClick={() => clear(onClose)}>
-            Limpiar
-          </Button>
-          <Button flex={1} p={1} onClick={() => apply(onClose)}>
-            Aplicar
-          </Button>
-        </Flex>
       </Box>
     </>
   );

@@ -24,7 +24,7 @@ export const ItemsCategorySection = ({
   if (!items.length) return null;
 
   return (
-    <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
+    <PageContainer pt={{ base: 4, md: 8 }} pb={4} suppressHydrationWarning>
       <Box bg="neutral.50" borderRadius="2xl" p={4} shadow="base">
         <Flex align="center" justify="space-between" mb={2}>
           <Heading as="h2" fontSize="md" fontWeight="bold" color="neutral.900">
@@ -63,12 +63,13 @@ export const ItemsCategorySection = ({
             }}
             gap={{ base: "10px", md: "20px" }}
           >
-            {items.map((obj: Item) => (
+            {items.map((obj: Item, index: number) => (
               <ItemCard
                 key={obj.id}
                 obj={obj}
                 userId={userId}
                 initialFavorited={favoriteIds.includes(obj.id)}
+                priority={index < 4}
               />
             ))}
           </Grid>

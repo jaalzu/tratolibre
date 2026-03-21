@@ -73,9 +73,10 @@ export const NewItemForm = ({
                 <FormSelect
                   value={categoryField.value ?? ""}
                   onChange={categoryField.onChange}
-                  options={CATEGORIES.map((c) => ({
-                    id: c.id,
-                    label: `${c.icon} ${c.label}`,
+                  options={CATEGORIES.map((category) => ({
+                    id: category.id,
+                    label: category.label,
+                    iconClass: category.icon,
                   }))}
                   placeholder="Elegí una..."
                   invalid={!!errors.category}

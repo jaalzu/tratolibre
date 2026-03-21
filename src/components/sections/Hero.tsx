@@ -52,6 +52,7 @@ function HeroSlideContent({
             src={slide.image}
             alt={slide.title}
             fill
+            sizes="100vw"
             style={{ objectFit: "cover" }}
             priority={priority}
           />
@@ -89,11 +90,12 @@ function HeroSlideContent({
             <NextLink href={slide.buttonHref}>{slide.buttonLabel}</NextLink>
           </Button>
         </Flex>
-        <Box position="relative" w="50%" h="100%" flexShrink={0}>
+        <Box position="relative" w="60%" h="100%" flexShrink={0}>
           <Image
             src={slide.image}
             alt={slide.title}
             fill
+            sizes="60vw"
             style={{ objectFit: "cover" }}
             priority={priority}
           />
@@ -106,7 +108,7 @@ function HeroSlideContent({
 export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
   const slides = getSlides(isLoggedIn);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 4000, stopOnInteraction: true }),
+    Autoplay({ delay: 3000, stopOnInteraction: true }),
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 

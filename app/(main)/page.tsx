@@ -9,32 +9,43 @@ import { getAuthProfile } from "@/features/profile/actions";
 import { CategoriesGrid } from "@/components/sections/CategoriesGrid";
 import { Suspense } from "react";
 import { SectionSkeleton } from "@/components/sections/SectionSkeleton";
+import Head from "next/head";
 
 export default async function HomePage() {
   const { user } = await getAuthUser();
   const profile = user ? await getAuthProfile() : null;
 
   return (
-    <Box>
-      {profile ? (
-        <>
-          <LoggedInHero name={profile.name} />
-        </>
-      ) : (
-        <>
-          <Hero isLoggedIn={false} />
-        </>
-      )}
-      <Suspense fallback={<SectionSkeleton />}>
-        <RecentItemsSection userId={user?.id ?? null} />
-      </Suspense>
-      <CategoriesGrid />
-      <Suspense fallback={<SectionSkeleton />}>
-        <NearbyItemsSection userId={user?.id ?? null} />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton />}>
-        <CheapItemsSection userId={user?.id ?? null} />
-      </Suspense>
-    </Box>
+    <>
+      <Head>
+        <link
+          rel="preload"
+          as="image"
+          href="/hero/girl-in-pool.webp"
+          fetchPriority="high"
+        />
+      </Head>
+      <Box>
+        {profile ? (
+          <>
+            <LoggedInHero name={profile.name} />
+          </>
+        ) : (
+          <>
+            <Hero isLoggedIn={false} />
+          </>
+        )}
+        <Suspense fallback={<SectionSkeleton />}>
+          <RecentItemsSection userId={user?.id ?? null} />
+        </Suspense>
+        <CategoriesGrid />
+        <Suspense fallback={<SectionSkeleton />}>
+          <NearbyItemsSection userId={user?.id ?? null} />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <CheapItemsSection userId={user?.id ?? null} />
+        </Suspense>
+      </Box>
+    </>
   );
 }

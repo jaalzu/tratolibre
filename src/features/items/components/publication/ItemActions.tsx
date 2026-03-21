@@ -45,7 +45,7 @@ export default function ItemActions({
     return (
       <Box
         position={{ base: "fixed", md: "static" }}
-        bottom={0}
+        bottom={{ base: "60px", md: 0 }}
         left={0}
         right={0}
         p={{ base: 5, md: 0 }}

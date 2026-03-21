@@ -1,46 +1,64 @@
-import NextLink from 'next/link'
-import { Box, Flex, Text } from '@chakra-ui/react'
-import { FavoriteButton } from '@/components/ui/FavoriteButton'
-import { Item } from '@/features/items/types'
+import NextLink from "next/link";
+import Image from "next/image";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { FavoriteButton } from "@/components/ui/FavoriteButton";
+import { Item } from "@/features/items/types";
 
 interface ItemCardProps {
-  obj: Item
-  userId?: string | null
-    initialFavorited?: boolean
-
+  obj: Item;
+  userId?: string | null;
+  initialFavorited?: boolean;
+  priority?: boolean;
 }
-export const ItemCard = ({ obj, userId = null, initialFavorited = false }: ItemCardProps) => {
+
+export const ItemCard = ({
+  obj,
+  userId = null,
+  initialFavorited = false,
+  priority = false,
+}: ItemCardProps) => {
   return (
-    <NextLink href={`/item/${obj.id}`} style={{ textDecoration: 'none' }}>
+    <NextLink href={`/item/${obj.id}`} style={{ textDecoration: "none" }}>
       <Box
         w="full"
         transition="transform 0.2s ease"
-        _hover={{ transform: 'translateY(-2px)' }}
+        _hover={{ transform: "translateY(-2px)" }}
       >
-        {obj.images?.[0] ? (
-          <img
-            src={obj.images[0]}
-            style={{ 
-              width: '100%',
-              height: '240px', 
-              objectFit: 'cover', 
-              borderRadius: '5px',
-              display: 'block',
-            }}
-            alt={obj.title}
-          />
-        ) : (
-          <Box w="full" h="240px" borderRadius="lg" bg="neutral.100" />
-        )}
+        <Box
+          position="relative"
+          w="full"
+          h="240px"
+          borderRadius="5px"
+          overflow="hidden"
+          bg="neutral.100"
+        >
+          {obj.images?.[0] ? (
+            <Image
+              src={obj.images[0]}
+              alt={obj.title}
+              fill
+              sizes="(max-width: 768px) 190px, 226px"
+              style={{ objectFit: "cover" }}
+              priority={priority} // ← precarga si es above the fold
+              loading={priority ? "eager" : "lazy"} // ← eager solo para las primeras
+            />
+          ) : (
+            <Box w="full" h="full" bg="neutral.100" />
+          )}
+        </Box>
 
         <Box pt={2}>
           <Flex justify="space-between" align="center">
             {obj.sale_price && (
               <Text fontSize="md" fontWeight="bold" color="neutral.900">
-                ${obj.sale_price.toLocaleString('es-AR')}
+                ${obj.sale_price.toLocaleString("es-AR")}
               </Text>
             )}
-            <FavoriteButton itemId={obj.id} initialFavorited={initialFavorited} userId={userId} />
+            <FavoriteButton
+              itemId={obj.id}
+              initialFavorited={initialFavorited}
+              userId={userId}
+            />
           </Flex>
           <Text fontSize="md" color="neutral.700" lineClamp={1}>
             {obj.title}
@@ -48,5 +66,5 @@ export const ItemCard = ({ obj, userId = null, initialFavorited = false }: ItemC
         </Box>
       </Box>
     </NextLink>
-  )
-}
+  );
+};
