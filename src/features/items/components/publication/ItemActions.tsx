@@ -48,14 +48,14 @@ export default function ItemActions({
         bottom={{ base: "60px", md: 0 }}
         left={0}
         right={0}
-        p={{ base: 5, md: 0 }}
+        p={{ base: 3, md: 0 }}
         bg="neutral.150"
         zIndex={100}
       >
         <Button
           asChild
           width="full"
-          p={{ base: 2, md: 2 }}
+          p={{ base: 1, md: 1 }}
           borderRadius="xl"
           bg="accent.default"
           _hover={{ opacity: 0.9 }}

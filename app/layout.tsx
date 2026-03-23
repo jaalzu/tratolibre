@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -9,6 +9,10 @@ const geist = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#1A202C",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -52,7 +56,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
-          <Box bg="neutral.150" minH="100vh">
+          <Box bg="neutral.150" minH="100dvh">
             {children}
           </Box>
         </Providers>
