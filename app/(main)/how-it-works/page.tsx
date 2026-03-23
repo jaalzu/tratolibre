@@ -1,5 +1,5 @@
 import { Box, Heading, Text, Flex, SimpleGrid } from "@chakra-ui/react";
-import { Link } from "@chakra-ui/react"
+import { Link } from "@chakra-ui/react";
 
 export const metadata = {
   title: "Cómo funciona | TratoLibre",
@@ -63,9 +63,8 @@ const reasons = [
 
 export default function HowItWorksPage() {
   return (
-    <Box minH="100vh" bg="neutral.150" px={{ base: 4, md: 8 }} py={6}>
+    <Box px={{ base: 4, md: 8 }} py={6}>
       <Box maxW="1200px" mx="auto">
-
         {/* HERO */}
         <Box
           bg="neutral.50"
@@ -85,12 +84,24 @@ export default function HowItWorksPage() {
           >
             TratoLibre
           </Text>
-          <Heading as="h1" fontSize={{ base: "3xl", md: "5xl" }} fontWeight="bold" color="fg" lineHeight="tight" mb={4}>
+          <Heading
+            as="h1"
+            fontSize={{ base: "3xl", md: "5xl" }}
+            fontWeight="bold"
+            color="fg"
+            lineHeight="tight"
+            mb={4}
+          >
             ¿Cómo funciona?
           </Heading>
-          <Text fontSize={{ base: "md", md: "lg" }} color="fg.muted" maxW="2xl" mx="auto">
-            Comprar, vender e intercambiar objetos usados nunca fue tan simple. En cuatro pasos
-            podés cerrar tu primer trato.
+          <Text
+            fontSize={{ base: "md", md: "lg" }}
+            color="fg.muted"
+            maxW="2xl"
+            mx="auto"
+          >
+            Comprar, vender e intercambiar objetos usados nunca fue tan simple.
+            En cuatro pasos podés cerrar tu primer trato.
           </Text>
         </Box>
 
@@ -102,11 +113,21 @@ export default function HowItWorksPage() {
           py={{ base: 8, md: 12 }}
           mb={3}
         >
-          <Heading as="h2" fontSize={{ base: "lg", md: "xl" }} fontWeight="semibold" color="fg" mb={8}>
+          <Heading
+            as="h2"
+            fontSize={{ base: "lg", md: "xl" }}
+            fontWeight="semibold"
+            color="fg"
+            mb={8}
+          >
             Compra y vende en 4 sencillos pasos
           </Heading>
 
-          <Flex direction={{ base: "column", md: "row" }} gap={{ base: 8, md: 4 }} align="flex-start">
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            gap={{ base: 8, md: 4 }}
+            align="flex-start"
+          >
             {steps.map((s, i) => (
               <Flex
                 key={s.step}
@@ -161,10 +182,23 @@ export default function HowItWorksPage() {
 
                 {/* Texto */}
                 <Box flex={1}>
-                  <Text fontSize="xs" fontWeight="bold" color="brand.fg" textTransform="uppercase" letterSpacing="wider" mb={1}>
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    color="brand.fg"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                    mb={1}
+                  >
                     Paso {s.step}
                   </Text>
-                  <Heading as="h3" fontSize={{ base: "md", md: "sm" }} fontWeight="semibold" color="fg" mb={2}>
+                  <Heading
+                    as="h3"
+                    fontSize={{ base: "md", md: "sm" }}
+                    fontWeight="semibold"
+                    color="fg"
+                    mb={2}
+                  >
                     {s.title}
                   </Heading>
                   <Text fontSize="sm" color="fg.muted" lineHeight="tall">
@@ -184,12 +218,19 @@ export default function HowItWorksPage() {
           py={{ base: 8, md: 12 }}
           mb={3}
         >
-          <Heading as="h2" fontSize={{ base: "lg", md: "xl" }} fontWeight="semibold" color="fg" mb={2}>
+          <Heading
+            as="h2"
+            fontSize={{ base: "lg", md: "xl" }}
+            fontWeight="semibold"
+            color="fg"
+            mb={2}
+          >
             ¿Por qué TratoLibre?
           </Heading>
           <Text fontSize="sm" color="fg.muted" mb={8} maxW="2xl">
-            Comprando lo que necesitás y vendiendo lo que no usás, optimizás tus recursos y ayudás
-            a otros a hacer lo mismo. Entre todos, colaboramos para crear una economía mejor.
+            Comprando lo que necesitás y vendiendo lo que no usás, optimizás tus
+            recursos y ayudás a otros a hacer lo mismo. Entre todos, colaboramos
+            para crear una economía mejor.
           </Text>
           <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
             {reasons.map((r) => (
@@ -206,51 +247,60 @@ export default function HowItWorksPage() {
         </Box>
 
         {/* CTA */}
-      {/* CTA */}
-<Box textAlign="center" px={{ base: 5, md: 10 }} py={{ base: 8, md: 12 }}>
-  <Heading as="h2" fontSize={{ base: "xl", md: "2xl" }} fontWeight="semibold" color="fg" mb={3}>
-    ¿Listo para empezar?
-  </Heading>
-  <Text color="fg.muted" mb={6}>
-    Explorá las publicaciones o publicá lo que ya no usás en minutos.
-  </Text>
-  <Flex justify="center" gap={3} flexWrap="wrap">
-  <Link
-  href="/search"
-  textDecoration="none"
-  _hover={{ bg: "brand.default", textDecoration: "none" }}
-  px={6}
-  py={3}
-  bg="neutral.50"
-  color="neutral.900"
-  borderRadius="lg"
-  fontWeight="semibold"
-  fontSize="sm"
-  transition="background 0.2s"
->
-  Explorar publicaciones
-</Link>
+        {/* CTA */}
+        <Box
+          textAlign="center"
+          px={{ base: 5, md: 10 }}
+          py={{ base: 8, md: 12 }}
+        >
+          <Heading
+            as="h2"
+            fontSize={{ base: "xl", md: "2xl" }}
+            fontWeight="semibold"
+            color="fg"
+            mb={3}
+          >
+            ¿Listo para empezar?
+          </Heading>
+          <Text color="fg.muted" mb={6}>
+            Explorá las publicaciones o publicá lo que ya no usás en minutos.
+          </Text>
+          <Flex justify="center" gap={3} flexWrap="wrap">
+            <Link
+              href="/search"
+              textDecoration="none"
+              _hover={{ bg: "brand.default", textDecoration: "none" }}
+              px={6}
+              py={3}
+              bg="neutral.50"
+              color="neutral.900"
+              borderRadius="lg"
+              fontWeight="semibold"
+              fontSize="sm"
+              transition="background 0.2s"
+            >
+              Explorar publicaciones
+            </Link>
 
-   <Link
-  href="/item/new"
-  textDecoration="none"
-  _hover={{ bg: "brand.dark", textDecoration: "none" }}
-  px={9}
-  py={3}
-  bg="brand.default"
-  color="fg"
-  borderRadius="lg"
-  fontWeight="semibold"
-  fontSize="sm"
-  border="1px solid"
-  borderColor="border"
-  transition="background 0.2s"
->
-  Publicar un artículo
-</Link>
-  </Flex>
-</Box>
-
+            <Link
+              href="/item/new"
+              textDecoration="none"
+              _hover={{ bg: "brand.dark", textDecoration: "none" }}
+              px={9}
+              py={3}
+              bg="brand.default"
+              color="fg"
+              borderRadius="lg"
+              fontWeight="semibold"
+              fontSize="sm"
+              border="1px solid"
+              borderColor="border"
+              transition="background 0.2s"
+            >
+              Publicar un artículo
+            </Link>
+          </Flex>
+        </Box>
       </Box>
     </Box>
   );

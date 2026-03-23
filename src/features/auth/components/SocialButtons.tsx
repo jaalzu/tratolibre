@@ -6,11 +6,13 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 
 interface SocialButtonsProps {
+  mode: "login" | "register";
   showEmail?: boolean;
   onEmailClick?: () => void;
 }
 
 export const SocialButtons = ({
+  mode,
   showEmail,
   onEmailClick,
 }: SocialButtonsProps) => {
@@ -22,16 +24,21 @@ export const SocialButtons = ({
     });
   };
 
+  const googleLabel =
+    mode === "login" ? "Iniciar sesión con Google" : "Registrarse con Google";
+  const emailLabel =
+    mode === "login" ? "Iniciar sesión con email" : "Registrarse con email";
+
   const buttons = [
     {
-      label: "Registrarse con Google",
+      label: googleLabel,
       icon: "/svg/google.svg",
       onClick: handleGoogle,
     },
     ...(showEmail && onEmailClick
       ? [
           {
-            label: "Registrarse con email",
+            label: emailLabel,
             icon: "/svg/email.svg",
             onClick: onEmailClick,
           },

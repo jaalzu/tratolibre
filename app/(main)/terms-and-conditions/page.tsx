@@ -7,7 +7,6 @@ export const metadata = {
 
 const lastUpdated = "Abril de 2026";
 
-
 const sections = [
   {
     title: "1. Aceptación de los términos",
@@ -84,15 +83,33 @@ const sections = [
 
 export default function TermsAndConditionsPage() {
   return (
-    <Box minH="100vh" bg="neutral.150" px={{ base: 4, md: 8 }} py={6}>
+    <Box px={{ base: 4, md: 8 }} py={6}>
       <Box maxW="800px" mx="auto">
-
         {/* HEADER */}
-        <Box bg="neutral.50" borderRadius="3xl" px={{ base: 5, md: 10 }} py={{ base: 8, md: 12 }} mb={3}>
-          <Text fontSize="xs" fontWeight="bold" color="brand.hover" textTransform="uppercase" letterSpacing="wider" mb={2}>
+        <Box
+          bg="neutral.50"
+          borderRadius="3xl"
+          px={{ base: 5, md: 10 }}
+          py={{ base: 8, md: 12 }}
+          mb={3}
+        >
+          <Text
+            fontSize="xs"
+            fontWeight="bold"
+            color="brand.hover"
+            textTransform="uppercase"
+            letterSpacing="wider"
+            mb={2}
+          >
             Legal
           </Text>
-          <Heading as="h1" fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" color="neutral.800" mb={3}>
+          <Heading
+            as="h1"
+            fontSize={{ base: "2xl", md: "4xl" }}
+            fontWeight="bold"
+            color="neutral.800"
+            mb={3}
+          >
             Términos y Condiciones
           </Heading>
           <Text fontSize="sm" color="neutral.400">
@@ -101,23 +118,46 @@ export default function TermsAndConditionsPage() {
         </Box>
 
         {/* CONTENT */}
-        <Box bg="neutral.50" borderRadius="3xl" px={{ base: 5, md: 10 }} py={{ base: 8, md: 12 }}>
+        <Box
+          bg="neutral.50"
+          borderRadius="3xl"
+          px={{ base: 5, md: 10 }}
+          py={{ base: 8, md: 12 }}
+        >
           <Stack gap={10}>
-            <Box p={5} bg="brand.subtle" borderRadius="xl" border="2px solid" borderColor="brand.default">
+            <Box
+              p={5}
+              bg="brand.subtle"
+              borderRadius="xl"
+              border="2px solid"
+              borderColor="brand.default"
+            >
               <Text fontSize="md" color="fg.muted" lineHeight="tall">
-                Por favor, leé estos términos detenidamente antes de usar TratoLibre. Al registrarte o
-                usar la plataforma, confirmás que leíste, entendiste y aceptás estos Términos y Condiciones.
+                Por favor, leé estos términos detenidamente antes de usar
+                TratoLibre. Al registrarte o usar la plataforma, confirmás que
+                leíste, entendiste y aceptás estos Términos y Condiciones.
               </Text>
             </Box>
 
             {sections.map((section) => (
               <Box key={section.title}>
-                <Heading as="h2" fontSize={{ base: "md", md: "lg" }} fontWeight="semibold" color="neutral.900" mb={4}>
+                <Heading
+                  as="h2"
+                  fontSize={{ base: "md", md: "lg" }}
+                  fontWeight="semibold"
+                  color="neutral.900"
+                  mb={4}
+                >
                   {section.title}
                 </Heading>
                 <Stack gap={3}>
                   {section.content.map((paragraph, i) => (
-                    <Text key={i} color="neutral.700" lineHeight="tall" fontSize="sm">
+                    <Text
+                      key={i}
+                      color="neutral.700"
+                      lineHeight="tall"
+                      fontSize="sm"
+                    >
                       {paragraph}
                     </Text>
                   ))}
@@ -126,7 +166,6 @@ export default function TermsAndConditionsPage() {
             ))}
           </Stack>
         </Box>
-
       </Box>
     </Box>
   );

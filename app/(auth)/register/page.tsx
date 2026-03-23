@@ -4,7 +4,7 @@ import { RegisterOptions } from "@/features/auth/components/RegisterOptions";
 
 export default function RegisterPage() {
   return (
-    <Flex minH="100vh" mx={2} align="center" justify="center" bg="neutral.150">
+    <Flex minH="100dvh" mx={2} align="center" justify="center">
       <Card w="full" maxW="480px" shadow="base" borderRadius="lg">
         <RegisterOptions />
       </Card>

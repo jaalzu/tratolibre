@@ -1,6 +1,5 @@
 import { Box, Heading, Text, Stack } from "@chakra-ui/react";
 
-
 export const metadata = {
   title: "Política de Privacidad | TratoLibre",
   description:
@@ -82,15 +81,33 @@ const sections = [
 ];
 export default function PrivacyPolicyPage() {
   return (
-    <Box minH="100vh" bg="neutral.150" px={{ base: 4, md: 8 }} py={6}>
+    <Box px={{ base: 4, md: 8 }} py={6}>
       <Box maxW="800px" mx="auto">
-
         {/* HEADER */}
-        <Box bg="neutral.50" borderRadius="3xl" px={{ base: 5, md: 10 }} py={{ base: 8, md: 12 }} mb={3}>
-          <Text fontSize="xs" fontWeight="bold" color="brand.hover" textTransform="uppercase" letterSpacing="wider" mb={2}>
+        <Box
+          bg="neutral.50"
+          borderRadius="3xl"
+          px={{ base: 5, md: 10 }}
+          py={{ base: 8, md: 12 }}
+          mb={3}
+        >
+          <Text
+            fontSize="xs"
+            fontWeight="bold"
+            color="brand.hover"
+            textTransform="uppercase"
+            letterSpacing="wider"
+            mb={2}
+          >
             Legal
           </Text>
-          <Heading as="h1" fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" color="fg" mb={3}>
+          <Heading
+            as="h1"
+            fontSize={{ base: "2xl", md: "4xl" }}
+            fontWeight="bold"
+            color="fg"
+            mb={3}
+          >
             Política de Privacidad
           </Heading>
           <Text fontSize="sm" color="fg.subtle">
@@ -99,24 +116,48 @@ export default function PrivacyPolicyPage() {
         </Box>
 
         {/* CONTENT */}
-        <Box bg="neutral.50" borderRadius="3xl" px={{ base: 5, md: 10 }} py={{ base: 8, md: 12 }}>
+        <Box
+          bg="neutral.50"
+          borderRadius="3xl"
+          px={{ base: 5, md: 10 }}
+          py={{ base: 8, md: 12 }}
+        >
           <Stack gap={10}>
-            <Box p={5} bg="brand.subtle" borderRadius="xl" border="2px solid" borderColor="brand.default">
+            <Box
+              p={5}
+              bg="brand.subtle"
+              borderRadius="xl"
+              border="2px solid"
+              borderColor="brand.default"
+            >
               <Text fontSize="md" color="fg.muted" lineHeight="tall">
-                En TratoLibre nos tomamos en serio la privacidad de tus datos. Esta política explica
-                qué información recopilamos, cómo la usamos y qué derechos tenés sobre ella, de
-                acuerdo con la Ley 25.326 de Protección de Datos Personales de la República Argentina.
+                En TratoLibre nos tomamos en serio la privacidad de tus datos.
+                Esta política explica qué información recopilamos, cómo la
+                usamos y qué derechos tenés sobre ella, de acuerdo con la Ley
+                25.326 de Protección de Datos Personales de la República
+                Argentina.
               </Text>
             </Box>
 
             {sections.map((section) => (
               <Box key={section.title}>
-                <Heading as="h2" fontSize={{ base: "md", md: "lg" }} fontWeight="semibold" color="fg" mb={4}>
+                <Heading
+                  as="h2"
+                  fontSize={{ base: "md", md: "lg" }}
+                  fontWeight="semibold"
+                  color="fg"
+                  mb={4}
+                >
                   {section.title}
                 </Heading>
                 <Stack gap={3}>
                   {section.content.map((paragraph, i) => (
-                    <Text key={i} color="fg.muted" lineHeight="tall" fontSize="sm">
+                    <Text
+                      key={i}
+                      color="fg.muted"
+                      lineHeight="tall"
+                      fontSize="sm"
+                    >
                       {paragraph}
                     </Text>
                   ))}
@@ -125,7 +166,6 @@ export default function PrivacyPolicyPage() {
             ))}
           </Stack>
         </Box>
-
       </Box>
     </Box>
   );

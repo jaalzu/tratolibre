@@ -31,12 +31,12 @@ export const RegisterForm = () => {
   return (
     <Flex direction="column" maxW="360px" mx="auto" w="full">
       <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>
-        Crear cuenta
+        Registro
       </Text>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
-          <Flex gap={2} direction={{ base: "column", md: "row" }}>
+          <Flex gap={3} direction={{ base: "column", md: "row" }}>
             <FormField
               label="Nombre"
               name="firstName"
@@ -95,7 +95,8 @@ export const RegisterForm = () => {
             type="submit"
             width="full"
             borderRadius="full"
-            py={1}
+            py={1.5}
+            mt={3}
             loading={isSubmitting}
             data-testid="submit-button"
           >
