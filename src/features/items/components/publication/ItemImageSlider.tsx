@@ -1,58 +1,143 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useImageSlider } from "../../hooks/useImageSlider";
 
-export default function ItemImageSlider({ images, title }: { images: string[], title: string }) {
-  const [active, setActive] = useState(0)
+export default function ItemImageSlider({
+  images,
+  title,
+}: {
+  images: string[];
+  title: string;
+}) {
+  const router = useRouter();
+  const { active, goNext, goPrev, handleTouchStart, handleTouchEnd } =
+    useImageSlider(images);
 
-  if (!images?.length) return (
-    <Box w="100%" aspectRatio="4/3" bg="neutral.100" borderRadius="xl" />
-  )
-
-  return (
-    <Box>
+  if (!images?.length)
+    return (
       <Box
         w="100%"
-        aspectRatio="4/3"
-        borderRadius="xl"
+        aspectRatio="1/1"
+        bg="neutral.100"
+        borderBottomRadius="xl"
+      />
+    );
+
+  return (
+    <Box position="relative">
+      <Box
+        w="100%"
+        aspectRatio="1/1"
+        borderBottomRadius="xl"
         overflow="hidden"
+        position="relative"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <img
           src={images[active]}
           alt={title}
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            display: 'block',
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
           }}
         />
-      </Box>
 
-      {images.length > 1 && (
-        <Flex gap={2} mt={3} px={{ base: 4, md: 3 }} overflowX="auto">
-          {images.map((url, i) => (
-            <img
-              key={i}
-              src={url}
-              alt={`${title} ${i + 1}`}
-              onClick={() => setActive(i)}
-              style={{
-                width: '56px',
-                height: '56px',
-                objectFit: 'cover',
-                borderRadius: '6px',
-                flexShrink: 0,
-                cursor: 'pointer',
-                opacity: active === i ? 1 : 0.45,
-                border: `2px solid ${active === i ? 'var(--chakra-colors-brand-default)' : 'transparent'}`,
-                transition: 'opacity 0.2s',
-              }}
-            />
-          ))}
-        </Flex>
-      )}
+        {/* Flecha volver */}
+        <Box
+          as="button"
+          onClick={() => router.back()}
+          position="absolute"
+          top={3}
+          left={3}
+          w="36px"
+          h="36px"
+          borderRadius="full"
+          bg="whiteAlpha.800"
+          alignItems="center"
+          display={{ base: "flex", md: "none" }}
+          justifyContent="center"
+          zIndex={10}
+          _hover={{ bg: "neutral.50" }}
+          transition="all 0.15s"
+        >
+          <i
+            className="bx bx-arrow-back"
+            style={{ fontSize: "20px", color: "neutral.800" }}
+          />
+        </Box>
+
+        {/* Contador */}
+        {images.length > 1 && (
+          <Box
+            position="absolute"
+            bottom={3}
+            right={3}
+            bg="blackAlpha.600"
+            borderRadius="full"
+            px={3}
+            py={1}
+          >
+            <Text fontSize="xs" color="neutral.50" fontWeight="medium">
+              {active + 1}/{images.length}
+            </Text>
+          </Box>
+        )}
+
+        {/* Flechas */}
+        {images.length > 1 && (
+          <>
+            <Box
+              as="button"
+              onClick={goPrev}
+              position="absolute"
+              left={3}
+              top="50%"
+              transform="translateY(-50%)"
+              w="36px"
+              h="36px"
+              borderRadius="full"
+              bg="whiteAlpha.800"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              _hover={{ bg: "white" }}
+              transition="all 0.15s"
+            >
+              <i
+                className="bx bx-chevron-left"
+                style={{ fontSize: "22px", color: "black" }}
+              />
+            </Box>
+            <Box
+              as="button"
+              onClick={goNext}
+              position="absolute"
+              right={3}
+              top="50%"
+              transform="translateY(-50%)"
+              w="36px"
+              h="36px"
+              borderRadius="full"
+              bg="whiteAlpha.800"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              _hover={{ bg: "white" }}
+              transition="all 0.15s"
+            >
+              <i
+                className="bx bx-chevron-right"
+                style={{ fontSize: "22px", color: "black" }}
+              />
+            </Box>
+          </>
+        )}
+      </Box>
     </Box>
-  )
+  );
 }

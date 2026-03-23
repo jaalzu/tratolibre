@@ -91,7 +91,7 @@ export const LoginForm = () => {
             type="submit"
             width="full"
             borderRadius="full"
-            py={1}
+            py={1.5}
             loading={isSubmitting}
             data-testid="submit-button"
           >
