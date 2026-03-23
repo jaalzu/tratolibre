@@ -55,7 +55,7 @@ export default function ItemActions({
         <Button
           asChild
           width="full"
-          p={{ base: 3, md: 2 }}
+          p={{ base: 2, md: 2 }}
           borderRadius="xl"
           bg="accent.default"
           _hover={{ opacity: 0.9 }}

@@ -5,6 +5,8 @@ import ItemDetails from "./ItemDetails";
 import SellerCard from "./SellerCard";
 import ItemActions from "./ItemActions";
 import { ItemWithProfile } from "@/features/items/types";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 interface ItemPageContentProps {
   item: ItemWithProfile;
@@ -19,9 +21,10 @@ export default function ItemPageContent({
 }: ItemPageContentProps) {
   return (
     <Box pb={{ base: "0px", md: 0 }} suppressHydrationWarning>
+      <ScrollToTop />
       {/* ── MOBILE ── */}
       <Box display={{ base: "block", md: "none" }}>
-        <Box pt={3}>
+        <Box pt={0}>
           <ItemImageSlider images={item.images ?? []} title={item.title} />
         </Box>
 
@@ -57,7 +60,6 @@ export default function ItemPageContent({
 
           <Separator my={5} borderColor="neutral.100" />
           <ItemDetails item={item} userId={userId} />
-          <Separator my={6} borderColor="neutral.100" />
         </Box>
 
         <Box
@@ -78,7 +80,8 @@ export default function ItemPageContent({
 
       {/* ── DESKTOP ── */}
       <Box display={{ base: "none", md: "block" }}>
-        <Box maxW="900px" mx="auto" px={10} py={10}>
+        <Box maxW="900px" mx="auto" px={10} py={5}>
+          <Breadcrumb category={item.category} title={item.title} />{" "}
           <Flex gap={10} align="start">
             <Box flex="1" minW={0}>
               <ItemImageSlider images={item.images ?? []} title={item.title} />
@@ -105,8 +108,6 @@ export default function ItemPageContent({
 
               <Separator my={6} borderColor="neutral.100" />
               <ItemDetails item={item} userId={userId} />
-
-              <Separator my={8} borderColor="neutral.100" />
             </Box>
 
             <Box w="300px" flexShrink={0}>
