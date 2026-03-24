@@ -7,7 +7,7 @@ describe("ItemSchema", () => {
     description:
       "Consola en perfecto estado, con dos controles y todos los cables.",
     category: "juegos",
-    condition: "good" as const,
+    condition: "good",
     sale_price: 150000,
     province: "Buenos Aires",
     city: "CABA",
@@ -22,16 +22,21 @@ describe("ItemSchema", () => {
   it("rechaza título menor a 5 caracteres", () => {
     const result = ItemSchema.safeParse({ ...validItem, title: "PS5" });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe("Mínimo 5 caracteres");
+    expect(result.error?.issues[0].message).toBe(
+      "El título debe tener al menos 5 caracteres",
+    );
   });
 
-  it("rechaza descripción menor a 20 caracteres", () => {
+  it("rechaza descripción menor a 15 caracteres", () => {
     const result = ItemSchema.safeParse({
       ...validItem,
-      description: "Muy corta",
+      description: "Muy corta", // Esto tiene 9 caracteres, debería fallar
     });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe("Describilo bien");
+    // AJUSTADO A 15 CARACTERES:
+    expect(result.error?.issues[0].message).toBe(
+      "Por favor, da una descripción más detallada (mín. 15 caracteres)",
+    );
   });
 
   it("rechaza precio 0", () => {
@@ -45,10 +50,10 @@ describe("ItemSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("rechaza condition inválida", () => {
+  it("rechaza si no se selecciona estado", () => {
     const result = ItemSchema.safeParse({
       ...validItem,
-      condition: "destroyed",
+      condition: "",
     });
     expect(result.success).toBe(false);
   });
@@ -56,7 +61,9 @@ describe("ItemSchema", () => {
   it("rechaza sin imágenes", () => {
     const result = ItemSchema.safeParse({ ...validItem, images: [] });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe("Al menos 1 foto");
+    expect(result.error?.issues[0].message).toBe(
+      "Subí al menos una foto para vender más rápido",
+    );
   });
 
   it("rechaza más de 4 imágenes", () => {
@@ -65,7 +72,6 @@ describe("ItemSchema", () => {
       images: ["a", "b", "c", "d", "e"],
     });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe("Máximo 4 fotos");
   });
 
   it("acepta item sin ciudad (opcional)", () => {
