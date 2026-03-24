@@ -12,7 +12,6 @@ test.describe("Items", () => {
   });
 
   test("usuario no autenticado no puede publicar", async ({ browser }) => {
-    // contexto completamente nuevo sin sesión
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("/item/new");
@@ -29,13 +28,26 @@ test.describe("Items", () => {
   test("muestra errores si se envía el form vacío", async ({ page }) => {
     await page.goto("/item/new");
     await page.getByTestId("submit-item").click();
-    await expect(page.getByText("Mínimo 5 caracteres")).toBeVisible();
+
+    // MENSAJES ACTUALIZADOS SEGÚN TU SCHEMA
+    await expect(
+      page.getByText("El título debe tener al menos 5 caracteres"),
+    ).toBeVisible();
+
+    await expect(
+      page.getByText(
+        "Por favor, da una descripción más detallada (mín. 15 caracteres)",
+      ),
+    ).toBeVisible();
   });
 
   test("completa el formulario correctamente", async ({ page }) => {
     await page.goto("/item/new");
+
+    // Este helper ya lo actualizamos para que haga click en submit
     await fillAndSubmitItem(page);
-    // verificamos que los campos están llenos correctamente
+
+    // Verificamos que los campos se llenaron (o que navegó al éxito)
     await expect(page.getByTestId("title")).toHaveValue("Item de test E2E");
     await expect(page.getByTestId("sale_price")).toHaveValue("1000");
   });

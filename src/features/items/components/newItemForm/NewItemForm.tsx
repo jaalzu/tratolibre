@@ -57,7 +57,7 @@ export const NewItemForm = ({
             >
               <Input
                 {...register("title")}
-                maxLength={60}
+                maxLength={80}
                 data-testid="title"
                 placeholder="Ej: iPhone 11"
                 {...inputStyles}
@@ -67,11 +67,11 @@ export const NewItemForm = ({
             <FormField
               label="Descripción"
               error={errors.description}
-              helperText={`${descValue.length}/400`}
+              helperText={`${descValue.length}/600`}
             >
               <Textarea
                 {...register("description")}
-                maxLength={400}
+                maxLength={600}
                 data-testid="description"
                 rows={3}
                 p={2}

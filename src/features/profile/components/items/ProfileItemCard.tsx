@@ -23,7 +23,8 @@ export const ProfileItemCard = ({ item }: ProfileItemCardProps) => (
             src={item.images[0]}
             alt={item.title}
             fill
-            style={{ objectFit: "contain" }}
+            sizes="(max-width: 768px) 30vw, (max-width: 1200px) 33vw, 250px"
+            style={{ objectFit: "cover" }}
           />
         ) : null}
         {item.sold && (

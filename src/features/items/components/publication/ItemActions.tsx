@@ -73,12 +73,12 @@ export default function ItemActions({
             <>
               <Text
                 fontSize="md"
-                color="neutral.800"
+                color="accent.default"
                 textAlign="center"
                 cursor="pointer"
                 textDecoration="underline"
                 onClick={() => setSoldOpen(true)}
-                _hover={{ color: "neutral.900" }}
+                _hover={{ color: "accent.hover" }}
               >
                 Marcar como vendido
               </Text>

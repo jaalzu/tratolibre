@@ -49,7 +49,13 @@ export const SocialButtons = ({
   const inner = (icon: string, label: string) => (
     <Flex align="center" justify="center" gap={2} w="full">
       <Box w="20px" h="20px" position="relative" flexShrink={0}>
-        <Image src={icon} alt={label} fill style={{ objectFit: "contain" }} />
+        <Image
+          src={icon}
+          alt={label}
+          fill
+          sizes="20px"
+          style={{ objectFit: "contain" }}
+        />
       </Box>
       <Text fontSize="sm" fontWeight="bold">
         {label}
