@@ -148,15 +148,22 @@ export async function getItems(
     max_price?: number;
     date?: "today" | "week" | "month";
     order_by?: "closest" | "most_relevance" | "price_asc" | "price_desc";
+    page?: number;
+    limit?: number;
   } = {},
 ) {
   const supabase = await createClient();
+  const limit = params.limit ?? 12;
+  const page = params.page ?? 0;
+  const from = page * limit;
+  const to = from + limit - 1;
 
   let q = supabase
     .from("items")
     .select("*, profiles(name, avatar_url, rating)")
     .eq("available", true)
-    .eq("sold", false);
+    .eq("sold", false)
+    .range(from, to);
 
   if (params.query) q = q.ilike("title", `%${params.query}%`);
   if (params.category) q = q.eq("category", params.category);

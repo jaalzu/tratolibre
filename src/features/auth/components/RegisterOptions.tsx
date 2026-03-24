@@ -10,7 +10,7 @@ export const RegisterOptions = () => {
   const router = useRouter();
 
   return (
-    <Flex direction="column" py={8} px={5} gap={6}>
+    <Flex direction="column" py={11} px={5} gap={6}>
       <RegisterCollage />
 
       <Flex direction="column">
@@ -33,6 +33,7 @@ export const RegisterOptions = () => {
       </Flex>
 
       <SocialButtons
+        mode="register"
         showEmail
         onEmailClick={() => router.push("/register/email")}
       />

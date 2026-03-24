@@ -1,7 +1,6 @@
-import { Field, Box, Text } from "@chakra-ui/react";
+import { Field, Box, Text, Flex } from "@chakra-ui/react";
 import { FieldError } from "react-hook-form";
 
-// Los estilos que vas a usar en TODO el formulario para que sea consistente
 export const inputStyles = {
   borderColor: "neutral.500",
   borderRadius: "lg",
@@ -15,13 +14,26 @@ interface FormFieldProps {
   label: string;
   error?: FieldError;
   children: React.ReactNode;
+  helperText?: string;
 }
 
-export const FormField = ({ label, error, children }: FormFieldProps) => (
+export const FormField = ({
+  label,
+  error,
+  children,
+  helperText,
+}: FormFieldProps) => (
   <Field.Root invalid={!!error} w="full">
-    <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
-      {label}
-    </Field.Label>
+    <Flex justify="space-between" align="center" mb="1">
+      <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
+        {label}
+      </Field.Label>
+      {helperText && !error && (
+        <Text fontSize="10px" color="neutral.500" px={1}>
+          {helperText}
+        </Text>
+      )}
+    </Flex>
     {children}
     {error && <Field.ErrorText fontSize="xs">{error.message}</Field.ErrorText>}
   </Field.Root>

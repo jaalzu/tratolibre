@@ -6,7 +6,7 @@ import NextLink from "next/link";
 
 export default function Error({ reset }: { reset: () => void }) {
   return (
-    <Box minH="100vh" position="relative">
+    <Box minH="100dvh" position="relative">
       <Box position="absolute" top={6} left={6}>
         <NextLink href="/">
           <Text fontSize="xl" fontWeight="bold" color="neutral.900">

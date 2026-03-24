@@ -6,7 +6,7 @@ import { CATEGORIES } from "@/lib/constants";
 import { useState } from "react";
 import { PageContainer } from "@/components/ui/PageContainer";
 
-const INITIAL_COUNT = 9;
+const INITIAL_COUNT = 6;
 
 export function CategoriesGrid() {
   const [expanded, setExpanded] = useState(false);

@@ -20,6 +20,7 @@ export const NewItemForm = ({
 }) => {
   const {
     register,
+    watch,
     handleSubmit,
     onSubmit,
     errors,
@@ -32,6 +33,9 @@ export const NewItemForm = ({
     setValue,
     control,
   } = useNewItemForm(initialData);
+
+  const titleValue = watch("title") || "";
+  const descValue = watch("description") || "";
 
   const { field: categoryField } = useController({ name: "category", control });
   const { field: conditionField } = useController({
@@ -46,18 +50,28 @@ export const NewItemForm = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card p="6">
           <Stack gap="4">
-            <FormField label="Título" error={errors.title}>
+            <FormField
+              label="Título"
+              error={errors.title}
+              helperText={`${titleValue.length}/60`}
+            >
               <Input
                 {...register("title")}
+                maxLength={60}
                 data-testid="title"
                 placeholder="Ej: iPhone 11"
                 {...inputStyles}
               />
             </FormField>
 
-            <FormField label="Descripción" error={errors.description}>
+            <FormField
+              label="Descripción"
+              error={errors.description}
+              helperText={`${descValue.length}/400`}
+            >
               <Textarea
                 {...register("description")}
+                maxLength={400}
                 data-testid="description"
                 rows={3}
                 p={2}
@@ -102,6 +116,9 @@ export const NewItemForm = ({
                   data-testid="sale_price"
                   type="number"
                   {...inputStyles}
+                  onKeyDown={(e) =>
+                    ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
+                  }
                 />
               </FormField>
             </SimpleGrid>

@@ -15,7 +15,7 @@ export default async function FavoritesPage() {
   const favorites = await getUserFavorites();
 
   return (
-    <Box bg="neutral.150" minH="100vh">
+    <Box>
       <PageContainer>
         <Text fontSize="2xl" fontWeight="bold" color="neutral.900">
           Mis favoritos

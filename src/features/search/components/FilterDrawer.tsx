@@ -42,7 +42,7 @@ export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
         position="fixed"
         top={0}
         left={0}
-        h="100vh"
+        h="100dvh"
         w="280px"
         bg="#ffffff"
         zIndex={201}

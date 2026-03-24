@@ -30,11 +30,11 @@ export const LoginForm = () => {
   };
 
   return (
-    <Flex direction="column" maxW="360px" mx="auto" w="full" py={3}>
+    <Flex direction="column" maxW="360px" mx="auto" w="full" py={4}>
       <Text fontSize="xl" fontWeight="bold" color="neutral.900">
         Bienvenido
       </Text>
-      <Text fontSize="xs" color="neutral.400" mb={4}>
+      <Text fontSize="xs" color="neutral.400" mt={-1} mb={5}>
         Iniciá sesión en TratoLibre
       </Text>
 
@@ -92,6 +92,7 @@ export const LoginForm = () => {
             width="full"
             borderRadius="full"
             py={1.5}
+            mt={2}
             loading={isSubmitting}
             data-testid="submit-button"
           >
@@ -100,7 +101,8 @@ export const LoginForm = () => {
         </Stack>
       </form>
 
-      <Flex align="center" gap={3} my={4}>
+      {/* 1. SEPARADOR (FUERA DEL FORM) */}
+      <Flex align="center" gap={3} my={3}>
         <Box flex={1} h="1px" bg="neutral.200" />
         <Text fontSize="xs" color="neutral.400">
           o continuá con
@@ -108,18 +110,27 @@ export const LoginForm = () => {
         <Box flex={1} h="1px" bg="neutral.200" />
       </Flex>
 
-      <SocialButtons />
+      {/* 2. BOTONES SOCIALES (FUERA DEL FORM) */}
+      <SocialButtons mode="login" />
 
-      <Text fontSize="xs" color="neutral.400" textAlign="center" mt="5">
-        ¿No tenés cuenta?{" "}
-        <Text as="span" color="accent.default" fontWeight="600">
-          <NextLink href="/register">
-            <Text as="span" _hover={{ textDecoration: "underline" }}>
-              Registrate
-            </Text>
-          </NextLink>
+      {/* 3. LINK A REGISTRO (LIMPIO) */}
+      <Box textAlign="center" mt="5">
+        <Text as="span" fontSize="sm" color="neutral.700">
+          ¿No tenés cuenta?{" "}
         </Text>
-      </Text>
+        <NextLink href="/register" passHref>
+          <Text
+            as="span"
+            fontSize="sm"
+            color="accent.default"
+            fontWeight="600"
+            _hover={{ textDecoration: "underline" }}
+            cursor="pointer"
+          >
+            Registrate
+          </Text>
+        </NextLink>
+      </Box>
     </Flex>
   );
 };

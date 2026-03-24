@@ -47,7 +47,7 @@ function HeroSlideContent({
     <>
       {/* Mobile */}
       <Box display={{ base: "block", md: "none" }}>
-        <Box position="relative" w="100%" h="55vw" maxH="400px">
+        <Box position="relative" w="100%" h="45vw" maxH="400px">
           <Image
             src={slide.image}
             alt={slide.title}
@@ -136,7 +136,7 @@ export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
           </Box>
         ))}
       </Flex>
-      <Flex justify="center" gap={2} mt={3} mb={1}>
+      <Flex justify="center" gap={2} mt={4} mb={1}>
         {slides.map((_, i) => (
           <Box
             key={i}

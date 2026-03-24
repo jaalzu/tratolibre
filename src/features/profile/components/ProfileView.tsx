@@ -24,7 +24,7 @@ export const ProfileView = ({
   isOwner,
   pendingReviews = [],
 }: ProfileViewProps) => (
-  <Box minH="100vh" bg="neutral.150" px={{ base: 4, md: 8 }}>
+  <Box px={{ base: 4, md: 8 }}>
     <Box maxW="1200px" mx="auto">
       {/* BANNER: reseñas pendientes — solo si es owner y tiene pendientes */}
       {isOwner && pendingReviews.length > 0 && (

@@ -21,7 +21,7 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
         bg="neutral.50"
         borderRadius="2xl"
         px={{ base: 2, md: 8 }}
-        py={{ base: 10, md: 10 }}
+        py={{ base: 7, md: 10 }}
         direction="column"
         align="center"
         textAlign="center"
@@ -39,9 +39,6 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
           </Heading>
           <Text fontSize="md" color="fg.muted" px={5}>
             Encontrá lo que buscás o publicá lo que ya no usás.
-          </Text>
-          <Text fontSize="md" color="fg.muted">
-            Es gratis, simple y rápido.
           </Text>
         </Box>
 
