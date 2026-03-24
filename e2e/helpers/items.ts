@@ -29,6 +29,7 @@ export async function fillAndSubmitItem(
   // Condición
   await page.getByTestId("select-estado...").click();
   await page.getByTestId(`option-${condition}`).click();
+  await page.getByTestId("submit-item").click();
 }
 
 export async function deleteCurrentItem(page: Page) {

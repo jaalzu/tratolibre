@@ -52,15 +52,11 @@ export const ConversationItem = ({
                 src={conv.items.images[0]}
                 alt={conv.items.title ?? ""}
                 fill
+                sizes="48px"
                 style={{ objectFit: "cover" }}
               />
             ) : (
-              <Box
-                w="full"
-                h="full"
-                bg="gray.200"
-                borderRadius="md" // Ajusta el radio según tu diseño
-              />
+              <Box w="full" h="full" bg="gray.200" borderRadius="md" />
             )}
           </Box>
 

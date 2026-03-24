@@ -54,7 +54,13 @@ export const RegisterCollage = () => (
             src={src}
             alt={`photo-${i}`}
             fill
+            sizes={
+              areas[i].colSpan === 2
+                ? "(max-width: 768px) 66vw, 400px"
+                : "(max-width: 768px) 33vw, 200px"
+            }
             style={{ objectFit: "cover" }}
+            priority={i === 0}
           />
         </Box>
       </Box>

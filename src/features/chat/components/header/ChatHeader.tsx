@@ -65,6 +65,7 @@ export const ChatHeader = ({
             src={item.images[0]}
             alt={item.title}
             fill
+            sizes="48px"
             style={{ objectFit: "cover" }}
           />
         </Box>
@@ -80,7 +81,7 @@ export const ChatHeader = ({
         </Text>
       </Box>
 
-      {/* Avatar vendedor con indicador online */}
+      {/* Avatar vendedor */}
       <Box position="relative" w="10" h="10" flexShrink={0}>
         <Box
           position="relative"
@@ -96,6 +97,7 @@ export const ChatHeader = ({
               src={seller.avatar_url}
               alt={seller.name}
               fill
+              sizes="40px"
               style={{ objectFit: "cover" }}
             />
           ) : (

@@ -63,6 +63,7 @@ export const ImageUploader = ({
               src={url}
               alt={`foto-${i}`}
               fill
+              sizes="(max-width: 768px) 25vw, 150px"
               style={{ objectFit: "cover" }}
             />
             <Box
