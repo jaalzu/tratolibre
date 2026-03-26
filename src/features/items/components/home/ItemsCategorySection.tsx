@@ -11,6 +11,7 @@ interface ItemsRowProps {
   viewMoreLabel?: string;
   userId?: string | null;
   favoriteIds?: string[];
+  isPrioritySection?: boolean;
 }
 
 export const ItemsCategorySection = ({
@@ -20,6 +21,7 @@ export const ItemsCategorySection = ({
   viewMoreLabel = "Ver más",
   userId = null,
   favoriteIds = [],
+  isPrioritySection = false,
 }: ItemsRowProps) => {
   if (!items.length) return null;
 
@@ -69,7 +71,7 @@ export const ItemsCategorySection = ({
                 obj={obj}
                 userId={userId}
                 initialFavorited={favoriteIds.includes(obj.id)}
-                priority={index < 4}
+                priority={isPrioritySection && index < 4}
               />
             ))}
           </Grid>

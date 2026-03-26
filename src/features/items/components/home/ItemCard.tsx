@@ -39,8 +39,8 @@ export const ItemCard = ({
               fill
               sizes="(max-width: 768px) 190px, 226px"
               style={{ objectFit: "cover" }}
-              priority={priority} // ← precarga si es above the fold
-              loading={priority ? "eager" : "lazy"} // ← eager solo para las primeras
+              priority={priority}
+              loading={priority ? "eager" : "lazy"}
             />
           ) : (
             <Box w="full" h="full" bg="neutral.100" />
