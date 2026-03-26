@@ -19,6 +19,7 @@ export async function RecentItemsSection({
       viewMoreLabel="Ver más"
       userId={userId}
       favoriteIds={favoriteIds}
+      isPrioritySection={true}
     />
   );
 }

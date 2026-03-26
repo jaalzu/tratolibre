@@ -1,23 +1,40 @@
-import { Box,  Heading, Text } from '@chakra-ui/react'
-import { ItemCard } from '@/features/items/components/home/ItemCard'
-import { EmptyState } from '@/components/ui/EmptyState'
-import { Item } from '@/features/items/types'
-import { FadeInGrid } from '@/features/search/components/FadeInGrid'
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { ItemCard } from "@/features/items/components/home/ItemCard";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { Item } from "@/features/items/types";
+import { FadeInGrid } from "@/features/search/components/FadeInGrid";
 
 interface SearchResultsProps {
-  items:       Item[]
-  favoriteIds: string[]
-  title:       string
-  userId:      string | null
+  items: Item[];
+  favoriteIds: string[];
+  title: string;
+  userId: string | null;
 }
 
-export function SearchResults({ items, favoriteIds, title, userId }: SearchResultsProps) {
+export function SearchResults({
+  items,
+  favoriteIds,
+  title,
+  userId,
+}: SearchResultsProps) {
   return (
     <Box flex={1}>
-      <Heading as="h1" fontSize="lg" fontWeight="bold" color="neutral.900" mb={4}>
+      <Heading
+        as="h1"
+        fontSize="lg"
+        fontWeight="bold"
+        color="neutral.900"
+        mb={4}
+      >
         {title}
         {items.length > 0 && (
-          <Text as="span" fontSize="sm" fontWeight="normal" color="neutral.400" ml={2}>
+          <Text
+            as="span"
+            fontSize="sm"
+            fontWeight="normal"
+            color="neutral.400"
+            ml={2}
+          >
             ({items.length} resultados)
           </Text>
         )}
@@ -33,17 +50,18 @@ export function SearchResults({ items, favoriteIds, title, userId }: SearchResul
           actionHref="/search?order_by=closest"
         />
       ) : (
-<FadeInGrid>
-  {items.map(item => (
-    <ItemCard
-      key={item.id}
-      obj={item}
-      userId={userId}
-      initialFavorited={favoriteIds.includes(item.id)}
-    />
-  ))}
-</FadeInGrid>
+        /* En Search usamos menos columnas porque el FilterPanel ocupa espacio lateral */
+        <FadeInGrid columns={{ base: 2, md: 2, lg: 3, xl: 4 }}>
+          {items.map((item) => (
+            <ItemCard
+              key={item.id}
+              obj={item}
+              userId={userId}
+              initialFavorited={favoriteIds.includes(item.id)}
+            />
+          ))}
+        </FadeInGrid>
       )}
     </Box>
-  )
+  );
 }
