@@ -1,20 +1,22 @@
 "use client";
 
-import { Box, Flex, Stack, Text, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Stack, Text } from "@chakra-ui/react";
 import { ConversationItem } from "./ConversationItem";
-import { useConversations } from "@/features/chat/hooks/useConversations";
+import { useChatStore } from "@/store/chatStore";
 import { Conversation } from "@/features/chat/types";
+import { useConversations } from "@/features/chat/hooks/useConversations";
 
 interface ConversationListProps {
   activeId?: string;
   userId: string;
 }
-
 export const ConversationList = ({
   activeId,
   userId,
 }: ConversationListProps) => {
-  const { conversations, loading } = useConversations();
+  useConversations(); // ← fetchea y alimenta el store
+  const conversations = useChatStore((state) => state.conversations);
+  const loading = useChatStore((state) => state.isLoading);
 
   return (
     <Flex
@@ -26,14 +28,12 @@ export const ConversationList = ({
       h="full"
       overflow="hidden"
     >
-      {/* Header */}
       <Box px="4" py="5" borderBottom="1px solid" borderColor="neutral.100">
         <Text fontSize="md" fontWeight="bold" color="neutral.900">
           Bandeja de entrada
         </Text>
       </Box>
 
-      {/* Lista */}
       <Box flex="1" overflowY="auto">
         {loading ? (
           <Stack gap={0}>

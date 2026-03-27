@@ -1,17 +1,14 @@
-'use client'
+// // useUnreadCount.ts
+// "use client";
 
-import { useQuery } from '@tanstack/react-query'
-import { getMyConversations } from '@/features/chat/actions'
+// import { conversationsQuery } from "@/features/chat/queries";
+// import { useQuery } from "@tanstack/react-query";
 
-export function useUnreadCount(userId?: string): number {
-  const { data: conversations = [] } = useQuery({
-    queryKey: ['conversations'],
-    queryFn: getMyConversations,
-    enabled: !!userId,
-    refetchOnWindowFocus: true,  // refresca al volver al tab
-    refetchInterval: 60000,      // cada 60s
-    staleTime: 55000,
-  })
+// export function useUnreadCount(userId?: string): number {
+//   const { data: conversations = [] } = useQuery({
+//     ...conversationsQuery,
+//     enabled: !!userId,
+//   });
 
-  return conversations.reduce((acc, conv) => acc + (conv.unreadCount ?? 0), 0)
-}
+//   return conversations.reduce((acc, conv) => acc + (conv.unreadCount ?? 0), 0);
+// }

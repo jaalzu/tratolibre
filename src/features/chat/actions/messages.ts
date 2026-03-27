@@ -1,57 +1,66 @@
-'use server'
+"use server";
 
-import { getAuthUser } from '@/lib/supabase/getAuthUser'
-import { checkRateLimit } from '@/lib/rateLimit'
-import { revalidatePath } from 'next/cache'
+import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { checkRateLimit } from "@/lib/rateLimit";
 
-const MAX_LENGTH = 1000
+const MAX_LENGTH = 1000;
 
 export async function markMessagesAsRead(conversationId: string) {
-  const { supabase, user } = await getAuthUser()
-  if (!user) return
+  const { supabase, user } = await getAuthUser();
+  if (!user) return;
 
   await supabase
-    .from('messages')
+    .from("messages")
     .update({ read: true })
-    .eq('conversation_id', conversationId)
-    .neq('sender_id', user.id)
-    .eq('read', false)
+    .eq("conversation_id", conversationId)
+    .neq("sender_id", user.id)
+    .eq("read", false);
 
-  revalidatePath('/chat', 'layout')
+  // revalidatePath eliminado — el cliente ya invalida con queryClient
 }
 
-export async function sendMessageAction(conversationId: string, content: string) {
-  const { supabase, user } = await getAuthUser()
-  if (!user) return { error: 'No autorizado' }
+export async function sendMessageAction(
+  conversationId: string,
+  content: string,
+) {
+  const { supabase, user } = await getAuthUser();
+  if (!user) return { error: "No autorizado" };
 
-  const trimmed = content.trim()
-  if (!trimmed)                    return { error: 'El mensaje no puede estar vacío' }
-  if (trimmed.length > MAX_LENGTH) return { error: `Máximo ${MAX_LENGTH} caracteres` }
+  const trimmed = content.trim();
+  if (!trimmed) return { error: "El mensaje no puede estar vacío" };
+  if (trimmed.length > MAX_LENGTH)
+    return { error: `Máximo ${MAX_LENGTH} caracteres` };
 
-  // Rate limit: máx 30 mensajes por minuto
-  const allowed = await checkRateLimit(supabase, user.id, 'send_message', 30, 1)
-  if (!allowed) return { error: 'Estás enviando mensajes muy rápido, esperá un momento' }
+  // Rate limit y verificación de conversación en paralelo
+  const [allowed, { data: conversation }] = await Promise.all([
+    checkRateLimit(supabase, user.id, "send_message", 30, 1),
+    supabase
+      .from("conversations")
+      .select("id")
+      .eq("id", conversationId)
+      .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
+      .single(),
+  ]);
 
-  // Verificar que el usuario pertenece a la conversación
-  const { data: conversation } = await supabase
-    .from('conversations')
-    .select('id')
-    .eq('id', conversationId)
-    .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
-    .single()
-
-  if (!conversation) return { error: 'Conversación no encontrada' }
+  if (!allowed)
+    return { error: "Estás enviando mensajes muy rápido, esperá un momento" };
+  if (!conversation) return { error: "Conversación no encontrada" };
 
   const { error: msgError } = await supabase
-    .from('messages')
-    .insert({ conversation_id: conversationId, sender_id: user.id, content: trimmed })
+    .from("messages")
+    .insert({
+      conversation_id: conversationId,
+      sender_id: user.id,
+      content: trimmed,
+    });
 
-  if (msgError) return { error: msgError.message }
+  if (msgError) return { error: msgError.message };
 
+  // Eliminá esta query si tenés un trigger updated_at en la DB — es redundante
   await supabase
-    .from('conversations')
+    .from("conversations")
     .update({ updated_at: new Date().toISOString() })
-    .eq('id', conversationId)
+    .eq("id", conversationId);
 
-  return { success: true }
+  return { success: true };
 }

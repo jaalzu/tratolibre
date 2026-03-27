@@ -4,7 +4,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Box } from "@chakra-ui/react";
 import "boxicons/css/boxicons.min.css";
-
+import { createClient } from "@/lib/supabase/server";
+import { ChatStoreInit } from "@/features/chat/components/ChatStoreInit";
 const geist = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -47,15 +48,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
+          <ChatStoreInit userId={user?.id} />
           <Box bg="neutral.150" minH="100dvh">
             {children}
           </Box>
