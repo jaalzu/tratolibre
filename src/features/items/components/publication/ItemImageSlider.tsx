@@ -19,7 +19,8 @@ export default function ItemImageSlider({
     return (
       <Box
         w="100%"
-        aspectRatio="1/1"
+        aspectRatio={{ base: "1/1", sm: "4/3", md: "1/1" }}
+        maxH={{ sm: "400px", md: "none" }}
         bg="neutral.100"
         borderBottomRadius="xl"
       />
@@ -29,7 +30,8 @@ export default function ItemImageSlider({
     <Box position="relative">
       <Box
         w="100%"
-        aspectRatio="1/1"
+        aspectRatio={{ base: "1/1", sm: "4/3", md: "1/1" }}
+        maxH={{ sm: "400px", md: "none" }}
         borderBottomRadius="xl"
         overflow="hidden"
         position="relative"
