@@ -7,7 +7,12 @@ export const Footer = () => (
       <Box borderTop="1px solid" borderColor="neutral.100" pt={8}>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
           <Box>
-            <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={3}>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="brand.default" // 👈 marca en verde
+              mb={3}
+            >
               TratoLibre
             </Text>
             <Text fontSize="sm" color="neutral.400" lineHeight="tall">
@@ -23,12 +28,24 @@ export const Footer = () => (
             </Text>
             <Flex direction="column" gap={2}>
               <NextLink href="/item/new">
-                <Text fontSize="sm" color="neutral.400">
+                <Text
+                  fontSize="sm"
+                  color="neutral.400"
+                  _hover={{ color: "brand.hover" }} // 👈 hover verde
+                  transition="color 0.2s"
+                  cursor="pointer"
+                >
                   Publicar gratis
                 </Text>
               </NextLink>
               <NextLink href="/how-it-works">
-                <Text fontSize="sm" color="neutral.400">
+                <Text
+                  fontSize="sm"
+                  color="neutral.400"
+                  _hover={{ color: "brand.hover" }}
+                  transition="color 0.2s"
+                  cursor="pointer"
+                >
                   Como funciona
                 </Text>
               </NextLink>
@@ -41,17 +58,35 @@ export const Footer = () => (
             </Text>
             <Flex direction="column" gap={2}>
               <NextLink href="/who-we-are">
-                <Text fontSize="sm" color="neutral.400">
+                <Text
+                  fontSize="sm"
+                  color="neutral.400"
+                  _hover={{ color: "brand.hover" }}
+                  transition="color 0.2s"
+                  cursor="pointer"
+                >
                   Quiénes somos
                 </Text>
               </NextLink>
               <NextLink href="/terms-and-conditions">
-                <Text fontSize="sm" color="neutral.400">
+                <Text
+                  fontSize="sm"
+                  color="neutral.400"
+                  _hover={{ color: "brand.hover" }}
+                  transition="color 0.2s"
+                  cursor="pointer"
+                >
                   Términos y condiciones
                 </Text>
               </NextLink>
               <NextLink href="/privacy-policy">
-                <Text fontSize="sm" color="neutral.400">
+                <Text
+                  fontSize="sm"
+                  color="neutral.400"
+                  _hover={{ color: "brand.hover" }}
+                  transition="color 0.2s"
+                  cursor="pointer"
+                >
                   Política de privacidad
                 </Text>
               </NextLink>
@@ -60,8 +95,11 @@ export const Footer = () => (
         </SimpleGrid>
 
         <Text fontSize="xs" color="neutral.300" textAlign="center" mt={8}>
-          © {new Date().getFullYear()} TratoLibre. Todos los derechos
-          reservados.
+          © {new Date().getFullYear()}{" "}
+          <Text as="span" color="brand.default" fontWeight="medium">
+            TratoLibre
+          </Text>
+          . Todos los derechos reservados.
         </Text>
       </Box>
     </Box>

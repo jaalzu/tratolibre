@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Box } from "@chakra-ui/react";
 import "boxicons/css/boxicons.min.css";
+import { Analytics } from "@vercel/analytics/next";
 import { createClient } from "@/lib/supabase/server";
 import { ChatStoreInit } from "@/features/chat/components/ChatStoreInit";
 const geist = Geist({
@@ -66,6 +67,8 @@ export default async function RootLayout({
             {children}
           </Box>
         </Providers>
+
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   );
