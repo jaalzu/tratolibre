@@ -8,10 +8,7 @@ import { Item } from "@/features/items/types";
 
 // Dinamizamos los componentes pesados
 const FadeInGrid = dynamic(
-  () =>
-    import("@/features/search/components/FadeInGrid").then(
-      (mod) => mod.FadeInGrid,
-    ),
+  () => import("@/components/ui/FadeInGrid").then((mod) => mod.FadeInGrid),
   { loading: () => <SkeletonGrid /> },
 );
 

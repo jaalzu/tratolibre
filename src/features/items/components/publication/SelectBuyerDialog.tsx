@@ -11,9 +11,9 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
-import { getConversationsByItem } from "@/features/chat/actions/conversations";
+import { getConversationsByItem } from "@/features/chat/actions/conversations/queries";
 import { markAsSoldToAction } from "@/features/items/actions";
-import { ReviewModal } from "../../../reviews/ReviewModal";
+import { ReviewModal } from "../../../reviews/components/ReviewModal";
 import Image from "next/image";
 import { ConversationBuyer } from "@/features/chat/types";
 

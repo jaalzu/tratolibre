@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Spinner, Flex, Text } from "@chakra-ui/react";
 import { useInfiniteItems } from "@/features/items/hooks/useInfiniteItems";
 import { ItemCard } from "./ItemCard";
-import { FadeInGrid } from "@/features/search/components/FadeInGrid";
+import { FadeInGrid } from "@/components/ui/FadeInGrid";
 
 interface InfiniteGridProps {
   userId: string | null;

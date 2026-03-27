@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { ReviewModal } from "@/features/reviews/ReviewModal";
+import { ReviewModal } from "@/features/reviews/components/ReviewModal";
 import type { PendingReview } from "@/features/reviews/actions";
 
 export function PendingReviewBanner({

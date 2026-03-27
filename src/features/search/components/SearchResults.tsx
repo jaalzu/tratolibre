@@ -2,7 +2,7 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Item } from "@/features/items/types";
-import { FadeInGrid } from "@/features/search/components/FadeInGrid";
+import { FadeInGrid } from "@/components/ui/FadeInGrid";
 
 interface SearchResultsProps {
   items: Item[];

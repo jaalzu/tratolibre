@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useChatStore } from "@/store/chatStore";
-import { getMyConversations } from "@/features/chat/actions";
+import { getMyConversations } from "@/features/chat/actions/conversations/index";
 import { createClient } from "@/lib/supabase/client";
 
 export function ChatStoreInit({ userId }: { userId?: string }) {

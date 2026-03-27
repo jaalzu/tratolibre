@@ -5,20 +5,6 @@ import { checkRateLimit } from "@/lib/rateLimit";
 
 const MAX_LENGTH = 1000;
 
-export async function markMessagesAsRead(conversationId: string) {
-  const { supabase, user } = await getAuthUser();
-  if (!user) return;
-
-  await supabase
-    .from("messages")
-    .update({ read: true })
-    .eq("conversation_id", conversationId)
-    .neq("sender_id", user.id)
-    .eq("read", false);
-
-  // revalidatePath eliminado — el cliente ya invalida con queryClient
-}
-
 export async function sendMessageAction(
   conversationId: string,
   content: string,
@@ -31,7 +17,6 @@ export async function sendMessageAction(
   if (trimmed.length > MAX_LENGTH)
     return { error: `Máximo ${MAX_LENGTH} caracteres` };
 
-  // Rate limit y verificación de conversación en paralelo
   const [allowed, { data: conversation }] = await Promise.all([
     checkRateLimit(supabase, user.id, "send_message", 30, 1),
     supabase
@@ -56,7 +41,6 @@ export async function sendMessageAction(
 
   if (msgError) return { error: msgError.message };
 
-  // Eliminá esta query si tenés un trigger updated_at en la DB — es redundante
   await supabase
     .from("conversations")
     .update({ updated_at: new Date().toISOString() })
