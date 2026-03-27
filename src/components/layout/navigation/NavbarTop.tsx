@@ -159,7 +159,7 @@ export const NavbarTop = ({
               color="brand.default"
               fontSize="sm"
               fontWeight="bold"
-              px={3}
+              px={5}
               py={1}
               borderRadius="md"
             >

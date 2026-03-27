@@ -4,7 +4,7 @@ import { Box, Flex, Text, Circle, Spinner } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import { useStartChat } from "@/features/items/hooks/useStartChat";
 import NextLink from "next/link";
-
+import { useRouter } from "next/navigation";
 interface SellerCardProfile {
   id: string;
   name: string | null;
@@ -38,11 +38,17 @@ export default function SellerCard({
   itemId?: string;
   userId?: string | null;
 }) {
+  const router = useRouter();
   const isOwner = userId && profile?.id && userId === profile.id;
   const rating = profile?.rating ?? 5;
   const { startChat, loading } = useStartChat();
 
   const handleChat = () => {
+    if (!userId) {
+      router.push("/login");
+      return;
+    }
+
     if (!itemId || !profile?.id) return;
     startChat(itemId, profile.id);
   };

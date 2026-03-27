@@ -1,16 +1,25 @@
-'use client'
+"use client";
 
-import { useQuery } from '@tanstack/react-query'
-import { getMyConversations } from '@/features/chat/actions'
+import { useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { conversationsQuery } from "@/features/chat/queries";
+import { useChatStore } from "@/store/chatStore";
 
 export function useConversations() {
-  const { data: conversations = [], isLoading } = useQuery({
-  queryKey: ['conversations'],
-  queryFn: getMyConversations,
-  refetchInterval: 23000,
-  staleTime: 1000 * 30,
-  gcTime: 1000 * 60 * 5,
-})
+  const setConversations = useChatStore((state) => state.setConversations);
+  const setLoading = useChatStore((state) => state.setLoading);
+  const prevDataRef = useRef<string>("");
 
-  return { conversations, loading: isLoading }
+  const { data: conversations = [], isLoading } = useQuery(conversationsQuery);
+
+  useEffect(() => {
+    const serialized = JSON.stringify(conversations);
+    if (serialized === prevDataRef.current) return;
+    prevDataRef.current = serialized;
+    setConversations(conversations);
+  }, [conversations]);
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
 }

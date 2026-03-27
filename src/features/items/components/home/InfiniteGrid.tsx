@@ -59,13 +59,20 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
       ref={containerRef}
       bg="white"
       borderRadius="2xl"
-      p={4}
+      p={2}
       shadow="sm"
       border="1px solid"
       borderColor="neutral.100"
       minH="200px" // Espacio mínimo para que el observer funcione
     >
-      <Text fontWeight="bold" fontSize="md" color="neutral.900" mb={4}>
+      <Text
+        fontWeight="bold"
+        ml={2}
+        mt={2}
+        fontSize="md"
+        color="neutral.900"
+        mb={3}
+      >
         Explorar
       </Text>
 
@@ -85,7 +92,6 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
                 obj={item}
                 userId={userId}
                 initialFavorited={favoriteIds.includes(item.id)}
-                // Si es la sección de Explorar abajo, nada tiene prioridad alta
                 priority={false}
               />
             ))}
@@ -93,7 +99,6 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
         );
       })}
 
-      {/* Este es el trigger para cargar la siguiente página */}
       <Box ref={observerRef} h="20px" mt={4} />
 
       {(isFetchingNextPage || (isNear && !data)) && (
