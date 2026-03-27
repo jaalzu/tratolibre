@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { sendMessageAction } from "@/features/chat/actions/messages";
+import { sendMessageAction } from "../actions/messages/mutations";
 import { Message } from "@/features/chat/types";
 
 interface Options {

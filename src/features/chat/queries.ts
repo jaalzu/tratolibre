@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
-import { getMyConversations } from "@/features/chat/actions";
+import { getMyConversations } from "@/features/chat/actions/conversations/index";
 import { keepPreviousData } from "@tanstack/react-query";
 
 export async function fetchMessages(conversationId: string) {
