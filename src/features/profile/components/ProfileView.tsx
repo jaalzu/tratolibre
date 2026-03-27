@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { ProfileHeader } from "./header/ProfileHeader";
 import { ProfileItemsTabs } from "./items/ProfileItemsTabs";
-import { PendingReviewBanner } from "@/features/reviews/PendingReviewBanner";
+import { PendingReviewBanner } from "@/features/reviews/components/PendingReviewBanner";
 import { Profile } from "@/features/profile/types";
 import { ItemSummary } from "@/features/items/types";
 import type { PendingReview } from "@/features/reviews/actions";
