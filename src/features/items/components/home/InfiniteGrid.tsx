@@ -59,11 +59,11 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
       ref={containerRef}
       bg="white"
       borderRadius="2xl"
-      p={2}
+      p={4}
       shadow="sm"
       border="1px solid"
       borderColor="neutral.100"
-      minH="200px" // Espacio mínimo para que el observer funcione
+      minH="200px"
     >
       <Text
         fontWeight="bold"
