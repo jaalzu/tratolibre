@@ -1,0 +1,233 @@
+[33mef43568[m[33m ([m[1;36mHEAD -> [m[1;32mtest[m[33m, [m[1;31morigin/test[m[33m)[m HEAD@{0}: rebase (finish): returning to refs/heads/test
+[33mef43568[m[33m ([m[1;36mHEAD -> [m[1;32mtest[m[33m, [m[1;31morigin/test[m[33m)[m HEAD@{1}: rebase (pick): changing item id for tests
+[33m85ae1c6[m HEAD@{2}: rebase (pick): fixing bug in admin actions!
+[33mc921353[m HEAD@{3}: rebase (continue): fixing bug in delete item action
+[33m816be51[m HEAD@{4}: pull origin test --rebase (start): checkout 816be51eb1adc2f0834579980b9f9ad168d0cfc2
+[33m9354cc7[m HEAD@{5}: rebase (abort): returning to refs/heads/test
+[33m699e984[m HEAD@{6}: commit: fixing some test cases
+[33md605e46[m HEAD@{7}: commit: ..
+[33m816be51[m HEAD@{8}: pull --rebase origin test (start): checkout 816be51eb1adc2f0834579980b9f9ad168d0cfc2
+[33m9354cc7[m HEAD@{9}: checkout: moving from main to test
+[33m3b60cdd[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{10}: checkout: moving from test to main
+[33m9354cc7[m HEAD@{11}: commit: changing item id for tests
+[33m3b60cdd[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{12}: checkout: moving from main to test
+[33m3b60cdd[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{13}: commit: fixing bug in admin actions!
+[33m848345e[m HEAD@{14}: commit: fixing bug in delete item action
+[33me8a46da[m HEAD@{15}: checkout: moving from test to main
+[33m816be51[m HEAD@{16}: commit: fixing bug in deleteitem admin action
+[33mf4e42df[m HEAD@{17}: checkout: moving from main to test
+[33me8a46da[m HEAD@{18}: pull --rebase (finish): returning to refs/heads/main
+[33me8a46da[m HEAD@{19}: pull --rebase (start): checkout e8a46da0eaeb8d6d298359cd9e1ac614b44e9b67
+[33m9b36634[m HEAD@{20}: checkout: moving from test to main
+[33mf4e42df[m HEAD@{21}: checkout: moving from main to test
+[33m9b36634[m HEAD@{22}: pull: Merge made by the 'ort' strategy.
+[33m2920765[m HEAD@{23}: checkout: moving from test to main
+[33mf4e42df[m HEAD@{24}: commit: fixing bug in deleteitem in admin actions
+[33m70931c9[m HEAD@{25}: checkout: moving from main to test
+[33m2920765[m HEAD@{26}: pull: Merge made by the 'ort' strategy.
+[33m9c1bf3a[m HEAD@{27}: pull origin test: Merge made by the 'ort' strategy.
+[33mb147532[m HEAD@{28}: checkout: moving from test to main
+[33m70931c9[m HEAD@{29}: commit: securing rutes
+[33m42047e3[m HEAD@{30}: commit: adding vercel speed insights
+[33m5ebf52d[m HEAD@{31}: commit: adding sentry and vercel analytics. For bugs and for analytics!!!
+[33m1d8b811[m HEAD@{32}: checkout: moving from main to test
+[33mb147532[m HEAD@{33}: pull: Fast-forward
+[33m31f8dc9[m HEAD@{34}: checkout: moving from test to main
+[33m1d8b811[m HEAD@{35}: commit: -
+[33mbc6833e[m HEAD@{36}: commit: refactorizando actions, aplicando split coding en actions de features
+[33m28ada7b[m HEAD@{37}: commit: realtime between msgs and chat icon active!!
+[33mad09f5e[m HEAD@{38}: checkout: moving from test to test
+[33mad09f5e[m HEAD@{39}: checkout: moving from test to test
+[33mad09f5e[m HEAD@{40}: commit: improving hero loading speed , making lazy loading in differents pages.
+[33ma04ccec[m HEAD@{41}: commit: improving loading speed in hero
+[33m4bf1f56[m HEAD@{42}: checkout: moving from main to test
+[33m31f8dc9[m HEAD@{43}: pull: Fast-forward
+[33ma1292fc[m HEAD@{44}: checkout: moving from test to main
+[33m4bf1f56[m HEAD@{45}: commit: adding sizes to all next.js images with fill
+[33maba5780[m HEAD@{46}: commit: adjustingg test to new code
+[33m034ed0a[m HEAD@{47}: commit: adding limit characters in new item form , improving infinite grid both logout and login users, improving responsive
+[33m26c7ffa[m HEAD@{48}: commit: fixing bug in item page , adding buttons and breadcrum in item , improvingg img mobilee
+[33m4f7e726[m HEAD@{49}: commit: fixing bug in item page , adding buttons and breadcrum in item , improvingg img mobile
+[33mab07a21[m HEAD@{50}: checkout: moving from main to test
+[33ma1292fc[m HEAD@{51}: pull: Fast-forward
+[33m1214efb[m HEAD@{52}: checkout: moving from test to main
+[33mab07a21[m HEAD@{53}: commit: improving lcp , reducing shifts layouts , improving user mobile navigation
+[33mcab9a1b[m HEAD@{54}: checkout: moving from main to test
+[33m1214efb[m HEAD@{55}: checkout: moving from test to main
+[33mcab9a1b[m HEAD@{56}: commit: testing deploy review
+[33m1214efb[m HEAD@{57}: checkout: moving from main to test
+[33m1214efb[m HEAD@{58}: merge test: Fast-forward
+[33mf156e44[m HEAD@{59}: checkout: moving from test to main
+[33m1214efb[m HEAD@{60}: checkout: moving from main to test
+[33mf156e44[m HEAD@{61}: pull origin main: Fast-forward
+[33m442cbff[m HEAD@{62}: checkout: moving from test to main
+[33m1214efb[m HEAD@{63}: pull origin main --rebase (finish): returning to refs/heads/test
+[33m1214efb[m HEAD@{64}: pull origin main --rebase (pick): fix: resolve build type errors
+[33mf156e44[m HEAD@{65}: pull origin main --rebase (start): checkout f156e44595a8fd5b55043d266148216a94acdfd1
+[33md66226b[m HEAD@{66}: commit: fix: resolve build type errors
+[33m493436b[m HEAD@{67}: commit: fix: resolve hydration warning, regenerate package-lock, move ReviewSchema to schemas file
+[33m92c93d1[m HEAD@{68}: commit: fix: regenerate package-lock.json
+[33m7725dc6[m HEAD@{69}: commit: add github actions
+[33m442cbff[m HEAD@{70}: checkout: moving from main to test
+[33m442cbff[m HEAD@{71}: merge test: Fast-forward
+[33m5a6bc33[m HEAD@{72}: checkout: moving from test to main
+[33m442cbff[m HEAD@{73}: commit: adding reviews action tests
+[33m5a6bc33[m HEAD@{74}: checkout: moving from main to test
+[33m5a6bc33[m HEAD@{75}: merge test: Fast-forward
+[33m6c9a912[m HEAD@{76}: checkout: moving from test to main
+[33m5a6bc33[m HEAD@{77}: commit: add e2e test for auth ,items and chat
+[33m6c9a912[m HEAD@{78}: checkout: moving from main to test
+[33m6c9a912[m HEAD@{79}: merge ui: Fast-forward
+[33md54b7c6[m HEAD@{80}: checkout: moving from ui to main
+[33m6c9a912[m HEAD@{81}: commit: add unit and action test for auth ,items,notifications and reviews
+[33md54b7c6[m HEAD@{82}: checkout: moving from main to ui
+[33md54b7c6[m HEAD@{83}: merge ui: Fast-forward
+[33me719c0f[m HEAD@{84}: checkout: moving from ui to main
+[33md54b7c6[m HEAD@{85}: commit: refactorizando login form y register , moviendo las conexiones a server comp
+[33me719c0f[m HEAD@{86}: checkout: moving from main to ui
+[33me719c0f[m HEAD@{87}: merge ui: Fast-forward
+[33m3a58158[m HEAD@{88}: checkout: moving from ui to main
+[33me719c0f[m HEAD@{89}: checkout: moving from main to ui
+[33m3a58158[m HEAD@{90}: checkout: moving from ui to main
+[33me719c0f[m HEAD@{91}: commit: removing all boxicons imports in files moving to layout
+[33m23f7ffc[m HEAD@{92}: commit: moving into next.js v16.1.7 , uninstalling unused dependecies
+[33m3a58158[m HEAD@{93}: checkout: moving from main to ui
+[33m3a58158[m HEAD@{94}: merge ui: Fast-forward
+[33md752f13[m HEAD@{95}: checkout: moving from ui to main
+[33m3a58158[m HEAD@{96}: commit: adding skeleton in item page and hero page, fixing a favorites page bug where items stay even if has been already sold
+[33md752f13[m HEAD@{97}: checkout: moving from main to ui
+[33md752f13[m HEAD@{98}: commit: adding drawer in navbar mobile , adding more sections and a cateogries section in hero
+[33mefd7658[m HEAD@{99}: merge ui: Fast-forward
+[33mcba6620[m HEAD@{100}: checkout: moving from ui to main
+[33mefd7658[m HEAD@{101}: commit: adding img to login form , changing theme in chat header , fixing delete conversation
+[33mcba6620[m HEAD@{102}: checkout: moving from main to ui
+[33mcba6620[m HEAD@{103}: merge ui: Fast-forward
+[33m0785d34[m HEAD@{104}: checkout: moving from ui to main
+[33mcba6620[m HEAD@{105}: commit: adding metadata in profile item search and layout
+[33m0785d34[m HEAD@{106}: checkout: moving from main to ui
+[33m0785d34[m HEAD@{107}: merge ui: Fast-forward
+[33m88dbf7a[m HEAD@{108}: checkout: moving from ui to main
+[33m0785d34[m HEAD@{109}: commit: fixing chat name in seller or buyer
+[33m88dbf7a[m HEAD@{110}: checkout: moving from main to ui
+[33m88dbf7a[m HEAD@{111}: merge ui: Fast-forward
+[33m7c09ad0[m HEAD@{112}: checkout: moving from ui to main
+[33m88dbf7a[m HEAD@{113}: commit: fixing notifications logic , improving reviews and notifications between seller and buyer
+[33m7c09ad0[m HEAD@{114}: checkout: moving from main to ui
+[33m7c09ad0[m HEAD@{115}: merge ui: Fast-forward
+[33me0503c4[m HEAD@{116}: checkout: moving from ui to main
+[33m7c09ad0[m HEAD@{117}: commit: improving modal in reviews
+[33me0503c4[m HEAD@{118}: checkout: moving from main to ui
+[33me0503c4[m HEAD@{119}: checkout: moving from ui to main
+[33m3aa9842[m HEAD@{120}: commit: notification bell refactor
+[33me0503c4[m HEAD@{121}: checkout: moving from main to ui
+[33me0503c4[m HEAD@{122}: merge ui: Fast-forward
+[33md25900e[m HEAD@{123}: checkout: moving from ui to main
+[33me0503c4[m HEAD@{124}: commit: adding some ui improves , removing white color for my white variable
+[33md25900e[m HEAD@{125}: checkout: moving from main to ui
+[33md25900e[m HEAD@{126}: merge ui: Fast-forward
+[33m12a1eac[m HEAD@{127}: checkout: moving from ui to main
+[33md25900e[m HEAD@{128}: commit: guardando punto d partida
+[33m12a1eac[m HEAD@{129}: checkout: moving from main to ui
+[33m12a1eac[m HEAD@{130}: checkout: moving from main to main
+[33m12a1eac[m HEAD@{131}: merge ui: Fast-forward
+[33md98547d[m HEAD@{132}: checkout: moving from ui to main
+[33m12a1eac[m HEAD@{133}: commit: small ui fixes
+[33md98547d[m HEAD@{134}: checkout: moving from main to ui
+[33md98547d[m HEAD@{135}: merge ui: Fast-forward
+[33m9bbb0f1[m HEAD@{136}: checkout: moving from ui to main
+[33md98547d[m HEAD@{137}: commit: fixing small ui issues, adding animations
+[33m9bbb0f1[m HEAD@{138}: checkout: moving from main to ui
+[33m9bbb0f1[m HEAD@{139}: merge ui: Fast-forward
+[33m3e361d9[m HEAD@{140}: checkout: moving from ui to main
+[33m9bbb0f1[m HEAD@{141}: commit: adding admin link in nav desktop and mobile
+[33m3e361d9[m HEAD@{142}: checkout: moving from main to ui
+[33m3e361d9[m HEAD@{143}: merge ui: Fast-forward
+[33mfe622e6[m HEAD@{144}: checkout: moving from ui to main
+[33m3e361d9[m HEAD@{145}: commit: adding reports and metrics page
+[33mfe622e6[m HEAD@{146}: checkout: moving from main to ui
+[33mfe622e6[m HEAD@{147}: merge ui: Fast-forward
+[33md5d98e3[m HEAD@{148}: checkout: moving from ui to main
+[33mfe622e6[m HEAD@{149}: commit: add reports system and admin role with panel
+[33md5d98e3[m HEAD@{150}: checkout: moving from main to ui
+[33md5d98e3[m HEAD@{151}: merge ui: Fast-forward
+[33me32c1d8[m HEAD@{152}: checkout: moving from ui to main
+[33md5d98e3[m HEAD@{153}: commit: changing hero view for logged users
+[33me32c1d8[m HEAD@{154}: checkout: moving from main to ui
+[33me32c1d8[m HEAD@{155}: merge ui: Fast-forward
+[33m464bb74[m HEAD@{156}: checkout: moving from ui to main
+[33me32c1d8[m HEAD@{157}: commit: adding all pages in footer , privacy , terms,who-we-are,how-it-works
+[33m464bb74[m HEAD@{158}: pull origin main: Fast-forward
+[33m570f827[m HEAD@{159}: checkout: moving from main to ui
+[33m464bb74[m HEAD@{160}: checkout: moving from ui to main
+[33m570f827[m HEAD@{161}: checkout: moving from main to ui
+[33m464bb74[m HEAD@{162}: commit: some ui improves
+[33me6e2ad1[m HEAD@{163}: commit: adding fetch priority to first img slider to improve lcp
+[33m570f827[m HEAD@{164}: merge ui: Fast-forward
+[33m69046ef[m HEAD@{165}: checkout: moving from ui to main
+[33m570f827[m HEAD@{166}: commit: removing dependency tree issue blocking chakra fonts,adding aria label to some icons and buttons,adding cache to getuser
+[33m69046ef[m HEAD@{167}: checkout: moving from main to ui
+[33m69046ef[m HEAD@{168}: merge ui: Fast-forward
+[33m6f4232c[m HEAD@{169}: checkout: moving from ui to main
+[33m69046ef[m HEAD@{170}: commit: security, custom selects, profile edit & chat improvements
+[33m6f4232c[m HEAD@{171}: checkout: moving from main to ui
+[33m6f4232c[m HEAD@{172}: merge ui: Fast-forward
+[33ma0075e9[m HEAD@{173}: checkout: moving from ui to main
+[33m6f4232c[m HEAD@{174}: commit: dejando las vistas solo para renderizar ui y moviendo cualquier logica correspondiente a la vista a la feature
+[33ma0075e9[m HEAD@{175}: checkout: moving from main to ui
+[33ma0075e9[m HEAD@{176}: merge ui: Fast-forward
+[33mfeb1ed6[m HEAD@{177}: checkout: moving from ui to main
+[33ma0075e9[m HEAD@{178}: commit: mejorando componentes , aplicando feature based componentes , refactorizando las pages..
+[33mfeb1ed6[m HEAD@{179}: checkout: moving from main to ui
+[33mfeb1ed6[m HEAD@{180}: merge ui: Fast-forward
+[33mf74481f[m HEAD@{181}: checkout: moving from ui to main
+[33mfeb1ed6[m HEAD@{182}: commit: ading payload to item condition , adding 2 more categories in home page , changin img in search not found ,improvig some actions..
+[33mf74481f[m HEAD@{183}: checkout: moving from main to ui
+[33mf74481f[m HEAD@{184}: merge ui: Fast-forward
+[33m611839f[m HEAD@{185}: checkout: moving from ui to main
+[33mf74481f[m HEAD@{186}: commit: adding types in notifications and reviews , improving notification panel in mobile and desktop
+[33m611839f[m HEAD@{187}: checkout: moving from main to ui
+[33m611839f[m HEAD@{188}: merge ui: Fast-forward
+[33m56a855a[m HEAD@{189}: checkout: moving from ui to main
+[33m611839f[m HEAD@{190}: commit: feat: notifications, reviews & mobile nav
+[33m56a855a[m HEAD@{191}: checkout: moving from main to ui
+[33m56a855a[m HEAD@{192}: merge ui: Fast-forward
+[33m2897822[m HEAD@{193}: checkout: moving from ui to main
+[33m56a855a[m HEAD@{194}: commit: notification system first step done
+[33m2897822[m HEAD@{195}: checkout: moving from main to ui
+[33m2897822[m HEAD@{196}: merge ui: Fast-forward
+[33m298a427[m HEAD@{197}: checkout: moving from ui to main
+[33m2897822[m HEAD@{198}: commit: replace any with proper types across all features
+[33m298a427[m HEAD@{199}: checkout: moving from main to ui
+[33m298a427[m HEAD@{200}: merge ui: Fast-forward
+[33m58ac773[m HEAD@{201}: checkout: moving from ui to main
+[33m298a427[m HEAD@{202}: commit: clean up chat actions, remove dead code, fix types
+[33m58ac773[m HEAD@{203}: checkout: moving from main to ui
+[33m58ac773[m HEAD@{204}: merge ui: Fast-forward
+[33me418f4c[m HEAD@{205}: checkout: moving from ui to main
+[33m58ac773[m HEAD@{206}: commit: adding database.types.ts into project, remplacing all any in items
+[33me418f4c[m HEAD@{207}: checkout: moving from main to ui
+[33me418f4c[m HEAD@{208}: merge ui: Fast-forward
+[33m197fbb4[m HEAD@{209}: checkout: moving from ui to main
+[33me418f4c[m HEAD@{210}: commit: cleaning up unused files , adding 404 page , adding footer
+[33m197fbb4[m HEAD@{211}: checkout: moving from main to ui
+[33m197fbb4[m HEAD@{212}: merge ui: Fast-forward
+[33m1874a4d[m HEAD@{213}: checkout: moving from ui to main
+[33m197fbb4[m HEAD@{214}: commit: profile page DONE!
+[33m1874a4d[m HEAD@{215}: checkout: moving from main to ui
+[33m1874a4d[m HEAD@{216}: merge ui: Fast-forward
+[33mb8e5220[m HEAD@{217}: checkout: moving from ui to main
+[33m1874a4d[m HEAD@{218}: commit: adding edit and delete item logic and view
+[33mb8e5220[m HEAD@{219}: checkout: moving from main to ui
+[33mb8e5220[m HEAD@{220}: merge ui: Fast-forward
+[33ma172841[m HEAD@{221}: checkout: moving from ui to main
+[33mb8e5220[m HEAD@{222}: commit: improving new item form by dividing into multimples modules
+[33ma172841[m HEAD@{223}: checkout: moving from main to ui
+[33ma172841[m HEAD@{224}: merge ui: Fast-forward
+[33mcf6341d[m HEAD@{225}: checkout: moving from ui to main
+[33ma172841[m HEAD@{226}: commit: refactor(chat): split websocket logic, fix memory leaks, simplify deal flow + profile page
+[33mcf6341d[m HEAD@{227}: checkout: moving from main to ui
+[33mcf6341d[m HEAD@{228}: merge ui: Fast-forward
+[33m0a2f700[m HEAD@{229}: checkout: moving from ui to main
+[33mcf6341d[m HEAD@{230}: commit: removing all offers and trading options , leaving simple and fast chat
+[33m0a2f700[m HEAD@{231}: checkout: moving from main to ui
+[33m0a2f700[m HEAD@{232}: merge ui: Fast-forward
