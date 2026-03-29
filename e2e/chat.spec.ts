@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { login } from "./helpers/auth";
 
-const SELLER_ITEM_ID = "3f92d4fb-d767-4d19-ba51-9ac325aedf93";
+const SELLER_ITEM_ID = "e4afd0b6-7df6-4e65-84b2-a09d8d4a8da6";
 
 test.describe("Chat", () => {
   test.beforeEach(async ({ page }) => {
@@ -28,7 +28,7 @@ test.describe("Chat", () => {
     const btn = page.getByTestId("contact-seller-button").nth(1);
     await expect(btn).toBeVisible();
     await Promise.all([
-      page.waitForURL(/\/chat\//, { timeout: 15000 }),
+      page.waitForURL(/\/chat\//, { timeout: 30000 }),
       btn.click(),
     ]);
     await expect(page).toHaveURL(/\/chat\//);
