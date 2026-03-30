@@ -65,14 +65,7 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
       borderColor="neutral.100"
       minH="200px"
     >
-      <Text
-        fontWeight="bold"
-        ml={2}
-        mt={2}
-        fontSize="md"
-        color="neutral.900"
-        mb={3}
-      >
+      <Text fontWeight="bold" mt={2} fontSize="md" color="neutral.900" mb={3}>
         Explorar
       </Text>
 

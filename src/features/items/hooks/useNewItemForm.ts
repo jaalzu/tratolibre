@@ -72,7 +72,13 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
       if (Array.isArray(value)) {
         value.forEach((v) => formData.append(key, v));
       } else if (value !== undefined && value !== null) {
-        formData.append(key, String(value));
+        let valueToSend = String(value);
+
+        if (key === "sale_price") {
+          // Limpiamos puntos antes de mandarlo a la Action
+          valueToSend = valueToSend.replace(/\D/g, "");
+        }
+        formData.append(key, valueToSend);
       }
     });
 

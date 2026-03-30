@@ -1,7 +1,7 @@
 // app/(main)/admin/page.tsx
 import dynamic from "next/dynamic";
-import { getAdminMetrics } from "@/features/admin/actions";
-import { Skeleton, SimpleGrid, Box } from "@chakra-ui/react";
+import { getAdminMetrics } from "@/features/admin/actions/utils";
+import { Skeleton, SimpleGrid } from "@chakra-ui/react";
 
 // Cargamos el componente visual de forma dinámica
 const AdminMetrics = dynamic(

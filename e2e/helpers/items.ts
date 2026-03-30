@@ -15,7 +15,7 @@ export async function fillAndSubmitItem(
     overrides.description ??
     "Descripción del item de test para playwright automatizado bien largo.";
   const price = overrides.price ?? "1000";
-  const category = overrides.category ?? "electronica";
+  const category = overrides.category ?? "tecnologia";
   const condition = overrides.condition ?? "good";
 
   await page.getByTestId("title").fill(title);

@@ -1,17 +1,17 @@
 export const CATEGORIES = [
-  { id: "electronica", label: "Electrónica", icon: "bx-laptop" },
-  { id: "ropa", label: "Ropa", icon: "bx-shopping-bag" },
-  { id: "calzado", label: "Calzado", icon: "bx-walk" },
+  { id: "tecnologia", label: "Tecnología", icon: "bx-devices" },
   { id: "hogar", label: "Hogar y Muebles", icon: "bx-home" },
-  { id: "deportes", label: "Deportes", icon: "bx-cycling" },
+  { id: "ropa", label: "Ropa y Accesorios", icon: "bx-closet" },
+  { id: "juegos", label: "Juegos y Juguetes", icon: "bx-extension" },
+  { id: "deportes", label: "Deportes y Fitness", icon: "bx-cycling" },
+  { id: "calzado", label: "Calzado", icon: "bx-walk" },
   { id: "vehiculos", label: "Vehículos", icon: "bx-car" },
-  { id: "juegos", label: "Juegos", icon: "bx-joystick" },
-  { id: "libros", label: "Libros y Música", icon: "bx-book" },
   { id: "herramientas", label: "Herramientas", icon: "bx-wrench" },
-  { id: "arte", label: "Arte", icon: "bx-palette" },
-  { id: "coleccion", label: "Colección", icon: "bx-star" },
+  { id: "libros", label: "Libros y Música", icon: "bx-book-open" },
+  { id: "arte", label: "Arte y Hobbies", icon: "bx-palette" },
+  { id: "coleccion", label: "Coleccionables", icon: "bx-crown" },
   { id: "servicios", label: "Servicios", icon: "bx-briefcase" },
-  { id: "otros", label: "Otros", icon: "bx-box" },
+  { id: "otros", label: "Otros", icon: "bx-dots-horizontal-rounded" },
 ];
 
 export const CONDITIONS = [
@@ -21,11 +21,11 @@ export const CONDITIONS = [
   { id: "fair", label: "Uso visible" },
 ];
 
-export const ITEM_TYPES = [
-  { id: "sale", label: "Venta" },
-  { id: "exchange", label: "Intercambio" },
-  { id: "both", label: "Venta e Intercambio" },
-];
+// export const ITEM_TYPES = [
+//   { id: "sale", label: "Venta" },
+//   { id: "exchange", label: "Intercambio" },
+//   { id: "both", label: "Venta e Intercambio" },
+// ];
 
 export const PROVINCES = [
   "Buenos Aires",

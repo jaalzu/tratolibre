@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { verifyAdminAccess } from "./utils";
+import { verifyAdminAccess } from "./queries";
 
 export async function dismissReportAction(reportId: string) {
   const { supabase, user } = await verifyAdminAccess();
