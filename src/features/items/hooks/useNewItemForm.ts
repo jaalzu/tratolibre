@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ItemSchema, ItemInput } from "@/features/items/schemas";
 import { createItemAction, updateItemAction } from "@/features/items/actions";
 import { Item } from "@/features/items/types";
-
+import { compressImages } from "@/lib/compress";
 export const useNewItemForm = (initialData?: Partial<Item>) => {
   const [images, setImages] = useState<string[]>(initialData?.images ?? []);
   const [uploading, setUploading] = useState(false);
@@ -33,27 +33,41 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     },
   });
 
+  // ... dentro del hook useNewItemForm
   const handleUpload = async (files: File[]) => {
     setUploading(true);
-    for (const file of files) {
-      const fd = new FormData();
-      fd.append("file", file);
-      try {
-        const res = await fetch("/api/upload", { method: "POST", body: fd });
-        const data = await res.json();
-        if (data.fileName || data.url) {
-          const urlToSave = data.url || `/${data.fileName}`;
-          setImages((prev) => {
-            const updated = [...prev, urlToSave];
-            setValue("images", updated, { shouldValidate: true });
-            return updated;
-          });
+
+    try {
+      // 2. COMPRESIÓN: Procesamos todos los archivos de un saque
+      // Esto usa el helper que creamos antes con maxSizeMB: 1
+      const compressedFiles = await compressImages(files);
+
+      // 3. SUBIDA: Ahora usamos los archivos ya comprimidos
+      for (const file of compressedFiles) {
+        const fd = new FormData();
+        fd.append("file", file);
+
+        try {
+          const res = await fetch("/api/upload", { method: "POST", body: fd });
+          const data = await res.json();
+
+          if (data.fileName || data.url) {
+            const urlToSave = data.url || `/${data.fileName}`;
+            setImages((prev) => {
+              const updated = [...prev, urlToSave];
+              setValue("images", updated, { shouldValidate: true });
+              return updated;
+            });
+          }
+        } catch (err) {
+          console.error("Error subiendo imagen:", err);
         }
-      } catch (err) {
-        console.error("Error subiendo imagen:", err);
       }
+    } catch (err) {
+      console.error("Error en el proceso de imágenes:", err);
+    } finally {
+      setUploading(false);
     }
-    setUploading(false);
   };
 
   const handleRemove = (index: number) => {

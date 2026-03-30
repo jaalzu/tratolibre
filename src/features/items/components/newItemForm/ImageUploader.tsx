@@ -1,11 +1,12 @@
 "use client";
+import { toaster } from "@/components/ui/toaster";
 
 import { useRef } from "react";
 import { Box, Flex, Text, Grid } from "@chakra-ui/react";
 import Image from "next/image";
 
 const MAX_IMAGES = 4;
-const MAX_MB = 2;
+const MAX_MB = 10;
 const MAX_BYTES = MAX_MB * 1024 * 1024;
 
 interface ImageUploaderProps {
@@ -27,9 +28,31 @@ export const ImageUploader = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+
+    // 1. Aviso de Peso
+    const tooLarge = files.some((f) => f.size > MAX_BYTES);
+    if (tooLarge) {
+      toaster.create({
+        title: "Imagen muy pesada",
+        description: `El límite es de ${MAX_MB}MB por foto.`,
+        type: "error",
+      });
+    }
+
+    // 2. Aviso de Cantidad
+    if (images.length + files.length > MAX_IMAGES) {
+      toaster.create({
+        title: "Límite alcanzado",
+        description: `Solo podés subir hasta ${MAX_IMAGES} fotos.`,
+        type: "warning",
+      });
+    }
+
+    // Filtrado y subida (tu lógica actual)
     const valid = files.filter((f) => f.size <= MAX_BYTES);
     const available = MAX_IMAGES - images.length;
     onUpload(valid.slice(0, available));
+
     e.target.value = "";
   };
 
