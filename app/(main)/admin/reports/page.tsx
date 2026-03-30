@@ -1,6 +1,6 @@
 // app/(main)/admin/reports/page.tsx
 import dynamic from "next/dynamic";
-import { getAdminReports } from "@/features/admin/actions";
+import { getAdminReports } from "@/features/admin/actions/utils";
 import { Spinner, Center } from "@chakra-ui/react";
 
 const ReportsView = dynamic(

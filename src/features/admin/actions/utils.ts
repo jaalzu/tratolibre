@@ -1,47 +1,100 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { getAdminClient } from "./queries";
 
-export async function getAdminClient() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export async function getAdminMetrics() {
+  const supabase = await getAdminClient();
 
-  if (!user) redirect("/login");
+  const [
+    { count: totalUsers },
+    { count: newUsers },
+    { count: totalItems },
+    { count: newItems },
+    { count: pendingReports },
+    { count: totalSales },
+    { data: salesValue },
+  ] = await Promise.all([
+    supabase.from("profiles").select("*", { count: "exact", head: true }),
+    supabase
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .gte(
+        "created_at",
+        new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      ),
+    supabase
+      .from("items")
+      .select("*", { count: "exact", head: true })
+      .eq("available", true)
+      .eq("sold", false),
+    supabase
+      .from("items")
+      .select("*", { count: "exact", head: true })
+      .gte(
+        "created_at",
+        new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      ),
+    supabase
+      .from("reports")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending"),
+    supabase
+      .from("items")
+      .select("*", { count: "exact", head: true })
+      .eq("sold", true),
+    supabase.from("items").select("sale_price").eq("sold", true),
+  ]);
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  const totalSalesValue =
+    salesValue?.reduce((acc, item) => acc + (item.sale_price ?? 0), 0) ?? 0;
 
-  if (profile?.role !== "admin") redirect("/");
-
-  return supabase;
+  return {
+    totalUsers: totalUsers ?? 0,
+    newUsers: newUsers ?? 0,
+    totalItems: totalItems ?? 0,
+    newItems: newItems ?? 0,
+    pendingReports: pendingReports ?? 0,
+    totalSales: totalSales ?? 0,
+    totalSalesValue,
+  };
 }
 
-export async function verifyAdminAccess() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
+export async function getAdminReports(type?: string, status?: string) {
+  const supabase = await getAdminClient();
 
-  if (authError || !user) {
-    throw new Error("No autorizado");
-  }
+  let query = supabase
+    .from("reports")
+    .select(
+      `
+      *,
+      reporter:profiles!reports_reporter_id_fkey(id, name, avatar_url)
+    `,
+    )
+    .order("created_at", { ascending: false });
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  if (type && type !== "all") query = query.eq("type", type);
+  if (status && status !== "all") query = query.eq("status", status);
 
-  if (profile?.role !== "admin") {
-    throw new Error("No tienes permisos de administrador");
-  }
+  const { data, error } = await query;
+  if (error) return [];
+  return data;
+}
 
-  return { supabase, user };
+export async function getAdminConversation(id: string) {
+  const supabase = await getAdminClient();
+
+  const [{ data: conversation }, { data: messages }] = await Promise.all([
+    supabase.from("conversation_summaries").select("*").eq("id", id).single(),
+    supabase
+      .from("messages")
+      .select("*, profiles(name, avatar_url)")
+      .eq("conversation_id", id)
+      .order("created_at", { ascending: true })
+      .limit(100),
+  ]);
+
+  return {
+    conversation: conversation ?? null,
+    messages: messages ?? [],
+  };
 }

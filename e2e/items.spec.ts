@@ -49,6 +49,6 @@ test.describe("Items", () => {
 
     // Verificamos que los campos se llenaron (o que navegó al éxito)
     await expect(page.getByTestId("title")).toHaveValue("Item de test E2E");
-    await expect(page.getByTestId("sale_price")).toHaveValue("1000");
+    await expect(page.getByTestId("sale_price")).toHaveValue("1.000");
   });
 });

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { mapSupabaseError } from "@/lib/supabase/errorMapper";
 
 export async function getOrCreateConversation(
   itemId: string,
@@ -26,7 +27,10 @@ export async function getOrCreateConversation(
     .select()
     .single();
 
-  if (error) return { error: error.message };
+  if (error) {
+    return { error: mapSupabaseError(error) };
+  }
+
   return { data };
 }
 
@@ -40,7 +44,10 @@ export async function deleteConversationAction(conversationId: string) {
     .eq("id", conversationId)
     .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`);
 
-  if (error) return { error: error.message };
+  if (error) {
+    return { error: mapSupabaseError(error) };
+  }
+
   revalidatePath("/chat", "layout");
   return { success: true };
 }

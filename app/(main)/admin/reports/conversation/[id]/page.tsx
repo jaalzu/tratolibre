@@ -1,7 +1,7 @@
 // app/(main)/admin/reports/conversation/[id]/page.tsx
 import dynamic from "next/dynamic";
 import { Box, Skeleton, Stack } from "@chakra-ui/react";
-import { getAdminConversation } from "@/features/admin/actions";
+import { getAdminConversation } from "@/features/admin/actions/utils";
 import { redirect } from "next/navigation";
 import { ConversationHeader } from "@/features/admin/components/conversation/ConversationHeader";
 

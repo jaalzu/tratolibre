@@ -4,17 +4,23 @@ import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { checkRateLimit } from "@/lib/rateLimit";
+import { mapSupabaseError } from "@/lib/supabase/errorMapper";
 import { ItemSchema } from "../../schemas";
 
 type ActionState = { error?: string | object } | null;
 
 function parseItemFormData(formData: FormData) {
+  const rawPrice = formData.get("sale_price") as string;
+  const cleanPrice = rawPrice ? rawPrice.replace(/\D/g, "") : "";
+  console.log("VALOR ORIGINAL DEL FORM:", rawPrice);
+  console.log("VALOR LIMPIO PARA LA DB:", cleanPrice);
+
   return {
     title: formData.get("title"),
     description: formData.get("description"),
     category: formData.get("category"),
     condition: formData.get("condition"),
-    sale_price: formData.get("sale_price"),
+    sale_price: cleanPrice,
     province: formData.get("province"),
     city: formData.get("city") || undefined,
     location: formData.get("location") || undefined,
@@ -46,7 +52,9 @@ export async function createItemAction(
     .select()
     .single();
 
-  if (error) return { error: error.message };
+  if (error) {
+    return { error: mapSupabaseError(error) };
+  }
 
   revalidatePath("/");
   redirect(`/item/${item.id}`);
@@ -69,7 +77,9 @@ export async function updateItemAction(
     .eq("id", id)
     .eq("owner_id", user.id);
 
-  if (error) return { error: error.message };
+  if (error) {
+    return { error: mapSupabaseError(error) };
+  }
 
   revalidatePath(`/item/${id}`);
   redirect(`/item/${id}`);
@@ -85,7 +95,9 @@ export async function deleteItemAction(id: string) {
     .eq("id", id)
     .eq("owner_id", user.id);
 
-  if (error) return { error: error.message };
+  if (error) {
+    return { error: mapSupabaseError(error) };
+  }
 
   revalidatePath("/");
   redirect("/");

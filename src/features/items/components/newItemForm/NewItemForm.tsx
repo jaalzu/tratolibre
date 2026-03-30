@@ -13,6 +13,11 @@ import { FormField, FormHeader, inputStyles } from "./FormFields";
 import { FormSelect } from "./FormSelect";
 import { Item } from "@/features/items/types";
 
+const formatArgentinePesos = (value: string) => {
+  const number = value.replace(/\D/g, ""); // saca todo lo que no sea número
+  return number.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // pone los puntos
+};
+
 export const NewItemForm = ({
   initialData,
 }: {
@@ -114,11 +119,15 @@ export const NewItemForm = ({
                 <Input
                   {...register("sale_price")}
                   data-testid="sale_price"
-                  type="number"
+                  type="text" // <--- Cambiado a text
+                  placeholder="Ej: 300.000"
                   {...inputStyles}
-                  onKeyDown={(e) =>
-                    ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
-                  }
+                  onChange={(e) => {
+                    // Aplicamos el formato de puntos mientras escribe
+                    e.target.value = formatArgentinePesos(e.target.value);
+                    // Informamos a react-hook-form del cambio
+                    register("sale_price").onChange(e);
+                  }}
                 />
               </FormField>
             </SimpleGrid>

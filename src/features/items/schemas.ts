@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+const clearMoneyString = (val: any) => {
+  if (typeof val === "string") {
+    return val.replace(/\D/g, "");
+  }
+  return val;
+};
+
 export const ItemSchema = z.object({
   title: z
     .string()
@@ -13,10 +20,15 @@ export const ItemSchema = z.object({
     .max(800, "La descripción es muy larga (máx. 800 caracteres)"),
   category: z.string().min(1, "Elegí una categoría"),
   condition: z.string().min(1, "Seleccioná el estado del producto"),
-  sale_price: z.coerce
-    .number()
-    .min(1, "El precio mínimo es $1")
-    .max(20000000, "El precio es demasiado alto"), // Límite de seguridad
+
+  sale_price: z.preprocess(
+    clearMoneyString,
+    z.coerce
+      .number()
+      .min(1, "El precio mínimo es $1")
+      .max(200000000, "El precio es demasiado alto"),
+  ),
+
   province: z.string().min(1, "Elegí una provincia"),
   city: z.string().optional(),
   location: z.string().optional(),

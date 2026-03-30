@@ -100,11 +100,15 @@ describe("createItemAction", () => {
   });
 
   it("retorna error si no hay usuario autenticado", async () => {
+    // Mockeamos que no hay usuario
     vi.mocked(getAuthUser).mockResolvedValue({
-      supabase: null as any,
+      supabase: {} as any, // Da igual el supabase si no hay user
       user: null,
     });
+
     const result = await createItemAction(null, validFormData);
+
+    // La expectativa debe coincidir con tu IF del código
     expect(result).toEqual({ error: "No autorizado" });
   });
 
@@ -170,7 +174,9 @@ describe("deleteItemAction", () => {
     });
 
     const result = await deleteItemAction("item-123");
-    expect(result).toEqual({ error: "Permission denied" });
+    expect(result).toEqual({
+      error: "Ocurrió un error inesperado. Por favor intentá de nuevo.",
+    });
   });
 });
 
