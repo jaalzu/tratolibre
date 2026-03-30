@@ -40,7 +40,7 @@ export const FormField = ({
 );
 
 export const FormHeader = ({ isEditing = false }: { isEditing?: boolean }) => (
-  <Box mb={4}>
+  <Box mb={3}>
     <Text fontSize="xl" fontWeight="bold">
       {isEditing ? "Editar publicación" : "Publicar artículo"}
     </Text>

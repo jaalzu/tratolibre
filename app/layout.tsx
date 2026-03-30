@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Box } from "@chakra-ui/react";
@@ -63,6 +64,7 @@ export default async function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={geist.variable} suppressHydrationWarning>
         <Providers>
+          <Toaster />
           <ChatStoreInit userId={user?.id} />
           <Box bg="neutral.150" minH="100dvh">
             {children}
