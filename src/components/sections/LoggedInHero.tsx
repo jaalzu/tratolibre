@@ -38,7 +38,7 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
             {firstName ? `Bienvenido, ${firstName}` : "Bienvenido"}{" "}
           </Heading>
           <Text fontSize="md" color="fg.muted" px={5}>
-            Encontrá lo que buscás o publicá lo que ya no usás.
+            Compra y vende artículos nuevos o usados fácilmente.
           </Text>
         </Box>
 
