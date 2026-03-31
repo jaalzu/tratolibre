@@ -6,7 +6,7 @@ import { Box, Flex, Text, Grid } from "@chakra-ui/react";
 import Image from "next/image";
 
 const MAX_IMAGES = 4;
-const MAX_MB = 10;
+const MAX_MB = 20;
 const MAX_BYTES = MAX_MB * 1024 * 1024;
 
 interface ImageUploaderProps {
@@ -65,21 +65,18 @@ export const ImageUploader = ({
             ({images.length}/{MAX_IMAGES})
           </Text>
         </Text>
-        <Text fontSize="xs" color="red.500">
-          Máximo {MAX_MB}MB por foto
-        </Text>
       </Flex>
 
       <Grid templateColumns="repeat(4, 1fr)" gap={2} width="full">
         {images.map((url, i) => (
           <Box
-            key={url + i} // Mejor usar el url + index
+            key={url + i}
             position="relative"
             aspectRatio="1"
             borderRadius="lg"
             overflow="hidden"
-            width="full" // <--- ASEGURA QUE OCUPE TODA LA CELDA
-            bg="neutral.100" // Un fondito por si la imagen tarda en cargar
+            width="full"
+            bg="neutral.100"
           >
             <Image
               src={url}
@@ -133,11 +130,10 @@ export const ImageUploader = ({
           </Box>
         ))}
 
-        {/* Box para agregar (Solo si falta para llegar al máximo) */}
         {images.length < MAX_IMAGES && (
           <Box
             aspectRatio="1"
-            width="full" // <--- PARA QUE SEA IGUAL A LAS OTRAS
+            width="full"
             borderRadius="lg"
             border="2px dashed"
             borderColor={uploading ? "brand.500" : "neutral.300"}
@@ -178,10 +174,10 @@ export const ImageUploader = ({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/jpg,image/png,image/webp,image/heic,image/heif"
         multiple
         onChange={handleChange}
-        style={{ display: "none" }}
+        hidden
       />
 
       {error && (

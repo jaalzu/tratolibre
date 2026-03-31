@@ -52,7 +52,6 @@ function createBuilder(resolvedValue: object = { data: null, error: null }) {
   builder.lte = vi.fn().mockReturnValue(builder);
   builder.single = vi.fn().mockResolvedValue(resolvedValue);
 
-  // Para queries que terminan sin .single()
   Object.defineProperty(builder, Symbol.toStringTag, { value: "Promise" });
 
   return builder;

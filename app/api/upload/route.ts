@@ -7,6 +7,8 @@ const ALLOWED_TYPES: Record<string, string> = {
   "image/jpg": "jpg",
   "image/png": "png",
   "image/webp": "webp",
+  "image/heic": "jpg",
+  "image/heif": "jpg",
 };
 
 const BUCKET = "item-images";
