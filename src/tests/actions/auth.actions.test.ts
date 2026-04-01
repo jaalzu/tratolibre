@@ -97,7 +97,10 @@ describe("registerAction", () => {
     expect(supabase.auth.signUp).toHaveBeenCalledWith({
       email: validInput.email,
       password: validInput.password,
-      options: { data: { name: "Juan García" } },
+      options: {
+        data: { name: "Juan García" },
+        emailRedirectTo: expect.stringContaining("/auth/callback"),
+      },
     });
   });
 
@@ -107,10 +110,10 @@ describe("registerAction", () => {
     expect(result).toEqual({ error: "Email already in use" });
   });
 
-  it('llama a redirect("/") si registro es exitoso', async () => {
+  it("retorna success si registro es exitoso", async () => {
     mockSupabase();
-    await registerAction(validInput);
-    expect(redirect).toHaveBeenCalledWith("/");
+    const result = await registerAction(validInput);
+    expect(result).toEqual({ success: true });
   });
 });
 

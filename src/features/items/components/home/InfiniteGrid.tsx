@@ -16,29 +16,26 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<HTMLDivElement>(null);
 
-  // 1. Observer para "despertar" la carga inicial (Baja prioridad)
   useEffect(() => {
     const trigger = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsNear(true);
-          trigger.disconnect(); // Ya despertó, no lo necesitamos más
+          trigger.disconnect();
         }
       },
-      { rootMargin: "300px" }, // Se activa 300px antes de llegar
+      { rootMargin: "300px" },
     );
 
     if (containerRef.current) trigger.observe(containerRef.current);
     return () => trigger.disconnect();
   }, []);
 
-  // Pasamos el enabled: isNear al hook
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteItems({
       enabled: isNear,
     });
 
-  // 2. Tu observer original para el scroll infinito (Cargar más)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -52,7 +49,7 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  let totalItemsCount = 0;
+  const allItems = data?.pages.flat().filter(Boolean) || [];
 
   return (
     <Box
@@ -64,38 +61,28 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
       border="1px solid"
       borderColor="neutral.100"
       minH="200px"
+      width="100%"
     >
       <Text fontWeight="bold" mt={2} fontSize="md" color="neutral.900" mb={3}>
         Explorar
       </Text>
 
-      {data?.pages.map((page, pageIndex) => {
-        const pageStart = totalItemsCount;
-        totalItemsCount += page.length;
-
-        return (
-          <FadeInGrid
-            key={pageIndex}
-            startIndex={pageStart}
-            columns={{ base: 2, md: 4, lg: 6 }}
-          >
-            {page.map((item, index) => (
-              <ItemCard
-                key={item.id}
-                obj={item}
-                userId={userId}
-                initialFavorited={favoriteIds.includes(item.id)}
-                priority={false}
-              />
-            ))}
-          </FadeInGrid>
-        );
-      })}
+      <FadeInGrid>
+        {allItems.map((item, index) => (
+          <ItemCard
+            key={item.id}
+            obj={item}
+            userId={userId}
+            initialFavorited={favoriteIds.includes(item.id)}
+            priority={index < 4} // Ahora la prioridad coincide con la primera fila (4)
+          />
+        ))}
+      </FadeInGrid>
 
       <Box ref={observerRef} h="20px" mt={4} />
 
       {(isFetchingNextPage || (isNear && !data)) && (
-        <Flex justify="center" py={8}>
+        <Flex justify="center" py={8} width="100%">
           <Spinner borderWidth="3px" color="brand.500" size="lg" />
         </Flex>
       )}

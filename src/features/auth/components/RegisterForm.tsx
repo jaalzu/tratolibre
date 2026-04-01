@@ -9,6 +9,7 @@ import { Flex, Text, Stack } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import { registerAction } from "@/features/auth/actions";
 import { FormField } from "./FormField";
+import { toaster } from "@/components/ui/toaster"; // ✅ Agregar
 
 export const RegisterForm = () => {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -25,7 +26,18 @@ export const RegisterForm = () => {
   const onSubmit = async (data: RegisterInput) => {
     setServerError(null);
     const result = await registerAction(data);
-    if (result?.error) setServerError(result.error);
+
+    if (result?.error) {
+      setServerError(result.error);
+    } else if (result?.success) {
+      // ✅ Agregar esto
+      toaster.create({
+        title: "¡Casi listo!",
+        description: "Te enviamos un email. Confirmá tu cuenta para continuar.",
+        type: "success",
+        duration: 10000,
+      });
+    }
   };
 
   return (

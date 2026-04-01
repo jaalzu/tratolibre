@@ -5,7 +5,7 @@ import { getItems } from "@/features/items/actions";
 
 const LIMIT = 4;
 
-// Ahora acepta un objeto de opciones para el enabled
+//  acepta un objeto de opciones para el enabled
 export function useInfiniteItems(options?: { enabled?: boolean }) {
   return useInfiniteQuery({
     queryKey: ["items-infinite"],
