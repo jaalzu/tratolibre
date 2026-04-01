@@ -5,10 +5,13 @@ import React from "react";
 
 interface FadeInGridProps {
   children: React.ReactNode;
+  columns?: { base?: number; md?: number; lg?: number; xl?: number };
 }
 
-export function FadeInGrid({ children }: FadeInGridProps) {
-  // Filtramos para que solo entren elementos válidos y no espacios vacíos
+export function FadeInGrid({
+  children,
+  columns = { base: 2, md: 2, lg: 3, xl: 4 },
+}: FadeInGridProps) {
   const items = React.Children.toArray(children).filter(Boolean);
 
   return (
@@ -18,29 +21,14 @@ export function FadeInGrid({ children }: FadeInGridProps) {
           from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        .fade-grid-container {
-          width: 100%;
-          display: grid;
-          /* Esto obliga a que no haya celdas fantasmas al inicio */
-          grid-auto-flow: row; 
-        }
         .fade-grid-item { 
           opacity: 0; 
           animation: fadeInUp 0.3s ease-out forwards;
-          /* Evitamos que el div interfiera con el tamaño del item */
           min-width: 0; 
         }
       `}</style>
 
-      <SimpleGrid
-        className="fade-grid-container"
-        gridTemplateColumns={{
-          base: "repeat(2, 1fr)",
-          md: "repeat(auto-fit, minmax(200px, 1fr))",
-        }}
-        gap={4}
-        width="100%"
-      >
+      <SimpleGrid columns={columns} gap={4} width="100%">
         {items.map((child, idx) => (
           <div
             key={idx}
