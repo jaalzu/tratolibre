@@ -38,10 +38,12 @@ export async function registerAction(input: {
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
       data: { name: `${parsed.data.firstName} ${parsed.data.lastName}` },
     },
   });
 
   if (error) return { error: error.message };
-  redirect("/");
+
+  return { success: true };
 }

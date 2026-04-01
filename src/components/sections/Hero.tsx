@@ -20,7 +20,8 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
   return [
     {
       image: "/hero/girl-in-pool.webp",
-      title: "Compra, venta e intercambio de artículos de segunda mano.",
+      title:
+        "Compra, venta e intercambio de artículos de segunda mano y nuevos.",
       buttonLabel: "Vender Ahora",
       buttonHref: isLoggedIn ? "/item/new" : "/register",
 

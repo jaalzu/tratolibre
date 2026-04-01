@@ -1,8 +1,8 @@
 "use client";
-import { toaster } from "@/components/ui/toaster";
 
+import { toaster } from "@/components/ui/toaster";
 import { useRef } from "react";
-import { Box, Flex, Text, Grid } from "@chakra-ui/react";
+import { Box, Flex, Text, Grid, Spinner, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 
 const MAX_IMAGES = 4;
@@ -28,9 +28,8 @@ export const ImageUploader = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-
-    // 1. Aviso de Peso
     const tooLarge = files.some((f) => f.size > MAX_BYTES);
+
     if (tooLarge) {
       toaster.create({
         title: "Imagen muy pesada",
@@ -39,7 +38,6 @@ export const ImageUploader = ({
       });
     }
 
-    // 2. Aviso de Cantidad
     if (images.length + files.length > MAX_IMAGES) {
       toaster.create({
         title: "Límite alcanzado",
@@ -48,38 +46,40 @@ export const ImageUploader = ({
       });
     }
 
-    // Filtrado y subida (tu lógica actual)
     const valid = files.filter((f) => f.size <= MAX_BYTES);
     const available = MAX_IMAGES - images.length;
     onUpload(valid.slice(0, available));
-
     e.target.value = "";
   };
 
   return (
     <Flex direction="column" gap={3}>
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" align="center" minH="20px">
         <Text fontSize="xs" fontWeight="medium" color="neutral.700">
           Fotos{" "}
           <Text as="span" color="neutral.400">
             ({images.length}/{MAX_IMAGES})
           </Text>
         </Text>
-        <Text fontSize="xs" color="red.500">
-          Máximo {MAX_MB}MB por foto
-        </Text>
+
+        {/* TEXTO NUEVO: ARRIBA, DERECHA Y ROJO */}
+        {uploading && (
+          <Text fontSize="xs" color="red.500" fontWeight="bold">
+            Esto puede tardar unos segundos
+          </Text>
+        )}
       </Flex>
 
       <Grid templateColumns="repeat(4, 1fr)" gap={2} width="full">
         {images.map((url, i) => (
           <Box
-            key={url + i} // Mejor usar el url + index
+            key={url + i}
             position="relative"
             aspectRatio="1"
             borderRadius="lg"
             overflow="hidden"
-            width="full" // <--- ASEGURA QUE OCUPE TODA LA CELDA
-            bg="neutral.100" // Un fondito por si la imagen tarda en cargar
+            width="full"
+            bg="neutral.100"
           >
             <Image
               src={url}
@@ -89,8 +89,6 @@ export const ImageUploader = ({
               style={{ objectFit: "cover" }}
               priority={i === 0}
             />
-
-            {/* Botón eliminar */}
             <Box
               position="absolute"
               top="4px"
@@ -110,7 +108,6 @@ export const ImageUploader = ({
             >
               ×
             </Box>
-
             {i === 0 && (
               <Box
                 position="absolute"
@@ -133,11 +130,10 @@ export const ImageUploader = ({
           </Box>
         ))}
 
-        {/* Box para agregar (Solo si falta para llegar al máximo) */}
         {images.length < MAX_IMAGES && (
           <Box
             aspectRatio="1"
-            width="full" // <--- PARA QUE SEA IGUAL A LAS OTRAS
+            width="full"
             borderRadius="lg"
             border="2px dashed"
             borderColor={uploading ? "brand.500" : "neutral.300"}
@@ -151,16 +147,20 @@ export const ImageUploader = ({
               !uploading ? { borderColor: "brand.500", bg: "gray.50" } : {}
             }
             transition="all 0.2s"
+            p={1}
           >
             {uploading ? (
-              <Text
-                fontSize="2xs"
-                color="brand.500"
-                fontWeight="bold"
-                textAlign="center"
-              >
-                Subiendo...
-              </Text>
+              <Stack align="center" gap={1}>
+                <Spinner size="xs" color="brand.500" />
+                <Text
+                  fontSize="9px"
+                  color="brand.500"
+                  fontWeight="bold"
+                  textAlign="center"
+                >
+                  Subiendo fotografía...
+                </Text>
+              </Stack>
             ) : (
               <>
                 <Text fontSize="2xl" color="neutral.400" mb={-1}>
@@ -183,7 +183,6 @@ export const ImageUploader = ({
         onChange={handleChange}
         style={{ display: "none" }}
       />
-
       {error && (
         <Text fontSize="xs" color="red.500">
           {error}
