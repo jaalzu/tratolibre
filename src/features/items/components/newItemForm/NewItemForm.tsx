@@ -1,3 +1,4 @@
+// features/items/components/newItemForm/NewItemForm.tsx
 "use client";
 
 import { Stack, SimpleGrid, Input, Textarea, Text } from "@chakra-ui/react";
@@ -14,7 +15,7 @@ import { FormSelect } from "./FormSelect";
 import { Item } from "@/features/items/types";
 
 const formatArgentinePesos = (value: string) => {
-  const number = value.replace(/\D/g, ""); // saca todo lo que no sea número
+  const number = value.replace(/\D/g, "");
   return number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
 
@@ -39,10 +40,14 @@ export const NewItemForm = ({
     control,
   } = useNewItemForm(initialData);
 
-  const titleValue = watch("title") || "";
-  const descValue = watch("description") || "";
+  const titleValue = watch("title", "");
+  const descValue = watch("description", "");
 
-  const { field: categoryField } = useController({ name: "category", control });
+  const { field: categoryField } = useController({
+    name: "category",
+    control,
+  });
+
   const { field: conditionField } = useController({
     name: "condition",
     control,
@@ -86,7 +91,6 @@ export const NewItemForm = ({
               />
             </FormField>
 
-            {/* Categoría + Estado + Precio en una fila */}
             <SimpleGrid columns={{ base: 1, sm: 3 }} gap="3">
               <FormField label="Categoría" error={errors.category}>
                 <FormSelect
@@ -120,6 +124,7 @@ export const NewItemForm = ({
                   {...register("sale_price")}
                   data-testid="sale_price"
                   type="text"
+                  inputMode="numeric"
                   placeholder="Ej: 300.000"
                   {...inputStyles}
                   onChange={(e) => {

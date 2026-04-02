@@ -10,7 +10,7 @@ export async function NewItemsSection({ userId }: { userId: string | null }) {
   return (
     <ItemsCategorySection
       title="Artículos como nuevos"
-      items={items.slice(0, 13)}
+      items={items.slice(0, 10)}
       viewMoreHref="/search?condition=like_new"
       userId={userId}
       favoriteIds={favoriteIds}

@@ -1,7 +1,8 @@
+// features/items/hooks/useNewItemForm.ts
 "use client";
 
-import { useState } from "react";
-import { useForm, SubmitHandler, Resolver } from "react-hook-form";
+import { useState, useCallback, useMemo } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ItemSchema, ItemInput } from "@/features/items/schemas";
 import { createItemAction, updateItemAction } from "@/features/items/actions";
@@ -14,16 +15,8 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
   const [uploading, setUploading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    control,
-    formState: { errors, isSubmitting },
-  } = useForm<ItemInput>({
-    resolver: zodResolver(ItemSchema) as Resolver<ItemInput>,
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       title: initialData?.title ?? "",
       description: initialData?.description ?? "",
       category: initialData?.category ?? "",
@@ -32,109 +25,123 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
       city: initialData?.city ?? "",
       images: initialData?.images ?? [],
       sale_price: initialData?.sale_price ?? undefined,
-    },
+    }),
+    [initialData],
+  );
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<ItemInput>({
+    resolver: zodResolver(ItemSchema),
+    defaultValues,
+    mode: "onTouched", // ✅ Reduce validaciones
   });
 
-  const handleUpload = async (files: File[]) => {
-    setUploading(true);
+  const handleUpload = useCallback(
+    async (files: File[]) => {
+      setUploading(true);
 
-    const validFiles = files.filter((f) => {
-      if (!f.type.startsWith("image/")) {
-        console.warn(` No es imagen: ${f.name} (${f.type})`);
-        toaster.create({
-          title: "Archivo no válido",
-          description: `${f.name} no es una imagen`,
-          type: "error",
-        });
-        return false;
-      }
-
-      // Verificar tamaño (20MB máximo antes de comprimir)
-      if (f.size > 20 * 1024 * 1024) {
-        console.warn(
-          ` Muy pesado: ${f.name} (${(f.size / 1024 / 1024).toFixed(2)}MB)`,
-        );
-        toaster.create({
-          title: "Imagen muy pesada",
-          description: `${f.name} pesa más de 20MB. Usá una foto de menor calidad.`,
-          type: "error",
-        });
-        return false;
-      }
-
-      return true;
-    });
-
-    if (validFiles.length === 0) {
-      setUploading(false);
-      return;
-    }
-
-    try {
-      const compressedFiles = await compressImages(validFiles);
-
-      for (const file of compressedFiles) {
-        const fd = new FormData();
-        fd.append("file", file);
-
-        try {
-          const res = await fetch("/api/upload", {
-            method: "POST",
-            body: fd,
-            signal: AbortSignal.timeout(30000),
-          });
-
-          if (!res.ok) {
-            const errorText = await res.text();
-            console.error("❌ Error en upload:", res.status, errorText);
-
-            toaster.create({
-              title: "Error al subir",
-              description: `No se pudo subir ${file.name}`,
-              type: "error",
-            });
-            continue;
-          }
-
-          const data = await res.json();
-
-          if (data.fileName || data.url) {
-            const urlToSave = data.url || `/${data.fileName}`;
-            setImages((prev) => {
-              const updated = [...prev, urlToSave];
-              setValue("images", updated, { shouldValidate: true });
-              return updated;
-            });
-          }
-        } catch (err) {
-          console.error("Error subiendo imagen:", err);
-
+      const validFiles = files.filter((f) => {
+        if (!f.type.startsWith("image/")) {
           toaster.create({
-            title: "Error de conexión",
-            description: `No se pudo subir ${file.name}. Revisá tu conexión.`,
+            title: "Archivo no válido",
+            description: `${f.name} no es una imagen`,
             type: "error",
           });
+          return false;
         }
-      }
-    } catch (err) {
-      console.error("Error en el proceso de imágenes:", err);
-      toaster.create({
-        title: "Error al procesar",
-        description: "Hubo un problema al procesar las imágenes",
-        type: "error",
-      });
-    } finally {
-      setUploading(false);
-    }
-  };
 
-  const handleRemove = (index: number) => {
-    setImages((prev) => {
-      const updated = prev.filter((_, i) => i !== index);
-      setValue("images", updated, { shouldValidate: true });
-      return updated;
-    });
-  };
+        if (f.size > 20 * 1024 * 1024) {
+          toaster.create({
+            title: "Imagen muy pesada",
+            description: `${f.name} pesa más de 20MB`,
+            type: "error",
+          });
+          return false;
+        }
+
+        return true;
+      });
+
+      if (validFiles.length === 0) {
+        setUploading(false);
+        return;
+      }
+
+      try {
+        const compressedFiles = await compressImages(validFiles);
+        const urls: string[] = [];
+
+        // ✅ Upload secuencial pero con mejor manejo de errores
+        for (const file of compressedFiles) {
+          try {
+            const fd = new FormData();
+            fd.append("file", file);
+
+            const res = await fetch("/api/upload", {
+              method: "POST",
+              body: fd,
+              signal: AbortSignal.timeout(30000),
+            });
+
+            if (!res.ok) {
+              console.error(`Upload failed: ${res.status}`);
+              continue;
+            }
+
+            const data = await res.json();
+            if (data.fileName || data.url) {
+              urls.push(data.url || `/${data.fileName}`);
+            }
+          } catch (err) {
+            console.error("Error uploading:", err);
+          }
+        }
+
+        if (urls.length > 0) {
+          setImages((prev) => {
+            const updated = [...prev, ...urls];
+            setValue("images", updated, { shouldValidate: true });
+            return updated;
+          });
+        }
+
+        const failedCount = compressedFiles.length - urls.length;
+        if (failedCount > 0) {
+          toaster.create({
+            title: "Algunas imágenes fallaron",
+            description: `${failedCount} imagen(es) no se pudieron subir`,
+            type: "warning",
+          });
+        }
+      } catch (err) {
+        toaster.create({
+          title: "Error al procesar",
+          description: "Hubo un problema al procesar las imágenes",
+          type: "error",
+        });
+      } finally {
+        setUploading(false);
+      }
+    },
+    [setValue],
+  );
+
+  const handleRemove = useCallback(
+    (index: number) => {
+      setImages((prev) => {
+        const updated = prev.filter((_, i) => i !== index);
+        setValue("images", updated, { shouldValidate: true });
+        return updated;
+      });
+    },
+    [setValue],
+  );
 
   const onSubmit: SubmitHandler<ItemInput> = async (data) => {
     setServerError(null);
@@ -145,7 +152,6 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
         value.forEach((v) => formData.append(key, v));
       } else if (value !== undefined && value !== null) {
         let valueToSend = String(value);
-
         if (key === "sale_price") {
           valueToSend = valueToSend.replace(/\D/g, "");
         }

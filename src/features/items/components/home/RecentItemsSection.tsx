@@ -14,7 +14,7 @@ export async function RecentItemsSection({
   return (
     <ItemsCategorySection
       title="Publicaciones recientes"
-      items={items.slice(0, 13)}
+      items={items.slice(0, 10)}
       viewMoreHref="/search"
       viewMoreLabel="Ver más"
       userId={userId}
