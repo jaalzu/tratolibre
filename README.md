@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="/public/readme-desktop.webp" alt="Desktop preview" width="70%" />
-  <img src="/public/mobile.webp" alt="Mobile preview" width="25%" />
+  <img src="/public/readme-mobile.webp" alt="Mobile preview" width="25%" />
 </p>
 
 Tratolibre es un marketplace moderno enfocado en la publicación rápida y sin fricción de artículos nuevos y de segunda mano. Permite a cualquier usuario listar productos de forma simple, eliminando barreras típicas de plataformas tradicionales.
