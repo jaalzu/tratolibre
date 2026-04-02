@@ -48,14 +48,12 @@ export function createSupabaseMock({
         upload: vi
           .fn()
           .mockResolvedValue({ data: { path: "test.jpg" }, error: null }),
-        getPublicUrl: vi
-          .fn()
-          .mockReturnValue({
-            data: { publicUrl: "https://example.com/test.jpg" },
-          }),
+        getPublicUrl: vi.fn().mockReturnValue({
+          data: { publicUrl: "https://example.com/test.jpg" },
+        }),
       }),
     },
-    _builder: builder, // expuesto para aserciones en tests
+    _builder: builder,
   };
 }
 

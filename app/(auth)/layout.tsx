@@ -1,4 +1,3 @@
-// app/(auth)/layout.tsx
 import { Box } from "@chakra-ui/react";
 
 export default function AuthLayout({

@@ -1,4 +1,3 @@
-// features/favorites/components/FavoritesView.tsx
 "use client";
 
 import dynamic from "next/dynamic";
@@ -6,7 +5,6 @@ import { Text, Box, Skeleton, SimpleGrid } from "@chakra-ui/react";
 import { PageContainer } from "@/components/ui/PageContainer";
 import { Item } from "@/features/items/types";
 
-// Dinamizamos los componentes pesados
 const FadeInGrid = dynamic(
   () => import("@/components/ui/FadeInGrid").then((mod) => mod.FadeInGrid),
   { loading: () => <SkeletonGrid /> },

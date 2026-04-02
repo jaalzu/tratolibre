@@ -14,7 +14,7 @@ export const ConversationList = ({
   activeId,
   userId,
 }: ConversationListProps) => {
-  useConversations(); // ← fetchea y alimenta el store
+  useConversations();
   const conversations = useChatStore((state) => state.conversations);
   const loading = useChatStore((state) => state.isLoading);
 

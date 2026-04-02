@@ -1,19 +1,23 @@
-// features/reports/components/ReportButton.tsx
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Box } from '@chakra-ui/react'
-import { ReportModal } from './ReportModal'
+import { useState } from "react";
+import { Box } from "@chakra-ui/react";
+import { ReportModal } from "./ReportModal";
 
 interface ReportButtonProps {
-  type: 'item' | 'conversation' | 'user'
-  targetId: string
-  label?: string
-  color?: string
+  type: "item" | "conversation" | "user";
+  targetId: string;
+  label?: string;
+  color?: string;
 }
 
-export function ReportButton({ type, targetId,label = 'Reportar' ,color = 'neutral.700'}: ReportButtonProps) {
-  const [open, setOpen] = useState(false)
+export function ReportButton({
+  type,
+  targetId,
+  label = "Reportar",
+  color = "neutral.700",
+}: ReportButtonProps) {
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -24,7 +28,7 @@ export function ReportButton({ type, targetId,label = 'Reportar' ,color = 'neutr
         cursor="pointer"
         color={color}
         onClick={() => setOpen(true)}
-        _hover={{ color: 'red.500' }}
+        _hover={{ color: "red.500" }}
         transition="color 0.2s"
       >
         {label}
@@ -37,5 +41,5 @@ export function ReportButton({ type, targetId,label = 'Reportar' ,color = 'neutr
         targetId={targetId}
       />
     </>
-  )
+  );
 }

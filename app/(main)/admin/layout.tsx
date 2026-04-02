@@ -1,4 +1,3 @@
-// app/(main)/admin/layout.tsx
 import { redirect } from "next/navigation";
 import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
 import { AdminNav } from "@/features/admin/components/shared/AdminNav";

@@ -7,12 +7,7 @@ export const Footer = () => (
       <Box borderTop="1px solid" borderColor="neutral.100" pt={8}>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
           <Box>
-            <Text
-              fontSize="xl"
-              fontWeight="bold"
-              color="brand.default" // 👈 marca en verde
-              mb={3}
-            >
+            <Text fontSize="xl" fontWeight="bold" color="brand.default" mb={3}>
               TratoLibre
             </Text>
             <Text fontSize="sm" color="neutral.400" lineHeight="tall">
@@ -31,7 +26,7 @@ export const Footer = () => (
                 <Text
                   fontSize="sm"
                   color="neutral.400"
-                  _hover={{ color: "brand.hover" }} // 👈 hover verde
+                  _hover={{ color: "brand.hover" }}
                   transition="color 0.2s"
                   cursor="pointer"
                 >

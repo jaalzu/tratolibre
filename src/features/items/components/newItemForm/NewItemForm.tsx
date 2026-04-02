@@ -15,7 +15,7 @@ import { Item } from "@/features/items/types";
 
 const formatArgentinePesos = (value: string) => {
   const number = value.replace(/\D/g, ""); // saca todo lo que no sea número
-  return number.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // pone los puntos
+  return number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
 
 export const NewItemForm = ({
@@ -119,13 +119,11 @@ export const NewItemForm = ({
                 <Input
                   {...register("sale_price")}
                   data-testid="sale_price"
-                  type="text" // <--- Cambiado a text
+                  type="text"
                   placeholder="Ej: 300.000"
                   {...inputStyles}
                   onChange={(e) => {
-                    // Aplicamos el formato de puntos mientras escribe
                     e.target.value = formatArgentinePesos(e.target.value);
-                    // Informamos a react-hook-form del cambio
                     register("sale_price").onChange(e);
                   }}
                 />

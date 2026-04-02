@@ -1,4 +1,3 @@
-// app/(main)/admin/page.tsx
 import dynamic from "next/dynamic";
 import { getAdminMetrics } from "@/features/admin/actions/utils";
 import { Skeleton, SimpleGrid } from "@chakra-ui/react";

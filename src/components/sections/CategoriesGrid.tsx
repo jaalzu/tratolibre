@@ -22,7 +22,7 @@ export function CategoriesGrid() {
           observer.disconnect();
         }
       },
-      { rootMargin: "200px" }, // Se "activa" 200px antes de que aparezca
+      { rootMargin: "200px" },
     );
 
     if (containerRef.current) observer.observe(containerRef.current);
@@ -39,9 +39,9 @@ export function CategoriesGrid() {
         borderRadius="2xl"
         p={4}
         shadow="base"
-        minH={!isNear ? "150px" : "auto"} // Mantiene el espacio para evitar saltos
+        minH={!isNear ? "150px" : "auto"}
       >
-        {!isNear ? null : ( // Solo renderiza el contenido si está cerca
+        {!isNear ? null : (
           <>
             <Text fontWeight="bold" fontSize="md" color="neutral.900" mb={3}>
               Categorías

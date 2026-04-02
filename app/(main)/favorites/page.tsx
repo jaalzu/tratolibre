@@ -1,4 +1,3 @@
-// app/(main)/favorites/page.tsx
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getUserFavorites } from "@/features/items/actions";
 import { redirect } from "next/navigation";

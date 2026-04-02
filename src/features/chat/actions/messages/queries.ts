@@ -14,7 +14,6 @@ export async function markMessagesAsRead(conversationId: string) {
     .neq("sender_id", user.id)
     .eq("read", false);
 
-  // Marcar como leído es una operación "nice to have"
   // No queremos bloquear al usuario si falla, pero sí loggear
   if (error) {
     if (process.env.NODE_ENV === "development") {

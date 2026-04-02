@@ -1,4 +1,3 @@
-// edit/page.tsx
 import { getMyProfile } from "@/features/profile/actions";
 import { EditProfileForm } from "@/features/profile/components/edit/EditProfileForm";
 import { Box, Flex, Text } from "@chakra-ui/react";

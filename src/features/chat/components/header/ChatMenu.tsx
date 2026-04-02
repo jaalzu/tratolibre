@@ -23,7 +23,6 @@ export const ChatMenu = ({
   const [confirmOpen, setConfirmOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Usamos el hook
   const { deleteConversation, isDeleting } = useDeleteConversation();
 
   const handleDelete = async () => {

@@ -74,7 +74,7 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
             obj={item}
             userId={userId}
             initialFavorited={favoriteIds.includes(item.id)}
-            priority={index < 4} // Ahora la prioridad coincide con la primera fila (4)
+            priority={index < 4}
           />
         ))}
       </FadeInGrid>

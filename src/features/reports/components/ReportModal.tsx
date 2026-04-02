@@ -1,51 +1,69 @@
-// features/reports/components/ReportModal.tsx
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Box, Flex, Text, Stack, Textarea, Dialog, Portal, Spinner } from '@chakra-ui/react'
-import { Button } from '@/components/ui/Button'
-import { REPORT_REASONS } from '../schemas'
-import { createReportAction } from '../actions'
+import { useState } from "react";
+import {
+  Box,
+  Flex,
+  Text,
+  Stack,
+  Textarea,
+  Dialog,
+  Portal,
+  Spinner,
+} from "@chakra-ui/react";
+import { Button } from "@/components/ui/Button";
+import { REPORT_REASONS } from "../schemas";
+import { createReportAction } from "../actions";
 
 interface ReportModalProps {
-  open: boolean
-  onClose: () => void
-  type: 'item' | 'conversation' | 'user'
-  targetId: string
+  open: boolean;
+  onClose: () => void;
+  type: "item" | "conversation" | "user";
+  targetId: string;
 }
 
-export function ReportModal({ open, onClose, type, targetId }: ReportModalProps) {
-  const [reason, setReason] = useState<string | null>(null)
-  const [description, setDescription] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+export function ReportModal({
+  open,
+  onClose,
+  type,
+  targetId,
+}: ReportModalProps) {
+  const [reason, setReason] = useState<string | null>(null);
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   function handleClose() {
-    if (loading) return
-    onClose()
-    setReason(null)
-    setDescription('')
-    setError(null)
-    setSuccess(false)
+    if (loading) return;
+    onClose();
+    setReason(null);
+    setDescription("");
+    setError(null);
+    setSuccess(false);
   }
 
   async function handleSubmit() {
-    if (!reason) return
-    setLoading(true)
-    setError(null)
+    if (!reason) return;
+    setLoading(true);
+    setError(null);
 
-    const result = await createReportAction({ type, target_id: targetId, reason, description })
+    const result = await createReportAction({
+      type,
+      target_id: targetId,
+      reason,
+      description,
+    });
 
-    setLoading(false)
+    setLoading(false);
 
     if (result?.error) {
-      setError(result.error)
-      return
+      setError(result.error);
+      return;
     }
 
-    setSuccess(true)
-    setTimeout(() => handleClose(), 2000)
+    setSuccess(true);
+    setTimeout(() => handleClose(), 2000);
   }
 
   return (
@@ -57,14 +75,25 @@ export function ReportModal({ open, onClose, type, targetId }: ReportModalProps)
             {loading ? (
               <Flex align="center" gap={3} py={2}>
                 <Spinner size="sm" color="brand.default" />
-                <Text fontSize="sm" fontWeight="medium">Enviando reporte...</Text>
+                <Text fontSize="sm" fontWeight="medium">
+                  Enviando reporte...
+                </Text>
               </Flex>
             ) : success ? (
               <Flex direction="column" align="center" gap={3} py={4}>
-                <i className="bx bx-check-circle" style={{ fontSize: '36px', color: 'var(--chakra-colors-brand-default)' }} />
-                <Text fontWeight="semibold" color="fg">Reporte enviado</Text>
+                <i
+                  className="bx bx-check-circle"
+                  style={{
+                    fontSize: "36px",
+                    color: "var(--chakra-colors-brand-default)",
+                  }}
+                />
+                <Text fontWeight="semibold" color="fg">
+                  Reporte enviado
+                </Text>
                 <Text fontSize="sm" color="fg.muted" textAlign="center">
-                  Gracias por ayudarnos a mantener la comunidad. Lo revisaremos pronto.
+                  Gracias por ayudarnos a mantener la comunidad. Lo revisaremos
+                  pronto.
                 </Text>
               </Flex>
             ) : (
@@ -83,8 +112,10 @@ export function ReportModal({ open, onClose, type, targetId }: ReportModalProps)
                         p={3}
                         borderRadius="xl"
                         border="1px solid"
-                        borderColor={reason === r.value ? 'brand.default' : 'border.subtle'}
-                        bg={reason === r.value ? 'brand.subtle' : 'transparent'}
+                        borderColor={
+                          reason === r.value ? "brand.default" : "border.subtle"
+                        }
+                        bg={reason === r.value ? "brand.subtle" : "transparent"}
                         cursor="pointer"
                         onClick={() => setReason(r.value)}
                         transition="all 0.15s"
@@ -94,15 +125,21 @@ export function ReportModal({ open, onClose, type, targetId }: ReportModalProps)
                           h={4}
                           borderRadius="full"
                           border="2px solid"
-                          borderColor={reason === r.value ? 'brand.default' : 'border'}
-                          bg={reason === r.value ? 'brand.default' : 'transparent'}
+                          borderColor={
+                            reason === r.value ? "brand.default" : "border"
+                          }
+                          bg={
+                            reason === r.value ? "brand.default" : "transparent"
+                          }
                           flexShrink={0}
                         />
-                        <Text fontSize="sm" color="fg">{r.label}</Text>
+                        <Text fontSize="sm" color="fg">
+                          {r.label}
+                        </Text>
                       </Flex>
                     ))}
 
-                    {reason === 'otro' && (
+                    {reason === "otro" && (
                       <Textarea
                         placeholder="Contanos más detalles (opcional)"
                         value={description}
@@ -116,7 +153,9 @@ export function ReportModal({ open, onClose, type, targetId }: ReportModalProps)
                     )}
 
                     {error && (
-                      <Text fontSize="sm" color="red.500">{error}</Text>
+                      <Text fontSize="sm" color="red.500">
+                        {error}
+                      </Text>
                     )}
                   </Stack>
                 </Dialog.Description>
@@ -140,5 +179,5 @@ export function ReportModal({ open, onClose, type, targetId }: ReportModalProps)
         </Dialog.Positioner>
       </Portal>
     </Dialog.Root>
-  )
+  );
 }

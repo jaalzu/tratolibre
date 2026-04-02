@@ -21,12 +21,6 @@ export const CONDITIONS = [
   { id: "fair", label: "Uso visible" },
 ];
 
-// export const ITEM_TYPES = [
-//   { id: "sale", label: "Venta" },
-//   { id: "exchange", label: "Intercambio" },
-//   { id: "both", label: "Venta e Intercambio" },
-// ];
-
 export const PROVINCES = [
   "Buenos Aires",
   "CABA",

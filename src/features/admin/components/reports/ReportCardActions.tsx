@@ -1,4 +1,3 @@
-// features/admin/components/reports/ReportCardActions.tsx
 "use client";
 
 import { Box, Flex, Text } from "@chakra-ui/react";

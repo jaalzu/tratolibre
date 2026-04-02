@@ -38,11 +38,9 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
   const handleUpload = async (files: File[]) => {
     setUploading(true);
 
-    // ✅ VALIDACIÓN PREVIA - EMPIEZA AQUÍ
     const validFiles = files.filter((f) => {
-      // Verificar que sea imagen
       if (!f.type.startsWith("image/")) {
-        console.warn(`❌ No es imagen: ${f.name} (${f.type})`);
+        console.warn(` No es imagen: ${f.name} (${f.type})`);
         toaster.create({
           title: "Archivo no válido",
           description: `${f.name} no es una imagen`,
@@ -54,7 +52,7 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
       // Verificar tamaño (20MB máximo antes de comprimir)
       if (f.size > 20 * 1024 * 1024) {
         console.warn(
-          `❌ Muy pesado: ${f.name} (${(f.size / 1024 / 1024).toFixed(2)}MB)`,
+          ` Muy pesado: ${f.name} (${(f.size / 1024 / 1024).toFixed(2)}MB)`,
         );
         toaster.create({
           title: "Imagen muy pesada",
@@ -71,10 +69,9 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
       setUploading(false);
       return;
     }
-    // ✅ VALIDACIÓN PREVIA - TERMINA AQUÍ
 
     try {
-      const compressedFiles = await compressImages(validFiles); // ✅ Cambiado de 'files' a 'validFiles'
+      const compressedFiles = await compressImages(validFiles);
 
       for (const file of compressedFiles) {
         const fd = new FormData();
@@ -84,7 +81,7 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
           const res = await fetch("/api/upload", {
             method: "POST",
             body: fd,
-            signal: AbortSignal.timeout(30000), // ✅ Timeout de 30 segundos
+            signal: AbortSignal.timeout(30000),
           });
 
           if (!res.ok) {

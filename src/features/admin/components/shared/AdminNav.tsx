@@ -1,4 +1,3 @@
-// features/admin/components/AdminNav.tsx
 "use client";
 
 import { Flex, Text, Box } from "@chakra-ui/react";
