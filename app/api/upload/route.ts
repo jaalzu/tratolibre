@@ -24,12 +24,6 @@ export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
 
-  console.log("RECIBIDO EN API:", {
-    name: file.name,
-    type: file.type,
-    size: file.size,
-  });
-
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
   const ext = ALLOWED_TYPES[file.type];

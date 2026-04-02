@@ -12,8 +12,6 @@ type ActionState = { error?: string | object } | null;
 function parseItemFormData(formData: FormData) {
   const rawPrice = formData.get("sale_price") as string;
   const cleanPrice = rawPrice ? rawPrice.replace(/\D/g, "") : "";
-  console.log("VALOR ORIGINAL DEL FORM:", rawPrice);
-  console.log("VALOR LIMPIO PARA LA DB:", cleanPrice);
 
   return {
     title: formData.get("title"),
