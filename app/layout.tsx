@@ -4,14 +4,15 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Box } from "@chakra-ui/react";
-import "boxicons/css/boxicons.min.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { createClient } from "@/lib/supabase/server";
 import { ChatStoreInit } from "@/features/chat/components/ChatStoreInit";
+
 const geist = Geist({
-  variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist-sans",
 });
 
 export const viewport: Viewport = {
@@ -61,8 +62,8 @@ export default async function RootLayout({
     data: { user },
   } = await supabase.auth.getUser();
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={geist.variable} suppressHydrationWarning>
+    <html lang="es" className={geist.variable} suppressHydrationWarning>
+      <body className={geist.className} suppressHydrationWarning>
         <Providers>
           <Toaster />
           <ChatStoreInit userId={user?.id} />

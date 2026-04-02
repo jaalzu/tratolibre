@@ -56,6 +56,7 @@ function HeroSlideContent({
             sizes="100vw"
             style={{ objectFit: "cover" }}
             priority={priority}
+            fetchPriority={priority ? "high" : "auto"}
           />
         </Box>
         <Box bg={slide.bg} px={4} py={5}>

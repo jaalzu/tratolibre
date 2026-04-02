@@ -26,8 +26,8 @@ export const ItemsCategorySection = ({
   if (!items.length) return null;
 
   return (
-    <PageContainer pt={{ base: 4, md: 8 }} pb={4} suppressHydrationWarning>
-      <Box bg="neutral.50" borderRadius="2xl" p={4} shadow="base">
+    <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
+      <Box bg="neutral.50" borderRadius="2xl" p={4} shadow="base" minH="280px">
         <Flex align="center" justify="space-between" mb={2}>
           <Heading as="h2" fontSize="md" fontWeight="bold" color="neutral.900">
             {title}

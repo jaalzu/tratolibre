@@ -1,22 +1,20 @@
-import { getItems, getUserFavoriteIds } from "@/features/items/actions";
+import { getItems } from "@/features/items/actions";
 import { ItemsCategorySection } from "./ItemsCategorySection";
-
 export async function RecentItemsSection({
   userId,
+  favoriteIds, // Recibido desde el padre
 }: {
   userId: string | null;
+  favoriteIds: string[];
 }) {
-  const [items, favoriteIds] = await Promise.all([
-    getItems({ order_by: "most_relevance" }),
-    userId ? getUserFavoriteIds(userId) : Promise.resolve([]),
-  ]);
+  // Ahora solo pedimos los items, mucho más rápido
+  const items = await getItems({ order_by: "most_relevance" });
 
   return (
     <ItemsCategorySection
       title="Publicaciones recientes"
       items={items.slice(0, 10)}
       viewMoreHref="/search"
-      viewMoreLabel="Ver más"
       userId={userId}
       favoriteIds={favoriteIds}
       isPrioritySection={true}
