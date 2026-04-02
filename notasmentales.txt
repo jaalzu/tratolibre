@@ -1,8 +1,0 @@
-
-
-. faltan cosas
-
-domain/        → schemas
-actions/       → casos de uso
-services/      → infraestructura
-ui/            → componentes
