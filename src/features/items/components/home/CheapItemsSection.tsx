@@ -1,11 +1,15 @@
-import { getItems, getUserFavoriteIds } from "@/features/items/actions";
+// CheapItemsSection.tsx
+import { getItems } from "@/features/items/actions";
 import { ItemsCategorySection } from "./ItemsCategorySection";
 
-export async function CheapItemsSection({ userId }: { userId: string | null }) {
-  const [items, favoriteIds] = await Promise.all([
-    getItems({ order_by: "price_asc" }),
-    userId ? getUserFavoriteIds(userId) : Promise.resolve([]),
-  ]);
+export async function CheapItemsSection({
+  userId,
+  favoriteIds,
+}: {
+  userId: string | null;
+  favoriteIds: string[];
+}) {
+  const items = await getItems({ order_by: "price_asc" });
 
   return (
     <ItemsCategorySection
