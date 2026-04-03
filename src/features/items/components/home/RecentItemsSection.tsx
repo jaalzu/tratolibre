@@ -2,12 +2,11 @@ import { getItems } from "@/features/items/actions";
 import { ItemsCategorySection } from "./ItemsCategorySection";
 export async function RecentItemsSection({
   userId,
-  favoriteIds, // Recibido desde el padre
+  favoriteIds,
 }: {
   userId: string | null;
   favoriteIds: string[];
 }) {
-  // Ahora solo pedimos los items, mucho más rápido
   const items = await getItems({ order_by: "most_relevance" });
 
   return (

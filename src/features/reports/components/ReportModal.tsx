@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { REPORT_REASONS } from "../schemas";
 import { createReportAction } from "../actions";
+import { CheckCircle } from "@boxicons/react";
 
 interface ReportModalProps {
   open: boolean;
@@ -81,12 +82,10 @@ export function ReportModal({
               </Flex>
             ) : success ? (
               <Flex direction="column" align="center" gap={3} py={4}>
-                <i
-                  className="bx bx-check-circle"
-                  style={{
-                    fontSize: "36px",
-                    color: "var(--chakra-colors-brand-default)",
-                  }}
+                <CheckCircle
+                  width="36px"
+                  height="36px"
+                  fill="var(--chakra-colors-brand-default)"
                 />
                 <Text fontWeight="semibold" color="fg">
                   Reporte enviado

@@ -1,5 +1,6 @@
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { logoutAction } from "@/features/auth/actions";
+import { ArrowOutLeftSquareHalf } from "@boxicons/react";
 
 interface ProfileStatsProps {
   salesCount: number;
@@ -30,12 +31,10 @@ export const ProfileStats = ({
       <Box display={{ base: "block", md: "none" }} ml="auto">
         <form action={logoutAction}>
           <button type="submit">
-            <i
-              className="bx bx-log-out"
-              style={{
-                fontSize: "28px",
-                color: "var(--chakra-colors-feedback-error)",
-              }}
+            <ArrowOutLeftSquareHalf
+              width="28px"
+              height="28px"
+              fill="var(--chakra-colors-feedback-error)"
             />
           </button>
         </form>

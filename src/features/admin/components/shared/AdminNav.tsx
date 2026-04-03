@@ -3,10 +3,11 @@
 import { Flex, Text, Box } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { BarChart, Flag } from "@boxicons/react";
 
 const links = [
-  { href: "/admin", label: "Métricas", icon: "bx-bar-chart-alt-2" },
-  { href: "/admin/reports", label: "Reportes", icon: "bx-flag" },
+  { href: "/admin", label: "Métricas", Icon: BarChart },
+  { href: "/admin/reports", label: "Reportes", Icon: Flag },
 ];
 
 export function AdminNav() {
@@ -25,10 +26,11 @@ export function AdminNav() {
       <Flex gap={2}>
         {links.map((link) => {
           const isActive = pathname === link.href;
+          const LinkIcon = link.Icon;
+
           return (
             <Box
               key={link.href}
-              asChild
               px={4}
               py={2}
               borderRadius="xl"
@@ -39,10 +41,7 @@ export function AdminNav() {
             >
               <NextLink href={link.href}>
                 <Flex align="center" gap={2}>
-                  <i
-                    className={`bx ${link.icon}`}
-                    style={{ fontSize: "16px" }}
-                  />
+                  <LinkIcon width="16px" height="16px" fill="currentColor" />
                   <Text fontSize="sm" fontWeight="medium">
                     {link.label}
                   </Text>

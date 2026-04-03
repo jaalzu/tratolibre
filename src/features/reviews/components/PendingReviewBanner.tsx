@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { ReviewModal } from "@/features/reviews/components/ReviewModal";
 import type { PendingReview } from "@/features/reviews/actions";
+import { Star, ChevronLeft, ChevronRight } from "@boxicons/react";
 
 export function PendingReviewBanner({
   pendingReviews,
@@ -52,7 +53,7 @@ export function PendingReviewBanner({
             color="brand.default"
             flexShrink={0}
           >
-            <i className="bx bx-star" style={{ fontSize: "18px" }} />
+            <Star width="18px" height="18px" fill="currentColor" />
           </Flex>
 
           <Box flex={1}>
@@ -79,10 +80,7 @@ export function PendingReviewBanner({
                   aria-disabled={current === 0}
                   px={1}
                 >
-                  <i
-                    className="bx bx-chevron-left"
-                    style={{ fontSize: "25px" }}
-                  />
+                  <ChevronLeft width="25px" height="25px" fill="currentColor" />
                 </Box>
 
                 <Box
@@ -95,9 +93,10 @@ export function PendingReviewBanner({
                   aria-disabled={current === total - 1}
                   px={1}
                 >
-                  <i
-                    className="bx bx-chevron-right"
-                    style={{ fontSize: "25px" }}
+                  <ChevronRight
+                    width="25px"
+                    height="25px"
+                    fill="currentColor"
                   />
                 </Box>
               </>

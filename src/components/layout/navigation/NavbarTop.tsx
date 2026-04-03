@@ -8,12 +8,20 @@ import { ChatNavLink } from "./ChatNavLink";
 import { NotificationBell } from "@/features/notifications/components/NotificationBell";
 import { SearchBar } from "../../../features/search/components/SearchBar";
 import { User } from "@supabase/supabase-js";
+import {
+  HomeAlt,
+  PlusCircle,
+  Heart,
+  User as UserIcon,
+  Shield,
+  Categories,
+} from "@boxicons/react";
 
 const loggedNavItems = [
-  { label: "Inicio", href: "/", icon: "bx-home-alt" },
-  { label: "Publicar", href: "/item/new", icon: "bx-plus-circle" },
-  { label: "Favoritos", href: "/favorites", icon: "bx-heart" },
-  { label: "Perfil", href: "/profile", icon: "bx-user" },
+  { label: "Inicio", href: "/", icon: HomeAlt },
+  { label: "Publicar", href: "/item/new", icon: PlusCircle },
+  { label: "Favoritos", href: "/favorites", icon: Heart },
+  { label: "Perfil", href: "/profile", icon: UserIcon },
 ];
 
 interface NavbarTopProps {
@@ -74,24 +82,13 @@ export const NavbarTop = ({
               <NavLink
                 href="/admin"
                 label="Admin"
-                icon="bx-shield"
+                icon={Shield}
                 variant="desktop"
               />
             )}
             <Box color="neutral.50">
               <NotificationBell initialCount={unreadCount} userId={user.id} />
             </Box>
-            <form action={logoutAction}>
-              <IconButton
-                type="submit"
-                p={1}
-                variant="ghost"
-                color="neutral.50"
-                _hover={{ bg: "whiteAlpha.200" }}
-              >
-                <i className="bx bx-log-out" style={{ fontSize: "28px" }} />
-              </IconButton>
-            </form>
           </>
         ) : (
           <>
@@ -129,7 +126,6 @@ export const NavbarTop = ({
         )}
       </Flex>
 
-      {/* Mobile: campana o login */}
       {/* Mobile */}
       <Box
         display={{ base: "flex", md: "none" }}
@@ -146,7 +142,7 @@ export const NavbarTop = ({
               p={1}
               _hover={{ opacity: 0.8 }}
             >
-              <i className="bx bx-category" style={{ fontSize: "28px" }} />
+              <Categories width="28px" height="28px" fill="currentColor" />
             </Box>
             <Box color="white">
               <NotificationBell initialCount={unreadCount} userId={user.id} />

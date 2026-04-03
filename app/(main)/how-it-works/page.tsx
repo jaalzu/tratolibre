@@ -1,5 +1,6 @@
 import { Box, Heading, Text, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/react";
+import { Search, MessageCode, Checks, Star } from "@boxicons/react";
 
 export const metadata = {
   title: "Cómo funciona | TratoLibre",
@@ -9,28 +10,28 @@ export const metadata = {
 
 const steps = [
   {
-    icon: "bx bx-search",
+    Icon: Search,
     step: "01",
     title: "Buscá lo que necesitás",
     description:
       "Explorá miles de publicaciones usando el buscador o navegando por categorías. Filtrá por ubicación, precio, condición y más para encontrar exactamente lo que querés.",
   },
   {
-    icon: "bx bx-message-rounded",
+    Icon: MessageCode,
     step: "02",
     title: "Contactá al vendedor",
     description:
       "¿Te interesa un artículo? Mandá un mensaje directo al vendedor a través de nuestro chat integrado. Acordá el precio, el método de pago y la forma de entrega.",
   },
   {
-    icon: "bx bx-check-double",
+    Icon: Checks,
     step: "03",
     title: "Cerrá el trato",
     description:
       "Coordiná el encuentro o envío con el vendedor. TratoLibre facilita la comunicación para que el intercambio sea lo más simple posible para ambas partes.",
   },
   {
-    icon: "bx bx-star",
+    Icon: Star,
     step: "04",
     title: "Dejá tu reseña",
     description:
@@ -128,85 +129,88 @@ export default function HowItWorksPage() {
             gap={{ base: 8, md: 4 }}
             align="flex-start"
           >
-            {steps.map((s, i) => (
-              <Flex
-                key={s.step}
-                flex={1}
-                direction={{ base: "row", md: "column" }}
-                gap={4}
-                align="flex-start"
-                position="relative"
-              >
-                {/* Línea conectora desktop (horizontal) */}
-                {i < steps.length - 1 && (
-                  <Box
-                    display={{ base: "none", md: "block" }}
-                    position="absolute"
-                    top="21px"
-                    left="56px"
-                    right="-16px"
-                    height="2px"
-                    bg="border.subtle"
-                    zIndex={0}
-                  />
-                )}
-
-                {/* Línea conectora mobile (vertical) */}
-                {i < steps.length - 1 && (
-                  <Box
-                    display={{ base: "block", md: "none" }}
-                    position="absolute"
-                    left="21px"
-                    top="44px"
-                    bottom="-32px"
-                    width="2px"
-                    bg="border.subtle"
-                    zIndex={0}
-                  />
-                )}
-
-                {/* Ícono */}
+            {steps.map((s, i) => {
+              const StepIcon = s.Icon;
+              return (
                 <Flex
-                  flexShrink={0}
-                  w="44px"
-                  h="44px"
-                  bg="brand.default"
-                  color="white"
-                  borderRadius="full"
-                  align="center"
-                  justify="center"
-                  zIndex={1}
+                  key={s.step}
+                  flex={1}
+                  direction={{ base: "row", md: "column" }}
+                  gap={4}
+                  align="flex-start"
+                  position="relative"
                 >
-                  <i className={s.icon} style={{ fontSize: "20px" }} />
-                </Flex>
+                  {/* Línea conectora desktop (horizontal) */}
+                  {i < steps.length - 1 && (
+                    <Box
+                      display={{ base: "none", md: "block" }}
+                      position="absolute"
+                      top="21px"
+                      left="56px"
+                      right="-16px"
+                      height="2px"
+                      bg="border.subtle"
+                      zIndex={0}
+                    />
+                  )}
 
-                {/* Texto */}
-                <Box flex={1}>
-                  <Text
-                    fontSize="xs"
-                    fontWeight="bold"
-                    color="brand.fg"
-                    textTransform="uppercase"
-                    letterSpacing="wider"
-                    mb={1}
+                  {/* Línea conectora mobile (vertical) */}
+                  {i < steps.length - 1 && (
+                    <Box
+                      display={{ base: "block", md: "none" }}
+                      position="absolute"
+                      left="21px"
+                      top="44px"
+                      bottom="-32px"
+                      width="2px"
+                      bg="border.subtle"
+                      zIndex={0}
+                    />
+                  )}
+
+                  {/* Ícono */}
+                  <Flex
+                    flexShrink={0}
+                    w="44px"
+                    h="44px"
+                    bg="brand.default"
+                    color="white"
+                    borderRadius="full"
+                    align="center"
+                    justify="center"
+                    zIndex={1}
                   >
-                    Paso {s.step}
-                  </Text>
-                  <Heading
-                    as="h3"
-                    fontSize={{ base: "md", md: "sm" }}
-                    fontWeight="semibold"
-                    color="fg"
-                    mb={2}
-                  >
-                    {s.title}
-                  </Heading>
-                  <Text fontSize="sm" color="fg.muted" lineHeight="tall">
-                    {s.description}
-                  </Text>
-                </Box>
-              </Flex>
-            ))}
+                    <StepIcon width="20px" height="20px" fill="white" />
+                  </Flex>
+
+                  {/* Texto */}
+                  <Box flex={1}>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="brand.fg"
+                      textTransform="uppercase"
+                      letterSpacing="wider"
+                      mb={1}
+                    >
+                      Paso {s.step}
+                    </Text>
+                    <Heading
+                      as="h3"
+                      fontSize={{ base: "md", md: "sm" }}
+                      fontWeight="semibold"
+                      color="fg"
+                      mb={2}
+                    >
+                      {s.title}
+                    </Heading>
+                    <Text fontSize="sm" color="fg.muted" lineHeight="tall">
+                      {s.description}
+                    </Text>
+                  </Box>
+                </Flex>
+              );
+            })}
           </Flex>
         </Box>
 
@@ -246,7 +250,6 @@ export default function HowItWorksPage() {
           </SimpleGrid>
         </Box>
 
-        {/* CTA */}
         {/* CTA */}
         <Box
           textAlign="center"

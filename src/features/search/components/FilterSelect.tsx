@@ -2,6 +2,7 @@
 
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
+import { ChevronUp, ChevronDown, Check } from "@boxicons/react";
 
 interface Option {
   id: string;
@@ -53,22 +54,28 @@ export function FilterSelect({
       >
         <Text
           fontSize="sm"
-          color={selected ? "neutral.700" : "neutral.700"}
+          color="neutral.700"
           overflow="hidden"
           textOverflow="ellipsis"
           whiteSpace="nowrap"
           flex={1}
+          textAlign="left"
         >
           {selected ? selected.label : placeholder}
         </Text>
-        <i
-          className={open ? "bx bx-chevron-up" : "bx bx-chevron-down"}
-          style={{
-            fontSize: "18px",
-            color: "var(--chakra-colors-neutral-400)",
-            flexShrink: 0,
-          }}
-        />
+        {open ? (
+          <ChevronUp
+            width="18px"
+            height="18px"
+            fill="var(--chakra-colors-neutral-400)"
+          />
+        ) : (
+          <ChevronDown
+            width="18px"
+            height="18px"
+            fill="var(--chakra-colors-neutral-400)"
+          />
+        )}
       </Flex>
 
       {open && (
@@ -133,12 +140,10 @@ export function FilterSelect({
                   {opt.label}
                 </Text>
                 {value === opt.id && (
-                  <i
-                    className="bx bx-check"
-                    style={{
-                      fontSize: "16px",
-                      color: "var(--chakra-colors-brand-default)",
-                    }}
+                  <Check
+                    width="16px"
+                    height="16px"
+                    fill="var(--chakra-colors-brand-default)"
                   />
                 )}
               </Flex>

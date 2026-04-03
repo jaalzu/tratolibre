@@ -1,10 +1,16 @@
 "use client";
 
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { Box, Grid, Text, Flex } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { CATEGORIES } from "@/lib/constants";
 import { useState, useEffect, useRef } from "react";
 import { PageContainer } from "@/components/ui/PageContainer";
+import {
+  ChevronUp,
+  ChevronDown,
+  // Hanger en lugar de Closet
+  Hanger,
+} from "@boxicons/react";
 
 const INITIAL_COUNT = 6;
 
@@ -13,7 +19,6 @@ export function CategoriesGrid() {
   const [isNear, setIsNear] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Observer para no renderizar las categorías hasta que el usuario esté cerca
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -55,40 +60,43 @@ export function CategoriesGrid() {
             />
 
             <Grid templateColumns="repeat(3, 1fr)" gap={2} py={2}>
-              {visible.map((cat) => (
-                <NextLink key={cat.id} href={`/category/${cat.id}`}>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                    justifyContent="center"
-                    gap={1}
-                    h="80px"
-                    borderRadius="xl"
-                    bg="neutral.150"
-                    _hover={{ bg: "brand.50" }}
-                    transition="all 0.15s"
-                    cursor="pointer"
-                    textAlign="center"
-                  >
-                    <i
-                      className={`bx ${cat.icon}`}
-                      style={{
-                        fontSize: "24px",
-                        color: "var(--chakra-colors-brand-default)",
-                      }}
-                    />
-                    <Text
-                      fontSize="xs"
-                      color="neutral.700"
-                      fontWeight="medium"
-                      lineHeight="tight"
+              {visible.map((cat) => {
+                // Usamos 'icon' que es donde tenés el componente según el error de TS
+                const Icon = cat.icon;
+
+                return (
+                  <NextLink key={cat.id} href={`/category/${cat.id}`}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      justifyContent="center"
+                      gap={1}
+                      h="80px"
+                      borderRadius="xl"
+                      bg="neutral.150"
+                      _hover={{ bg: "brand.50" }}
+                      transition="all 0.15s"
+                      cursor="pointer"
+                      textAlign="center"
                     >
-                      {cat.label}
-                    </Text>
-                  </Box>
-                </NextLink>
-              ))}
+                      <Icon
+                        width="24px"
+                        height="24px"
+                        fill="var(--chakra-colors-brand-default)"
+                      />
+                      <Text
+                        fontSize="xs"
+                        color="neutral.700"
+                        fontWeight="medium"
+                        lineHeight="tight"
+                      >
+                        {cat.label}
+                      </Text>
+                    </Box>
+                  </NextLink>
+                );
+              })}
             </Grid>
 
             <Box
@@ -98,33 +106,33 @@ export function CategoriesGrid() {
               mx={-4}
             />
 
-            <Box
+            <Flex
               as="button"
               onClick={() => setExpanded(!expanded)}
               w="full"
               pt={3}
-              textAlign="left"
+              align="center"
+              gap={1}
             >
               <Text fontSize="sm" color="accent.default" fontWeight="semibold">
-                {expanded ? (
-                  <>
-                    Mostrar menos categorías{" "}
-                    <i
-                      className="bx bx-chevron-up"
-                      style={{ verticalAlign: "middle", fontSize: "16px" }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    Ver todas las categorías{" "}
-                    <i
-                      className="bx bx-chevron-down"
-                      style={{ verticalAlign: "middle", fontSize: "16px" }}
-                    />
-                  </>
-                )}
+                {expanded
+                  ? "Mostrar menos categorías"
+                  : "Ver todas las categorías"}
               </Text>
-            </Box>
+              {expanded ? (
+                <ChevronUp
+                  width="16px"
+                  height="16px"
+                  fill="var(--chakra-colors-accent-default)"
+                />
+              ) : (
+                <ChevronDown
+                  width="16px"
+                  height="16px"
+                  fill="var(--chakra-colors-accent-default)"
+                />
+              )}
+            </Flex>
           </>
         )}
       </Box>

@@ -3,6 +3,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { EmptyState } from "@/components/ui/EmptyState";
 import NextLink from "next/link";
+import { AlertCircle } from "@boxicons/react";
 
 export default function Error({ reset }: { reset: () => void }) {
   return (
@@ -17,12 +18,10 @@ export default function Error({ reset }: { reset: () => void }) {
 
       <EmptyState
         icon={
-          <i
-            className="bx bx-error-circle"
-            style={{
-              fontSize: "64px",
-              color: "var(--chakra-colors-feedback-error)",
-            }}
+          <AlertCircle
+            width="64px"
+            height="64px"
+            fill="var(--chakra-colors-feedback-error)"
           />
         }
         title="Algo salió mal"

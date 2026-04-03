@@ -4,6 +4,7 @@ import { Box, Text, Flex, Avatar } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import { EditProfileFields } from "./EditProfileFields";
 import { useEditProfile } from "@/features/profile/useEditProfile";
+import { Camera } from "@boxicons/react";
 
 interface EditProfileFormProps {
   defaultValues: {
@@ -54,7 +55,7 @@ export const EditProfileForm = ({ defaultValues }: EditProfileFormProps) => {
               boxShadow: "var(--chakra-shadows-sm)",
             }}
           >
-            <i className="bx bx-camera" style={{ fontSize: "14px" }} />
+            <Camera width="14px" height="14px" fill="currentColor" />
             <input
               id="avatar-upload"
               type="file"

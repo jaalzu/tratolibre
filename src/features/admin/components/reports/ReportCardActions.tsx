@@ -8,6 +8,7 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { TARGET_HREF } from "../../constants";
 import { useReportActions } from "../../hooks/useReportActions";
 import { AdminReport } from "../../types";
+import { Link } from "@boxicons/react";
 
 interface ReportCardActionsProps {
   report: AdminReport;
@@ -62,8 +63,7 @@ export function ReportCardActions({ report }: ReportCardActionsProps) {
             target={report.type !== "conversation" ? "_blank" : undefined}
           >
             <Flex align="center" gap={1.5}>
-              <i className="bx bx-link-external" style={{ fontSize: "13px" }} />
-              Ver contenido
+              <Link width="13px" height="13px" fill="currentColor" />
             </Flex>
           </NextLink>
         </Button>

@@ -5,6 +5,7 @@ import { useSearchFilters } from "../useSearchFilters";
 import { CATEGORIES, CONDITIONS } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
 import { FilterSelect } from "./FilterSelect";
+import { X } from "@boxicons/react";
 
 const DATE_OPTIONS = [
   { id: "today", label: "Hoy" },
@@ -63,14 +64,15 @@ export function FilterDrawer({ open, onClose }: FilterDrawerProps) {
           <Text fontWeight="bold" fontSize="md" color="neutral.900">
             Filtros
           </Text>
-          <IconButton variant="ghost" onClick={onClose}>
-            <i
-              className="bx bx-x"
-              aria-label="close filter menu"
-              style={{ fontSize: "28px", color: "red" }}
-            />
+          <IconButton
+            variant="ghost"
+            onClick={onClose}
+            aria-label="close filter menu"
+          >
+            <X width="28px" height="28px" fill="red" />
           </IconButton>
         </Flex>
+
         <Flex
           gap={2}
           px={4}

@@ -1,9 +1,18 @@
 "use client";
 
 import { Box, Grid } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import NavLink from "./NavLink";
 import { ChatNavLink } from "./ChatNavLink";
+// Importamos todos los que necesitamos
+import {
+  HomeAlt,
+  Heart,
+  PlusCircle,
+  MessageDetail,
+  User,
+  Shield,
+} from "@boxicons/react";
 
 interface BottomNavProps {
   userId?: string;
@@ -11,27 +20,21 @@ interface BottomNavProps {
 }
 
 const navItems = [
-  { label: "Inicio", href: "/", icon: "bx-home-alt", protected: false },
-  { label: "Favoritos", href: "/favorites", icon: "bx-heart", protected: true },
-  {
-    label: "Publicar",
-    href: "/item/new",
-    icon: "bx-plus-circle",
-    protected: true,
-  },
+  { label: "Inicio", href: "/", icon: HomeAlt, protected: false },
+  { label: "Favoritos", href: "/favorites", icon: Heart, protected: true },
+  { label: "Publicar", href: "/item/new", icon: PlusCircle, protected: true },
   {
     label: "Buzón",
     href: "/chat",
-    icon: "bx-message-square-dots",
+    icon: MessageDetail,
     isChat: true,
     protected: true,
   },
-  { label: "Perfil", href: "/profile", icon: "bx-user", protected: true },
+  { label: "Perfil", href: "/profile", icon: User, protected: true },
 ];
 
 export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
   const pathname = usePathname();
-  const router = useRouter();
 
   if (pathname.startsWith("/chat/")) return null;
 
@@ -50,8 +53,6 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
       <Grid
         templateColumns="repeat(auto-fit, minmax(0, 1fr))"
         h="60px"
-        gap={0}
-        justifyItems="center"
         alignItems="center"
       >
         {navItems.map((item) =>
@@ -63,7 +64,7 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
                 key={item.label}
                 href="/login"
                 label={item.label}
-                icon={item.icon}
+                icon={item.icon} // Ahora pasamos el componente
                 variant="mobile"
               />
             )
@@ -72,18 +73,13 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
               key={item.label}
               href={item.protected && !userId ? "/login" : item.href}
               label={item.label}
-              icon={item.icon}
+              icon={item.icon} // Ahora pasamos el componente
               variant="mobile"
             />
           ),
         )}
         {isAdmin && userId && (
-          <NavLink
-            href="/admin"
-            label="Admin"
-            icon="bx-shield"
-            variant="mobile"
-          />
+          <NavLink href="/admin" label="Admin" icon={Shield} variant="mobile" />
         )}
       </Grid>
     </Box>

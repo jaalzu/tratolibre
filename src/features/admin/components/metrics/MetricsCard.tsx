@@ -1,8 +1,19 @@
+"use client";
+
 import { Box, Flex, Text } from "@chakra-ui/react";
+import { Group, Package, TrendingUp, Flag } from "@boxicons/react";
+
+// Creamos un mapa para traducir el string al componente real
+const ICONS = {
+  group: Group,
+  package: Package,
+  "trending-up": TrendingUp,
+  flag: Flag,
+};
 
 interface MetricCardProps {
   title: string;
-  icon: string;
+  iconName: keyof typeof ICONS; // Solo acepta las llaves del mapa de arriba
   primary: { label: string; value: string | number };
   secondary?: { label: string; value: string | number };
   alert?: boolean;
@@ -10,11 +21,14 @@ interface MetricCardProps {
 
 export function MetricCard({
   title,
-  icon,
+  iconName,
   primary,
   secondary,
   alert,
 }: MetricCardProps) {
+  // Obtenemos el componente según el nombre que llegó por props
+  const Icon = ICONS[iconName];
+
   return (
     <Box bg="neutral.50" borderRadius="2xl" px={6} py={5}>
       <Flex justify="space-between" align="flex-start" mb={4}>
@@ -30,13 +44,13 @@ export function MetricCard({
           justify="center"
           flexShrink={0}
         >
-          <i
-            className={`bx ${icon}`}
-            style={{
-              fontSize: "18px",
-              color: "var(--chakra-colors-brand-100)",
-            }}
-          />
+          {Icon && (
+            <Icon
+              width="18px"
+              height="18px"
+              fill="var(--chakra-colors-brand-100)"
+            />
+          )}
         </Flex>
       </Flex>
 

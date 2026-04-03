@@ -3,6 +3,7 @@
 import { Box, Circle } from "@chakra-ui/react";
 import { useNotificationPanel } from "../hooks/useNotificationPanel";
 import { NotificationsPanel } from "./NotificationsPanel";
+import { Bell } from "@boxicons/react";
 
 interface NotificationBellProps {
   initialCount: number;
@@ -38,7 +39,7 @@ export function NotificationBell({
             : "Notificaciones"
         }
       >
-        <i className="bx bx-bell" style={{ fontSize: "28px" }} />
+        <Bell width="28px" height="28px" fill="currentColor" />
         {unreadCount > 0 && (
           <Circle
             size="16px"

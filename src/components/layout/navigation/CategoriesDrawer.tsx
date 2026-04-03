@@ -3,7 +3,7 @@
 import { Box, Flex, Text, IconButton, Stack } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { CATEGORIES } from "@/lib/constants";
-import { logoutAction } from "@/features/auth/actions";
+import { X, Home } from "@boxicons/react";
 
 interface CategoriesDrawerProps {
   open: boolean;
@@ -48,8 +48,15 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
           <Text fontWeight="bold" fontSize="md" color="neutral.900">
             Categorías
           </Text>
-          <IconButton variant="ghost" onClick={onClose} aria-label="cerrar">
-            <i className="bx bx-x" style={{ fontSize: "28px", color: "red" }} />
+          <IconButton
+            variant="ghost"
+            onClick={onClose}
+            aria-label="cerrar"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <X width="28px" height="28px" fill="red" />
           </IconButton>
         </Flex>
 
@@ -65,12 +72,10 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
               _hover={{ bg: "brand.50" }}
               transition="all 0.15s"
             >
-              <i
-                className="bx bx-home"
-                style={{
-                  fontSize: "20px",
-                  color: "var(--chakra-colors-brand-default)",
-                }}
+              <Home
+                width="20px"
+                height="20px"
+                fill="var(--chakra-colors-brand-default)"
               />
               <Text fontSize="sm" color="neutral.700" fontWeight="medium">
                 Inicio
@@ -87,36 +92,38 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
         {/* Categorías */}
         <Box overflowY="auto" flex={1} px={4} py={2}>
           <Stack gap={1}>
-            {CATEGORIES.map((cat) => (
-              <NextLink
-                key={cat.id}
-                href={`/category/${cat.id}`}
-                onClick={onClose}
-              >
-                <Flex
-                  align="center"
-                  gap={3}
-                  px={3}
-                  py={2.5}
-                  borderRadius="lg"
-                  _hover={{ bg: "brand.50" }}
-                  transition="all 0.15s"
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <NextLink
+                  key={cat.id}
+                  href={`/category/${cat.id}`}
+                  onClick={onClose}
                 >
-                  <i
-                    className={`bx ${cat.icon}`}
-                    style={{
-                      fontSize: "20px",
-                      color: "var(--chakra-colors-brand-default)",
-                    }}
-                  />
-                  <Text fontSize="sm" color="neutral.700" fontWeight="medium">
-                    {cat.label}
-                  </Text>
-                </Flex>
-              </NextLink>
-            ))}
+                  <Flex
+                    align="center"
+                    gap={3}
+                    px={3}
+                    py={2.5}
+                    borderRadius="lg"
+                    _hover={{ bg: "brand.50" }}
+                    transition="all 0.15s"
+                  >
+                    <Icon
+                      width="20px"
+                      height="20px"
+                      fill="var(--chakra-colors-brand-default)"
+                    />
+                    <Text fontSize="sm" color="neutral.700" fontWeight="medium">
+                      {cat.label}
+                    </Text>
+                  </Flex>
+                </NextLink>
+              );
+            })}
           </Stack>
         </Box>
+
         <Box px={4} py={1}>
           <Box borderTop="1px solid" borderColor="neutral.100" />
         </Box>

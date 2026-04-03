@@ -102,7 +102,6 @@ export function HeroSlideContent({
   );
 }
 
-// Este sigue siendo server component
 export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
   const slides = getSlides(isLoggedIn);
 

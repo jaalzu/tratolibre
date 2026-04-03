@@ -3,6 +3,7 @@
 import { Box, Flex, Text, Stack } from "@chakra-ui/react";
 import { NotificationItem } from "./NotificationItem";
 import type { Notification } from "../types";
+import { Bell, X } from "@boxicons/react";
 
 interface NotificationsPanelProps {
   notifications: Notification[];
@@ -34,7 +35,7 @@ export function NotificationsPanel({
           color="feedback.error"
           _hover={{ color: "neutral.700" }}
         >
-          <i className="bx bx-x" style={{ fontSize: "24px" }} />
+          <X width="24px" height="24px" fill="currentColor" />
         </Box>
       </Flex>
 
@@ -52,12 +53,10 @@ export function NotificationsPanel({
           </Flex>
         ) : notifications.length === 0 ? (
           <Flex direction="column" align="center" py={12} gap={2}>
-            <i
-              className="bx bx-bell"
-              style={{
-                fontSize: "28px",
-                color: "var(--chakra-colors-neutral-300)",
-              }}
+            <Bell
+              width="28px"
+              height="28px"
+              fill="var(--chakra-colors-neutral-300)"
             />
             <Text fontSize="sm" color="neutral.400">
               No tenés notificaciones

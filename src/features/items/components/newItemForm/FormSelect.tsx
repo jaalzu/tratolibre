@@ -2,11 +2,12 @@
 
 import { Box, Text } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
+import { ChevronUp, ChevronDown } from "@boxicons/react";
 
 interface Option {
   id: string;
   label: string;
-  iconClass?: string;
+  iconClass?: React.ElementType;
 }
 
 interface FormSelectProps {
@@ -54,9 +55,15 @@ export function FormSelect({
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 12px",
-          border: `1px solid ${invalid ? "var(--chakra-colors-feedback-error)" : open ? "var(--chakra-colors-brand-default)" : "var(--chakra-colors-neutral-500)"}`,
+          border: `1px solid ${
+            invalid
+              ? "var(--chakra-colors-feedback-error)"
+              : open
+                ? "var(--chakra-colors-brand-default)"
+                : "var(--chakra-colors-neutral-500)"
+          }`,
           borderRadius: "8px",
-          background: "neutral.50",
+          background: "var(--chakra-colors-neutral-50)",
           cursor: disabled ? "not-allowed" : "pointer",
           opacity: disabled ? 0.5 : 1,
           transition: "border-color 0.15s",
@@ -71,12 +78,18 @@ export function FormSelect({
             overflow: "hidden",
           }}
         >
-          {selected?.iconClass && (
-            <i
-              className={`bx ${selected.iconClass}`}
-              style={{ fontSize: "16px", flexShrink: 0 }}
-            />
-          )}
+          {selected?.iconClass &&
+            (() => {
+              const Icon = selected.iconClass;
+              return (
+                <Icon
+                  width="16px"
+                  height="16px"
+                  fill="currentColor"
+                  style={{ flexShrink: 0 }}
+                />
+              );
+            })()}
           <Text
             fontSize="sm"
             color={selected ? "neutral.900" : "neutral.400"}
@@ -88,14 +101,20 @@ export function FormSelect({
             {selected ? selected.label : placeholder}
           </Text>
         </div>
-        <i
-          className={open ? "bx bx-chevron-up" : "bx bx-chevron-down"}
-          style={{
-            fontSize: "18px",
-            color: "var(--chakra-colors-neutral-400)",
-            flexShrink: 0,
-          }}
-        />
+
+        {open ? (
+          <ChevronUp
+            width="18px"
+            height="18px"
+            fill="var(--chakra-colors-neutral-400)"
+          />
+        ) : (
+          <ChevronDown
+            width="18px"
+            height="18px"
+            fill="var(--chakra-colors-neutral-400)"
+          />
+        )}
       </button>
 
       {open && (
@@ -120,68 +139,60 @@ export function FormSelect({
             },
           }}
         >
-          {options.map((opt) => (
-            <button
-              key={opt.id}
-              type="button"
-              data-testid={`option-${opt.id}`}
-              onClick={() => {
-                onChange(opt.id);
-                setOpen(false);
-              }}
-              style={{
-                width: "100%",
-                textAlign: "left",
-                padding: "8px 12px",
-                background:
-                  value === opt.id
+          {options.map((opt) => {
+            const Icon = opt.iconClass;
+            const isSelected = value === opt.id;
+
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                data-testid={`option-${opt.id}`}
+                onClick={() => {
+                  onChange(opt.id);
+                  setOpen(false);
+                }}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "8px 12px",
+                  background: isSelected
                     ? "var(--chakra-colors-brand-50)"
                     : "transparent",
-                border: "none",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-              onMouseEnter={(e) => {
-                if (value !== opt.id)
-                  (e.currentTarget as HTMLButtonElement).style.background =
-                    "var(--chakra-colors-neutral-50)";
-              }}
-              onMouseLeave={(e) => {
-                if (value !== opt.id)
-                  (e.currentTarget as HTMLButtonElement).style.background =
-                    "transparent";
-              }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                  border: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected)
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "var(--chakra-colors-neutral-50)";
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected)
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "transparent";
+                }}
               >
-                {opt.iconClass && (
-                  <i
-                    className={`bx ${opt.iconClass}`}
-                    style={{ fontSize: "16px" }}
-                  />
-                )}
-                <Text
-                  fontSize="sm"
-                  color={value === opt.id ? "brand.default" : "neutral.700"}
-                  fontWeight={value === opt.id ? "bold" : "normal"}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
-                  {opt.label}
-                </Text>
-              </div>
-              {value === opt.id && (
-                <i
-                  className="bx bx-check"
-                  style={{
-                    fontSize: "16px",
-                    color: "var(--chakra-colors-brand-default)",
-                  }}
-                />
-              )}
-            </button>
-          ))}
+                  {Icon && (
+                    <Icon width="18px" height="18px" fill="currentColor" />
+                  )}
+                  <Text
+                    fontSize="sm"
+                    color={isSelected ? "brand.default" : "neutral.700"}
+                    fontWeight={isSelected ? "bold" : "normal"}
+                  >
+                    {opt.label}
+                  </Text>
+                </div>
+              </button>
+            );
+          })}
         </Box>
       )}
     </Box>
