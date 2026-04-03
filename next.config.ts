@@ -14,18 +14,12 @@ const nextConfig: NextConfig = {
 
 export default withSentryConfig(nextConfig, {
   org: "javieralzu",
-
   project: "tratolibre",
-
   silent: !process.env.CI,
-
   widenClientFileUpload: true,
-
   tunnelRoute: "/monitoring",
-
   webpack: {
     automaticVercelMonitors: true,
-
     treeshake: {
       removeDebugLogging: true,
     },

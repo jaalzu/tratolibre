@@ -1,5 +1,4 @@
-"use client";
-
+// components/sections/LoggedInHero.tsx
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import NextLink from "next/link";
@@ -9,11 +8,14 @@ interface LoggedInHeroProps {
   name: string | null;
 }
 
+function getFirstName(name: string | null) {
+  if (!name) return null;
+  const firstName = name.split(" ")[0];
+  return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+}
+
 export function LoggedInHero({ name }: LoggedInHeroProps) {
-  const firstName = name
-    ? name.split(" ")[0].charAt(0).toUpperCase() +
-      name.split(" ")[0].slice(1).toLowerCase()
-    : null;
+  const firstName = getFirstName(name);
 
   return (
     <PageContainer pt={6} pb={2}>
@@ -35,7 +37,7 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
             color="neutral.900"
             mb={1}
           >
-            {firstName ? `Bienvenido, ${firstName}` : "Bienvenido"}{" "}
+            {firstName ? `Bienvenido, ${firstName}` : "Bienvenido"}
           </Heading>
           <Text fontSize="md" color="fg.muted" px={5}>
             Compra y vende artículos nuevos o usados fácilmente.
