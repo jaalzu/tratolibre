@@ -28,7 +28,6 @@ export const metadata: Metadata = {
     template: "%s | TratoLibre",
   },
   description: "Marketplace de objetos usados entre personas",
-
   openGraph: {
     title: "TratoLibre — Compra y vende objetos",
     description: "Marketplace de objetos usados entre personas",
@@ -43,7 +42,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-
   twitter: {
     card: "summary_large_image",
     title: "TratoLibre — Compra y vende objetos",
@@ -61,8 +59,20 @@ export default async function RootLayout({
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   return (
     <html lang="es" className={geist.variable} suppressHydrationWarning>
+      <head>
+        {/* Preload hero image solo para usuarios no logueados */}
+        {!user && (
+          <link
+            rel="preload"
+            as="image"
+            href="/hero/girl-in-pool.webp"
+            fetchPriority="high"
+          />
+        )}
+      </head>
       <body className={geist.className} suppressHydrationWarning>
         <Providers>
           <Toaster />

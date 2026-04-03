@@ -1,12 +1,9 @@
-"use client";
-
+// components/sections/Hero.tsx (SERVER COMPONENT)
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 import NextLink from "next/link";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
-import { useCallback, useEffect, useState } from "react";
+import { HeroCarousel } from "./HeroCarousel";
 
 interface HeroSlide {
   image: string;
@@ -24,7 +21,6 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
         "Compra, venta e intercambio de artículos de segunda mano y nuevos.",
       buttonLabel: "Vender Ahora",
       buttonHref: isLoggedIn ? "/item/new" : "/register",
-
       bg: "brand.100",
     },
     {
@@ -37,7 +33,7 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
   ];
 }
 
-function HeroSlideContent({
+export function HeroSlideContent({
   slide,
   priority,
 }: {
@@ -56,7 +52,6 @@ function HeroSlideContent({
             sizes="100vw"
             style={{ objectFit: "cover" }}
             priority={priority}
-            fetchPriority={priority ? "high" : "auto"}
           />
         </Box>
         <Box bg={slide.bg} px={4} py={5}>
@@ -107,55 +102,9 @@ function HeroSlideContent({
   );
 }
 
+// Este sigue siendo server component
 export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
   const slides = getSlides(isLoggedIn);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 3000, stopOnInteraction: true }),
-  ]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.on("select", onSelect);
-  }, [emblaApi, onSelect]);
-
-  const scrollTo = useCallback(
-    (index: number) => emblaApi?.scrollTo(index),
-    [emblaApi],
-  );
-
-  return (
-    <Box overflow="hidden" ref={emblaRef}>
-      <Flex>
-        {slides.map((slide, i) => (
-          <Box key={i} flex="0 0 100%" minW={0}>
-            <HeroSlideContent slide={slide} priority={i === 0} />
-          </Box>
-        ))}
-      </Flex>
-      <Flex justify="center" gap={2} mt={4} mb={1}>
-        {slides.map((_, i) => (
-          <Box
-            key={i}
-            as="button"
-            aria-label={`Ir a slide ${i + 1}`}
-            w={selectedIndex === i ? "20px" : "8px"}
-            h="8px"
-            borderRadius="full"
-            bg={selectedIndex === i ? "brand.default" : "neutral.300"}
-            transition="all 0.3s ease"
-            onClick={() => scrollTo(i)}
-            cursor="pointer"
-            border="none"
-            p={0}
-          />
-        ))}
-      </Flex>
-    </Box>
-  );
+  return <HeroCarousel slides={slides} />;
 }
