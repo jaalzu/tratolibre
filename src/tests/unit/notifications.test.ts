@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { getNotificationConfig } from "@/features/notifications/notifications.constants";
+import { Tag, ShoppingBag, Star } from "@boxicons/react"; // Importa los componentes para comparar
 
 describe("getNotificationConfig", () => {
   it("retorna config correcta para sale_completed", () => {
@@ -11,8 +12,10 @@ describe("getNotificationConfig", () => {
     });
 
     expect(config).not.toBeNull();
-    expect(config?.iconClass).toBe("bx bx-tag");
+    // 1. Ahora comparamos el componente, no el string
+    expect(config?.Icon).toBe(Tag);
     expect(config?.href).toBe("/item/item-123");
+    expect(config?.label).toBe('Marcaste "PlayStation 5" como vendido');
   });
 
   it("retorna config correcta para purchase_completed", () => {
@@ -24,7 +27,7 @@ describe("getNotificationConfig", () => {
     });
 
     expect(config).not.toBeNull();
-    expect(config?.iconClass).toBe("bx bx-shopping-bag");
+    expect(config?.Icon).toBe(ShoppingBag); // 2. Comparamos contra el componente ShoppingBag
     expect(config?.href).toBe("/item/item-123");
   });
 
@@ -37,7 +40,7 @@ describe("getNotificationConfig", () => {
     });
 
     expect(config).not.toBeNull();
-    expect(config?.iconClass).toBe("bx bx-star");
+    expect(config?.Icon).toBe(Star); // 3. Comparamos contra el componente Star
     expect(config?.href).toBe("/profile");
   });
 
@@ -49,6 +52,7 @@ describe("getNotificationConfig", () => {
       purchase_id: "purchase-123",
     });
 
+    // 4. Verificamos que el objeto del label tenga el rating
     expect(config?.label).toMatchObject({ rating: 4 });
   });
 
