@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileStats } from "./ProfileStats";
+import { Location } from "@boxicons/react";
 import NextLink from "next/link";
 
 interface ProfileHeaderProps {
@@ -69,12 +70,10 @@ export const ProfileHeader = ({
       />
       {location && (
         <Flex align="center" gap={1} mt={3}>
-          <i
-            className="bx bx-current-location"
-            style={{
-              fontSize: "16px",
-              color: "var(--chakra-colors-neutral-400)",
-            }}
+          <Location
+            width="16px"
+            height="16px"
+            fill="var(--chakra-colors-neutral-400)"
           />
           <Text fontSize="md" color="neutral.700">
             {location}
@@ -133,12 +132,10 @@ export const ProfileHeader = ({
           />{" "}
           {location && (
             <Flex align="center" gap={1}>
-              <i
-                className="bx bx-current-location"
-                style={{
-                  fontSize: "16px",
-                  color: "var(--chakra-colors-neutral-400)",
-                }}
+              <Location
+                width="16px"
+                height="16px"
+                fill="var(--chakra-colors-neutral-400)"
               />
               <Text fontSize="md" color="neutral.700">
                 {location}

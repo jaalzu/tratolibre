@@ -13,7 +13,7 @@ export function AdminMetrics({ metrics }: { metrics: AdminMetricsData }) {
     <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
       <MetricCard
         title="Usuarios"
-        icon="bx-group"
+        iconName="group" // Pasamos el nombre como string
         primary={{ value: metrics.totalUsers, label: "usuarios registrados" }}
         secondary={{
           value: `+${metrics.newUsers}`,
@@ -22,7 +22,7 @@ export function AdminMetrics({ metrics }: { metrics: AdminMetricsData }) {
       />
       <MetricCard
         title="Publicaciones"
-        icon="bx-package"
+        iconName="package" // Pasamos el nombre como string
         primary={{ value: metrics.totalItems, label: "publicaciones activas" }}
         secondary={{
           value: `+${metrics.newItems}`,
@@ -31,13 +31,13 @@ export function AdminMetrics({ metrics }: { metrics: AdminMetricsData }) {
       />
       <MetricCard
         title="Ventas"
-        icon="bx-trending-up"
+        iconName="trending-up"
         primary={{ value: metrics.totalSales, label: "ventas concretadas" }}
         secondary={{ value: salesValueFormatted, label: "en valor total" }}
       />
       <MetricCard
         title="Reportes"
-        icon="bx-flag"
+        iconName="flag"
         primary={{
           value: metrics.pendingReports,
           label: "reportes pendientes",

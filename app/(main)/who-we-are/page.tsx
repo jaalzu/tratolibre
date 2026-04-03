@@ -1,5 +1,6 @@
 import { Box, Heading, Text, Stack, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/react";
+import { Heart, Leaf, Group, Rocket } from "@boxicons/react";
 
 export const metadata = {
   title: "Quiénes somos | TratoLibre",
@@ -9,23 +10,23 @@ export const metadata = {
 
 const values = [
   {
-    icon: "bx bx-heart",
+    Icon: Heart,
     title: "Comunidad primero",
     description:
       "Creemos que las mejores transacciones nacen de la confianza entre personas.",
   },
   {
-    icon: "bx bx-leaf",
+    Icon: Leaf,
     title: "Consumo responsable",
     description: "Darle una segunda vida a los objetos reduce el desperdicio.",
   },
   {
-    icon: "bx bx-group",
+    Icon: Group,
     title: "Acceso para todos",
     description: "Queremos que cualquier persona en Argentina pueda comprar.",
   },
   {
-    icon: "bx bx-rocket",
+    Icon: Rocket,
     title: "Simplicidad",
     description:
       "Publicar un artículo toma minutos. Contactar al vendedor, segundos.",
@@ -153,37 +154,40 @@ export default function WhoWeArePage() {
             Nuestros valores
           </Heading>
           <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
-            {values.map((v) => (
-              <Flex
-                key={v.title}
-                gap={4}
-                p={5}
-                bg="neutral.150"
-                borderRadius="2xl"
-                align="flex-start"
-              >
+            {values.map((v) => {
+              const ValueIcon = v.Icon;
+              return (
                 <Flex
-                  flexShrink={0}
-                  w={10}
-                  h={10}
-                  bg="brand.subtle"
-                  color="brand.default"
-                  borderRadius="lg"
-                  align="center"
-                  justify="center"
+                  key={v.title}
+                  gap={4}
+                  p={5}
+                  bg="neutral.150"
+                  borderRadius="2xl"
+                  align="flex-start"
                 >
-                  <i className={v.icon} style={{ fontSize: "20px" }} />
+                  <Flex
+                    flexShrink={0}
+                    w={10}
+                    h={10}
+                    bg="brand.subtle"
+                    color="brand.default"
+                    borderRadius="lg"
+                    align="center"
+                    justify="center"
+                  >
+                    <ValueIcon width="20px" height="20px" fill="currentColor" />
+                  </Flex>
+                  <Box>
+                    <Text fontWeight="semibold" color="fg" mb={1}>
+                      {v.title}
+                    </Text>
+                    <Text fontSize="sm" color="fg.muted" lineHeight="tall">
+                      {v.description}
+                    </Text>
+                  </Box>
                 </Flex>
-                <Box>
-                  <Text fontWeight="semibold" color="fg" mb={1}>
-                    {v.title}
-                  </Text>
-                  <Text fontSize="sm" color="fg.muted" lineHeight="tall">
-                    {v.description}
-                  </Text>
-                </Box>
-              </Flex>
-            ))}
+              );
+            })}
           </SimpleGrid>
         </Box>
 

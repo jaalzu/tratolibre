@@ -6,6 +6,7 @@ import { ReportModal } from "@/features/reports/components/ReportModal";
 import { useState, useRef, useEffect } from "react";
 import NextLink from "next/link";
 import { useDeleteConversation } from "../../hooks/useDeleteConversation";
+import { DotsVerticalRounded, Link, User, Flag, Trash } from "@boxicons/react";
 
 interface ChatMenuProps {
   itemId: string;
@@ -43,25 +44,31 @@ export const ChatMenu = ({
   const options = [
     {
       label: "Ver publicación",
-      icon: "bx-link-external",
+      Icon: Link,
       href: `/item/${itemId}`,
+      iconColor: "var(--chakra-colors-neutral-500)",
+      textColor: "neutral.700",
     },
     {
       label: "Ver perfil",
-      icon: "bx-user",
+      Icon: User,
       href: `/profile/${otherUserId}`,
       prefetch: false,
+      iconColor: "var(--chakra-colors-neutral-500)",
+      textColor: "neutral.700",
     },
     {
       label: "Reportar usuario",
-      icon: "bx-flag",
-      color: "feedback.error",
+      Icon: Flag,
+      iconColor: "var(--chakra-colors-feedback-error)",
+      textColor: "feedback.error",
       onClick: () => setReportOpen(true),
     },
     {
       label: "Eliminar conversación",
-      icon: "bx-trash",
-      color: "feedback.error",
+      Icon: Trash,
+      iconColor: "var(--chakra-colors-feedback-error)",
+      textColor: "feedback.error",
       onClick: () => setConfirmOpen(true),
     },
   ];
@@ -74,11 +81,11 @@ export const ChatMenu = ({
         borderRadius="md"
         _hover={{ bg: "whiteAlpha.200" }}
         onClick={() => setOpen(!open)}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
       >
-        <i
-          className="bx bx-dots-vertical-rounded"
-          style={{ fontSize: "24px", color: "white" }}
-        />
+        <DotsVerticalRounded width="24px" height="24px" fill="white" />
       </Box>
 
       {open && (
@@ -91,63 +98,49 @@ export const ChatMenu = ({
           border="1px solid"
           borderColor="neutral.100"
           zIndex={50}
-          minW="150px"
+          minW="180px"
           overflow="hidden"
+          boxShadow="sm"
         >
-          {options.map((opt) =>
-            opt.href ? (
+          {options.map((opt) => {
+            const Content = (
+              <Flex
+                align="center"
+                gap="3"
+                px="3"
+                py="3"
+                _hover={{ bg: "neutral.100" }}
+                cursor="pointer"
+                transition="background 0.2s"
+              >
+                <opt.Icon width="18px" height="18px" fill={opt.iconColor} />
+                <Text fontSize="sm" color={opt.textColor} fontWeight="medium">
+                  {opt.label}
+                </Text>
+              </Flex>
+            );
+
+            return opt.href ? (
               <NextLink
                 key={opt.label}
                 href={opt.href}
                 onClick={() => setOpen(false)}
+                prefetch={opt.prefetch}
               >
-                <Flex
-                  align="center"
-                  gap="2"
-                  px="2"
-                  py="3"
-                  _hover={{ bg: "neutral.50" }}
-                  cursor="pointer"
-                >
-                  <i
-                    className={`bx ${opt.icon}`}
-                    style={{
-                      fontSize: "16px",
-                      color: "var(--chakra-colors-neutral-500)",
-                    }}
-                  />
-                  <Text fontSize="sm" color="neutral.700">
-                    {opt.label}
-                  </Text>
-                </Flex>
+                {Content}
               </NextLink>
             ) : (
-              <Flex
+              <Box
                 key={opt.label}
-                align="center"
-                gap="2"
-                px="2"
-                py="3"
-                _hover={{ bg: "neutral.50" }}
-                cursor="pointer"
                 onClick={() => {
                   opt.onClick?.();
                   setOpen(false);
                 }}
               >
-                <i
-                  className={`bx ${opt.icon}`}
-                  style={{
-                    fontSize: "16px",
-                    color: "var(--chakra-colors-feedback-error)",
-                  }}
-                />
-                <Text fontSize="sm" color="feedback.error">
-                  {opt.label}
-                </Text>
-              </Flex>
-            ),
-          )}
+                {Content}
+              </Box>
+            );
+          })}
         </Box>
       )}
 

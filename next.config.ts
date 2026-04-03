@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
     ],
   },
+  experimental: {
+    optimizePackageImports: ["@chakra-ui/react"],
+  },
+  transpilePackages: ["@chakra-ui/react"],
 };
 
 export default withSentryConfig(nextConfig, {

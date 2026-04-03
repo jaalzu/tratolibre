@@ -2,6 +2,7 @@
 
 import { Flex, Input, Box } from "@chakra-ui/react";
 import { memo } from "react";
+import { Send } from "@boxicons/react";
 
 interface ChatInputProps {
   value: string;
@@ -46,10 +47,7 @@ export const ChatInput = memo(
         transition="all 0.2s"
         flexShrink={0}
       >
-        <i
-          className="bx bx-send"
-          style={{ fontSize: "18px", color: "white" }}
-        />
+        <Send width="18px" height="18px" fill="white" />
       </Box>
     </Flex>
   ),

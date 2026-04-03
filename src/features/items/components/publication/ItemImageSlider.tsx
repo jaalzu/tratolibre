@@ -3,6 +3,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useImageSlider } from "../../hooks/useImageSlider";
+import { ChevronsLeft, ChevronLeft, ChevronRight } from "@boxicons/react";
 
 export default function ItemImageSlider({
   images,
@@ -67,9 +68,10 @@ export default function ItemImageSlider({
           _hover={{ bg: "neutral.50" }}
           transition="all 0.15s"
         >
-          <i
-            className="bx bx-arrow-back"
-            style={{ fontSize: "20px", color: "neutral.800" }}
+          <ChevronsLeft
+            width="20px"
+            height="20px"
+            fill="var(--chakra-colors-neutral-800)"
           />
         </Box>
 
@@ -90,7 +92,7 @@ export default function ItemImageSlider({
           </Box>
         )}
 
-        {/* Flechas */}
+        {/* Flechas de navegación */}
         {images.length > 1 && (
           <>
             <Box
@@ -110,10 +112,7 @@ export default function ItemImageSlider({
               _hover={{ bg: "white" }}
               transition="all 0.15s"
             >
-              <i
-                className="bx bx-chevron-left"
-                style={{ fontSize: "22px", color: "black" }}
-              />
+              <ChevronLeft width="22px" height="22px" fill="black" />
             </Box>
             <Box
               as="button"
@@ -132,10 +131,7 @@ export default function ItemImageSlider({
               _hover={{ bg: "white" }}
               transition="all 0.15s"
             >
-              <i
-                className="bx bx-chevron-right"
-                style={{ fontSize: "22px", color: "black" }}
-              />
+              <ChevronRight width="22px" height="22px" fill="black" />
             </Box>
           </>
         )}

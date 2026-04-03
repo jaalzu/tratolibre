@@ -1,10 +1,10 @@
 import NextLink from "next/link";
-import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, BoxProps } from "@chakra-ui/react"; // Importamos BoxProps
 import { PageContainer } from "@/components/ui/PageContainer";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import { Item } from "@/features/items/types";
 
-interface ItemsRowProps {
+interface ItemsRowProps extends BoxProps {
   title: string;
   items: Item[];
   viewMoreHref?: string;
@@ -22,11 +22,12 @@ export const ItemsCategorySection = ({
   userId = null,
   favoriteIds = [],
   isPrioritySection = false,
+  ...rest
 }: ItemsRowProps) => {
   if (!items.length) return null;
 
   return (
-    <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
+    <PageContainer pt={{ base: 4, md: 8 }} pb={4} {...rest}>
       <Box bg="neutral.50" borderRadius="2xl" p={4} shadow="base" minH="280px">
         <Flex align="center" justify="space-between" mb={2}>
           <Heading as="h2" fontSize="md" fontWeight="bold" color="neutral.900">
@@ -34,14 +35,16 @@ export const ItemsCategorySection = ({
           </Heading>
           {viewMoreHref && (
             <NextLink href={viewMoreHref} style={{ textDecoration: "none" }}>
-              <Text
-                fontSize="sm"
-                fontWeight="bold"
-                color="accent.default"
-                _hover={{ color: "accent.hover" }}
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  color: "var(--chakra-colors-accent-default)",
+                  cursor: "pointer",
+                }}
               >
                 {viewMoreLabel}
-              </Text>
+              </span>
             </NextLink>
           )}
         </Flex>
@@ -56,12 +59,13 @@ export const ItemsCategorySection = ({
               borderRadius: "100px",
               background: "#c1c1c1",
             },
+            "&::-webkit-scrollbar-track": { background: "transparent" },
           }}
         >
           <Grid
             templateColumns={{
-              base: "repeat(10, 190px)",
-              md: "repeat(10, 226px)",
+              base: `repeat(${items.length}, 190px)`,
+              md: `repeat(${items.length}, 226px)`,
             }}
             gap={{ base: "10px", md: "20px" }}
           >

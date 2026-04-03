@@ -2,6 +2,7 @@
 
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { X, Check } from "@boxicons/react";
 
 const SORT_OPTIONS = [
   { id: "closest", label: "Más recientes" },
@@ -64,10 +65,11 @@ export function SortModal({ open, onClose }: SortModalProps) {
             Ordenar por
           </Text>
           <Box as="button" onClick={onClose} color="neutral.400">
-            <i
-              className="bx bx-x "
+            <X
+              width="28px"
+              height="28px"
+              fill="red"
               aria-label="close button"
-              style={{ fontSize: "28px", color: "red" }}
             />
           </Box>
         </Flex>
@@ -94,13 +96,11 @@ export function SortModal({ open, onClose }: SortModalProps) {
                 {opt.label}
               </Text>
               {current === opt.id && (
-                <i
-                  className="bx bx-check"
+                <Check
+                  width="24px"
+                  height="24px"
+                  fill="var(--chakra-colors-brand-default)"
                   aria-label="selected order"
-                  style={{
-                    fontSize: "24px",
-                    color: "var(--chakra-colors-brand-default)",
-                  }}
                 />
               )}
             </Flex>

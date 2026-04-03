@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { FilterDrawer } from "./FilterDrawer";
 import { SortModal } from "./SortModal";
+import { SliderAlt, ArrowDownUp } from "@boxicons/react";
 
 const SORT_LABELS: Record<string, string> = {
   closest: "Más recientes",
@@ -36,7 +37,6 @@ export function SearchFilterBar() {
         borderBottom="1px solid"
         borderColor="neutral.200"
       >
-        {/* Filtros */}
         <Flex
           as="button"
           flex={1}
@@ -50,12 +50,10 @@ export function SearchFilterBar() {
           _hover={{ bg: "neutral.50" }}
           position="relative"
         >
-          <i
-            className="bx bx-slider-alt"
-            style={{
-              fontSize: "18px",
-              color: "var(--chakra-colors-neutral-600)",
-            }}
+          <SliderAlt
+            width="18px"
+            height="18px"
+            fill="var(--chakra-colors-neutral-600)"
           />
           <Text fontSize="sm" fontWeight="medium" color="neutral.700">
             Filtros
@@ -73,7 +71,6 @@ export function SearchFilterBar() {
           )}
         </Flex>
 
-        {/* Ordenar */}
         <Flex
           as="button"
           flex={1}
@@ -84,12 +81,10 @@ export function SearchFilterBar() {
           onClick={() => setSortOpen(true)}
           _hover={{ bg: "neutral.50" }}
         >
-          <i
-            className="bx bx-sort"
-            style={{
-              fontSize: "18px",
-              color: "var(--chakra-colors-neutral-600)",
-            }}
+          <ArrowDownUp
+            width="18px"
+            height="18px"
+            fill="var(--chakra-colors-neutral-600)"
           />
           <Text fontSize="sm" fontWeight="medium" color="neutral.700">
             {SORT_LABELS[orderBy]}

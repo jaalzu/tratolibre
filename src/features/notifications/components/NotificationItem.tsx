@@ -8,17 +8,19 @@ import {
   type NotificationPayloads,
 } from "../notifications.constants";
 import type { Notification, NotificationType } from "../types";
+import { Star } from "@boxicons/react";
 
 function NotificationLabel({ label }: { label: NotificationConfig["label"] }) {
   if (typeof label === "string") return <>{label}</>;
   return (
     <span>
       {label.text} {label.rating}
-      <i
-        className="bx bxs-star"
+      <Star
+        width="13px"
+        height="13px"
+        fill="black"
         style={{
-          fontSize: "13px",
-          color: "black",
+          display: "inline-block",
           marginLeft: "2px",
           verticalAlign: "middle",
         }}
@@ -49,6 +51,8 @@ export function NotificationItem({
     router.push(cfg.href);
   };
 
+  const NotificationIcon = cfg.Icon;
+
   return (
     <Box
       onClick={handleClick}
@@ -70,9 +74,11 @@ export function NotificationItem({
           borderRadius="full"
           bg="neutral.100"
           flexShrink={0}
-          style={{ color: cfg.color }}
+          color={cfg.color}
         >
-          <i className={cfg.iconClass} style={{ fontSize: "16px" }} />
+          {NotificationIcon && (
+            <NotificationIcon width="16px" height="16px" fill="currentColor" />
+          )}
         </Flex>
         <Box flex={1}>
           <Text fontSize="sm" color="neutral.800" lineHeight="1.4">

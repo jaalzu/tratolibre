@@ -4,6 +4,7 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
 import { ChatMenu } from "./ChatMenu";
+import { ArrowLeft } from "@boxicons/react";
 
 interface ChatHeaderProps {
   item: {
@@ -47,7 +48,7 @@ export const ChatHeader = ({
           cursor="pointer"
           _hover={{ opacity: 0.9 }}
         >
-          <i className="bx bx-arrow-back" style={{ fontSize: "24px" }} />
+          <ArrowLeft width="24px" height="24px" fill="currentColor" />
         </Box>
       </NextLink>
 

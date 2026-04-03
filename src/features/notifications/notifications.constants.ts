@@ -1,4 +1,6 @@
 import type { NotificationType } from "./types";
+import { Tag, ShoppingBag, Star } from "@boxicons/react";
+import { ElementType } from "react";
 
 export type SalePayload = {
   item_title: string;
@@ -26,7 +28,7 @@ export type NotificationPayloads = {
 };
 
 export type NotificationConfig = {
-  iconClass: string;
+  Icon: ElementType;
   color: string;
   label: string | { text: string; rating: number };
   href: string;
@@ -40,7 +42,7 @@ export function getNotificationConfig<T extends NotificationType>(
     case "sale_completed": {
       const d = data as SalePayload;
       return {
-        iconClass: "bx bx-tag",
+        Icon: Tag,
         color: "var(--chakra-colors-brand-default)",
         label: `Marcaste "${d.item_title}" como vendido`,
         href: `/item/${d.item_id}`,
@@ -49,7 +51,7 @@ export function getNotificationConfig<T extends NotificationType>(
     case "purchase_completed": {
       const d = data as PurchasePayload;
       return {
-        iconClass: "bx bx-shopping-bag",
+        Icon: ShoppingBag,
         color: "var(--chakra-colors-accent-default)",
         label: `Te marcaron como comprador de "${d.item_title}"`,
         href: `/item/${d.item_id}`,
@@ -58,7 +60,7 @@ export function getNotificationConfig<T extends NotificationType>(
     case "review_received": {
       const d = data as ReviewPayload;
       return {
-        iconClass: "bx bx-star",
+        Icon: Star,
         color: "var(--chakra-colors-yellow-500)",
         label: { text: "Recibiste una reseña de", rating: d.rating },
         href: "/profile",

@@ -7,12 +7,14 @@ import { Box } from "@chakra-ui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { createClient } from "@/lib/supabase/server";
-import { ChatStoreInit } from "@/features/chat/components/ChatStoreInit";
+import { ClientProviders } from "./ClientProviders";
 
 const geist = Geist({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist-sans",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const viewport: Viewport = {
@@ -63,23 +65,23 @@ export default async function RootLayout({
   return (
     <html lang="es" className={geist.variable} suppressHydrationWarning>
       <head>
-        {/* Preload hero image solo para usuarios no logueados */}
-        {!user && (
+        {/* {!user && (
           <link
             rel="preload"
             as="image"
             href="/hero/girl-in-pool.webp"
             fetchPriority="high"
           />
-        )}
+        )} */}
       </head>
       <body className={geist.className} suppressHydrationWarning>
         <Providers>
-          <Toaster />
-          <ChatStoreInit userId={user?.id} />
-          <Box bg="neutral.150" minH="100dvh">
-            {children}
-          </Box>
+          <ClientProviders userId={user?.id}>
+            <Toaster />
+            <Box bg="neutral.150" minH="100dvh">
+              {children}
+            </Box>
+          </ClientProviders>
         </Providers>
 
         {process.env.NODE_ENV === "production" && <Analytics />}

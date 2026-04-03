@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import { submitReviewAction } from "@/features/reviews/actions";
-
+import { Star } from "@boxicons/react";
 interface ReviewModalProps {
   open: boolean;
   onClose: () => void;
@@ -89,7 +89,6 @@ export function ReviewModal({
               </Flex>
             ) : (
               <Stack gap={4}>
-                {/* Info contextual */}
                 <Box>
                   <Dialog.Title fontSize="md" fontWeight="bold" mb={1}>
                     Calificá a {reviewedName}
@@ -104,32 +103,29 @@ export function ReviewModal({
                   </Text>
                 </Box>
 
-                {/* Estrellas */}
                 <Flex gap={1} justify="center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Box
-                      key={star}
-                      cursor="pointer"
-                      color={
-                        (hovered || rating) >= star
-                          ? "yellow.400"
-                          : "neutral.200"
-                      }
-                      onMouseEnter={() => setHovered(star)}
-                      onMouseLeave={() => setHovered(0)}
-                      onClick={() => setRating(star)}
-                      transition="color 0.1s"
-                    >
-                      <i
-                        className={
-                          (hovered || rating) >= star
-                            ? "bx bxs-star"
-                            : "bx bx-star"
-                        }
-                        style={{ fontSize: "36px" }}
-                      />
-                    </Box>
-                  ))}
+                  {[1, 2, 3, 4, 5].map((star) => {
+                    const isActive = (hovered || rating) >= star;
+                    return (
+                      <Box
+                        key={star}
+                        cursor="pointer"
+                        onMouseEnter={() => setHovered(star)}
+                        onMouseLeave={() => setHovered(0)}
+                        onClick={() => setRating(star)}
+                        transition="transform 0.1s"
+                        _active={{ transform: "scale(0.9)" }}
+                      >
+                        <Star
+                          width="36px"
+                          height="36px"
+                          // Si tu versión usa props para solid, usá type="solid"
+                          // Si no, usualmente se maneja con el componente SolidStar o el fill
+                          fill={isActive ? "#ecc94b" : "#e2e8f0"}
+                        />
+                      </Box>
+                    );
+                  })}
                 </Flex>
 
                 {rating > 0 && (

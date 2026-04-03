@@ -7,13 +7,12 @@ import { getAuthProfile } from "@/features/profile/actions";
 import { CategoriesGrid } from "@/components/sections/CategoriesGrid";
 import { Suspense } from "react";
 import { SectionSkeleton } from "@/components/sections/SectionSkeleton";
-import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
 import { PageContainer } from "@/components/ui/PageContainer";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { LazySection } from "@/components/ui/LazySection";
 import dynamic from "next/dynamic";
+import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
 
-// ⬇️ ESTO VA AFUERA, no adentro de la función
 const Hero = dynamic(
   () => import("@/components/sections/Hero").then((mod) => mod.Hero),
   { ssr: true },
@@ -33,12 +32,14 @@ export default async function HomePage() {
       ) : (
         <Hero isLoggedIn={false} />
       )}
+
       <Suspense fallback={<SectionSkeleton />}>
         <RecentItemsSection
           userId={user?.id ?? null}
           favoriteIds={favoriteIds}
         />
       </Suspense>
+
       <LazySection fallback={<SectionSkeleton />}>
         <Suspense fallback={<SectionSkeleton />}>
           <CheapItemsSection
@@ -47,7 +48,9 @@ export default async function HomePage() {
           />
         </Suspense>
       </LazySection>
+
       <CategoriesGrid />
+
       <PageContainer pt={4} pb={24}>
         <InfiniteGrid userId={user?.id ?? null} favoriteIds={favoriteIds} />
       </PageContainer>

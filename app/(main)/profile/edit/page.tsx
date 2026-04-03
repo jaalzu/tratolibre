@@ -3,6 +3,7 @@ import { EditProfileForm } from "@/features/profile/components/edit/EditProfileF
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { PageContainer } from "@/components/ui/PageContainer";
 import NextLink from "next/link";
+import { ArrowLeft } from "@boxicons/react";
 
 export default async function EditProfilePage() {
   const { profile } = await getMyProfile();
@@ -10,9 +11,15 @@ export default async function EditProfilePage() {
   return (
     <PageContainer maxW="480px">
       <Flex align="center" gap={3} mb={6}>
-        <NextLink href="/profile">
-          <Box color="neutral.600" cursor="pointer">
-            <i className="bx bx-arrow-back" style={{ fontSize: "22px" }} />
+        <NextLink href="/profile" passHref>
+          <Box
+            as="span"
+            color="neutral.600"
+            cursor="pointer"
+            display="flex"
+            alignItems="center"
+          >
+            <ArrowLeft width="28px" height="28px" fill="currentColor" />
           </Box>
         </NextLink>
         <Text fontWeight="bold" fontSize="lg">
@@ -21,7 +28,10 @@ export default async function EditProfilePage() {
       </Flex>
 
       <EditProfileForm
-        defaultValues={{ name: profile?.name, location: profile?.location }}
+        defaultValues={{
+          name: profile?.name ?? "",
+          location: profile?.location ?? "",
+        }}
       />
     </PageContainer>
   );
