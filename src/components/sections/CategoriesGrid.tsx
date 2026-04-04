@@ -5,12 +5,7 @@ import NextLink from "next/link";
 import { CATEGORIES } from "@/lib/constants";
 import { useState, useEffect, useRef } from "react";
 import { PageContainer } from "@/components/ui/PageContainer";
-import {
-  ChevronUp,
-  ChevronDown,
-  // Hanger en lugar de Closet
-  Hanger,
-} from "@boxicons/react";
+import { ChevronUp, ChevronDown, Hanger } from "@boxicons/react";
 
 const INITIAL_COUNT = 6;
 
@@ -61,7 +56,6 @@ export function CategoriesGrid() {
 
             <Grid templateColumns="repeat(3, 1fr)" gap={2} py={2}>
               {visible.map((cat) => {
-                // Usamos 'icon' que es donde tenés el componente según el error de TS
                 const Icon = cat.icon;
 
                 return (

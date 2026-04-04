@@ -1,10 +1,11 @@
-import { Suspense } from "react";
+// app/items/[id]/page.tsx
 import { Metadata } from "next";
 import { getItemById } from "@/features/items/actions";
 import { notFound } from "next/navigation";
 import ItemPageContent from "@/features/items/components/publication/ItemPageContent";
 import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
-import { ItemPageSkeleton } from "@/features/items/components/publication/ItemPageSkeleton";
+import { prefetchItem } from "@/features/items/prefetchItem";
+import { ItemPageHydration } from "@/features/items/components/publication/ItemPageHydration";
 
 export async function generateMetadata({
   params,
@@ -59,17 +60,21 @@ export default async function ItemPage({
 }) {
   const { id } = await params;
   const { user, role } = await getAuthUserWithRole();
-  const item = await getItemById(id);
 
+  // Prefetch del item para SEO y primera carga
+  const item = await getItemById(id);
   if (!item) notFound();
 
+  // Hidratar el cache con el item
+  const dehydratedState = await prefetchItem(id);
+
   return (
-    <Suspense fallback={<ItemPageSkeleton />}>
+    <ItemPageHydration state={dehydratedState}>
       <ItemPageContent
-        item={item}
+        itemId={id}
         userId={user?.id ?? null}
         isAdmin={role === "admin"}
       />
-    </Suspense>
+    </ItemPageHydration>
   );
 }
