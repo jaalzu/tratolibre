@@ -1,3 +1,4 @@
+// app/page.tsx
 import { Box } from "@chakra-ui/react";
 import { LoggedInHero } from "@/components/sections/LoggedInHero";
 import { RecentItemsSection } from "@/features/items/components/home/RecentItemsSection";
@@ -12,6 +13,8 @@ import { getUserFavoriteIds } from "@/features/items/actions";
 import { LazySection } from "@/components/ui/LazySection";
 import dynamic from "next/dynamic";
 import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
+import { prefetchMultipleItems } from "@/features/items/prefetchItems";
+import { ItemsHydration } from "@/features/items/components/ItemsHydration";
 
 const Hero = dynamic(
   () => import("@/components/sections/Hero").then((mod) => mod.Hero),
@@ -20,6 +23,12 @@ const Hero = dynamic(
 
 export default async function HomePage() {
   const { user } = await getAuthUser();
+
+  // Prefetch todas las queries que necesitamos en el servidor
+  const dehydratedState = await prefetchMultipleItems([
+    { order_by: "most_relevance" },
+    { order_by: "price_asc" },
+  ]);
 
   const [profile, favoriteIds] = user
     ? await Promise.all([getAuthProfile(), getUserFavoriteIds(user.id)])
@@ -33,21 +42,24 @@ export default async function HomePage() {
         <Hero isLoggedIn={false} />
       )}
 
-      <Suspense fallback={<SectionSkeleton />}>
-        <RecentItemsSection
-          userId={user?.id ?? null}
-          favoriteIds={favoriteIds}
-        />
-      </Suspense>
-
-      <LazySection fallback={<SectionSkeleton />}>
+      {/* Envolver las secciones con ItemsHydration para compartir el cache */}
+      <ItemsHydration state={dehydratedState}>
         <Suspense fallback={<SectionSkeleton />}>
-          <CheapItemsSection
+          <RecentItemsSection
             userId={user?.id ?? null}
             favoriteIds={favoriteIds}
           />
         </Suspense>
-      </LazySection>
+
+        <LazySection fallback={<SectionSkeleton />}>
+          <Suspense fallback={<SectionSkeleton />}>
+            <CheapItemsSection
+              userId={user?.id ?? null}
+              favoriteIds={favoriteIds}
+            />
+          </Suspense>
+        </LazySection>
+      </ItemsHydration>
 
       <CategoriesGrid />
 

@@ -19,8 +19,9 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginInput>({
+  } = useForm({
     resolver: zodResolver(LoginSchema),
+    mode: "onTouched",
   });
 
   const onSubmit = async (data: LoginInput) => {

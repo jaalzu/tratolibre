@@ -1,24 +1,36 @@
+// features/items/components/publication/ItemPageContent.tsx
+"use client";
+
 import { Box, Flex, Separator, Text } from "@chakra-ui/react";
 import ItemImageSlider from "./ItemImageSlider";
 import ItemInfo from "./ItemInfo";
 import ItemDetails from "./ItemDetails";
 import SellerCard from "./SellerCard";
 import ItemActions from "./ItemActions";
-import { ItemWithProfile } from "@/features/items/types";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { useItem } from "@/features/items/hooks/useItem";
+import { ItemPageSkeleton } from "./ItemPageSkeleton";
 
 interface ItemPageContentProps {
-  item: ItemWithProfile;
+  itemId: string; // ← Ahora solo recibe el ID
   userId: string | null;
   isAdmin?: boolean;
 }
 
 export default function ItemPageContent({
-  item,
+  itemId,
   userId,
   isAdmin = false,
 }: ItemPageContentProps) {
+  // Usar el hook para obtener el item del cache o hacer fetch
+  const { data: item, isLoading } = useItem(itemId);
+
+  // Mostrar skeleton mientras carga
+  if (isLoading || !item) {
+    return <ItemPageSkeleton />;
+  }
+
   return (
     <Box pb={{ base: "0px", md: 0 }} suppressHydrationWarning>
       <ScrollToTop />
@@ -81,7 +93,7 @@ export default function ItemPageContent({
       {/* ── DESKTOP ── */}
       <Box display={{ base: "none", md: "block" }}>
         <Box maxW="900px" mx="auto" px={10} py={5}>
-          <Breadcrumb category={item.category} title={item.title} />{" "}
+          <Breadcrumb category={item.category} title={item.title} />
           <Flex gap={10} align="start">
             <Box flex="1" minW={0}>
               <ItemImageSlider images={item.images ?? []} title={item.title} />

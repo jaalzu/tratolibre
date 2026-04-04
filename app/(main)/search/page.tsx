@@ -1,11 +1,15 @@
+// app/search/page.tsx
 import { PageContainer } from "@/components/ui/PageContainer";
 import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 import { FilterPanel } from "@/features/search/components/FilterPanel";
 import { SearchResults } from "@/features/search/components/SearchResults";
-import { getSearchPageData, SearchPageParams } from "@/features/search/actions";
+import { SearchPageParams } from "@/features/search/actions";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getUserFavoriteIds } from "@/features/items/actions";
 import { Flex } from "@chakra-ui/react";
 import type { Metadata } from "next";
+import { prefetchSearchItems } from "@/features/search/prefetchSearchItems";
+import { SearchHydration } from "@/features/search/components/SearchHydration";
 
 export default async function SearchPage({
   searchParams,
@@ -14,10 +18,11 @@ export default async function SearchPage({
 }) {
   const params = await searchParams;
   const { user } = await getAuthUser();
-  const { items, favoriteIds, title } = await getSearchPageData(
-    params,
-    user?.id ?? null,
-  );
+
+  // Prefetch los datos de búsqueda en el servidor
+  const dehydratedState = await prefetchSearchItems(params);
+
+  const favoriteIds = user ? await getUserFavoriteIds(user.id) : [];
 
   return (
     <>
@@ -25,12 +30,13 @@ export default async function SearchPage({
       <PageContainer pt={{ base: 4, md: 8 }} pb={24} px={{ base: 4, md: 8 }}>
         <Flex gap={8} align="flex-start">
           <FilterPanel />
-          <SearchResults
-            items={items}
-            favoriteIds={favoriteIds}
-            title={title}
-            userId={user?.id ?? null}
-          />
+          <SearchHydration state={dehydratedState}>
+            <SearchResults
+              favoriteIds={favoriteIds}
+              userId={user?.id ?? null}
+              params={params}
+            />
+          </SearchHydration>
         </Flex>
       </PageContainer>
     </>
