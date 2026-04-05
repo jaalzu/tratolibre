@@ -21,7 +21,6 @@ export function ClientProviders({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Espera a que termine el initial paint
     setMounted(true);
   }, []);
 

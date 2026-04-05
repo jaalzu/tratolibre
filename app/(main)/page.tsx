@@ -24,7 +24,6 @@ const Hero = dynamic(
 export default async function HomePage() {
   const { user } = await getAuthUser();
 
-  // Prefetch todas las queries que necesitamos en el servidor
   const dehydratedState = await prefetchMultipleItems([
     { order_by: "most_relevance" },
     { order_by: "price_asc" },

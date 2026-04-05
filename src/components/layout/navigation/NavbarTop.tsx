@@ -2,7 +2,6 @@
 
 import { Box, Flex, Text, Group, IconButton } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { logoutAction } from "@/features/auth/actions";
 import NavLink from "./NavLink";
 import { ChatNavLink } from "./ChatNavLink";
 import { NotificationBell } from "@/features/notifications/components/NotificationBell";
@@ -86,6 +85,7 @@ export const NavbarTop = ({
                 variant="desktop"
               />
             )}
+
             <Box color="neutral.50">
               <NotificationBell initialCount={unreadCount} userId={user.id} />
             </Box>

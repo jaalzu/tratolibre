@@ -1,4 +1,4 @@
-// components/sections/Hero.tsx (SERVER COMPONENT)
+// components/sections/Hero.tsx
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
@@ -42,7 +42,7 @@ export function HeroSlideContent({
 }) {
   return (
     <>
-      {/* Mobile */}
+      {/* Mobile - La imagen SÍ ocupa 100vw */}
       <Box display={{ base: "block", md: "none" }}>
         <Box position="relative" w="100%" h="45vw" maxH="400px">
           <Image
@@ -64,7 +64,7 @@ export function HeroSlideContent({
         </Box>
       </Box>
 
-      {/* Desktop */}
+      {/* Desktop - La imagen solo ocupa 60% del viewport */}
       <Flex display={{ base: "none", md: "flex" }} h="320px" bg={slide.bg}>
         <Flex flex={1} direction="column" justify="center" pl="12%" pr={8}>
           <Heading
@@ -92,7 +92,7 @@ export function HeroSlideContent({
             src={slide.image}
             alt={slide.title}
             fill
-            sizes="60vw"
+            sizes="60vw" // ✅ FIX: Solo 60vw en desktop, no "100vw"
             style={{ objectFit: "cover" }}
             priority={priority}
           />
