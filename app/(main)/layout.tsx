@@ -3,6 +3,7 @@ import BottomNav from "@/components/layout/navigation/BottomNav";
 import { FooterWrapper } from "@/components/layout/footer/FooterWrapper";
 import { getUnreadCount } from "@/features/notifications/actions";
 import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
+import dynamic from "next/dynamic";
 
 export default async function MainLayout({
   children,

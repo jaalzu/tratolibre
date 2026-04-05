@@ -64,16 +64,7 @@ export default async function RootLayout({
 
   return (
     <html lang="es" className={geist.variable} suppressHydrationWarning>
-      <head>
-        {!user && (
-          <link
-            rel="preload"
-            as="image"
-            href="/hero/girl-in-pool.webp"
-            fetchPriority="high"
-          />
-        )}
-      </head>
+      <head></head>
       <body className={geist.className} suppressHydrationWarning>
         <Providers>
           <ClientProviders userId={user?.id}>

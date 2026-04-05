@@ -1,15 +1,17 @@
-import { createClient } from "@/lib/supabase/client";
 import { getMyConversations } from "@/features/chat/actions/conversations/index";
 import { keepPreviousData } from "@tanstack/react-query";
 
 export async function fetchMessages(conversationId: string) {
+  const { createClient } = await import("@/lib/supabase/client");
   const supabase = createClient();
+
   const { data } = await supabase
     .from("messages")
     .select("*, profiles(name, avatar_url)")
     .eq("conversation_id", conversationId)
     .order("created_at", { ascending: true })
     .limit(100);
+
   return data ?? [];
 }
 

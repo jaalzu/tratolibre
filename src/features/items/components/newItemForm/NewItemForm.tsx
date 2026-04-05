@@ -1,4 +1,3 @@
-// features/items/components/newItemForm/NewItemForm.tsx
 "use client";
 
 import { Stack, SimpleGrid, Input, Textarea, Text } from "@chakra-ui/react";
@@ -99,7 +98,7 @@ export const NewItemForm = ({
                   options={CATEGORIES.map((category) => ({
                     id: category.id,
                     label: category.label,
-                    iconClass: category.icon,
+                    iconClass: category.icon, // Ahora TS lo acepta porque es React.ElementType
                   }))}
                   placeholder="Elegí una..."
                   invalid={!!errors.category}

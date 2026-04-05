@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { CATEGORIES } from "@/lib/constants";
 import { useState, useEffect, useRef } from "react";
 import { PageContainer } from "@/components/ui/PageContainer";
-import { ChevronUp, ChevronDown, Hanger } from "@boxicons/react";
+import { ChevronUp, ChevronDown } from "@boxicons/react";
 
 const INITIAL_COUNT = 6;
 

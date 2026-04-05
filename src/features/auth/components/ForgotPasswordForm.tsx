@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { createClient } from "@/lib/supabase/client";
 import NextLink from "next/link";
 import { Flex, Text, Input, Field, Stack } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
@@ -28,10 +27,14 @@ export const ForgotPasswordForm = () => {
 
   const onSubmit = async (data: ForgotInput) => {
     setServerError(null);
+
+    const { createClient } = await import("@/lib/supabase/client");
     const supabase = createClient();
+
     const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
+
     if (error) {
       setServerError(error.message);
       return;

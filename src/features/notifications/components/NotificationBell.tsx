@@ -1,10 +1,12 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import { Box, Circle } from "@chakra-ui/react";
 import { useNotificationPanel } from "../hooks/useNotificationPanel";
-import { NotificationsPanel } from "./NotificationsPanel";
 import { Bell } from "@boxicons/react";
-
+const NotificationsPanel = dynamic(
+  () => import("./NotificationsPanel").then((mod) => mod.NotificationsPanel),
+  { ssr: false },
+);
 interface NotificationBellProps {
   initialCount: number;
   userId: string;

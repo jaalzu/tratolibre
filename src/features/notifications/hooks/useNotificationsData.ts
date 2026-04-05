@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import {
   getMyNotifications,
   getUnreadCount,
@@ -28,26 +27,37 @@ export function useNotificationsData({
   const [unreadCount, setUnreadCount] = useState(initialCount);
 
   useEffect(() => {
-    const supabase = createClient();
-    const channel = supabase
-      .channel("notifications-badge")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "notifications",
-          filter: `user_id=eq.${userId}`,
-        },
-        async () => {
-          const newCount = await getUnreadCount();
-          setUnreadCount(newCount);
-        },
-      )
-      .subscribe();
+    let channel: any;
+    let supabaseInstance: any;
+
+    const setupRealtime = async () => {
+      const { createClient } = await import("@/lib/supabase/client");
+      supabaseInstance = createClient();
+
+      channel = supabaseInstance
+        .channel("notifications-badge")
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "notifications",
+            filter: `user_id=eq.${userId}`,
+          },
+          async () => {
+            const newCount = await getUnreadCount();
+            setUnreadCount(newCount);
+          },
+        )
+        .subscribe();
+    };
+
+    setupRealtime();
 
     return () => {
-      supabase.removeChannel(channel);
+      if (supabaseInstance && channel) {
+        supabaseInstance.removeChannel(channel);
+      }
     };
   }, [userId]);
 

@@ -4,7 +4,6 @@ import { Box, Grid } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import NavLink from "./NavLink";
 import { ChatNavLink } from "./ChatNavLink";
-// Importamos todos los que necesitamos
 import {
   HomeAlt,
   Heart,

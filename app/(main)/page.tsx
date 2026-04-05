@@ -1,24 +1,29 @@
-// app/page.tsx
 import { Box } from "@chakra-ui/react";
 import { LoggedInHero } from "@/components/sections/LoggedInHero";
 import { RecentItemsSection } from "@/features/items/components/home/RecentItemsSection";
 import { CheapItemsSection } from "@/features/items/components/home/CheapItemsSection";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getAuthProfile } from "@/features/profile/actions";
-import { CategoriesGrid } from "@/components/sections/CategoriesGrid";
 import { Suspense } from "react";
 import { SectionSkeleton } from "@/components/sections/SectionSkeleton";
 import { PageContainer } from "@/components/ui/PageContainer";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { LazySection } from "@/components/ui/LazySection";
-import dynamic from "next/dynamic";
 import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
 import { prefetchMultipleItems } from "@/features/items/prefetchItems";
 import { ItemsHydration } from "@/features/items/components/ItemsHydration";
+import { Hero } from "@/components/sections/Hero";
+import dynamic from "next/dynamic";
 
-const Hero = dynamic(
-  () => import("@/components/sections/Hero").then((mod) => mod.Hero),
-  { ssr: true },
+const CategoriesGrid = dynamic(
+  () =>
+    import("@/components/sections/CategoriesGrid").then(
+      (mod) => mod.CategoriesGrid,
+    ),
+  {
+    loading: () => <SectionSkeleton />,
+    ssr: true,
+  },
 );
 
 export default async function HomePage() {
@@ -50,17 +55,17 @@ export default async function HomePage() {
           />
         </Suspense>
 
-        <LazySection fallback={<SectionSkeleton />}>
-          <Suspense fallback={<SectionSkeleton />}>
-            <CheapItemsSection
-              userId={user?.id ?? null}
-              favoriteIds={favoriteIds}
-            />
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<SectionSkeleton />}>
+          <CheapItemsSection
+            userId={user?.id ?? null}
+            favoriteIds={favoriteIds}
+          />
+        </Suspense>
       </ItemsHydration>
 
-      <CategoriesGrid />
+      <LazySection fallback={<SectionSkeleton />}>
+        <CategoriesGrid />
+      </LazySection>
 
       <PageContainer pt={4} pb={24}>
         <InfiniteGrid userId={user?.id ?? null} favoriteIds={favoriteIds} />
