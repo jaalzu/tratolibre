@@ -3,9 +3,22 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { FilterDrawer } from "./FilterDrawer";
-import { SortModal } from "./SortModal";
+import dynamic from "next/dynamic";
 import { SliderAlt, ArrowDownUp } from "@boxicons/react";
+
+const FilterDrawer = dynamic(
+  () => import("./FilterDrawer").then((mod) => mod.FilterDrawer),
+  {
+    ssr: false,
+  },
+);
+
+const SortModal = dynamic(
+  () => import("./SortModal").then((mod) => mod.SortModal),
+  {
+    ssr: false,
+  },
+);
 
 const SORT_LABELS: Record<string, string> = {
   closest: "Más recientes",
@@ -92,8 +105,13 @@ export function SearchFilterBar() {
         </Flex>
       </Box>
 
-      <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)} />
-      <SortModal open={sortOpen} onClose={() => setSortOpen(false)} />
+      {/* 3. Solo se renderizan (y descargan) si el estado es true */}
+      {filterOpen && (
+        <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)} />
+      )}
+      {sortOpen && (
+        <SortModal open={sortOpen} onClose={() => setSortOpen(false)} />
+      )}
     </>
   );
 }

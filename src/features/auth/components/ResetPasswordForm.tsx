@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { Flex, Text, Input, Field, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
@@ -35,16 +34,25 @@ export const ResetPasswordForm = () => {
 
   const onSubmit = async (data: ResetInput) => {
     setServerError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.updateUser({
-      password: data.password,
-    });
-    if (error) {
-      setServerError(error.message);
-      return;
+
+    try {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+
+      const { error } = await supabase.auth.updateUser({
+        password: data.password,
+      });
+
+      if (error) {
+        setServerError(error.message);
+        return;
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch (err) {
+      setServerError("Error inesperado al conectar con el servidor.");
     }
-    router.push("/");
-    router.refresh();
   };
 
   const inputStyles = {

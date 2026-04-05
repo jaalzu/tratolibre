@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, Text, Group, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Text, Group } from "@chakra-ui/react";
 import NextLink from "next/link";
 import NavLink from "./NavLink";
 import { ChatNavLink } from "./ChatNavLink";

@@ -35,7 +35,10 @@ export function useNotificationPanel({
   const handleOpen = async () => {
     if (open) return setOpen(false);
     setOpen(true);
-    await fetchAndMarkRead();
+
+    if (notifications.length === 0 || unreadCount > 0) {
+      await fetchAndMarkRead();
+    }
   };
 
   return {

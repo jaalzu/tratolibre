@@ -1,9 +1,21 @@
+// EditProfilePage.tsx (Server Component)
 import { getMyProfile } from "@/features/profile/actions";
-import { EditProfileForm } from "@/features/profile/components/edit/EditProfileForm";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { PageContainer } from "@/components/ui/PageContainer";
 import NextLink from "next/link";
 import { ArrowLeft } from "@boxicons/react";
+import dynamic from "next/dynamic";
+
+const EditProfileForm = dynamic(
+  () =>
+    import("@/features/profile/components/edit/EditProfileForm").then(
+      (mod) => mod.EditProfileForm,
+    ),
+  {
+    ssr: true,
+    loading: () => <Box h="300px" bg="neutral.50" borderRadius="md" />, // Un placeholder simple
+  },
+);
 
 export default async function EditProfilePage() {
   const { profile } = await getMyProfile();

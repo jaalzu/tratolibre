@@ -1,11 +1,18 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import { Box } from "@chakra-ui/react";
 import { NavbarTop } from "./NavbarTop";
-import { CategoriesDrawer } from "@/components/layout/navigation/CategoriesDrawer";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { User } from "@supabase/supabase-js";
+
+const CategoriesDrawer = dynamic(
+  () =>
+    import("@/components/layout/navigation/CategoriesDrawer").then(
+      (mod) => mod.CategoriesDrawer,
+    ),
+  { ssr: false },
+);
 
 export default function Navbar({
   user,
@@ -35,10 +42,12 @@ export default function Navbar({
         isAdmin={isAdmin}
       />
 
-      <CategoriesDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-      />
+      {drawerOpen && (
+        <CategoriesDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+        />
+      )}
     </Box>
   );
 }

@@ -1,11 +1,28 @@
+"use client";
+
 import { Box, Flex } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import { ProfileHeader } from "./header/ProfileHeader";
 import { ProfileItemsTabs } from "./items/ProfileItemsTabs";
-import { PendingReviewBanner } from "@/features/reviews/components/PendingReviewBanner";
 import { Profile } from "@/features/profile/types";
 import { ItemSummary } from "@/features/items/types";
 import type { PendingReview } from "@/features/reviews/actions";
-import { ReportButton } from "@/features/reports/components/ReportButton";
+
+const PendingReviewBanner = dynamic(
+  () =>
+    import("@/features/reviews/components/PendingReviewBanner").then(
+      (mod) => mod.PendingReviewBanner,
+    ),
+  { ssr: false },
+);
+
+const ReportButton = dynamic(
+  () =>
+    import("@/features/reports/components/ReportButton").then(
+      (mod) => mod.ReportButton,
+    ),
+  { ssr: false },
+);
 
 interface ProfileViewProps {
   profile: Profile;
@@ -26,14 +43,12 @@ export const ProfileView = ({
 }: ProfileViewProps) => (
   <Box px={{ base: 4, md: 8 }}>
     <Box maxW="1200px" mx="auto">
-      {/* BANNER: reseñas pendientes — solo si es owner y tiene pendientes */}
       {isOwner && pendingReviews.length > 0 && (
         <Box pt={4}>
           <PendingReviewBanner pendingReviews={pendingReviews} />
         </Box>
       )}
 
-      {/* HEADER */}
       <Box
         bg="neutral.50"
         borderBottomLeftRadius="3xl"
@@ -52,6 +67,7 @@ export const ProfileView = ({
           rating={profile?.rating ?? 0}
           isOwner={isOwner}
         />
+
         {!isOwner && (
           <Flex justify="center" mt={4}>
             <ReportButton
@@ -64,7 +80,6 @@ export const ProfileView = ({
         )}
       </Box>
 
-      {/* ITEMS */}
       <Box
         mt={3}
         bg="neutral.50"

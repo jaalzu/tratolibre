@@ -16,7 +16,6 @@ interface UseNotificationsReturn {
   loading: boolean;
   fetchAndMarkRead: () => Promise<void>;
 }
-
 export function useNotifications({
   userId,
   initialCount,
@@ -26,13 +25,25 @@ export function useNotifications({
     useNotificationsData({ userId, initialCount });
 
   const fetchAndMarkRead = async () => {
-    setLoading(true);
-    await fetchNotifications();
-    setLoading(false);
+    // 1. Evitar fetch si ya tenemos la data y no hay nada nuevo
+    const hasData = notifications.length > 0;
+    const hasNew = unreadCount > 0;
 
-    if (unreadCount > 0) {
-      await markAllNotificationsRead();
-      resetUnreadCount();
+    if (hasData && !hasNew) return;
+
+    setLoading(true);
+    try {
+      await fetchNotifications();
+
+      // 2. Marcar como leído solo si es necesario
+      if (hasNew) {
+        await markAllNotificationsRead();
+        resetUnreadCount();
+      }
+    } catch (error) {
+      console.error("Error al cargar notificaciones", error);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -1,12 +1,25 @@
 "use client";
 
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
-import { ReportModal } from "@/features/reports/components/ReportModal";
 import { useState, useRef, useEffect } from "react";
 import NextLink from "next/link";
 import { useDeleteConversation } from "../../hooks/useDeleteConversation";
 import { DotsVerticalRounded, Link, User, Flag, Trash } from "@boxicons/react";
+import dynamic from "next/dynamic";
+
+const ReportModal = dynamic(
+  () =>
+    import("@/features/reports/components/ReportModal").then(
+      (mod) => mod.ReportModal,
+    ),
+  { ssr: false },
+);
+
+const ConfirmDialog = dynamic(
+  () =>
+    import("@/components/ui/ConfirmDialog").then((mod) => mod.ConfirmDialog),
+  { ssr: false },
+);
 
 interface ChatMenuProps {
   itemId: string;
@@ -144,21 +157,26 @@ export const ChatMenu = ({
         </Box>
       )}
 
-      <ReportModal
-        open={reportOpen}
-        onClose={() => setReportOpen(false)}
-        type="conversation"
-        targetId={conversationId}
-      />
-      <ConfirmDialog
-        open={confirmOpen}
-        onClose={() => setConfirmOpen(false)}
-        onConfirm={handleDelete}
-        title="Eliminar conversación"
-        description="Esta acción no se puede deshacer."
-        loading={isDeleting}
-        loadingLabel="Eliminando conversación..."
-      />
+      {reportOpen && (
+        <ReportModal
+          open={reportOpen}
+          onClose={() => setReportOpen(false)}
+          type="conversation"
+          targetId={conversationId}
+        />
+      )}
+
+      {confirmOpen && (
+        <ConfirmDialog
+          open={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+          onConfirm={handleDelete}
+          title="Eliminar conversación"
+          description="Esta acción no se puede deshacer."
+          loading={isDeleting}
+          loadingLabel="Eliminando conversación..."
+        />
+      )}
     </Box>
   );
 };

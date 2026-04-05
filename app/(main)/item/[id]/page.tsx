@@ -61,11 +61,9 @@ export default async function ItemPage({
   const { id } = await params;
   const { user, role } = await getAuthUserWithRole();
 
-  // Prefetch del item para SEO y primera carga
   const item = await getItemById(id);
   if (!item) notFound();
 
-  // Hidratar el cache con el item
   const dehydratedState = await prefetchItem(id);
 
   return (
