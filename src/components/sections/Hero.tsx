@@ -42,7 +42,7 @@ export function HeroSlideContent({
 }) {
   return (
     <>
-      {/* Mobile - La imagen SÍ ocupa 100vw */}
+      {/* Mobile */}
       <Box display={{ base: "block", md: "none" }}>
         <Box position="relative" w="100%" h="45vw" maxH="400px">
           <Image
@@ -92,7 +92,7 @@ export function HeroSlideContent({
             src={slide.image}
             alt={slide.title}
             fill
-            sizes="60vw" // ✅ FIX: Solo 60vw en desktop, no "100vw"
+            sizes="60vw"
             style={{ objectFit: "cover" }}
             priority={priority}
           />
