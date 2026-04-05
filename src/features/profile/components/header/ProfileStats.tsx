@@ -13,7 +13,7 @@ export const ProfileStats = ({
   purchasesCount,
   isOwner,
 }: ProfileStatsProps) => (
-  <Flex gap={6} align="center" mb={3}>
+  <Flex gap={6} align="center" mb={3} w="full">
     <Text fontSize="sm" color="neutral.700">
       <Text as="span" fontWeight="bold">
         {salesCount}
@@ -28,9 +28,9 @@ export const ProfileStats = ({
     </Text>
 
     {isOwner && (
-      <Box display={{ base: "block", md: "none" }} ml="auto">
+      <Box ml="auto">
         <form action={logoutAction}>
-          <button type="submit">
+          <button type="submit" style={{ display: "flex", cursor: "pointer" }}>
             <ArrowOutLeftSquareHalf
               width="28px"
               height="28px"

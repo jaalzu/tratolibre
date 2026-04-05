@@ -1,5 +1,12 @@
+// next.config.mjs
 import { withSentryConfig } from "@sentry/nextjs";
+import bundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
+
+// Wrapper del bundle analyzer
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.100.13"],
@@ -16,7 +23,7 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@chakra-ui/react"],
 };
 
-export default withSentryConfig(nextConfig, {
+const configWithSentry = withSentryConfig(nextConfig, {
   org: "javieralzu",
   project: "tratolibre",
   silent: !process.env.CI,
@@ -29,3 +36,5 @@ export default withSentryConfig(nextConfig, {
     },
   },
 });
+
+export default withBundleAnalyzer(configWithSentry);

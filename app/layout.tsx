@@ -1,13 +1,13 @@
+// app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Box } from "@chakra-ui/react";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { createClient } from "@/lib/supabase/server";
 import { ClientProviders } from "./ClientProviders";
+import { AnalyticsWrapper } from "./AnalyticsWrapper";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -65,14 +65,14 @@ export default async function RootLayout({
   return (
     <html lang="es" className={geist.variable} suppressHydrationWarning>
       <head>
-        {/* {!user && (
+        {!user && (
           <link
             rel="preload"
             as="image"
             href="/hero/girl-in-pool.webp"
             fetchPriority="high"
           />
-        )} */}
+        )}
       </head>
       <body className={geist.className} suppressHydrationWarning>
         <Providers>
@@ -84,8 +84,7 @@ export default async function RootLayout({
           </ClientProviders>
         </Providers>
 
-        {process.env.NODE_ENV === "production" && <Analytics />}
-        <SpeedInsights />
+        <AnalyticsWrapper />
       </body>
     </html>
   );
