@@ -44,16 +44,23 @@ export function HeroSlideContent({
     <>
       {/* Mobile */}
       <Box display={{ base: "block", md: "none" }}>
-        <Box position="relative" w="100%" h="45vw" maxH="400px">
+        <Box w="100%" h="45vw" maxH="400px" overflow="hidden">
           <Image
             src={slide.image}
             alt={slide.title}
-            fill
+            width={1200}
+            height={800}
             sizes="100vw"
-            style={{ objectFit: "cover" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
             priority={priority}
+            fetchPriority={priority ? "high" : "auto"}
           />
         </Box>
+
         <Box bg={slide.bg} px={4} py={5}>
           <Heading fontSize="xl" fontWeight="bold" color="neutral.900" mb={6}>
             {slide.title}
@@ -64,7 +71,7 @@ export function HeroSlideContent({
         </Box>
       </Box>
 
-      {/* Desktop - La imagen solo ocupa 60% del viewport */}
+      {/* Desktop */}
       <Flex display={{ base: "none", md: "flex" }} h="320px" bg={slide.bg}>
         <Flex flex={1} direction="column" justify="center" pl="12%" pr={8}>
           <Heading
@@ -76,6 +83,7 @@ export function HeroSlideContent({
           >
             {slide.title}
           </Heading>
+
           <Button
             asChild
             w="fit-content"
@@ -87,14 +95,21 @@ export function HeroSlideContent({
             <NextLink href={slide.buttonHref}>{slide.buttonLabel}</NextLink>
           </Button>
         </Flex>
-        <Box position="relative" w="60%" h="100%" flexShrink={0}>
+
+        <Box w="60%" h="100%" flexShrink={0} overflow="hidden">
           <Image
             src={slide.image}
             alt={slide.title}
-            fill
-            sizes="60vw"
-            style={{ objectFit: "cover" }}
+            width={1800}
+            height={800}
+            sizes="(max-width: 868px) 100vw, 70vw"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
             priority={priority}
+            fetchPriority={priority ? "high" : "auto"}
           />
         </Box>
       </Flex>
