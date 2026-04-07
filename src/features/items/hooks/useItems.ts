@@ -1,14 +1,17 @@
-// features/items/hooks/useItems.ts
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getItems, GetItemsParams } from "@/features/items/actions";
+import { getItems } from "@/features/items/actions";
+import type { GetItemsParams } from "@/features/items/services/item-filters.service";
+
+const STALE_TIME = 5 * 60 * 1000; // 5 min
+const GC_TIME = 10 * 60 * 1000; // 10 min
 
 export function useItems(params: GetItemsParams = {}) {
   return useQuery({
     queryKey: ["items", params],
     queryFn: () => getItems(params),
-    staleTime: 5 * 60 * 1000, // 5 minutes - data stays fresh
-    gcTime: 10 * 60 * 1000, // 10 minutes - cache time (formerly cacheTime)
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
   });
 }

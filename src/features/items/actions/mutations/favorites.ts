@@ -1,25 +1,23 @@
 "use server";
 
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import {
+  checkFavoriteExists,
+  removeFavorite,
+  addFavorite,
+} from "../../services/favorites.service";
 
 export async function toggleFavoriteAction(itemId: string) {
   const { supabase, user } = await getAuthUser();
   if (!user) return { error: "No autorizado" };
 
-  const { data: existing } = await supabase
-    .from("favorites")
-    .select("id")
-    .eq("user_id", user.id)
-    .eq("item_id", itemId)
-    .single();
+  const existing = await checkFavoriteExists(supabase, user.id, itemId);
 
   if (existing) {
-    await supabase.from("favorites").delete().eq("id", existing.id);
+    await removeFavorite(supabase, existing.id);
     return { favorited: false };
   }
 
-  await supabase
-    .from("favorites")
-    .insert({ user_id: user.id, item_id: itemId });
+  await addFavorite(supabase, user.id, itemId);
   return { favorited: true };
 }

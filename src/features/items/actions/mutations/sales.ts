@@ -3,47 +3,11 @@
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { revalidatePath } from "next/cache";
 import { createNotification } from "@/features/notifications/actions";
-
-async function updateItemAsSold(
-  supabase: any,
-  itemId: string,
-  ownerId: string,
-) {
-  const { error } = await supabase
-    .from("items")
-    .update({ sold: true, available: false, sold_at: new Date().toISOString() })
-    .eq("id", itemId)
-    .eq("owner_id", ownerId);
-  return error;
-}
-
-async function createPurchaseRecord(
-  supabase: any,
-  {
-    itemId,
-    buyerId,
-    ownerId,
-    salePrice,
-  }: {
-    itemId: string;
-    buyerId: string;
-    ownerId: string;
-    salePrice: number;
-  },
-) {
-  const { data, error } = await supabase
-    .from("purchases")
-    .insert({
-      item_id: itemId,
-      buyer_id: buyerId,
-      owner_id: ownerId,
-      sale_price: salePrice,
-      status: "completed",
-    })
-    .select()
-    .single();
-  return { data, error };
-}
+import {
+  getItemForSale,
+  markItemAsSold,
+  createPurchase,
+} from "../../services/sales.service";
 
 async function notifySaleCompleted(
   itemId: string,
@@ -80,19 +44,13 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
   const { supabase, user } = await getAuthUser();
   if (!user) return { error: "No autorizado" };
 
-  const { data: item } = await supabase
-    .from("items")
-    .select("sale_price, title")
-    .eq("id", itemId)
-    .eq("owner_id", user.id)
-    .single();
-
+  const item = await getItemForSale(supabase, itemId, user.id);
   if (!item) return { error: "Item no encontrado" };
 
-  const itemError = await updateItemAsSold(supabase, itemId, user.id);
+  const { error: itemError } = await markItemAsSold(supabase, itemId, user.id);
   if (itemError) return { error: itemError.message };
 
-  const { data: purchase, error: purchaseError } = await createPurchaseRecord(
+  const { data: purchase, error: purchaseError } = await createPurchase(
     supabase,
     {
       itemId,
@@ -103,10 +61,10 @@ export async function markAsSoldToAction(itemId: string, buyerId: string) {
   );
   if (purchaseError) return { error: purchaseError.message };
 
-  await notifySaleCompleted(itemId, item.title, user.id, buyerId, purchase.id);
+  await notifySaleCompleted(itemId, item.title, user.id, buyerId, purchase!.id);
 
   revalidatePath(`/item/${itemId}`);
   revalidatePath("/profile");
 
-  return { success: true, purchaseId: purchase.id };
+  return { success: true, purchaseId: purchase!.id };
 }
