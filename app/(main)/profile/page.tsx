@@ -1,10 +1,16 @@
 import { getMyProfile } from "@/features/profile/actions";
-import { getPendingReviews } from "@/features/reviews/actions";
+import { getPendingReviewsAction } from "@/features/reviews/actions"; // O getPendingReviews
 import { ProfileView } from "@/features/profile/components/ProfileView";
+import type { PendingReview } from "@/features/reviews/types";
 
 export default async function MyProfilePage() {
-  const [{ profile, items, salesCount, purchasesCount }, pendingReviews] =
-    await Promise.all([getMyProfile(), getPendingReviews()]);
+  // Promise.all infiere los tipos, pero si querés estar 100% seguro:
+  const [profileData, pendingReviews] = await Promise.all([
+    getMyProfile(),
+    getPendingReviewsAction(),
+  ]);
+
+  const { profile, items, salesCount, purchasesCount } = profileData;
 
   return (
     <ProfileView
@@ -12,7 +18,7 @@ export default async function MyProfilePage() {
       items={items}
       salesCount={salesCount}
       purchasesCount={purchasesCount}
-      pendingReviews={pendingReviews}
+      pendingReviews={pendingReviews as PendingReview[]} // Cast por si las moscas con el Promise.all
       isOwner
     />
   );

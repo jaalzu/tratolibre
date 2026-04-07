@@ -10,10 +10,14 @@ export async function prefetchSearchItems(
 ) {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["search-results", params],
-    queryFn: () => getSearchPageDataAction(params, userId),
-  });
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: ["search-results", params],
+      queryFn: () => getSearchPageDataAction(params, userId),
+    });
+  } catch (error) {
+    console.error("Error en prefetchSearchItems:", error);
+  }
 
   return dehydrate(queryClient);
 }

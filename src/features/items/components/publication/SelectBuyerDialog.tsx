@@ -199,11 +199,13 @@ export const SelectBuyerDialog = ({
             setReviewOpen(false);
             setSaleResult(null);
           }}
-          purchaseId={saleResult.purchaseId}
-          reviewedId={saleResult.buyerId}
-          reviewedName={saleResult.buyerName}
-          itemTitle={saleResult.itemTitle} // ← nuevo
-          role="seller"
+          data={{
+            purchaseId: saleResult.purchaseId,
+            reviewedId: saleResult.buyerId,
+            reviewedName: saleResult.buyerName,
+            itemTitle: saleResult.itemTitle,
+            role: "seller" as const,
+          }}
         />
       )}
     </>

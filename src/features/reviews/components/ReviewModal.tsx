@@ -2,78 +2,65 @@
 
 import { useState } from "react";
 import {
-  Dialog,
-  Portal,
-  Flex,
-  Text,
   Box,
-  Textarea,
+  Flex,
   Stack,
+  Text,
+  Textarea,
+  Button,
+  Portal,
+  DialogRoot as Root,
+  DialogBackdrop as Backdrop,
+  DialogPositioner as Positioner,
+  DialogContent as Content,
+  DialogTitle as Title,
 } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
-import { submitReviewAction } from "@/features/reviews/actions";
 import { Star } from "@boxicons/react";
+import { useReviewForm } from "../hooks/useReviewForm";
+import type { ReviewModalData } from "../types";
+
 interface ReviewModalProps {
   open: boolean;
   onClose: () => void;
-  purchaseId: string;
-  reviewedId: string;
-  reviewedName: string;
-  itemTitle: string;
-  role: "buyer" | "seller";
+  data: ReviewModalData;
 }
 
-export function ReviewModal({
-  open,
-  onClose,
-  purchaseId,
-  reviewedId,
-  reviewedName,
-  itemTitle,
-  role,
-}: ReviewModalProps) {
-  const [rating, setRating] = useState(0);
+export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
   const [hovered, setHovered] = useState(0);
-  const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async () => {
-    if (rating === 0) return setError("Elegí una puntuación");
-    setLoading(true);
-    setError(null);
-
-    const result = await submitReviewAction({
-      purchase_id: purchaseId,
-      reviewed_id: reviewedId,
-      rating,
-      comment: comment.trim() || undefined,
-      role,
-    });
-
-    setLoading(false);
-    if (result?.error) return setError(result.error as string);
+  const {
+    rating,
+    setRating,
+    comment,
+    setComment,
+    isLoading,
+    error,
+    handleSubmit,
+    reset,
+  } = useReviewForm(() => {
     setSubmitted(true);
-  };
+  });
+
+  if (!open || !data) return null;
+
+  const { purchaseId, reviewedId, reviewedName, itemTitle, role } = data;
 
   const handleClose = () => {
-    setRating(0);
-    setComment("");
-    setError(null);
     setSubmitted(false);
+    reset();
     onClose();
   };
 
   return (
-    <Dialog.Root
+    <Root
       open={open}
-      onOpenChange={(e) => !e.open && !loading && handleClose()}
+      onOpenChange={(e) => !e.open && !isLoading && handleClose()}
     >
       <Portal>
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content borderRadius="2xl" p={5} maxW="360px">
+        <Backdrop />
+        <Positioner>
+          <Content borderRadius="2xl" p={5} maxW="360px">
             {submitted ? (
               <Flex direction="column" align="center" gap={4} py={4}>
                 <Text fontSize="3xl">🎉</Text>
@@ -90,9 +77,9 @@ export function ReviewModal({
             ) : (
               <Stack gap={4}>
                 <Box>
-                  <Dialog.Title fontSize="md" fontWeight="bold" mb={1}>
+                  <Title fontSize="md" fontWeight="bold" mb={1}>
                     Calificá a {reviewedName}
-                  </Dialog.Title>
+                  </Title>
                   <Text fontSize="sm" color="neutral.500">
                     {role === "buyer"
                       ? "Calificá al vendedor de"
@@ -119,8 +106,6 @@ export function ReviewModal({
                         <Star
                           width="36px"
                           height="36px"
-                          // Si tu versión usa props para solid, usá type="solid"
-                          // Si no, usualmente se maneja con el componente SolidStar o el fill
                           fill={isActive ? "#ecc94b" : "#e2e8f0"}
                         />
                       </Box>
@@ -143,30 +128,32 @@ export function ReviewModal({
                   </Text>
                 )}
 
-                <Textarea
-                  placeholder="Contá tu experiencia"
-                  value={comment}
-                  pt={2.5}
-                  pb={6}
-                  pl={1.5}
-                  onChange={(e) => setComment(e.target.value)}
-                  maxLength={500}
-                  rows={3}
-                  fontSize="sm"
-                  borderRadius="xl"
-                  resize="none"
-                />
-                <Text
-                  fontSize="xs"
-                  color="neutral.400"
-                  textAlign="right"
-                  mt={-3}
-                >
-                  {comment.length}/500
-                </Text>
+                <Box>
+                  <Textarea
+                    placeholder="Contá tu experiencia"
+                    value={comment}
+                    pt={2.5}
+                    pb={6}
+                    pl={1.5}
+                    onChange={(e) => setComment(e.target.value)}
+                    maxLength={500}
+                    rows={3}
+                    fontSize="sm"
+                    borderRadius="xl"
+                    resize="none"
+                  />
+                  <Text
+                    fontSize="xs"
+                    color="neutral.400"
+                    textAlign="right"
+                    mt={1}
+                  >
+                    {comment.length}/500
+                  </Text>
+                </Box>
 
                 {error && (
-                  <Text fontSize="sm" color="feedback.error" textAlign="center">
+                  <Text fontSize="sm" color="red.500" textAlign="center">
                     {error}
                   </Text>
                 )}
@@ -177,15 +164,22 @@ export function ReviewModal({
                     p={1.5}
                     flex={1}
                     onClick={handleClose}
-                    disabled={loading}
+                    disabled={isLoading}
                   >
                     Ahora no
                   </Button>
                   <Button
                     flex={1}
+                    bg="brand.default"
                     p={1.5}
-                    onClick={handleSubmit}
-                    loading={loading}
+                    onClick={() =>
+                      handleSubmit({
+                        purchase_id: purchaseId,
+                        reviewed_id: reviewedId,
+                        role,
+                      })
+                    }
+                    loading={isLoading}
                     disabled={rating === 0}
                   >
                     Enviar
@@ -193,9 +187,9 @@ export function ReviewModal({
                 </Flex>
               </Stack>
             )}
-          </Dialog.Content>
-        </Dialog.Positioner>
+          </Content>
+        </Positioner>
       </Portal>
-    </Dialog.Root>
+    </Root>
   );
 }

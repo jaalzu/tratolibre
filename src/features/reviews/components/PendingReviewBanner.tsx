@@ -1,36 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { ReviewModal } from "@/features/reviews/components/ReviewModal";
-import type { PendingReview } from "@/features/reviews/actions";
 import { Star, ChevronLeft, ChevronRight } from "@boxicons/react";
+import { ReviewModal } from "./ReviewModal";
+import { usePendingCarousel } from "../hooks/usePendingCarousel";
+import type { PendingReview } from "../types";
 
 export function PendingReviewBanner({
   pendingReviews,
 }: {
   pendingReviews: PendingReview[];
 }) {
-  const [current, setCurrent] = useState(0);
-  const [dismissed, setDismissed] = useState(false);
-  const [open, setOpen] = useState(false);
+  const {
+    current,
+    total,
+    currentReview,
+    isVisible,
+    isModalOpen,
+    prev,
+    next,
+    openReview,
+    closeReview,
+  } = usePendingCarousel(pendingReviews);
 
-  if (!pendingReviews.length || dismissed) return null;
-
-  const review = pendingReviews[current];
-  if (!review) return null;
-  const total = pendingReviews.length;
-  const itemTitle =
-    (review.items as { title: string } | null)?.title ?? "este artículo";
-
-  const handleClose = () => {
-    setOpen(false);
-    if (current < total - 1) {
-      setCurrent((c) => c + 1);
-    } else {
-      setDismissed(true);
-    }
-  };
+  if (!isVisible) return null;
 
   return (
     <>
@@ -43,6 +36,7 @@ export function PendingReviewBanner({
         mb={4}
       >
         <Flex align="center" gap={3}>
+          {/* Icono Star */}
           <Flex
             align="center"
             justify="center"
@@ -51,47 +45,44 @@ export function PendingReviewBanner({
             borderRadius="full"
             bg="brand.100"
             color="brand.default"
-            flexShrink={0}
           >
             <Star width="18px" height="18px" fill="currentColor" />
           </Flex>
 
           <Box flex={1}>
-            <Text fontSize="sm" fontWeight="semibold" color="neutral.900">
+            <Text fontSize="sm" fontWeight="semibold">
               {total === 1
                 ? "Tenés una reseña pendiente"
                 : `Reseña ${current + 1} de ${total}`}
             </Text>
             <Text fontSize="xs" color="neutral.500">
-              Calificá tu experiencia con {review.reviewedName ?? "el usuario"}
+              Calificá tu experiencia con {currentReview.reviewedName}
             </Text>
           </Box>
 
           <Flex gap={1} align="center">
-            {/* Flechas — solo si hay más de una */}
             {total > 1 && (
               <>
                 <Box
                   as="button"
-                  onClick={() =>
-                    current > 0 && setCurrent((c) => Math.max(0, c - 1))
-                  }
-                  color={current === 0 ? "neutral.200" : "neutral.500"}
-                  aria-disabled={current === 0}
-                  px={1}
+                  onClick={prev}
+                  style={{
+                    cursor: current === 0 ? "not-allowed" : "pointer",
+                    opacity: current === 0 ? 0.3 : 1,
+                  }}
+                  {...(current === 0 ? { disabled: true } : {})}
                 >
                   <ChevronLeft width="25px" height="25px" fill="currentColor" />
                 </Box>
 
                 <Box
                   as="button"
-                  onClick={() =>
-                    current < total - 1 &&
-                    setCurrent((c) => Math.min(total - 1, c + 1))
-                  }
-                  color={current === total - 1 ? "neutral.200" : "neutral.500"}
-                  aria-disabled={current === total - 1}
-                  px={1}
+                  onClick={next} // <--- Usamos 'next' del hook
+                  style={{
+                    cursor: current === total - 1 ? "not-allowed" : "pointer",
+                    opacity: current === total - 1 ? 0.3 : 1,
+                  }}
+                  {...(current === total - 1 ? { disabled: true } : {})}
                 >
                   <ChevronRight
                     width="25px"
@@ -104,15 +95,14 @@ export function PendingReviewBanner({
 
             <Box
               as="button"
-              fontSize="xs"
-              fontWeight="semibold"
-              color="brand.default"
-              onClick={() => setOpen(true)}
-              _hover={{ opacity: 0.8 }}
-              px={2}
+              onClick={openReview}
+              px={3}
               py={1}
               borderRadius="lg"
               bg="brand.100"
+              fontSize="xs"
+              fontWeight="semibold"
+              color="brand.default"
             >
               Calificar
             </Box>
@@ -121,13 +111,15 @@ export function PendingReviewBanner({
       </Box>
 
       <ReviewModal
-        open={open}
-        onClose={handleClose}
-        purchaseId={review.id}
-        reviewedId={review.reviewedId}
-        reviewedName={review.reviewedName ?? "el usuario"}
-        itemTitle={itemTitle}
-        role={review.myRole as "buyer" | "seller"}
+        open={isModalOpen}
+        onClose={closeReview}
+        data={{
+          purchaseId: currentReview.id,
+          reviewedId: currentReview.reviewedId,
+          reviewedName: currentReview.reviewedName,
+          itemTitle: currentReview.itemTitle,
+          role: currentReview.myRole,
+        }}
       />
     </>
   );

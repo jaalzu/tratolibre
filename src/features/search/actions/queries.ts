@@ -15,41 +15,76 @@ export async function getSearchPageDataAction(
   params: SearchPageParams,
   userId: string | null,
 ) {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  // 1. Mapeo y validación de tipos (String URL -> Types reales)
-  const serviceParams: SearchParams = {
-    keywords: params.keywords,
-    category: params.category,
-    province: params.province,
-    date: params.date as DateFilter | undefined,
-    min_price: params.min_price ? Number(params.min_price) : undefined,
-    max_price: params.max_price ? Number(params.max_price) : undefined,
-    condition: params.condition,
-    order_by: params.order_by as SortOrder | undefined,
-  };
+    // Validación de números con fallback
+    const minPrice = params.min_price ? Number(params.min_price) : undefined;
+    const maxPrice = params.max_price ? Number(params.max_price) : undefined;
 
-  // 2. Ejecución paralela de servicios
-  const [itemsResult, favoriteIds] = await Promise.all([
-    getSearchItemsService(supabase, serviceParams),
-    userId ? getUserFavoriteIds(userId) : Promise.resolve([]),
-  ]);
+    // Validar que los números sean válidos
+    if (params.min_price && isNaN(minPrice!)) {
+      return {
+        items: [],
+        favoriteIds: [],
+        title: "Error en los parámetros de búsqueda",
+        error: "Precio mínimo inválido",
+      };
+    }
 
-  // 3. Lógica de UI (Títulos y labels)
-  const categoryLabel = params.category
-    ? CATEGORIES.find((c) => c.id === params.category)?.label
-    : null;
+    if (params.max_price && isNaN(maxPrice!)) {
+      return {
+        items: [],
+        favoriteIds: [],
+        title: "Error en los parámetros de búsqueda",
+        error: "Precio máximo inválido",
+      };
+    }
 
-  const title =
-    categoryLabel ??
-    (params.keywords
-      ? `Resultados para "${params.keywords}"`
-      : "Todos los artículos");
+    const serviceParams: SearchParams = {
+      keywords: params.keywords,
+      category: params.category,
+      province: params.province,
+      date: params.date as DateFilter | undefined,
+      min_price: minPrice,
+      max_price: maxPrice,
+      condition: params.condition,
+      order_by: params.order_by as SortOrder | undefined,
+    };
 
-  return {
-    items: itemsResult.data,
-    favoriteIds,
-    title,
-    error: itemsResult.error,
-  };
+    // Promise.all con manejo de errores individual
+    const [itemsResult, favoriteIds] = await Promise.all([
+      getSearchItemsService(supabase, serviceParams),
+      userId
+        ? getUserFavoriteIds(userId).catch(() => []) // Si falla, devuelve array vacío
+        : Promise.resolve([]),
+    ]);
+
+    const categoryLabel = params.category
+      ? CATEGORIES.find((c) => c.id === params.category)?.label
+      : null;
+
+    const title =
+      categoryLabel ??
+      (params.keywords
+        ? `Resultados para "${params.keywords}"`
+        : "Todos los artículos");
+
+    return {
+      items: itemsResult.data ?? [],
+      favoriteIds,
+      title,
+      error: itemsResult.error,
+    };
+  } catch (error) {
+    console.error("Error in getSearchPageDataAction:", error);
+
+    return {
+      items: [],
+      favoriteIds: [],
+      title: "Error al cargar resultados",
+      error:
+        error instanceof Error ? error.message : "Ocurrió un error inesperado",
+    };
+  }
 }

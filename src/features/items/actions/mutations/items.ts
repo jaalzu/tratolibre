@@ -21,56 +21,89 @@ export async function createItemAction(
   _prevState: ActionState,
   formData: FormData,
 ) {
-  const { supabase, user } = await getAuthUser();
-  if (!user) return { error: "No autorizado" };
+  let redirectTo = "";
 
-  const allowed = await checkRateLimit(supabase, user.id, "create_item", 8, 60);
-  if (!allowed) {
-    return {
-      error:
-        "Alcanzaste el límite de 8 publicaciones por hora. Intentá más tarde.",
-    };
+  try {
+    const { supabase, user } = await getAuthUser();
+    if (!user) return { error: "No autorizado" };
+
+    const allowed = await checkRateLimit(
+      supabase,
+      user.id,
+      "create_item",
+      8,
+      60,
+    );
+    if (!allowed) {
+      return {
+        error:
+          "Alcanzaste el límite de 8 publicaciones por hora. Intentá más tarde.",
+      };
+    }
+
+    const parsed = validateItemData(parseItemFormData(formData));
+    if (!parsed.success) return { error: parsed.error.flatten() };
+
+    const { item, error } = await createItem(supabase, {
+      ...parsed.data,
+      owner_id: user.id,
+    });
+
+    if (error) return { error: mapSupabaseError(error) };
+
+    revalidatePath("/");
+    redirectTo = `/item/${item!.id}`;
+  } catch (error) {
+    console.error("Error en createItemAction:", error);
+    return { error: "Ocurrió un error inesperado al crear el item" };
   }
 
-  const parsed = validateItemData(parseItemFormData(formData));
-  if (!parsed.success) return { error: parsed.error.flatten() };
-
-  const { item, error } = await createItem(supabase, {
-    ...parsed.data,
-    owner_id: user.id,
-  });
-
-  if (error) return { error: mapSupabaseError(error) };
-
-  revalidatePath("/");
-  redirect(`/item/${item!.id}`);
+  if (redirectTo) redirect(redirectTo);
 }
 
 export async function updateItemAction(
   _prevState: ActionState,
   formData: FormData,
 ) {
-  const { supabase, user } = await getAuthUser();
-  if (!user) return { error: "No autorizado" };
+  let redirectTo = "";
 
-  const id = formData.get("id") as string;
-  const parsed = validateItemData(parseItemFormData(formData));
-  if (!parsed.success) return { error: parsed.error.flatten() };
+  try {
+    const { supabase, user } = await getAuthUser();
+    if (!user) return { error: "No autorizado" };
 
-  const { error } = await updateItem(supabase, id, user.id, parsed.data);
-  if (error) return { error: mapSupabaseError(error) };
+    const id = formData.get("id") as string;
+    const parsed = validateItemData(parseItemFormData(formData));
+    if (!parsed.success) return { error: parsed.error.flatten() };
 
-  revalidatePath(`/item/${id}`);
-  redirect(`/item/${id}`);
+    const { error } = await updateItem(supabase, id, user.id, parsed.data);
+    if (error) return { error: mapSupabaseError(error) };
+
+    revalidatePath(`/item/${id}`);
+    redirectTo = `/item/${id}`;
+  } catch (error) {
+    console.error("Error en updateItemAction:", error);
+    return { error: "No se pudo actualizar el item" };
+  }
+
+  if (redirectTo) redirect(redirectTo);
 }
 
 export async function deleteItemAction(id: string) {
-  const { supabase, user } = await getAuthUser();
-  if (!user) return { error: "No autorizado" };
+  let shouldRedirect = false;
 
-  const { error } = await deleteItem(supabase, id, user.id);
-  if (error) return { error: mapSupabaseError(error) };
+  try {
+    const { supabase, user } = await getAuthUser();
+    if (!user) return { error: "No autorizado" };
 
-  revalidatePath("/");
-  redirect("/");
+    const { error } = await deleteItem(supabase, id, user.id);
+    if (error) return { error: mapSupabaseError(error) };
+
+    revalidatePath("/");
+    shouldRedirect = true;
+  } catch (error) {
+    console.error("Error en deleteItemAction:", error);
+    return { error: "No se pudo eliminar el item" };
+  }
+
+  if (shouldRedirect) redirect("/");
 }
