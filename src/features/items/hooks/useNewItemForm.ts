@@ -1,18 +1,14 @@
-// features/items/hooks/useNewItemForm.ts
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ItemSchema, ItemInput } from "@/features/items/schemas";
 import { createItemAction, updateItemAction } from "@/features/items/actions";
 import { Item } from "@/features/items/types";
-import { compressImages } from "@/lib/compress";
-import { toaster } from "@/components/ui/toaster";
+import { useItemImages } from "./useItemImages";
 
 export const useNewItemForm = (initialData?: Partial<Item>) => {
-  const [images, setImages] = useState<string[]>(initialData?.images ?? []);
-  const [uploading, setUploading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const defaultValues = useMemo(
@@ -39,108 +35,11 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
   } = useForm<ItemInput>({
     resolver: zodResolver(ItemSchema),
     defaultValues,
-    mode: "onTouched", // ✅ Reduce validaciones
+    mode: "onTouched",
   });
 
-  const handleUpload = useCallback(
-    async (files: File[]) => {
-      setUploading(true);
-
-      const validFiles = files.filter((f) => {
-        if (!f.type.startsWith("image/")) {
-          toaster.create({
-            title: "Archivo no válido",
-            description: `${f.name} no es una imagen`,
-            type: "error",
-          });
-          return false;
-        }
-
-        if (f.size > 20 * 1024 * 1024) {
-          toaster.create({
-            title: "Imagen muy pesada",
-            description: `${f.name} pesa más de 20MB`,
-            type: "error",
-          });
-          return false;
-        }
-
-        return true;
-      });
-
-      if (validFiles.length === 0) {
-        setUploading(false);
-        return;
-      }
-
-      try {
-        const compressedFiles = await compressImages(validFiles);
-        const urls: string[] = [];
-
-        // ✅ Upload secuencial pero con mejor manejo de errores
-        for (const file of compressedFiles) {
-          try {
-            const fd = new FormData();
-            fd.append("file", file);
-
-            const res = await fetch("/api/upload", {
-              method: "POST",
-              body: fd,
-              signal: AbortSignal.timeout(30000),
-            });
-
-            if (!res.ok) {
-              console.error(`Upload failed: ${res.status}`);
-              continue;
-            }
-
-            const data = await res.json();
-            if (data.fileName || data.url) {
-              urls.push(data.url || `/${data.fileName}`);
-            }
-          } catch (err) {
-            console.error("Error uploading:", err);
-          }
-        }
-
-        if (urls.length > 0) {
-          setImages((prev) => {
-            const updated = [...prev, ...urls];
-            setValue("images", updated, { shouldValidate: true });
-            return updated;
-          });
-        }
-
-        const failedCount = compressedFiles.length - urls.length;
-        if (failedCount > 0) {
-          toaster.create({
-            title: "Algunas imágenes fallaron",
-            description: `${failedCount} imagen(es) no se pudieron subir`,
-            type: "warning",
-          });
-        }
-      } catch (err) {
-        toaster.create({
-          title: "Error al procesar",
-          description: "Hubo un problema al procesar las imágenes",
-          type: "error",
-        });
-      } finally {
-        setUploading(false);
-      }
-    },
-    [setValue],
-  );
-
-  const handleRemove = useCallback(
-    (index: number) => {
-      setImages((prev) => {
-        const updated = prev.filter((_, i) => i !== index);
-        setValue("images", updated, { shouldValidate: true });
-        return updated;
-      });
-    },
-    [setValue],
+  const { images, uploading, handleUpload, handleRemove } = useItemImages(
+    initialData?.images ?? [],
   );
 
   const onSubmit: SubmitHandler<ItemInput> = async (data) => {
@@ -191,8 +90,14 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     images,
     uploading,
     serverError,
-    handleUpload,
-    handleRemove,
+    handleUpload: (files: File[]) =>
+      handleUpload(files, (imgs) =>
+        setValue("images", imgs, { shouldValidate: true }),
+      ),
+    handleRemove: (index: number) =>
+      handleRemove(index, (imgs) =>
+        setValue("images", imgs, { shouldValidate: true }),
+      ),
     setValue,
     control,
   };

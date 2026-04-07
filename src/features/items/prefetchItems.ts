@@ -1,6 +1,7 @@
 // features/items/lib/prefetchItems.ts
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { getItems, GetItemsParams } from "@/features/items/actions";
+import { getItems } from "@/features/items/actions";
+import type { GetItemsParams } from "@/features/items/services/item-filters.service";
 
 export async function prefetchMultipleItems(paramsArray: GetItemsParams[]) {
   const queryClient = new QueryClient();

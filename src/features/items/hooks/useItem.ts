@@ -3,14 +3,18 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getItemById } from "@/features/items/actions";
 
+const STALE_TIME = 5 * 60 * 1000;
+const GC_TIME = 10 * 60 * 1000;
+
 export function useItem(id: string) {
   const queryClient = useQueryClient();
 
   return useQuery({
     queryKey: ["item", id],
     queryFn: () => getItemById(id),
-    staleTime: 5 * 60 * 1000, // 5 minutos
-    gcTime: 10 * 60 * 1000, // 10 minutos
+    enabled: !!id, // solo fetch si hay id
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
     initialData: () => {
       const allItemsQueries = queryClient.getQueriesData<any[]>({
         queryKey: ["items"],
