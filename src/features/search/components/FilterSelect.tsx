@@ -1,8 +1,8 @@
 "use client";
 
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { useState, useRef, useEffect } from "react";
 import { ChevronUp, ChevronDown, Check } from "@boxicons/react";
+import { useFilterSelect } from "../hooks/useFilterSelect";
 
 interface Option {
   id: string;
@@ -22,18 +22,10 @@ export function FilterSelect({
   options,
   placeholder,
 }: FilterSelectProps) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const selected = options.find((o) => o.id === value);
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
-        setOpen(false);
-    };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
+  const { open, ref, selected, toggle, close } = useFilterSelect(
+    value,
+    options,
+  );
 
   return (
     <Box position="relative" ref={ref}>
@@ -49,7 +41,7 @@ export function FilterSelect({
         borderRadius="lg"
         bg="transparent"
         cursor="pointer"
-        onClick={() => setOpen((o) => !o)}
+        onClick={toggle}
         transition="border-color 0.15s"
       >
         <Text
@@ -84,12 +76,12 @@ export function FilterSelect({
           top="calc(100% + 4px)"
           left={0}
           right={0}
-          bg="neutral.50"
+          bg="white" // Cambiado a white para que destaque sobre el panel
           border="1px solid"
           borderColor="neutral.200"
           borderRadius="lg"
-          boxShadow="md"
-          zIndex={50}
+          boxShadow="lg"
+          zIndex={100} // Aumentado para que no lo tape nada
           maxH="220px"
           overflowY="auto"
           css={{
@@ -100,6 +92,7 @@ export function FilterSelect({
             },
           }}
         >
+          {/* Opción para limpiar/deseleccionar */}
           <Box
             as="button"
             w="full"
@@ -109,46 +102,51 @@ export function FilterSelect({
             _hover={{ bg: "neutral.50" }}
             onClick={() => {
               onChange("");
-              setOpen(false);
+              close();
             }}
           >
             <Text fontSize="sm" color="neutral.400">
               {placeholder}
             </Text>
           </Box>
-          {options.map((opt) => (
-            <Box
-              key={opt.id}
-              as="button"
-              w="full"
-              textAlign="left"
-              px={3}
-              py={2}
-              bg={value === opt.id ? "brand.50" : "transparent"}
-              _hover={{ bg: value === opt.id ? "brand.50" : "neutral.50" }}
-              onClick={() => {
-                onChange(opt.id);
-                setOpen(false);
-              }}
-            >
-              <Flex align="center" justify="space-between">
-                <Text
-                  fontSize="sm"
-                  color={value === opt.id ? "brand.default" : "neutral.700"}
-                  fontWeight={value === opt.id ? "bold" : "normal"}
-                >
-                  {opt.label}
-                </Text>
-                {value === opt.id && (
-                  <Check
-                    width="16px"
-                    height="16px"
-                    fill="var(--chakra-colors-brand-default)"
-                  />
-                )}
-              </Flex>
-            </Box>
-          ))}
+
+          {/* Listado de Opciones */}
+          {options.map((opt) => {
+            const isSelected = value === opt.id;
+            return (
+              <Box
+                key={opt.id}
+                as="button"
+                w="full"
+                textAlign="left"
+                px={3}
+                py={2}
+                bg={isSelected ? "brand.50" : "transparent"}
+                _hover={{ bg: isSelected ? "brand.50" : "neutral.50" }}
+                onClick={() => {
+                  onChange(opt.id);
+                  close();
+                }}
+              >
+                <Flex align="center" justify="space-between">
+                  <Text
+                    fontSize="sm"
+                    color={isSelected ? "brand.default" : "neutral.700"}
+                    fontWeight={isSelected ? "bold" : "normal"}
+                  >
+                    {opt.label}
+                  </Text>
+                  {isSelected && (
+                    <Check
+                      width="16px"
+                      height="16px"
+                      fill="var(--chakra-colors-brand-default)"
+                    />
+                  )}
+                </Flex>
+              </Box>
+            );
+          })}
         </Box>
       )}
     </Box>

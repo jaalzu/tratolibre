@@ -10,7 +10,7 @@ import { PageContainer } from "@/components/ui/PageContainer";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { LazySection } from "@/components/ui/LazySection";
 import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
-import { prefetchMultipleItems } from "@/features/items/prefetchItems";
+import { prefetchMultipleItems } from "@/features/items/prefetch/prefetchItems";
 import { ItemsHydration } from "@/features/items/components/ItemsHydration";
 import { Hero } from "@/components/sections/Hero";
 import dynamic from "next/dynamic";

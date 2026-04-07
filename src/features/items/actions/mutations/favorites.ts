@@ -5,7 +5,7 @@ import {
   checkFavoriteExists,
   removeFavorite,
   addFavorite,
-} from "../../services/favorites.service";
+} from "../../services/favorites-service";
 
 export async function toggleFavoriteAction(itemId: string) {
   const { supabase, user } = await getAuthUser();

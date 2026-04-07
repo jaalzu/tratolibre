@@ -1,15 +1,9 @@
 "use client";
 
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { X, Check } from "@boxicons/react";
-
-const SORT_OPTIONS = [
-  { id: "closest", label: "Más recientes" },
-  { id: "most_relevance", label: "Más relevantes" },
-  { id: "price_asc", label: "Menor precio" },
-  { id: "price_desc", label: "Mayor precio" },
-];
+import { useSortNavigation } from "../hooks/useSortNavigation";
+import { SORT_OPTIONS } from "../constants";
 
 interface SortModalProps {
   open: boolean;
@@ -17,19 +11,11 @@ interface SortModalProps {
 }
 
 export function SortModal({ open, onClose }: SortModalProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const current = searchParams.get("order_by") ?? "closest";
-
-  const handleSelect = (id: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("order_by", id);
-    router.push(`/search?${params.toString()}`);
-    onClose();
-  };
+  const { currentOrder, handleSortChange } = useSortNavigation();
 
   return (
     <>
+      {/* Overlay */}
       {open && (
         <Box
           position="fixed"
@@ -40,6 +26,7 @@ export function SortModal({ open, onClose }: SortModalProps) {
         />
       )}
 
+      {/* Sheet / Modal */}
       <Box
         position="fixed"
         bottom={0}
@@ -65,46 +52,44 @@ export function SortModal({ open, onClose }: SortModalProps) {
             Ordenar por
           </Text>
           <Box as="button" onClick={onClose} color="neutral.400">
-            <X
-              width="28px"
-              height="28px"
-              fill="red"
-              aria-label="close button"
-            />
+            <X width="28px" height="28px" fill="currentColor" />
           </Box>
         </Flex>
 
         <Box py={2}>
-          {SORT_OPTIONS.map((opt) => (
-            <Flex
-              key={opt.id}
-              as="button"
-              w="full"
-              align="center"
-              justify="space-between"
-              px={4}
-              py={3}
-              onClick={() => handleSelect(opt.id)}
-              _hover={{ bg: "neutral.50" }}
-              transition="background 0.15s"
-            >
-              <Text
-                fontSize="md"
-                color={current === opt.id ? "brand.default" : "neutral.700"}
-                fontWeight={current === opt.id ? "bold" : "normal"}
+          {SORT_OPTIONS.map((opt) => {
+            const isSelected = currentOrder === opt.id;
+
+            return (
+              <Flex
+                key={opt.id}
+                as="button"
+                w="full"
+                align="center"
+                justify="space-between"
+                px={4}
+                py={3}
+                onClick={() => handleSortChange(opt.id, onClose)}
+                _hover={{ bg: "neutral.100" }}
+                transition="background 0.15s"
               >
-                {opt.label}
-              </Text>
-              {current === opt.id && (
-                <Check
-                  width="24px"
-                  height="24px"
-                  fill="var(--chakra-colors-brand-default)"
-                  aria-label="selected order"
-                />
-              )}
-            </Flex>
-          ))}
+                <Text
+                  fontSize="md"
+                  color={isSelected ? "brand.default" : "neutral.700"}
+                  fontWeight={isSelected ? "bold" : "normal"}
+                >
+                  {opt.label}
+                </Text>
+                {isSelected && (
+                  <Check
+                    width="24px"
+                    height="24px"
+                    fill="var(--chakra-colors-brand-default)"
+                  />
+                )}
+              </Flex>
+            );
+          })}
         </Box>
       </Box>
     </>
