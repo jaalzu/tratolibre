@@ -48,3 +48,11 @@ export interface ItemFormData {
   type: string;
   images: string[];
 }
+
+export interface ItemSummary {
+  id: string;
+  title: string;
+  sale_price: number;
+  images: string[] | null;
+  sold: boolean;
+}
