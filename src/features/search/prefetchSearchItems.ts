@@ -1,31 +1,18 @@
-// features/search/lib/prefetchSearchItems.ts
+// features/search/prefetchSearchItems.ts
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { getItems } from "@/features/items/actions";
-import { SearchPageParams } from "@/features/search/actions";
+import { getItems } from "@/features/items/services/items-service"; // EL SERVICE CON sale_price
+import { createClient } from "@/lib/supabase/server";
+import { SearchPageParams } from "./types";
 
+// features/search/prefetchSearchItems.ts
 export async function prefetchSearchItems(params: SearchPageParams) {
   const queryClient = new QueryClient();
+  const supabase = await createClient();
 
-  // Convertir SearchPageParams a GetItemsParams (mismo formato que en SearchResults)
-  const itemsParams = {
-    query: params.keywords,
-    category: params.category,
-    province: params.province,
-    condition: params.condition,
-    min_price: params.min_price ? Number(params.min_price) : undefined,
-    max_price: params.max_price ? Number(params.max_price) : undefined,
-    date: params.date as "today" | "week" | "month" | undefined,
-    order_by: params.order_by as
-      | "closest"
-      | "most_relevance"
-      | "price_asc"
-      | "price_desc"
-      | undefined,
-  };
-
+  // IMPORTANTE: La key debe ser ['items', params]
   await queryClient.prefetchQuery({
-    queryKey: ["items", itemsParams],
-    queryFn: () => getItems(itemsParams),
+    queryKey: ["items", params],
+    queryFn: () => getItems(supabase, params),
   });
 
   return dehydrate(queryClient);

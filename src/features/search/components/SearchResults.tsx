@@ -1,13 +1,11 @@
-// features/search/components/SearchResults.tsx
 "use client";
 
 import { Box, Heading, Text, Spinner, Flex } from "@chakra-ui/react";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { FadeInGrid } from "@/components/ui/FadeInGrid";
-import { useItems } from "@/features/items/hooks/useItems";
-import { SearchPageParams } from "@/features/search/actions";
-import { CATEGORIES } from "@/lib/constants";
+import { SearchPageParams } from "../types";
+import { useSearchResults } from "../hooks/useSearchResults";
 
 interface SearchResultsProps {
   favoriteIds: string[];
@@ -20,35 +18,8 @@ export function SearchResults({
   userId,
   params,
 }: SearchResultsProps) {
-  // Convertir SearchPageParams a GetItemsParams
-  const itemsParams = {
-    query: params.keywords,
-    category: params.category,
-    province: params.province,
-    condition: params.condition,
-    min_price: params.min_price ? Number(params.min_price) : undefined,
-    max_price: params.max_price ? Number(params.max_price) : undefined,
-    date: params.date as "today" | "week" | "month" | undefined,
-    order_by: params.order_by as
-      | "closest"
-      | "most_relevance"
-      | "price_asc"
-      | "price_desc"
-      | undefined,
-  };
-
-  const { data: items, isLoading } = useItems(itemsParams);
-
-  // Calcular el título
-  const categoryLabel = params.category
-    ? CATEGORIES.find((c) => c.id === params.category)?.label
-    : null;
-
-  const title =
-    categoryLabel ??
-    (params.keywords
-      ? `Resultados para "${params.keywords}"`
-      : "Todos los artículos");
+  // Desestructuramos con valores por defecto para que items siempre sea un array
+  const { items = [], isLoading, count = 0, title } = useSearchResults(params);
 
   if (isLoading) {
     return (
@@ -70,7 +41,7 @@ export function SearchResults({
         mb={4}
       >
         {title}
-        {items && items.length > 0 && (
+        {count > 0 && (
           <Text
             as="span"
             fontSize="sm"
@@ -78,12 +49,12 @@ export function SearchResults({
             color="neutral.400"
             ml={2}
           >
-            ({items.length} resultados)
+            ({count} resultados)
           </Text>
         )}
       </Heading>
 
-      {!items || items.length === 0 ? (
+      {items.length === 0 ? (
         <EmptyState
           image="/svg/no-results.svg"
           imageAlt="No hay resultados"
@@ -94,14 +65,15 @@ export function SearchResults({
         />
       ) : (
         <FadeInGrid columns={{ base: 2, md: 2, lg: 3, xl: 4 }}>
-          {items.map((item) => (
-            <ItemCard
-              key={item.id}
-              obj={item}
-              userId={userId}
-              initialFavorited={favoriteIds.includes(item.id)}
-            />
-          ))}
+          {Array.isArray(items) &&
+            items.map((item) => (
+              <ItemCard
+                key={item.id}
+                obj={item}
+                userId={userId}
+                initialFavorited={favoriteIds.includes(item.id)}
+              />
+            ))}
         </FadeInGrid>
       )}
     </Box>

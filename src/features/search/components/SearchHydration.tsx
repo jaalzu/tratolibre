@@ -1,4 +1,3 @@
-// features/search/components/SearchHydration.tsx
 "use client";
 
 import { HydrationBoundary } from "@tanstack/react-query";

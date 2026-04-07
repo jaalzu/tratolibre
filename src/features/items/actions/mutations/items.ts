@@ -9,7 +9,7 @@ import {
   createItem,
   updateItem,
   deleteItem,
-} from "../../services/items.service";
+} from "../../services/items-service";
 import {
   parseItemFormData,
   validateItemData,

@@ -7,7 +7,7 @@ import {
   getItemForSale,
   markItemAsSold,
   createPurchase,
-} from "../../services/sales.service";
+} from "../../services/sales-service";
 
 async function notifySaleCompleted(
   itemId: string,

@@ -1,26 +1,18 @@
 "use client";
 
-import { Box, Flex, Input, chakra } from "@chakra-ui/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Flex, Input, chakra } from "@chakra-ui/react";
 import { Search } from "@boxicons/react";
+import { useSearchBar } from "../hooks/useSearchBar";
 
 export function SearchBar() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("keywords") ?? "");
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleSearch = () => {
-    if (!query.trim()) return;
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("keywords", query.trim());
-    router.push(`/search?${params.toString()}`);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleSearch();
-  };
+  const {
+    query,
+    setQuery,
+    isHovered,
+    setIsHovered,
+    handleSearch,
+    handleKeyDown,
+  } = useSearchBar();
 
   return (
     <Flex
@@ -69,7 +61,6 @@ export function SearchBar() {
         _hover={{ bg: "neutral.100" }}
       >
         <Search
-          // En lugar de size="18px", usamos width y height que son SVGProps estándar
           width="18px"
           height="18px"
           fill={

@@ -1,4 +1,3 @@
-// features/items/components/ItemsHydration.tsx
 "use client";
 
 import { HydrationBoundary } from "@tanstack/react-query";

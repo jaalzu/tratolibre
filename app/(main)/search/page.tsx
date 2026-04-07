@@ -3,7 +3,7 @@ import { PageContainer } from "@/components/ui/PageContainer";
 import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 import { FilterPanel } from "@/features/search/components/FilterPanel";
 import { SearchResults } from "@/features/search/components/SearchResults";
-import { SearchPageParams } from "@/features/search/actions";
+import { SearchPageParams } from "@/features/search/types";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { Flex } from "@chakra-ui/react";
@@ -19,7 +19,6 @@ export default async function SearchPage({
   const params = await searchParams;
   const { user } = await getAuthUser();
 
-  // Prefetch los datos de búsqueda en el servidor
   const dehydratedState = await prefetchSearchItems(params);
 
   const favoriteIds = user ? await getUserFavoriteIds(user.id) : [];

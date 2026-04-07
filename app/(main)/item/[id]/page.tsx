@@ -4,7 +4,7 @@ import { getItemById } from "@/features/items/actions";
 import { notFound } from "next/navigation";
 import ItemPageContent from "@/features/items/components/publication/ItemPageContent";
 import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
-import { prefetchItem } from "@/features/items/prefetchItem";
+import { prefetchItem } from "@/features/items/prefetch/prefetchItem";
 import { ItemPageHydration } from "@/features/items/components/publication/ItemPageHydration";
 
 export async function generateMetadata({

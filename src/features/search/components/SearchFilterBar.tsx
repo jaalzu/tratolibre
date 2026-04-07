@@ -1,46 +1,29 @@
 "use client";
 
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { SliderAlt, ArrowDownUp } from "@boxicons/react";
+import { useSearchFilterBar } from "../hooks/useSearchFilterBar";
 
 const FilterDrawer = dynamic(
   () => import("./FilterDrawer").then((mod) => mod.FilterDrawer),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 );
 
 const SortModal = dynamic(
   () => import("./SortModal").then((mod) => mod.SortModal),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 );
 
-const SORT_LABELS: Record<string, string> = {
-  closest: "Más recientes",
-  most_relevance: "Más relevantes",
-  price_asc: "Menor precio",
-  price_desc: "Mayor precio",
-};
-
 export function SearchFilterBar() {
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [sortOpen, setSortOpen] = useState(false);
-  const searchParams = useSearchParams();
-
-  const orderBy = searchParams.get("order_by") ?? "closest";
-  const hasFilters = [
-    "category",
-    "province",
-    "date",
-    "condition",
-    "min_price",
-    "max_price",
-  ].some((k) => searchParams.has(k));
+  const {
+    filterOpen,
+    setFilterOpen,
+    sortOpen,
+    setSortOpen,
+    hasFilters,
+    currentSortLabel,
+  } = useSearchFilterBar();
 
   return (
     <>
@@ -50,6 +33,7 @@ export function SearchFilterBar() {
         borderBottom="1px solid"
         borderColor="neutral.200"
       >
+        {/* Botón de Filtros */}
         <Flex
           as="button"
           flex={1}
@@ -84,6 +68,7 @@ export function SearchFilterBar() {
           )}
         </Flex>
 
+        {/* Botón de Ordenamiento */}
         <Flex
           as="button"
           flex={1}
@@ -100,12 +85,11 @@ export function SearchFilterBar() {
             fill="var(--chakra-colors-neutral-600)"
           />
           <Text fontSize="sm" fontWeight="medium" color="neutral.700">
-            {SORT_LABELS[orderBy]}
+            {currentSortLabel}
           </Text>
         </Flex>
       </Box>
 
-      {/* 3. Solo se renderizan (y descargan) si el estado es true */}
       {filterOpen && (
         <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)} />
       )}
