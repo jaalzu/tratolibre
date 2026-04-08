@@ -1,11 +1,14 @@
+// features/reports/components/ReportButton.tsx
+
 "use client";
 
-import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { ReportModal } from "./ReportModal";
+import { useReportModal } from "../hooks/useReportModal";
+import { ReportType } from "../types";
 
 interface ReportButtonProps {
-  type: "item" | "conversation" | "user";
+  type: ReportType;
   targetId: string;
   label?: string;
   color?: string;
@@ -17,7 +20,7 @@ export function ReportButton({
   label = "Reportar",
   color = "neutral.700",
 }: ReportButtonProps) {
-  const [open, setOpen] = useState(false);
+  const { isOpen, openModal, closeModal } = useReportModal({ type, targetId });
 
   return (
     <>
@@ -27,7 +30,7 @@ export function ReportButton({
         textDecoration="underline"
         cursor="pointer"
         color={color}
-        onClick={() => setOpen(true)}
+        onClick={openModal}
         _hover={{ color: "red.500" }}
         transition="color 0.2s"
       >
@@ -35,8 +38,8 @@ export function ReportButton({
       </Box>
 
       <ReportModal
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isOpen}
+        onClose={closeModal}
         type={type}
         targetId={targetId}
       />
