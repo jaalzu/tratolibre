@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ProfileItemCard } from "./ProfileItemCard";
 import { ItemSummary } from "@/features/items/types";
 import { EmptyState } from "@/components/ui/EmptyState";
+
 interface ProfileItemsTabsProps {
   items: ItemSummary[];
   isOwner?: boolean;

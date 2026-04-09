@@ -3,16 +3,12 @@
 import { Box, Text, Flex, Avatar } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import { EditProfileFields } from "./EditProfileFields";
-import { useEditProfile } from "@/features/profile/useEditProfile";
+import { useEditProfile } from "@/features/profile/hooks/useEditProfile";
+import { EditProfileDefaultValues } from "@/features/profile/types";
 import { Camera } from "@boxicons/react";
 
 interface EditProfileFormProps {
-  defaultValues: {
-    name?: string | null;
-    location?: string | null;
-    province?: string | null;
-    avatar?: string | null;
-  };
+  defaultValues: EditProfileDefaultValues;
 }
 
 export const EditProfileForm = ({ defaultValues }: EditProfileFormProps) => {
@@ -30,7 +26,6 @@ export const EditProfileForm = ({ defaultValues }: EditProfileFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Avatar */}
       <Flex justify="center" mb={6}>
         <Box position="relative">
           <Avatar.Root size="2xl">
