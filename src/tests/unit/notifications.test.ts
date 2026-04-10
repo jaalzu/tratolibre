@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { getNotificationConfig } from "@/features/notifications/notifications.constants";
-import { Tag, ShoppingBag, Star } from "@boxicons/react"; // Importa los componentes para comparar
+import { getNotificationConfig } from "@/features/notifications/services/notification-config.service";
+import { Tag, ShoppingBag, Star } from "@boxicons/react";
 
 describe("getNotificationConfig", () => {
   it("retorna config correcta para sale_completed", () => {

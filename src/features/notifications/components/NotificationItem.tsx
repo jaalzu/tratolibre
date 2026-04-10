@@ -2,38 +2,23 @@
 
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import {
-  getNotificationConfig,
-  type NotificationConfig,
-  type NotificationPayloads,
-} from "../notifications.constants";
-import type { Notification, NotificationType } from "../types";
-import { Star } from "@boxicons/react";
-
-function NotificationLabel({ label }: { label: NotificationConfig["label"] }) {
-  if (typeof label === "string") return <>{label}</>;
-  return (
-    <span>
-      {label.text} {label.rating}
-      <Star
-        width="13px"
-        height="13px"
-        fill="black"
-        style={{
-          display: "inline-block",
-          marginLeft: "2px",
-          verticalAlign: "middle",
-        }}
-      />
-    </span>
-  );
-}
+import { getNotificationConfig } from "../services/notification-config.service";
+import { NotificationLabel } from "./NotificationLabel";
+import type {
+  Notification,
+  NotificationType,
+  NotificationPayloads,
+} from "../types";
 
 interface NotificationItemProps {
   notification: Notification;
   onClose: () => void;
 }
 
+/**
+ * Componente individual de notificación
+ * Muestra icono, mensaje, fecha y estado de lectura
+ */
 export function NotificationItem({
   notification,
   onClose,

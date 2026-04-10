@@ -15,7 +15,7 @@ import {
   getMyNotifications,
   getUnreadCount,
   markAllNotificationsRead,
-} from "@/features/notifications/actions";
+} from "@/features/notifications";
 import { createUser, createAuthUser } from "../factories/user.factory";
 import { createNotification as createNotificationFactory } from "../factories/notification.factory";
 
@@ -74,7 +74,7 @@ describe("createNotification", () => {
       data: {},
     });
     expect(consoleSpy).toHaveBeenCalledWith(
-      "[createNotification]",
+      "[createNotification] Error:",
       "RLS violation",
     );
     consoleSpy.mockRestore();

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
-import { createNotification } from "@/features/notifications/actions";
+import { createNotification } from "@/features/notifications";
+
 import { submitReviewAction } from "@/features/reviews/actions";
 import { createAuthUser } from "../factories/user.factory";
 
@@ -16,7 +17,7 @@ vi.mock("@/lib/supabase/getAuthUser", () => ({
   getAuthUser: vi.fn(),
 }));
 
-vi.mock("@/features/notifications/actions", () => ({
+vi.mock("@/features/notifications", () => ({
   createNotification: vi.fn().mockResolvedValue(undefined),
 }));
 
@@ -124,7 +125,11 @@ describe("submitReviewAction", () => {
       user: createAuthUser({ id: "test-user-id-123" }) as any,
     });
 
+    // ✅ Agregá esto
+    vi.mocked(createNotification).mockResolvedValueOnce(true);
+
     const result = await submitReviewAction(validInput);
+
     expect(createNotification).toHaveBeenCalled();
     expect(result).toEqual({ success: true });
   });
