@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  getMyNotifications,
-  getUnreadCount,
-} from "@/features/notifications/actions";
+import { getMyNotifications } from "../actions/queries/getMyNotifications";
+import { getUnreadCount } from "../actions/queries/getUnreadCount";
 import type { Notification } from "../types";
 
 interface UseNotificationsDataProps {
@@ -19,6 +17,12 @@ interface UseNotificationsDataReturn {
   resetUnreadCount: () => void;
 }
 
+/**
+ * Hook para manejar el estado y subscripción de notificaciones en tiempo real
+ * @param userId - ID del usuario
+ * @param initialCount - Conteo inicial de notificaciones no leídas
+ * @returns Estado de notificaciones y funciones para actualizarlo
+ */
 export function useNotificationsData({
   userId,
   initialCount,
@@ -31,25 +35,32 @@ export function useNotificationsData({
     let supabaseInstance: any;
 
     const setupRealtime = async () => {
-      const { createClient } = await import("@/lib/supabase/client");
-      supabaseInstance = createClient();
+      try {
+        const { createClient } = await import("@/lib/supabase/client");
+        supabaseInstance = createClient();
 
-      channel = supabaseInstance
-        .channel("notifications-badge")
-        .on(
-          "postgres_changes",
-          {
-            event: "*",
-            schema: "public",
-            table: "notifications",
-            filter: `user_id=eq.${userId}`,
-          },
-          async () => {
-            const newCount = await getUnreadCount();
-            setUnreadCount(newCount);
-          },
-        )
-        .subscribe();
+        channel = supabaseInstance
+          .channel("notifications-badge")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "notifications",
+              filter: `user_id=eq.${userId}`,
+            },
+            async () => {
+              const newCount = await getUnreadCount();
+              setUnreadCount(newCount);
+            },
+          )
+          .subscribe();
+      } catch (error) {
+        console.error(
+          "[useNotificationsData] Error setting up realtime:",
+          error,
+        );
+      }
     };
 
     setupRealtime();

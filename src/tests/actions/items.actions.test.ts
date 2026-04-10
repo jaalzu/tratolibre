@@ -20,13 +20,13 @@ vi.mock("@/lib/rateLimit", () => ({
   checkRateLimit: vi.fn().mockResolvedValue(true),
 }));
 
-vi.mock("@/features/notifications/actions", () => ({
-  createNotification: vi.fn().mockResolvedValue(undefined),
+vi.mock("@/features/notifications", () => ({
+  createNotification: vi.fn().mockResolvedValue(true),
 }));
 
 import { redirect } from "next/navigation";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
-import { createNotification } from "@/features/notifications/actions";
+import { createNotification } from "@/features/notifications";
 import {
   createItemAction,
   deleteItemAction,

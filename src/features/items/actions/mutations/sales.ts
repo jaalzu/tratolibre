@@ -2,7 +2,7 @@
 
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { revalidatePath } from "next/cache";
-import { createNotification } from "@/features/notifications/actions";
+import { createNotification } from "@/features/notifications";
 import {
   getItemForSale,
   markItemAsSold,

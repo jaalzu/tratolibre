@@ -1,9 +1,9 @@
 "use client";
 
 import { Box, Flex, Text, Stack } from "@chakra-ui/react";
+import { Bell, X } from "@boxicons/react";
 import { NotificationItem } from "./NotificationItem";
 import type { Notification } from "../types";
-import { Bell, X } from "@boxicons/react";
 
 interface NotificationsPanelProps {
   notifications: Notification[];
@@ -11,6 +11,10 @@ interface NotificationsPanelProps {
   onClose: () => void;
 }
 
+/**
+ * Panel desplegable de notificaciones
+ * Muestra lista de notificaciones o estados vacío/loading
+ */
 export function NotificationsPanel({
   notifications,
   loading,

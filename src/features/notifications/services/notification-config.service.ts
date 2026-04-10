@@ -1,39 +1,19 @@
-import type { NotificationType } from "./types";
 import { Tag, ShoppingBag, Star } from "@boxicons/react";
-import { ElementType } from "react";
+import type {
+  NotificationType,
+  NotificationPayloads,
+  NotificationConfig,
+  SalePayload,
+  PurchasePayload,
+  ReviewPayload,
+} from "../types";
 
-export type SalePayload = {
-  item_title: string;
-  item_id: string;
-  buyer_id: string;
-  purchase_id: string;
-};
-export type PurchasePayload = {
-  item_title: string;
-  item_id: string;
-  owner_id: string;
-  purchase_id: string;
-};
-export type ReviewPayload = {
-  rating: number;
-  item_title: string;
-  reviewer_id: string;
-  purchase_id: string;
-};
-
-export type NotificationPayloads = {
-  sale_completed: SalePayload;
-  purchase_completed: PurchasePayload;
-  review_received: ReviewPayload;
-};
-
-export type NotificationConfig = {
-  Icon: ElementType;
-  color: string;
-  label: string | { text: string; rating: number };
-  href: string;
-};
-
+/**
+ * Obtiene la configuración de UI para una notificación específica
+ * @param type - Tipo de notificación
+ * @param data - Datos específicos del tipo de notificación
+ * @returns Configuración de UI (icono, color, label, href) o null si el tipo no es válido
+ */
 export function getNotificationConfig<T extends NotificationType>(
   type: T,
   data: NotificationPayloads[T],

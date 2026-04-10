@@ -1,17 +1,24 @@
 "use client";
+
 import dynamic from "next/dynamic";
 import { Box, Circle } from "@chakra-ui/react";
-import { useNotificationPanel } from "../hooks/useNotificationPanel";
 import { Bell } from "@boxicons/react";
+import { useNotificationPanel } from "../hooks/useNotificationPanel";
+
 const NotificationsPanel = dynamic(
   () => import("./NotificationsPanel").then((mod) => mod.NotificationsPanel),
   { ssr: false },
 );
+
 interface NotificationBellProps {
   initialCount: number;
   userId: string;
 }
 
+/**
+ * Componente principal del bell de notificaciones
+ * Muestra el icono con badge de contador y panel desplegable
+ */
 export function NotificationBell({
   initialCount,
   userId,
