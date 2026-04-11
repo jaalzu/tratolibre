@@ -3,10 +3,12 @@
 import { useState, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ItemSchema, ItemInput } from "@/features/items/schemas";
+import { ItemSchema } from "@/features/items/schemas";
+import { ItemFormInput } from "@/features/items/schemas";
 import { createItemAction, updateItemAction } from "@/features/items/actions";
 import { Item } from "@/features/items/types";
 import { useItemImages } from "./useItemImages";
+import { z } from "zod";
 
 export const useNewItemForm = (initialData?: Partial<Item>) => {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -16,11 +18,15 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
       title: initialData?.title ?? "",
       description: initialData?.description ?? "",
       category: initialData?.category ?? "",
-      condition: (initialData?.condition as ItemInput["condition"]) ?? "good",
+      condition:
+        (initialData?.condition as ItemFormInput["condition"]) ?? "good",
       province: initialData?.province ?? "",
       city: initialData?.city ?? "",
       images: initialData?.images ?? [],
-      sale_price: initialData?.sale_price ?? undefined,
+      sale_price:
+        initialData?.sale_price !== undefined
+          ? String(initialData.sale_price)
+          : "",
     }),
     [initialData],
   );
@@ -32,7 +38,7 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     setValue,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<ItemInput>({
+  } = useForm<ItemFormInput>({
     resolver: zodResolver(ItemSchema),
     defaultValues,
     mode: "onTouched",
@@ -42,7 +48,7 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     initialData?.images ?? [],
   );
 
-  const onSubmit: SubmitHandler<ItemInput> = async (data) => {
+  const onSubmit: SubmitHandler<ItemFormInput> = async (data) => {
     setServerError(null);
     const formData = new FormData();
 

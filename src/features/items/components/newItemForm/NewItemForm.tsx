@@ -38,7 +38,6 @@ export const NewItemForm = ({
     setValue,
     control,
   } = useNewItemForm(initialData);
-
   const titleValue = watch("title", "");
   const descValue = watch("description", "");
 
@@ -98,7 +97,7 @@ export const NewItemForm = ({
                   options={CATEGORIES.map((category) => ({
                     id: category.id,
                     label: category.label,
-                    iconClass: category.icon, // Ahora TS lo acepta porque es React.ElementType
+                    iconClass: category.icon,
                   }))}
                   placeholder="Elegí una..."
                   invalid={!!errors.category}
@@ -118,7 +117,7 @@ export const NewItemForm = ({
                 />
               </FormField>
 
-              <FormField label="Precio ($)" error={errors.sale_price}>
+              <FormField label="Precio ($)" error={errors.sale_price as any}>
                 <Input
                   {...register("sale_price")}
                   data-testid="sale_price"
