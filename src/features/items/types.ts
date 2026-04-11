@@ -35,20 +35,6 @@ export interface ItemWithOwner extends Item {
   } | null;
 }
 
-// Form data types
-export interface ItemFormData {
-  title: string;
-  description: string;
-  category: string;
-  condition: string;
-  sale_price: string; // raw form value
-  province: string;
-  city?: string;
-  location?: string;
-  type: string;
-  images: string[];
-}
-
 export interface ItemSummary {
   id: string;
   title: string;
