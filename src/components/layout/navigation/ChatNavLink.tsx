@@ -1,16 +1,21 @@
 "use client";
 
-import { useChatStore } from "@/store/chatStore";
+import { useQuery } from "@tanstack/react-query";
+import { conversationsQuery } from "@/features/chat/queries";
 import NavLink from "./NavLink";
 import { MessageDetail } from "@boxicons/react";
 
 interface ChatNavLinkProps {
-  userId?: string;
   variant?: "desktop" | "mobile";
 }
 
 export const ChatNavLink = ({ variant = "desktop" }: ChatNavLinkProps) => {
-  const totalUnread = useChatStore((state) => state.totalUnread());
+  const { data: conversations = [] } = useQuery(conversationsQuery);
+
+  const totalUnread = conversations.reduce(
+    (sum, conv) => sum + (conv.unreadCount ?? 0),
+    0,
+  );
 
   return (
     <NavLink

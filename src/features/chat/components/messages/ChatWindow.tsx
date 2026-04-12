@@ -1,46 +1,61 @@
-'use client'
+"use client";
 
-import { Flex, Spinner, Text, Box } from '@chakra-ui/react'
-import { useChat } from '@/features/chat/hooks/useChat'
-import { ChatMessages } from './ChatMessages'
-import { ChatInput } from './ChatInput'
+import { Flex, Spinner, Text, Box } from "@chakra-ui/react";
+import { useChat } from "@/features/chat/hooks/useChat";
+import { ChatMessages } from "./ChatMessages";
+import { ChatInput } from "./ChatInput";
 
 interface ChatWindowProps {
-  conversationId: string
-  userId: string
+  conversationId: string;
+  userId: string;
 }
 
 export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
- const { messages, loading, input, setInput, sending, sendMessage, bottomRef, isOtherTyping, sendError } = useChat(conversationId, userId)
+  const {
+    messages,
+    loading,
+    input,
+    setInput,
+    sending,
+    sendMessage,
+    bottomRef,
+    sendError,
+  } = useChat(conversationId, userId);
 
   if (loading) {
     return (
       <Flex p="8" justify="center" align="center" direction="column" gap="2">
         <Spinner color="brand.default" size="lg" />
-        <Text fontSize="lg" color="neutral.500">Cargando mensajes...</Text>
+        <Text fontSize="lg" color="neutral.500">
+          Cargando mensajes...
+        </Text>
       </Flex>
-    )
+    );
   }
 
   return (
-    <Flex direction="column" h="full"  overflow="hidden">
+    <Flex direction="column" h="full" overflow="hidden">
       <Box flex="1" minH="0" overflowY="auto">
         <ChatMessages
           messages={messages}
           userId={userId}
           bottomRef={bottomRef}
-          isOtherTyping={isOtherTyping}
         />
       </Box>
-      
-        {sendError && (
-    <Text fontSize="xs" color="red.500" textAlign="center" px={4} py={1}>
-      {sendError}
-    </Text>
-  )}
+
+      {sendError && (
+        <Text fontSize="xs" color="red.500" textAlign="center" px={4} py={1}>
+          {sendError}
+        </Text>
+      )}
       <Box flexShrink={0}>
-        <ChatInput value={input} onChange={setInput} onSend={sendMessage} sending={sending} />
+        <ChatInput
+          value={input}
+          onChange={setInput}
+          onSend={sendMessage}
+          sending={sending}
+        />
       </Box>
     </Flex>
-  )
-}
+  );
+};

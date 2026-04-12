@@ -68,10 +68,10 @@ export default async function RootLayout({
       <body className={geist.className} suppressHydrationWarning>
         <Providers>
           <ClientProviders userId={user?.id}>
-            <Toaster />
-            <Box bg="neutral.150" minH="100dvh">
-              {children}
-            </Box>
+          <Toaster />
+          <Box bg="neutral.150" minH="100dvh">
+            {children}
+          </Box>
           </ClientProviders>
         </Providers>
 

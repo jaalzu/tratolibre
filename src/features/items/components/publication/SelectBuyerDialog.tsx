@@ -11,11 +11,11 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
-import { getConversationsByItem } from "@/features/chat/actions/conversations/queries";
+import { getConversationsByItem } from "@/features/chat/actions/queries";
 import { markAsSoldToAction } from "@/features/items/actions";
 import { ReviewModal } from "../../../reviews/components/ReviewModal";
 import Image from "next/image";
-import { ConversationBuyer } from "@/features/chat/types";
+import { ConversationBuyer } from "@/features/chat/schemas";
 
 interface SelectBuyerDialogProps {
   open: boolean;

@@ -76,7 +76,7 @@ export const NavbarTop = ({
                 variant="desktop"
               />
             ))}
-            <ChatNavLink userId={user.id} />
+            <ChatNavLink />
             {isAdmin && (
               <NavLink
                 href="/admin"

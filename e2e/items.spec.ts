@@ -22,33 +22,51 @@ test.describe("Items", () => {
   test("puede navegar al formulario de publicar", async ({ page }) => {
     await page.goto("/item/new");
     await expect(page).toHaveURL("/item/new");
+
+    // ✅ Esperar a que cargue el form
+    await page
+      .getByTestId("title")
+      .waitFor({ state: "visible", timeout: 10000 });
     await expect(page.getByTestId("title")).toBeVisible();
   });
 
   test("muestra errores si se envía el form vacío", async ({ page }) => {
     await page.goto("/item/new");
+
+    // ✅ Esperar a que cargue
+    await page
+      .getByTestId("submit-item")
+      .waitFor({ state: "visible", timeout: 10000 });
     await page.getByTestId("submit-item").click();
 
-    // MENSAJES ACTUALIZADOS SEGÚN TU SCHEMA
+    // ✅ Esperar errores
     await expect(
       page.getByText("El título debe tener al menos 5 caracteres"),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 5000 });
 
     await expect(
       page.getByText(
         "Por favor, da una descripción más detallada (mín. 15 caracteres)",
       ),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 5000 });
   });
 
   test("completa el formulario correctamente", async ({ page }) => {
     await page.goto("/item/new");
 
-    // Este helper ya lo actualizamos para que haga click en submit
+    // ✅ Esperar form
+    await page
+      .getByTestId("title")
+      .waitFor({ state: "visible", timeout: 10000 });
+
     await fillAndSubmitItem(page);
 
-    // Verificamos que los campos se llenaron (o que navegó al éxito)
-    await expect(page.getByTestId("title")).toHaveValue("Item de test E2E");
-    await expect(page.getByTestId("sale_price")).toHaveValue("1.000");
+    // ✅ Verificar valores con timeout
+    await expect(page.getByTestId("title")).toHaveValue("Item de test E2E", {
+      timeout: 5000,
+    });
+    await expect(page.getByTestId("sale_price")).toHaveValue("1.000", {
+      timeout: 5000,
+    });
   });
 });

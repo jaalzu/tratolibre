@@ -1,5 +1,6 @@
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getConversationById } from "@/features/chat/actions";
+import { validateConversationData } from "@/features/chat/utils/conversation-guard";
 import { ChatDetailView } from "@/features/chat/components/ChatDetailView";
 import { redirect } from "next/navigation";
 
@@ -13,18 +14,29 @@ export default async function ChatDetailPage({
   if (!user) redirect("/login");
 
   const conversation = await getConversationById(id);
-  if (!conversation) redirect("/chat");
+  const validated = validateConversationData(conversation);
 
-  const isBuyer = conversation.buyer_id === user.id;
-  const otherUser = isBuyer ? conversation.seller : conversation.buyer;
-  const otherUserId = isBuyer ? conversation.seller_id : conversation.buyer_id;
+  if (!validated) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("Invalid conversation data:", conversation);
+    }
+    redirect("/chat");
+  }
+
+  const isBuyer = validated.buyerId === user.id;
+  const otherUser = isBuyer ? validated.seller : validated.buyer;
+  const otherUserId = isBuyer ? validated.sellerId : validated.buyerId;
 
   return (
     <ChatDetailView
       conversationId={id}
       userId={user.id}
-      item={{ id: conversation.item_id, ...conversation.items }}
-      otherUser={{ ...otherUser, id: otherUserId }}
+      item={validated.item}
+      otherUser={{
+        id: otherUserId,
+        name: otherUser.name,
+        avatar_url: otherUser.avatar_url ?? undefined,
+      }}
     />
   );
 }

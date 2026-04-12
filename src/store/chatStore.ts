@@ -1,19 +1,26 @@
 import { create } from "zustand";
-import { Conversation } from "@/features/chat/types";
+import type { ConversationExtended } from "@/features/chat/schemas";
 
 interface ChatStore {
-  conversations: Conversation[];
-  isLoading: boolean;
-  setConversations: (convs: Conversation[]) => void;
+  conversations: ConversationExtended[];
+  setConversations: (conversations: ConversationExtended[]) => void;
+  loading: boolean;
   setLoading: (loading: boolean) => void;
   totalUnread: () => number;
 }
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   conversations: [],
-  isLoading: true,
   setConversations: (conversations) => set({ conversations }),
-  setLoading: (isLoading) => set({ isLoading }),
-  totalUnread: () =>
-    get().conversations.reduce((acc, conv) => acc + (conv.unreadCount ?? 0), 0),
+  loading: true,
+  setLoading: (loading) => set({ loading }),
+
+  // Calcula el total de mensajes no leídos
+  totalUnread: () => {
+    const conversations = get().conversations;
+    return conversations.reduce(
+      (sum, conv) => sum + (conv.unreadCount ?? 0),
+      0,
+    );
+  },
 }));

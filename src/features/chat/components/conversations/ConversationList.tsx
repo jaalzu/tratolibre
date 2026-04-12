@@ -1,22 +1,22 @@
 "use client";
 
 import { Box, Flex, Stack, Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { ConversationItem } from "./ConversationItem";
-import { useChatStore } from "@/store/chatStore";
-import { Conversation } from "@/features/chat/types";
-import { useConversations } from "@/features/chat/hooks/useConversations";
+import { conversationsQuery } from "@/features/chat/queries";
+import type { ConversationExtended } from "@/features/chat/schemas";
 
 interface ConversationListProps {
   activeId?: string;
   userId: string;
 }
+
 export const ConversationList = ({
   activeId,
   userId,
 }: ConversationListProps) => {
-  useConversations();
-  const conversations = useChatStore((state) => state.conversations);
-  const loading = useChatStore((state) => state.isLoading);
+  const { data: conversations = [], isLoading: loading } =
+    useQuery(conversationsQuery);
 
   return (
     <Flex
@@ -67,7 +67,7 @@ export const ConversationList = ({
           </Flex>
         ) : (
           <Stack gap="0">
-            {conversations.map((conv: Conversation) => (
+            {conversations.map((conv: ConversationExtended) => (
               <ConversationItem
                 key={conv.id}
                 conv={conv}
