@@ -57,13 +57,13 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
         {navItems.map((item) =>
           item.isChat ? (
             userId ? (
-              <ChatNavLink key={item.label} userId={userId} variant="mobile" />
+              <ChatNavLink key={item.label} variant="mobile" />
             ) : (
               <NavLink
                 key={item.label}
                 href="/login"
                 label={item.label}
-                icon={item.icon} // Ahora pasamos el componente
+                icon={item.icon}
                 variant="mobile"
               />
             )
@@ -72,7 +72,7 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
               key={item.label}
               href={item.protected && !userId ? "/login" : item.href}
               label={item.label}
-              icon={item.icon} // Ahora pasamos el componente
+              icon={item.icon}
               variant="mobile"
             />
           ),

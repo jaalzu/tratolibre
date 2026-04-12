@@ -13,7 +13,8 @@ export const useDeleteConversation = () => {
     try {
       const result = await deleteConversationAction(conversationId);
 
-      if (result.error) {
+      if ("error" in result) {
+        // ✅ Type narrowing
         console.error(result.error);
         return false;
       }

@@ -1,27 +1,24 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { messagesQuery } from "../queries";
-import { useChannel } from "./useChannel";
+import { usePresence } from "./usePresence";
+import { useMessageBroadcast } from "./useMessageBroadcast";
 import { useScrollToBottom } from "./useScrollToBottom";
 import { useMarkAsRead } from "./useMarkAsRead";
 import { useSendMessage } from "./useSendMessage";
 
 export function useChat(conversationId: string, userId: string) {
   const queryClient = useQueryClient();
-  const [isOtherOnline, setIsOtherOnline] = useState(false);
-  const [isOtherTyping, setIsOtherTyping] = useState(false);
 
   const { bottomRef, scrollToBottom } = useScrollToBottom();
 
-  const { sendTyping, sendNewMessage } = useChannel({
+  const { isOtherOnline } = usePresence({ conversationId, userId });
+
+  const { sendNewMessage } = useMessageBroadcast({
     conversationId,
-    userId,
-    onOnlineChange: setIsOtherOnline,
-    onTyping: setIsOtherTyping,
-    onNewMessage: useCallback(() => {
-      queryClient.invalidateQueries({ queryKey: ["messages", conversationId] });
-    }, [conversationId, queryClient]),
+    onNewMessage: () => {
+      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+    },
   });
 
   const { data: messages = [], isLoading: loading } = useQuery(
@@ -39,7 +36,6 @@ export function useChat(conversationId: string, userId: string) {
     userId,
     onSend: sendNewMessage,
     onScroll: scrollToBottom,
-    onTyping: sendTyping,
   });
 
   return {
@@ -52,6 +48,5 @@ export function useChat(conversationId: string, userId: string) {
     sendError,
     sendMessage,
     isOtherOnline,
-    isOtherTyping,
   };
 }

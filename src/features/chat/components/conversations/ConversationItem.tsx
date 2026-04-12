@@ -1,17 +1,19 @@
-// 'use client'
+"use client";
 
 import { Box, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
-import { Conversation } from "@/features/chat/types";
+import type { ConversationExtended } from "@/features/chat/schemas"; // ✅ Cambiado
 
 interface ConversationItemProps {
-  conv: Conversation;
+  conv: ConversationExtended; // ✅ Tipo correcto
   isActive?: boolean;
   userId?: string;
 }
 
-function formatTime(dateStr: string) {
+function formatTime(dateStr: string | null) {
+  // ✅ Nullable
+  if (!dateStr) return "";
   return new Date(dateStr).toLocaleTimeString("es-AR", {
     hour: "2-digit",
     minute: "2-digit",
