@@ -1,10 +1,11 @@
+export const dynamic = "force-dynamic";
+
 import { getMyProfile } from "@/features/profile/actions";
 import { getPendingReviewsAction } from "@/features/reviews/actions"; // O getPendingReviews
 import { ProfileView } from "@/features/profile/components/ProfileView";
 import type { PendingReview } from "@/features/reviews/types";
 
 export default async function MyProfilePage() {
-  // Promise.all infiere los tipos, pero si querés estar 100% seguro:
   const [profileData, pendingReviews] = await Promise.all([
     getMyProfile(),
     getPendingReviewsAction(),
@@ -18,7 +19,7 @@ export default async function MyProfilePage() {
       items={items}
       salesCount={salesCount}
       purchasesCount={purchasesCount}
-      pendingReviews={pendingReviews as PendingReview[]} // Cast por si las moscas con el Promise.all
+      pendingReviews={pendingReviews as PendingReview[]}
       isOwner
     />
   );

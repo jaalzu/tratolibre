@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { LoggedInHero } from "@/components/sections/LoggedInHero";
 import { RecentItemsSection } from "@/features/items/components/home/RecentItemsSection";
 import { CheapItemsSection } from "@/features/items/components/home/CheapItemsSection";
@@ -39,7 +38,7 @@ export default async function HomePage() {
     : [null, []];
 
   return (
-    <Box>
+    <div>
       {profile ? (
         <LoggedInHero name={profile.name} />
       ) : (
@@ -70,6 +69,6 @@ export default async function HomePage() {
       <PageContainer pt={4} pb={24}>
         <InfiniteGrid userId={user?.id ?? null} favoriteIds={favoriteIds} />
       </PageContainer>
-    </Box>
+    </div>
   );
 }

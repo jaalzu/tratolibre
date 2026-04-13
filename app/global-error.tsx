@@ -1,7 +1,6 @@
 "use client";
 
 import * as Sentry from "@sentry/nextjs";
-import NextError from "next/error";
 import { useEffect } from "react";
 
 export default function GlobalError({
@@ -14,13 +13,42 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html lang="en">
-      <body>
-        {/* `NextError` is the default Next.js error page component. Its type
-        definition requires a `statusCode` prop. However, since the App Router
-        does not expose status codes for errors, we simply pass 0 to render a
-        generic error message. */}
-        <NextError statusCode={0} />
+    <html lang="es">
+      <body
+        style={{
+          fontFamily: "system-ui, sans-serif",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          margin: 0,
+          backgroundColor: "#f9fafb",
+        }}
+      >
+        <div style={{ textAlign: "center", padding: "20px" }}>
+          <h1
+            style={{ color: "#111827", fontSize: "24px", marginBottom: "8px" }}
+          >
+            Vaya, algo se rompió feo
+          </h1>
+          <p style={{ color: "#4b5563", marginBottom: "24px" }}>
+            TratoLibre experimentó un error crítico de sistema.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              backgroundColor: "#2563eb",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer",
+              fontWeight: "500",
+            }}
+          >
+            Refrescar página
+          </button>
+        </div>
       </body>
     </html>
   );

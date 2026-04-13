@@ -36,7 +36,6 @@ export function useSendMessage({
     setInputRaw("");
 
     // Optimistic update
-    // Optimistic update
     queryClient.setQueryData(
       ["messages", conversationId],
       (prev: MessageWithProfile[] = []) => [

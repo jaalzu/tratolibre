@@ -20,21 +20,26 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["@chakra-ui/react"],
   },
-  transpilePackages: ["@chakra-ui/react"],
+  // transpilePackages: ["@chakra-ui/react"],
 };
 
 const configWithSentry = withSentryConfig(nextConfig, {
   org: "javieralzu",
   project: "tratolibre",
   silent: !process.env.CI,
+
+  bundleSizeOptimizations: {
+    excludeDebugStatements: true,
+    excludeReplayIframe: true,
+    excludeReplayShadowDom: true,
+  },
+
+  disableLogger: true,
+
   widenClientFileUpload: true,
   tunnelRoute: "/monitoring",
-  webpack: {
-    automaticVercelMonitors: true,
-    treeshake: {
-      removeDebugLogging: true,
-    },
-  },
+
+  automaticVercelMonitors: true,
 });
 
 export default withBundleAnalyzer(configWithSentry);
