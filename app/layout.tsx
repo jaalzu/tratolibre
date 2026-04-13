@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
@@ -68,14 +67,7 @@ export default async function RootLayout({
         <Providers>
           <ClientProviders userId={user?.id}>
             <Toaster />
-            <div
-              style={{
-                backgroundColor: "var(--chakra-colors-neutral-150)",
-                minHeight: "100dvh",
-              }}
-            >
-              {children}
-            </div>
+            <main>{children}</main>
           </ClientProviders>
         </Providers>
 

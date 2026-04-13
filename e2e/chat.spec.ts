@@ -8,9 +8,8 @@ test.describe("Chat", () => {
     await login(page);
   });
 
-  test.afterEach(async ({ browser }) => {
-    const context = await browser.newContext();
-    await context.close();
+  test.afterEach(async ({ context }) => {
+    await context.clearCookies();
   });
 
   test("usuario no autenticado no puede acceder al chat", async ({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getMyNotifications } from "../actions/queries/getMyNotifications";
 import { getUnreadCount } from "../actions/queries/getUnreadCount";
 import type { Notification } from "../types";
@@ -18,20 +18,18 @@ interface UseNotificationsDataReturn {
   resetUnreadCount: () => void;
 }
 
-/**
- * Hook para manejar el estado y subscripción de notificaciones en tiempo real
- * @param userId - ID del usuario
- * @param initialCount - Conteo inicial de notificaciones no leídas
- * @returns Estado de notificaciones y funciones para actualizarlo
- */
 export function useNotificationsData({
   userId,
   initialCount,
 }: UseNotificationsDataProps): UseNotificationsDataReturn {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(initialCount);
+  const setupRef = useRef(false);
 
   useEffect(() => {
+    if (setupRef.current) return;
+    setupRef.current = true;
+
     let mounted = true;
     let channel: RealtimeChannel | null = null;
 
@@ -42,19 +40,15 @@ export function useNotificationsData({
 
         const channelName = `notifications-badge-${userId}`;
 
-        // Remove any existing channel with this name
-        const existingChannel = supabase
-          .getChannels()
-          .find((ch) => ch.topic === `realtime:${channelName}`);
+        // Eliminar channels existentes
+        supabase.getChannels().forEach((ch) => {
+          if (ch.topic === `realtime:${channelName}`) {
+            supabase.removeChannel(ch);
+          }
+        });
 
-        if (existingChannel) {
-          await supabase.removeChannel(existingChannel);
-        }
-
-        // Create and subscribe to channel in one go
-        channel = supabase.channel(channelName);
-
-        channel
+        channel = supabase
+          .channel(channelName)
           .on(
             "postgres_changes",
             {
@@ -83,6 +77,7 @@ export function useNotificationsData({
 
     return () => {
       mounted = false;
+      setupRef.current = false; // ✅ Reset en cleanup
       if (channel) {
         channel.unsubscribe();
       }
