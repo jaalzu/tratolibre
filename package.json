@@ -16,8 +16,6 @@
   "dependencies": {
     "@boxicons/react": "^1.0.3",
     "@chakra-ui/react": "^3.33.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.2.2",
     "@sentry/nextjs": "^10.46.0",
     "@supabase/ssr": "^0.8.0",

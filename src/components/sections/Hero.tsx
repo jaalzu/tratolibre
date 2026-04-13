@@ -1,4 +1,3 @@
-// components/sections/Hero.tsx
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";

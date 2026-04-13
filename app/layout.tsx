@@ -4,7 +4,6 @@ import { Geist } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Providers } from "./providers";
-import { Box } from "@chakra-ui/react";
 import { createClient } from "@/lib/supabase/server";
 import { ClientProviders } from "./ClientProviders";
 import { AnalyticsWrapper } from "./AnalyticsWrapper";
@@ -68,10 +67,15 @@ export default async function RootLayout({
       <body className={geist.className} suppressHydrationWarning>
         <Providers>
           <ClientProviders userId={user?.id}>
-          <Toaster />
-          <Box bg="neutral.150" minH="100dvh">
-            {children}
-          </Box>
+            <Toaster />
+            <div
+              style={{
+                backgroundColor: "var(--chakra-colors-neutral-150)",
+                minHeight: "100dvh",
+              }}
+            >
+              {children}
+            </div>
           </ClientProviders>
         </Providers>
 

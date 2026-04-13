@@ -35,11 +35,9 @@ export function mapConversationSummaryToExtended(
   rawSummary: ConversationSummaryRow,
   unreadCount: number = 0,
 ): ConversationExtended {
-  // 1. Primero validamos el input crudo con ConversationSummarySchema
   const summary: ConversationSummary =
     ConversationSummarySchema.parse(rawSummary);
 
-  // 2. Parse y valida los JSON fields
   let buyer = null;
   let seller = null;
   let items = null;
@@ -74,7 +72,7 @@ export function mapConversationSummaryToExtended(
     }
   }
 
-  // 3. Construimos el objeto extendido
+  // Construimos el objeto extendido
   const mapped = {
     ...summary,
     hasUnread: unreadCount > 0,
@@ -90,7 +88,7 @@ export function mapConversationSummaryToExtended(
     items,
   };
 
-  // 4. Validamos el output final con ConversationExtendedSchema
+  //  Validamos el output final con ConversationExtendedSchema
   return ConversationExtendedSchema.parse(mapped);
 }
 

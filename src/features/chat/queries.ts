@@ -1,4 +1,3 @@
-// chat/queries.ts
 import { keepPreviousData } from "@tanstack/react-query";
 import { getMyConversations, getMessages } from "./actions";
 
@@ -8,9 +7,9 @@ import { getMyConversations, getMessages } from "./actions";
 export const conversationsQuery = {
   queryKey: ["conversations"] as const,
   queryFn: getMyConversations,
-  staleTime: 1000 * 30, // 30 segundos
+  staleTime: 1000 * 50, // 50 segundos
   gcTime: 1000 * 60 * 5, // 5 minutos
-  refetchInterval: 23000, // 23 segundos
+  refetchInterval: 28000, // 28 segundos
   refetchOnWindowFocus: true,
 };
 
@@ -62,8 +61,8 @@ export const unreadCountQuery = {
   queryFn: () => {
     return import("./actions").then((m) => m.getTotalUnreadCount());
   },
-  staleTime: 1000 * 20, // 20 segundos
+  staleTime: 1000 * 30,
   gcTime: 1000 * 60 * 5,
-  refetchInterval: 30000, // 30 segundos
+  refetchInterval: 40000,
   refetchOnWindowFocus: true,
 };

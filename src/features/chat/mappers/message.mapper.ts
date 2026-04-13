@@ -1,4 +1,3 @@
-// chat/mappers/message.mapper.ts
 import {
   MessageWithProfileSchema,
   type MessageWithProfile,
