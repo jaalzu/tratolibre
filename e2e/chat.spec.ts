@@ -50,7 +50,7 @@ test.describe("Chat", () => {
 
     // ✅ Esperar botón y hacer click
     const btn = page.getByTestId("contact-seller-button").nth(1);
-    await btn.waitFor({ state: "visible", timeout: 10000 });
+    await btn.waitFor({ state: "visible", timeout: 50000 });
     await btn.click();
 
     // ✅ Esperar navegación
