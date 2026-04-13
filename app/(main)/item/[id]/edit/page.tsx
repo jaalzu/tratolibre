@@ -1,28 +1,7 @@
-// EditItemPage.tsx (Server Component)
 import { getItemById } from "@/features/items/actions";
 import { notFound, redirect } from "next/navigation";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
-import dynamic from "next/dynamic";
-
-const NewItemForm = dynamic(
-  () =>
-    import("@/features/items/components/newItemForm/NewItemForm").then(
-      (mod) => mod.NewItemForm,
-    ),
-  {
-    ssr: true,
-    loading: () => (
-      <div
-        style={{
-          height: "600px",
-          width: "100%",
-          background: "#f7fafc",
-          borderRadius: "12px",
-        }}
-      />
-    ),
-  },
-);
+import { DynamicNewItemForm } from "@/features/items/components/newItemForm/DynamicNewItemForm";
 
 export default async function EditItemPage({
   params,
@@ -33,8 +12,15 @@ export default async function EditItemPage({
   const { user } = await getAuthUser();
   const item = await getItemById(id);
 
+  // Validaciones de seguridad en el Servidor
   if (!item) notFound();
   if (!user || user.id !== item.owner_id) redirect(`/item/${id}`);
 
-  return <NewItemForm initialData={item} />;
+  return (
+    <div className="max-w-4xl mx-auto py-10 px-4">
+      <div className="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm">
+        <DynamicNewItemForm initialData={item} />
+      </div>
+    </div>
+  );
 }

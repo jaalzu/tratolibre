@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getMyNotifications } from "../actions/queries/getMyNotifications";
 import { getUnreadCount } from "../actions/queries/getUnreadCount";
 import type { Notification } from "../types";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 
 interface UseNotificationsDataProps {
   userId: string;
@@ -31,16 +32,29 @@ export function useNotificationsData({
   const [unreadCount, setUnreadCount] = useState(initialCount);
 
   useEffect(() => {
-    let channel: any;
-    let supabaseInstance: any;
+    let mounted = true;
+    let channel: RealtimeChannel | null = null;
 
     const setupRealtime = async () => {
       try {
         const { createClient } = await import("@/lib/supabase/client");
-        supabaseInstance = createClient();
+        const supabase = createClient();
 
-        channel = supabaseInstance
-          .channel("notifications-badge")
+        const channelName = `notifications-badge-${userId}`;
+
+        // Remove any existing channel with this name
+        const existingChannel = supabase
+          .getChannels()
+          .find((ch) => ch.topic === `realtime:${channelName}`);
+
+        if (existingChannel) {
+          await supabase.removeChannel(existingChannel);
+        }
+
+        // Create and subscribe to channel in one go
+        channel = supabase.channel(channelName);
+
+        channel
           .on(
             "postgres_changes",
             {
@@ -50,8 +64,10 @@ export function useNotificationsData({
               filter: `user_id=eq.${userId}`,
             },
             async () => {
-              const newCount = await getUnreadCount();
-              setUnreadCount(newCount);
+              if (mounted) {
+                const newCount = await getUnreadCount();
+                setUnreadCount(newCount);
+              }
             },
           )
           .subscribe();
@@ -66,8 +82,9 @@ export function useNotificationsData({
     setupRealtime();
 
     return () => {
-      if (supabaseInstance && channel) {
-        supabaseInstance.removeChannel(channel);
+      mounted = false;
+      if (channel) {
+        channel.unsubscribe();
       }
     };
   }, [userId]);

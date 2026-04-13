@@ -1,5 +1,3 @@
-// next.config.mjs
-import { withSentryConfig } from "@sentry/nextjs";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
@@ -23,23 +21,4 @@ const nextConfig: NextConfig = {
   // transpilePackages: ["@chakra-ui/react"],
 };
 
-const configWithSentry = withSentryConfig(nextConfig, {
-  org: "javieralzu",
-  project: "tratolibre",
-  silent: !process.env.CI,
-
-  bundleSizeOptimizations: {
-    excludeDebugStatements: true,
-    excludeReplayIframe: true,
-    excludeReplayShadowDom: true,
-  },
-
-  disableLogger: true,
-
-  widenClientFileUpload: true,
-  tunnelRoute: "/monitoring",
-
-  automaticVercelMonitors: true,
-});
-
-export default withBundleAnalyzer(configWithSentry);
+export default withBundleAnalyzer(nextConfig);

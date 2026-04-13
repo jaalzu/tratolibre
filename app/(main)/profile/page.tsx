@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { getMyProfile } from "@/features/profile/actions";
-import { getPendingReviewsAction } from "@/features/reviews/actions"; // O getPendingReviews
+import { getPendingReviewsAction } from "@/features/reviews/actions";
 import { ProfileView } from "@/features/profile/components/ProfileView";
 import type { PendingReview } from "@/features/reviews/types";
 

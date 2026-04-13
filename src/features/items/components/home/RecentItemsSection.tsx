@@ -12,15 +12,7 @@ export function RecentItemsSection({
   userId: string | null;
   favoriteIds: string[];
 }) {
-  const { data: items, isLoading } = useItems({ order_by: "most_relevance" });
-
-  if (isLoading) {
-    return (
-      <Flex justify="center" py={8}>
-        <Spinner borderWidth="3px" color="brand.500" size="lg" />
-      </Flex>
-    );
-  }
+  const { data: items } = useItems({ order_by: "most_relevance" });
 
   return (
     <ItemsCategorySection

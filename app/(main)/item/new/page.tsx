@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import { NewItemForm } from "@/features/items/components/newItemForm/NewItemForm";
+import { DynamicNewItemForm } from "@/features/items/components/newItemForm/DynamicNewItemForm";
 
 export default function NewItemPage() {
   return (
     <Box>
-      <NewItemForm />
+      <DynamicNewItemForm />
     </Box>
   );
 }
