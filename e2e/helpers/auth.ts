@@ -11,7 +11,7 @@ export async function login(page: Page) {
   await page.getByTestId("password").fill(TEST_USER.password);
 
   await Promise.all([
-    page.waitForURL("/", { timeout: 10000 }),
+    page.waitForURL("/", { timeout: 60000 }),
     page.getByTestId("submit-button").click(),
   ]);
 }

@@ -38,7 +38,7 @@ export default async function HomePage() {
     : [null, []];
 
   return (
-    <div>
+    <main>
       {profile ? (
         <LoggedInHero name={profile.name} />
       ) : (
@@ -69,6 +69,6 @@ export default async function HomePage() {
       <PageContainer pt={4} pb={24}>
         <InfiniteGrid userId={user?.id ?? null} favoriteIds={favoriteIds} />
       </PageContainer>
-    </div>
+    </main>
   );
 }

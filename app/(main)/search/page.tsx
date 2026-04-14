@@ -1,13 +1,13 @@
-// app/search/page.tsx
+import type { Metadata } from "next";
+
 import { PageContainer } from "@/components/ui/PageContainer";
 import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
-import { FilterPanel } from "@/features/search/components/FilterPanel";
+import { DynamicFilterPanel } from "@/features/search/components/DynamicFilterPanel";
 import { SearchResults } from "@/features/search/components/SearchResults";
 import { SearchPageParams } from "@/features/search/types";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { Flex } from "@chakra-ui/react";
-import type { Metadata } from "next";
 import { prefetchSearchItems } from "@/features/search/prefetchSearchItems";
 import { SearchHydration } from "@/features/search/components/SearchHydration";
 
@@ -19,8 +19,10 @@ export default async function SearchPage({
   const params = await searchParams;
   const { user } = await getAuthUser();
 
+  // Prefetch de datos en el servidor (React Query)
   const dehydratedState = await prefetchSearchItems(params);
 
+  // Verificamos favoritos si hay usuario
   const favoriteIds = user ? await getUserFavoriteIds(user.id) : [];
 
   return (
@@ -28,7 +30,8 @@ export default async function SearchPage({
       <SearchFilterBar />
       <PageContainer pt={{ base: 4, md: 8 }} pb={24} px={{ base: 4, md: 8 }}>
         <Flex gap={8} align="flex-start">
-          <FilterPanel />
+          <DynamicFilterPanel />
+
           <SearchHydration state={dehydratedState}>
             <SearchResults
               favoriteIds={favoriteIds}

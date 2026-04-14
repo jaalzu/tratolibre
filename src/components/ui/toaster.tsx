@@ -8,58 +8,44 @@ import {
   Toast,
   createToaster,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react"; // 1. Importamos hooks
 
 export const toaster = createToaster({
-  placement: "bottom",
+  placement: "bottom-end",
   pauseOnPageIdle: true,
 });
 
 export const Toaster = () => {
+  const [mounted, setMounted] = useState(false);
+
+  // 2. Solo se activa cuando el componente se monta en el navegador
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // 3. Si no está montado, no renderizamos NADA (evita el error de hidratación)
+  if (!mounted) return null;
+
   return (
     <Portal>
       <ChakraToaster toaster={toaster} bottom="12" insetInline={{ md: "25%" }}>
         {(toast) => (
-          <Toast.Root
-            key={toast.id}
-            width="full"
-            borderRadius="2xl"
-            px="6"
-            py="4"
-            shadow="2xl"
-            bg="red.600"
-            color="white"
-            border="none"
-          >
+          <Toast.Root key={toast.id}>
             {toast.type === "loading" ? (
-              <Spinner size="sm" color="white" />
+              <Spinner size="sm" color="blue.500" />
             ) : (
-              <Toast.Indicator color="white" />
+              <Toast.Indicator />
             )}
-
-            <Stack gap="1" flex="1" textAlign="center" alignItems="center">
-              {toast.title && (
-                <Toast.Title
-                  fontWeight="bold"
-                  fontSize="md"
-                  lineHeight="shorter"
-                >
-                  {toast.title}
-                </Toast.Title>
-              )}
+            <Stack gap="1" flex="1" maxWidth="100%">
+              {toast.title && <Toast.Title>{toast.title}</Toast.Title>}
               {toast.description && (
-                <Toast.Description fontSize="sm" color="whiteAlpha.900">
-                  {toast.description}
-                </Toast.Description>
+                <Toast.Description>{toast.description}</Toast.Description>
               )}
             </Stack>
-
-            <Toast.CloseTrigger
-              color="white"
-              _hover={{ bg: "whiteAlpha.200" }}
-              position="absolute"
-              right="2"
-              top="2"
-            />
+            {toast.action && (
+              <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>
+            )}
+            <Toast.CloseTrigger />
           </Toast.Root>
         )}
       </ChakraToaster>

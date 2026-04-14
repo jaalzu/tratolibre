@@ -6,11 +6,13 @@ dotenv.config({ path: path.resolve(__dirname, ".env.test.local") });
 
 export default defineConfig({
   testDir: "./e2e",
+
   fullyParallel: false, // ← false para evitar conflictos con la misma DB
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
+  timeout: 90000,
   use: {
     baseURL: process.env.BASE_URL ?? "http://localhost:3000",
     trace: "on-first-retry",

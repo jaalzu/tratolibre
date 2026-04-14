@@ -1,5 +1,6 @@
 import { Page, expect } from "@playwright/test";
 
+// e2e/helpers/items.ts
 export async function fillAndSubmitItem(
   page: Page,
   overrides: {
@@ -8,6 +9,7 @@ export async function fillAndSubmitItem(
     price?: string;
     category?: string;
     condition?: string;
+    submit?: boolean; // ✅ Nuevo parámetro
   } = {},
 ) {
   const title = overrides.title ?? "Item de test E2E";
@@ -17,6 +19,7 @@ export async function fillAndSubmitItem(
   const price = overrides.price ?? "1000";
   const category = overrides.category ?? "tecnologia";
   const condition = overrides.condition ?? "good";
+  const submit = overrides.submit ?? true; // ✅ Por defecto true
 
   await page.getByTestId("title").fill(title);
   await page.getByTestId("description").fill(description);
@@ -29,11 +32,9 @@ export async function fillAndSubmitItem(
   // Condición
   await page.getByTestId("select-estado...").click();
   await page.getByTestId(`option-${condition}`).click();
-  await page.getByTestId("submit-item").click();
-}
 
-export async function deleteCurrentItem(page: Page) {
-  await page.getByTestId("delete-item-button").click();
-  await page.getByTestId("confirm-button").click();
-  await expect(page).toHaveURL("/");
+  // ✅ Solo submit si se pide
+  if (submit) {
+    await page.getByTestId("submit-item").click();
+  }
 }

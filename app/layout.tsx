@@ -7,6 +7,7 @@ import { Providers } from "./providers";
 import { createClient } from "@/lib/supabase/server";
 import { ClientProviders } from "./ClientProviders";
 import { AnalyticsWrapper } from "./AnalyticsWrapper";
+import { Box } from "@chakra-ui/react";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -68,17 +69,11 @@ export default async function RootLayout({
         <Providers>
           <ClientProviders userId={user?.id}>
             <Toaster />
-            <div
-              style={{
-                backgroundColor: "var(--chakra-colors-neutral-150)",
-                minHeight: "100dvh",
-              }}
-            >
+            <main className="app-container" suppressHydrationWarning>
               {children}
-            </div>
+            </main>
           </ClientProviders>
         </Providers>
-
         <AnalyticsWrapper />
       </body>
     </html>

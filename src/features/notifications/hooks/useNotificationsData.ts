@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getMyNotifications } from "../actions/queries/getMyNotifications";
 import { getUnreadCount } from "../actions/queries/getUnreadCount";
 import type { Notification } from "../types";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 
 interface UseNotificationsDataProps {
   userId: string;
@@ -17,30 +18,37 @@ interface UseNotificationsDataReturn {
   resetUnreadCount: () => void;
 }
 
-/**
- * Hook para manejar el estado y subscripción de notificaciones en tiempo real
- * @param userId - ID del usuario
- * @param initialCount - Conteo inicial de notificaciones no leídas
- * @returns Estado de notificaciones y funciones para actualizarlo
- */
 export function useNotificationsData({
   userId,
   initialCount,
 }: UseNotificationsDataProps): UseNotificationsDataReturn {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(initialCount);
+  const setupRef = useRef(false);
 
   useEffect(() => {
-    let channel: any;
-    let supabaseInstance: any;
+    if (setupRef.current) return;
+    setupRef.current = true;
+
+    let mounted = true;
+    let channel: RealtimeChannel | null = null;
 
     const setupRealtime = async () => {
       try {
         const { createClient } = await import("@/lib/supabase/client");
-        supabaseInstance = createClient();
+        const supabase = createClient();
 
-        channel = supabaseInstance
-          .channel("notifications-badge")
+        const channelName = `notifications-badge-${userId}`;
+
+        // Eliminar channels existentes
+        supabase.getChannels().forEach((ch) => {
+          if (ch.topic === `realtime:${channelName}`) {
+            supabase.removeChannel(ch);
+          }
+        });
+
+        channel = supabase
+          .channel(channelName)
           .on(
             "postgres_changes",
             {
@@ -50,8 +58,10 @@ export function useNotificationsData({
               filter: `user_id=eq.${userId}`,
             },
             async () => {
-              const newCount = await getUnreadCount();
-              setUnreadCount(newCount);
+              if (mounted) {
+                const newCount = await getUnreadCount();
+                setUnreadCount(newCount);
+              }
             },
           )
           .subscribe();
@@ -66,8 +76,10 @@ export function useNotificationsData({
     setupRealtime();
 
     return () => {
-      if (supabaseInstance && channel) {
-        supabaseInstance.removeChannel(channel);
+      mounted = false;
+      setupRef.current = false; // ✅ Reset en cleanup
+      if (channel) {
+        channel.unsubscribe();
       }
     };
   }, [userId]);

@@ -1,4 +1,3 @@
-// chat/hooks/usePresence.ts
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -13,14 +12,27 @@ export function usePresence({ conversationId, userId }: UsePresenceOptions) {
   const [isOtherOnline, setIsOtherOnline] = useState(false);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const supabaseRef = useRef<any>(null);
+  const setupRef = useRef(false); // ✅ Nueva ref
 
   useEffect(() => {
+    if (setupRef.current) return; // ✅ Evitar doble setup
+    setupRef.current = true;
+
     const initPresence = async () => {
       const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
       supabaseRef.current = supabase;
 
-      const channel = supabase.channel(`presence:${conversationId}`, {
+      const channelName = `presence:${conversationId}`;
+
+      // ✅ Limpiar channels existentes
+      supabase.getChannels().forEach((ch) => {
+        if (ch.topic === `realtime:${channelName}`) {
+          supabase.removeChannel(ch);
+        }
+      });
+
+      const channel = supabase.channel(channelName, {
         config: { presence: { key: userId } },
       });
 
@@ -54,6 +66,10 @@ export function usePresence({ conversationId, userId }: UsePresenceOptions) {
     initPresence();
 
     return () => {
+      setupRef.current = false; // ✅ Reset
+      if (channelRef.current) {
+        channelRef.current.unsubscribe();
+      }
       if (supabaseRef.current && channelRef.current) {
         supabaseRef.current.removeChannel(channelRef.current);
       }
