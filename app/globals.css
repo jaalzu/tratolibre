@@ -8,6 +8,8 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
-:root {
-  --app-bg: #eff3f6; /* neutral-150 */
+/* globals.css */
+.app-container {
+  background-color: #eff3f6; /* neutral-150 */
+  min-height: 100dvh;
 }

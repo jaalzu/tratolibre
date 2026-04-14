@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
@@ -6,6 +7,7 @@ import { Providers } from "./providers";
 import { createClient } from "@/lib/supabase/server";
 import { ClientProviders } from "./ClientProviders";
 import { AnalyticsWrapper } from "./AnalyticsWrapper";
+import { Box } from "@chakra-ui/react";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -67,10 +69,11 @@ export default async function RootLayout({
         <Providers>
           <ClientProviders userId={user?.id}>
             <Toaster />
-            <main>{children}</main>
+            <main className="app-container" suppressHydrationWarning>
+              {children}
+            </main>
           </ClientProviders>
         </Providers>
-
         <AnalyticsWrapper />
       </body>
     </html>

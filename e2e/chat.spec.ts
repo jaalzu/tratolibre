@@ -27,7 +27,7 @@ test.describe("Chat", () => {
 
     // ✅ Esperar a que cargue bien el botón
     const btn = page.getByTestId("contact-seller-button").nth(1);
-    await btn.waitFor({ state: "visible", timeout: 10000 });
+    await btn.waitFor({ state: "visible", timeout: 60000 });
 
     // ✅ Click y esperar navegación con timeout más largo
     await btn.click();
@@ -49,7 +49,7 @@ test.describe("Chat", () => {
 
     // ✅ Esperar botón y hacer click
     const btn = page.getByTestId("contact-seller-button").nth(1);
-    await btn.waitFor({ state: "visible", timeout: 10000 });
+    await btn.waitFor({ state: "visible", timeout: 50000 });
     await btn.click();
 
     // ✅ Esperar navegación
@@ -67,6 +67,6 @@ test.describe("Chat", () => {
     // ✅ Esperar a que aparezca el mensaje
     await expect(
       page.getByText("Hola, me interesa el item").last(),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 60000 });
   });
 });

@@ -1,7 +1,6 @@
 import bundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
-// Wrapper del bundle analyzer
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
@@ -18,7 +17,9 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["@chakra-ui/react"],
   },
-  // transpilePackages: ["@chakra-ui/react"],
+  transpilePackages: ["@chakra-ui/react"],
+  // ✅ Ignorar hydration warnings temporalmente
+  reactStrictMode: false,
 };
 
 export default withBundleAnalyzer(nextConfig);

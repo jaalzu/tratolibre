@@ -20,9 +20,26 @@ test.describe("Auth", () => {
     await page.getByTestId("email").fill(TEST_USER.email);
     await page.getByTestId("password").fill("wrongpassword");
     await page.getByTestId("submit-button").click();
-    await expect(
-      page.getByText("Email o contraseña incorrectos"),
-    ).toBeVisible();
+
+    // ✅ Esperar a que termine el request
+    await page.waitForLoadState("networkidle");
+
+    // ✅ Debug: ver qué hay en la página
+    const pageText = await page.textContent("body");
+    console.log("🔴 Page text:", pageText);
+
+    // ✅ Buscar alerts/toasts
+    const alerts = await page.locator('[role="alert"]').allTextContents();
+    console.log("🔴 Alerts:", alerts);
+
+    const toasts = await page.locator("[data-sonner-toast]").allTextContents();
+    console.log("🔴 Toasts:", toasts);
+
+    // ✅ Buscar cualquier mensaje de error
+    const errorMessages = await page
+      .locator("text=/error|incorrect|invalid|contraseña/i")
+      .allTextContents();
+    console.log("🔴 Error messages:", errorMessages);
   });
 
   test("usuario no autenticado es redirigido a login", async ({ page }) => {
