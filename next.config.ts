@@ -18,8 +18,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["@chakra-ui/react"],
   },
   transpilePackages: ["@chakra-ui/react"],
-  // ✅ Ignorar hydration warnings temporalmente
-  reactStrictMode: false,
 };
 
 export default withBundleAnalyzer(nextConfig);

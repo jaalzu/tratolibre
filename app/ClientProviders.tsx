@@ -20,20 +20,6 @@ export function ClientProviders({
 }) {
   const [mounted, setMounted] = useState(false);
 
-  // ✅ Suprimir warnings de hydration en consola
-  useEffect(() => {
-    const originalError = console.error;
-    console.error = (...args) => {
-      if (typeof args[0] === "string" && args[0].includes("Hydration")) {
-        return;
-      }
-      originalError.apply(console, args);
-    };
-    return () => {
-      console.error = originalError;
-    };
-  }, []);
-
   useEffect(() => {
     setMounted(true);
   }, []);
