@@ -1,5 +1,3 @@
-// features/auth/components/RegisterForm.tsx
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -35,14 +33,16 @@ export const RegisterForm = () => {
 
   useEffect(() => {
     if (success) {
-      toaster.create({
-        title: "¡Casi listo!",
-        description: "Te enviamos un email. Confirmá tu cuenta para continuar.",
-        type: "success",
-        duration: 10000,
-      });
+      setTimeout(() => {
+        toaster.create({
+          title: "¡Casi listo!",
+          description:
+            "Te enviamos un email. Confirmá tu cuenta para continuar.",
+          type: "success",
+          duration: 10000,
+        });
+      }, 0);
 
-      // Limpiar form
       resetForm();
     }
   }, [success, resetForm]);
@@ -112,14 +112,12 @@ export const RegisterForm = () => {
             }
           />
 
-          {/* ✅ Error del hook */}
           {error && (
             <Text fontSize="xs" color="feedback.error" textAlign="center">
               {error}
             </Text>
           )}
 
-          {/* ✅ Loading del hook */}
           <Button
             type="submit"
             width="full"

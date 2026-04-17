@@ -75,18 +75,3 @@ signContract({
   id: 34,
   email: "pepe@gmail.com",
 });
-
-interface ButtonProps {
-  text: string;
-  onClick: () => void;
-  disabled?: boolean;
-  variant: "primary" | "secondary";
-}
-
-export function Button({ text, onClick, disabled, variant }: ButtonProps) {
-  return (
-    <button onClick={onClick} disabled={disabled} className={styles[variant]}>
-      {text}
-    </button>
-  );
-}

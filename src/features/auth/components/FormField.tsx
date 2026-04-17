@@ -24,7 +24,7 @@ interface FormFieldProps<T extends FieldValues> {
   placeholder?: string;
   required?: boolean;
   rightElement?: React.ReactNode;
-  onChange: () => void;
+  onChange?: () => void;
 }
 
 export function FormField<T extends FieldValues>({
@@ -36,6 +36,7 @@ export function FormField<T extends FieldValues>({
   placeholder,
   required = false,
   rightElement,
+  onChange,
 }: FormFieldProps<T>) {
   return (
     <Field.Root invalid={!!error}>
@@ -45,7 +46,9 @@ export function FormField<T extends FieldValues>({
       </Field.Label>
       <Box position="relative" w="full">
         <Input
-          {...register(name)}
+          {...register(name, {
+            onChange,
+          })}
           type={type}
           placeholder={placeholder}
           data-testid={name}

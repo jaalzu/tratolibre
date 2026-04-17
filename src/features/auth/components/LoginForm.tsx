@@ -85,14 +85,12 @@ export const LoginForm = () => {
             </NextLink>
           </Text>
 
-          {/* ✅ Error del hook */}
           {error && (
             <Text fontSize="xs" color="feedback.error" textAlign="center">
               {error}
             </Text>
           )}
 
-          {/* ✅ Loading del hook */}
           <Button
             type="submit"
             width="full"
