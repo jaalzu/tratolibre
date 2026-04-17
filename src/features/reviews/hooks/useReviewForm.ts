@@ -36,11 +36,10 @@ export function useReviewForm(onSuccess?: () => void) {
       if (result.error) {
         setError(result.error);
 
-        // En v3 usamos toaster.create
         toaster.create({
           title: "Error",
           description: result.error,
-          type: "error", // En v3 es 'type', no 'status'
+          type: "error",
         });
       } else {
         toaster.create({

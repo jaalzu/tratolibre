@@ -24,6 +24,7 @@ interface FormFieldProps<T extends FieldValues> {
   placeholder?: string;
   required?: boolean;
   rightElement?: React.ReactNode;
+  onChange: () => void;
 }
 
 export function FormField<T extends FieldValues>({

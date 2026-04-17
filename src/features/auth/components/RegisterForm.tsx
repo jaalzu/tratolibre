@@ -1,42 +1,54 @@
+// features/auth/components/RegisterForm.tsx
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema, RegisterInput } from "@/features/auth/schemas";
+import { registerSchema, type RegisterInput } from "@/features/auth/schemas";
+import { useRegister } from "@/features/auth/hooks";
 import NextLink from "next/link";
 import { Flex, Text, Stack } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
-import { registerAction } from "@/features/auth/actions";
 import { FormField } from "./FormField";
 import { toaster } from "@/components/ui/toaster";
 
 export const RegisterForm = () => {
-  const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register: registerUser,
+    isPending,
+    error,
+    success,
+    reset,
+  } = useRegister();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
+    reset: resetForm,
   } = useForm<RegisterInput>({
-    resolver: zodResolver(RegisterSchema),
+    resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterInput) => {
-    setServerError(null);
-    const result = await registerAction(data);
-
-    if (result?.error) {
-      setServerError(result.error);
-    } else if (result?.success) {
+  useEffect(() => {
+    if (success) {
       toaster.create({
         title: "¡Casi listo!",
         description: "Te enviamos un email. Confirmá tu cuenta para continuar.",
         type: "success",
         duration: 10000,
       });
+
+      // Limpiar form
+      resetForm();
     }
+  }, [success, resetForm]);
+
+  const onSubmit = async (data: RegisterInput) => {
+    await registerUser(data);
   };
 
   return (
@@ -55,6 +67,7 @@ export const RegisterForm = () => {
               error={errors.firstName}
               placeholder="Juan"
               required
+              onChange={reset}
             />
             <FormField
               label="Apellido"
@@ -63,6 +76,7 @@ export const RegisterForm = () => {
               error={errors.lastName}
               placeholder="García"
               required
+              onChange={reset}
             />
           </Flex>
 
@@ -74,6 +88,7 @@ export const RegisterForm = () => {
             type="email"
             placeholder="tucorreo@gmail.com"
             required
+            onChange={reset}
           />
 
           <FormField
@@ -83,6 +98,7 @@ export const RegisterForm = () => {
             error={errors.password}
             type={showPassword ? "text" : "password"}
             placeholder="Mínimo 8 caracteres"
+            onChange={reset}
             rightElement={
               <Text
                 fontSize="xs"
@@ -96,19 +112,21 @@ export const RegisterForm = () => {
             }
           />
 
-          {serverError && (
+          {/* ✅ Error del hook */}
+          {error && (
             <Text fontSize="xs" color="feedback.error" textAlign="center">
-              {serverError}
+              {error}
             </Text>
           )}
 
+          {/* ✅ Loading del hook */}
           <Button
             type="submit"
             width="full"
             borderRadius="full"
             py={1.5}
             mt={3}
-            loading={isSubmitting}
+            loading={isPending}
             data-testid="submit-button"
           >
             Crear cuenta
