@@ -51,9 +51,9 @@ export function FormField<T extends FieldValues>({
           })}
           type={type}
           placeholder={placeholder}
-          data-testid={name}
           {...inputStyles}
           pr={rightElement ? "40px" : "3"}
+          data-testid={name}
         />
         {rightElement && (
           <Box

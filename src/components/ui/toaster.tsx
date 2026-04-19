@@ -8,7 +8,7 @@ import {
   Toast,
   createToaster,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react"; // 1. Importamos hooks
+import { useEffect, useState } from "react";
 
 export const toaster = createToaster({
   placement: "bottom-end",
@@ -18,28 +18,42 @@ export const toaster = createToaster({
 export const Toaster = () => {
   const [mounted, setMounted] = useState(false);
 
-  // 2. Solo se activa cuando el componente se monta en el navegador
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // 3. Si no está montado, no renderizamos NADA (evita el error de hidratación)
   if (!mounted) return null;
 
   return (
     <Portal>
-      <ChakraToaster toaster={toaster} bottom="12" insetInline={{ md: "25%" }}>
+      <ChakraToaster
+        toaster={toaster}
+        bottom={{ base: "0", md: "12" }}
+        insetInline={{ base: "0", md: "25%" }}
+        width={{ base: "100vw", md: "auto" }}
+      >
         {(toast) => (
-          <Toast.Root key={toast.id}>
+          <Toast.Root
+            key={toast.id}
+            width={{ base: "100%", md: "auto" }}
+            maxWidth={{ base: "100%", md: "400px" }}
+            borderRadius={{ base: "0", md: "md" }}
+            m={{ base: "0", md: "2" }}
+            suppressHydrationWarning
+          >
             {toast.type === "loading" ? (
               <Spinner size="sm" color="blue.500" />
             ) : (
               <Toast.Indicator />
             )}
             <Stack gap="1" flex="1" maxWidth="100%">
-              {toast.title && <Toast.Title>{toast.title}</Toast.Title>}
+              {toast.title && (
+                <Toast.Title fontSize="sm">{toast.title}</Toast.Title>
+              )}
               {toast.description && (
-                <Toast.Description>{toast.description}</Toast.Description>
+                <Toast.Description fontSize="xs">
+                  {toast.description}
+                </Toast.Description>
               )}
             </Stack>
             {toast.action && (

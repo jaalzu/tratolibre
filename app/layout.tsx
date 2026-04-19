@@ -69,7 +69,9 @@ export default async function RootLayout({
         <Providers>
           <ClientProviders userId={user?.id}>
             <Toaster />
-            <main className="app-container">{children}</main>
+            <main className="app-container" suppressHydrationWarning>
+              {children}
+            </main>
           </ClientProviders>
         </Providers>
         <AnalyticsWrapper />
