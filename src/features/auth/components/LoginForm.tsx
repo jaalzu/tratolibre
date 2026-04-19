@@ -1,33 +1,34 @@
+// features/auth/components/LoginForm.tsx
+
 "use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema, LoginInput } from "@/features/auth/schemas";
+import { loginSchema, type LoginInput } from "@/features/auth/schemas";
+import { useLogin } from "@/features/auth/hooks";
 import NextLink from "next/link";
 import { Flex, Text, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
-import { loginAction } from "@/features/auth/actions";
 import { SocialButtons } from "@/features/auth/components/SocialButtons";
 import { FormField } from "./FormField";
 
 export const LoginForm = () => {
-  const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { login, isPending, error, clearError } = useLogin();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: zodResolver(LoginSchema),
+    formState: { errors },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
     mode: "onTouched",
   });
 
   const onSubmit = async (data: LoginInput) => {
-    setServerError(null);
-    const result = await loginAction(data);
-    if (result?.error) setServerError(result.error);
+    await login(data);
   };
 
   return (
@@ -48,6 +49,7 @@ export const LoginForm = () => {
             error={errors.email}
             type="email"
             placeholder="tucorreo@gmail.com"
+            onChange={clearError}
           />
 
           <FormField
@@ -57,6 +59,7 @@ export const LoginForm = () => {
             error={errors.password}
             type={showPassword ? "text" : "password"}
             placeholder="Tu contraseña"
+            onChange={clearError}
             rightElement={
               <Text
                 fontSize="xs"
@@ -82,9 +85,9 @@ export const LoginForm = () => {
             </NextLink>
           </Text>
 
-          {serverError && (
+          {error && (
             <Text fontSize="xs" color="feedback.error" textAlign="center">
-              {serverError}
+              {error}
             </Text>
           )}
 
@@ -94,7 +97,7 @@ export const LoginForm = () => {
             borderRadius="full"
             py={1.5}
             mt={2}
-            loading={isSubmitting}
+            loading={isPending}
             data-testid="submit-button"
           >
             Iniciar sesión
@@ -102,7 +105,6 @@ export const LoginForm = () => {
         </Stack>
       </form>
 
-      {/* 1. SEPARADOR (FUERA DEL FORM) */}
       <Flex align="center" gap={3} my={3}>
         <Box flex={1} h="1px" bg="neutral.200" />
         <Text fontSize="xs" color="neutral.400">
@@ -111,10 +113,8 @@ export const LoginForm = () => {
         <Box flex={1} h="1px" bg="neutral.200" />
       </Flex>
 
-      {/* 2. BOTONES SOCIALES (FUERA DEL FORM) */}
       <SocialButtons mode="login" />
 
-      {/* 3. LINK A REGISTRO (LIMPIO) */}
       <Box textAlign="center" mt="5">
         <Text as="span" fontSize="sm" color="neutral.700">
           ¿No tenés cuenta?{" "}

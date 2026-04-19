@@ -1,16 +1,12 @@
-// features/auth/actions/logoutAction.ts
+// features/auth/actions/logout.action.ts
 
 "use server";
 
 import { redirect } from "next/navigation";
-import { authService } from "../services/authService";
+import { logoutService } from "../services";
 
-export async function logoutAction() {
-  try {
-    await authService.logout();
-  } catch (error) {
-    console.error("Error al cerrar sesión:", error);
-  }
+export async function logoutAction(): Promise<void> {
+  await logoutService();
 
-  redirect("/");
+  redirect("/login");
 }

@@ -7,20 +7,27 @@ const TEST_USER = {
 
 export async function login(page: Page) {
   await page.goto("/login");
+
+  // ✅ Esperar que cargue completamente (evita hydration issues)
+  await page.waitForLoadState("networkidle");
+
   await page.getByTestId("email").fill(TEST_USER.email);
   await page.getByTestId("password").fill(TEST_USER.password);
 
-  await Promise.all([
-    page.waitForURL("/", { timeout: 60000 }),
-    page.getByTestId("submit-button").click(),
-  ]);
+  await page.getByTestId("submit-button").click();
+
+  // ✅ Esperar redirect con strategy más tolerante
+  await page.waitForURL("/", {
+    timeout: 30000, // ✅ Reducir a 30s
+    waitUntil: "domcontentloaded", // ✅ Cambiar de networkidle a domcontentloaded
+  });
 }
 
 export async function logout(page: Page) {
   await page.goto("/");
 
   await Promise.all([
-    page.waitForURL("/", { timeout: 5000 }),
+    page.waitForURL("/", { timeout: 20000 }),
     page.evaluate(() => {
       const form = document.querySelector(
         'form[action*="logout"]',

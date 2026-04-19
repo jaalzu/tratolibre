@@ -1,45 +1,34 @@
+// features/auth/components/ForgotPasswordForm.tsx
+
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import {
+  forgotPasswordSchema,
+  type ForgotPasswordInput,
+} from "@/features/auth/schemas";
+import { useForgotPassword } from "@/features/auth/hooks";
 import NextLink from "next/link";
 import { Flex, Text, Input, Field, Stack } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 
-const ForgotSchema = z.object({
-  email: z.string().email("Email inválido"),
-});
-type ForgotInput = z.infer<typeof ForgotSchema>;
-
 export const ForgotPasswordForm = () => {
-  const [sent, setSent] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
+  // ✅ Hook custom
+  const { sendResetEmail, isPending, error, success, reset } =
+    useForgotPassword();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<ForgotInput>({
-    resolver: zodResolver(ForgotSchema),
+    formState: { errors },
+  } = useForm<ForgotPasswordInput>({
+    resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = async (data: ForgotInput) => {
-    setServerError(null);
-
-    const { createClient } = await import("@/lib/supabase/client");
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-
-    if (error) {
-      setServerError(error.message);
-      return;
-    }
-    setSent(true);
+  const onSubmit = async (data: ForgotPasswordInput) => {
+    await sendResetEmail(data);
   };
 
   const inputStyles = {
@@ -51,7 +40,8 @@ export const ForgotPasswordForm = () => {
     _placeholder: { color: "neutral.400" },
   };
 
-  if (sent)
+  // ✅ Mostrar mensaje de éxito
+  if (success) {
     return (
       <Flex direction="column" maxW="360px" mx="auto" w="full" gap={2}>
         <Text fontSize="xl" fontWeight="bold" color="neutral.900">
@@ -72,6 +62,7 @@ export const ForgotPasswordForm = () => {
         </Text>
       </Flex>
     );
+  }
 
   return (
     <Flex direction="column" maxW="360px" py={6} mx="auto" w="full">
@@ -92,6 +83,7 @@ export const ForgotPasswordForm = () => {
               {...register("email")}
               type="email"
               placeholder="tucorreo@gmail.com"
+              onChange={reset}
               {...inputStyles}
             />
             {errors.email && (
@@ -101,19 +93,21 @@ export const ForgotPasswordForm = () => {
             )}
           </Field.Root>
 
-          {serverError && (
+          {/* ✅ Error del hook */}
+          {error && (
             <Text fontSize="xs" color="feedback.error" textAlign="center">
-              {serverError}
+              {error}
             </Text>
           )}
 
+          {/* ✅ Loading del hook */}
           <Button
             type="submit"
             width="full"
             mt={2}
             borderRadius="full"
             py={1.5}
-            loading={isSubmitting}
+            loading={isPending}
           >
             Enviar enlace
           </Button>

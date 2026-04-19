@@ -9,7 +9,7 @@ export async function fillAndSubmitItem(
     price?: string;
     category?: string;
     condition?: string;
-    submit?: boolean; // ✅ Nuevo parámetro
+    submit?: boolean;
   } = {},
 ) {
   const title = overrides.title ?? "Item de test E2E";
@@ -19,7 +19,7 @@ export async function fillAndSubmitItem(
   const price = overrides.price ?? "1000";
   const category = overrides.category ?? "tecnologia";
   const condition = overrides.condition ?? "good";
-  const submit = overrides.submit ?? true; // ✅ Por defecto true
+  const submit = overrides.submit ?? true;
 
   await page.getByTestId("title").fill(title);
   await page.getByTestId("description").fill(description);
@@ -33,7 +33,6 @@ export async function fillAndSubmitItem(
   await page.getByTestId("select-estado...").click();
   await page.getByTestId(`option-${condition}`).click();
 
-  // ✅ Solo submit si se pide
   if (submit) {
     await page.getByTestId("submit-item").click();
   }

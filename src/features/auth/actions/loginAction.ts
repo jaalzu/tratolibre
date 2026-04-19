@@ -1,27 +1,24 @@
-// features/auth/actions/loginAction.ts
-
 "use server";
 
 import { redirect } from "next/navigation";
-import { LoginSchema } from "../schemas";
-import { authService } from "../services/authService";
+import { loginServerSchema, type LoginResponse } from "../schemas";
+import { loginService } from "../services";
 
-export async function loginAction(input: { email: string; password: string }) {
-  // Validación
-  const parsed = LoginSchema.safeParse(input);
+export async function loginAction(input: unknown): Promise<LoginResponse> {
+  const parsed = loginServerSchema.safeParse(input);
+
   if (!parsed.success) {
-    return { error: "Datos inválidos" };
-  }
-
-  try {
-    // Llamada al service
-    await authService.login(parsed.data.email, parsed.data.password);
-  } catch (error) {
     return {
-      error: error instanceof Error ? error.message : "Error al iniciar sesión",
+      success: false,
+      error: "Usuario o contraseña incorrecta",
     };
   }
 
-  // Redirección exitosa
+  const result = await loginService(parsed.data);
+
+  if (!result.success) {
+    return result;
+  }
+
   redirect("/");
 }
