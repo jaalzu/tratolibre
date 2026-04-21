@@ -13,9 +13,13 @@ export type ProfileWithReviews = ProfileWithStats & {
   reviews: any[];
 };
 
-export type EditProfileDefaultValues = {
-  name?: string | null;
-  location?: string | null;
-  province?: string | null;
-  avatar?: string | null;
-};
+export type EditableProfileFields = Pick<
+  Profile,
+  "name" | "location" | "province" | "avatar_url"
+>;
+
+export type ProfileUpdateData = Partial<EditableProfileFields>;
+
+export type EditProfileDefaultValues = Partial<
+  Pick<Profile, "name" | "location" | "province" | "avatar_url">
+>;
