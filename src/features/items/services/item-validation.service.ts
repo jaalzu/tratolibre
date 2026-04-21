@@ -10,7 +10,6 @@ export function parseItemFormData(formData: FormData) {
     province: formData.get("province"),
     city: formData.get("city") || undefined,
     location: formData.get("location") || undefined,
-    type: formData.get("type"),
     images: formData.getAll("images") as string[],
   };
 }

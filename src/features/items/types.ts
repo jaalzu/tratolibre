@@ -15,6 +15,30 @@ export type Purchase = Database["public"]["Tables"]["purchases"]["Row"];
 export type PurchaseInsert =
   Database["public"]["Tables"]["purchases"]["Insert"];
 
+export type EditableItemFields = Pick<
+  Item,
+  | "title"
+  | "description"
+  | "category"
+  | "condition"
+  | "sale_price"
+  | "province"
+  | "city"
+  | "location"
+  | "images"
+>;
+
+export type ItemUpdateData = Partial<EditableItemFields>;
+
+export type ItemSearchParams = {
+  keywords?: string;
+  category?: string;
+  province?: string;
+  min_price?: string | number;
+  max_price?: string | number;
+  order_by?: "price_desc" | "price_asc" | "oldest" | "newest";
+};
+
 // Extended types
 export interface ItemWithProfile extends Item {
   profiles: {

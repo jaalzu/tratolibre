@@ -1,6 +1,5 @@
-// features/items/services/items-service.ts
 import { SupabaseClient } from "@supabase/supabase-js";
-import { ItemInsert, ItemUpdate } from "../types";
+import { ItemInsert, ItemUpdateData, ItemSearchParams, Item } from "../types";
 
 export async function createItem(supabase: SupabaseClient, data: ItemInsert) {
   const { data: item, error } = await supabase
@@ -16,7 +15,7 @@ export async function updateItem(
   supabase: SupabaseClient,
   id: string,
   ownerId: string,
-  data: Partial<ItemUpdate>,
+  data: ItemUpdateData,
 ) {
   const { error } = await supabase
     .from("items")
@@ -43,10 +42,14 @@ export async function deleteItem(
 
   return { error };
 }
-export async function getItems(supabase: SupabaseClient, params: any) {
+
+export async function getItems(
+  supabase: SupabaseClient,
+  params: ItemSearchParams,
+): Promise<Item[]> {
   let query = supabase.from("items").select("*");
 
-  // 1. Filtros (Keywords, Categoría, etc.) - Estos están bien
+  // 1. Filtros (Keywords, Categoría, etc.)
   if (params.keywords) query = query.ilike("title", `%${params.keywords}%`);
   if (params.category) query = query.eq("category", params.category);
   if (params.province) query = query.eq("province", params.province);
@@ -56,20 +59,21 @@ export async function getItems(supabase: SupabaseClient, params: any) {
   if (params.max_price)
     query = query.lte("sale_price", Number(params.max_price));
 
-  // 2. LÓGICA DE ORDENAMIENTO (Sin pisarse)
-  const orderRaw = String(params.order_by || "");
+  const orderBy = params.order_by ?? "newest";
 
-  if (orderRaw === "price_desc") {
-    // Mayor precio primero
-    query = query.order("sale_price", { ascending: false });
-  } else if (orderRaw === "price_asc") {
-    // Menor precio primero
-    query = query.order("sale_price", { ascending: true });
-  } else if (orderRaw === "oldest") {
-    query = query.order("created_at", { ascending: true });
-  } else {
-    // Por defecto: los más nuevos arriba
-    query = query.order("created_at", { ascending: false });
+  switch (orderBy) {
+    case "price_desc":
+      query = query.order("sale_price", { ascending: false });
+      break;
+    case "price_asc":
+      query = query.order("sale_price", { ascending: true });
+      break;
+    case "oldest":
+      query = query.order("created_at", { ascending: true });
+      break;
+    case "newest":
+    default:
+      query = query.order("created_at", { ascending: false });
   }
 
   const { data, error } = await query;
