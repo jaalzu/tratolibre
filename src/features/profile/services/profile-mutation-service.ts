@@ -1,15 +1,11 @@
 import { SupabaseClient } from "@supabase/supabase-js";
+import { ProfileUpdateData } from "@/features/profile/types";
 
 export const profileMutationService = {
   async updateProfile(
     supabase: SupabaseClient,
     userId: string,
-    data: {
-      name?: string;
-      location?: string;
-      province?: string;
-      avatar_url?: string;
-    },
+    data: ProfileUpdateData,
   ) {
     const { error } = await supabase
       .from("profiles")

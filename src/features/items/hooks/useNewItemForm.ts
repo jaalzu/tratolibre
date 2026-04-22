@@ -8,7 +8,6 @@ import { ItemFormInput } from "@/features/items/schemas";
 import { createItemAction, updateItemAction } from "@/features/items/actions";
 import { Item } from "@/features/items/types";
 import { useItemImages } from "./useItemImages";
-import { z } from "zod";
 
 export const useNewItemForm = (initialData?: Partial<Item>) => {
   const [serverError, setServerError] = useState<string | null>(null);

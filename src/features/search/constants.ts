@@ -1,15 +1,16 @@
+// features/search/constants.ts
 import { SearchFilters, SortOption, SortOrder } from "./types";
 
 export const SORT_OPTIONS: SortOption[] = [
-  { id: "closest", label: "Más recientes" },
-  { id: "most_relevance", label: "Más relevantes" },
+  { id: "newest", label: "Más recientes" },
   { id: "price_asc", label: "Menor precio" },
   { id: "price_desc", label: "Mayor precio" },
+  { id: "oldest", label: "Más antiguos" },
 ];
 
 export const SORT_LABELS: Record<SortOrder, string> = {
-  closest: "Más recientes",
-  most_relevance: "Más relevantes",
+  newest: "Más recientes",
+  oldest: "Más antiguos",
   price_asc: "Menor precio",
   price_desc: "Mayor precio",
 };
@@ -20,7 +21,6 @@ export const DATE_OPTIONS = [
   { id: "month", label: "Últimos 30 días" },
 ];
 
-// Mapeo de la propiedad del State -> Query Param de la URL
 export const FILTER_MAPPING: Record<keyof SearchFilters, string> = {
   category: "category",
   province: "province",
@@ -38,8 +38,8 @@ export const INITIAL_FILTERS: SearchFilters = {
   condition: "",
   minPrice: "",
   maxPrice: "",
-  orderBy: "closest",
+  orderBy: "newest",
 };
 
-// Esto reemplaza tu antiguo FILTER_QUERY_KEYS para ser más dinámico
+// ✅ NUEVO: Array de keys para chequear filtros activos
 export const FILTER_QUERY_KEYS = Object.values(FILTER_MAPPING);

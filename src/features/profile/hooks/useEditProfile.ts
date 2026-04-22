@@ -11,7 +11,7 @@ export function useEditProfile(defaultValues: EditProfileDefaultValues) {
   const [success, setSuccess] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(
-    defaultValues.avatar ?? null,
+    defaultValues.avatar_url ?? null,
   );
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 

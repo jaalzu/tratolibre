@@ -1,6 +1,5 @@
-// features/items/types.ts
-
 import { Database } from "@/lib/supabase/database.types";
+import { BaseSearchParams } from "@/features/search/types";
 
 // Base types de DB
 export type Item = Database["public"]["Tables"]["items"]["Row"];
@@ -14,6 +13,22 @@ export type FavoriteInsert =
 export type Purchase = Database["public"]["Tables"]["purchases"]["Row"];
 export type PurchaseInsert =
   Database["public"]["Tables"]["purchases"]["Insert"];
+
+export type EditableItemFields = Pick<
+  Item,
+  | "title"
+  | "description"
+  | "category"
+  | "condition"
+  | "sale_price"
+  | "province"
+  | "city"
+  | "location"
+  | "images"
+>;
+export type ItemSearchParams = BaseSearchParams;
+
+export type ItemUpdateData = Partial<EditableItemFields>;
 
 // Extended types
 export interface ItemWithProfile extends Item {

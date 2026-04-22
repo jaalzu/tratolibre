@@ -1,26 +1,20 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { SearchParams, DateFilter } from "../types";
+import { BaseSearchParams } from "../types";
 
 export async function getSearchItemsService(
   supabase: SupabaseClient,
-  params: SearchParams,
+  params: BaseSearchParams,
 ) {
-  // 1. Empezamos la query
   let q = supabase
     .from("items")
     .select("*, profiles(name, avatar_url, rating)")
     .eq("available", true)
     .eq("sold", false);
 
-  // 2. Filtro de búsqueda (Trim y Lowercase para asegurar)
+  // Filtros
   const search = params.keywords?.trim();
+  if (search) q = q.ilike("title", `%${search}%`);
 
-  if (search) {
-    // IMPORTANTE: Asegúrate que la columna en tu DB sea 'title'
-    q = q.ilike("title", `%${search}%`);
-  }
-
-  // 3. Filtros adicionales (Solo si tienen valor real)
   if (params.category) q = q.eq("category", params.category);
   if (params.province) q = q.eq("province", params.province);
   if (params.condition) q = q.eq("condition", params.condition);
@@ -32,18 +26,23 @@ export async function getSearchItemsService(
     q = q.lte("sale_price", params.max_price);
   }
 
-  // 4. Ordenamiento
-  const orderColumn =
-    params.order_by === "price_asc" || params.order_by === "price_desc"
-      ? "sale_price"
-      : "created_at";
+  // Ordenamiento
+  switch (params.order_by) {
+    case "price_asc":
+      q = q.order("sale_price", { ascending: true });
+      break;
+    case "price_desc":
+      q = q.order("sale_price", { ascending: false });
+      break;
+    case "oldest":
+      q = q.order("created_at", { ascending: true });
+      break;
+    case "newest":
+    default:
+      q = q.order("created_at", { ascending: false });
+  }
 
-  const isAscending = params.order_by === "price_asc";
-
-  q = q.order(orderColumn, { ascending: isAscending });
-
-  // DEBUG: Vamos a ver qué está devolviendo realmente
-  const { data, error, count } = await q;
+  const { data, error } = await q;
 
   if (error) {
     console.error("ERROR EN SUPABASE SERVICE:", error);

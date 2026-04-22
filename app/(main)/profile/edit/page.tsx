@@ -13,7 +13,7 @@ const EditProfileForm = dynamic(
     ),
   {
     ssr: true,
-    loading: () => <Box h="300px" bg="neutral.50" borderRadius="md" />, // Un placeholder simple
+    loading: () => <Box h="300px" bg="neutral.50" borderRadius="md" />,
   },
 );
 
@@ -41,8 +41,10 @@ export default async function EditProfilePage() {
 
       <EditProfileForm
         defaultValues={{
-          name: profile?.name ?? "",
-          location: profile?.location ?? "",
+          name: profile?.name,
+          location: profile?.location,
+          province: profile?.province,
+          avatar_url: profile?.avatar_url,
         }}
       />
     </PageContainer>
