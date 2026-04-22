@@ -6,9 +6,10 @@ import { CATEGORIES } from "@/lib/constants";
 import { getSearchItemsService } from "../services/search-service";
 import {
   SearchPageParams,
-  SearchParams,
+  BaseSearchParams,
   DateFilter,
   SortOrder,
+  Condition,
 } from "../types";
 
 export async function getSearchPageDataAction(
@@ -41,23 +42,20 @@ export async function getSearchPageDataAction(
       };
     }
 
-    const serviceParams: SearchParams = {
+    const serviceParams: BaseSearchParams = {
       keywords: params.keywords,
       category: params.category,
       province: params.province,
       date: params.date as DateFilter | undefined,
       min_price: minPrice,
       max_price: maxPrice,
-      condition: params.condition,
+      condition: params.condition as Condition | undefined,
       order_by: params.order_by as SortOrder | undefined,
     };
 
-    // Promise.all con manejo de errores individual
     const [itemsResult, favoriteIds] = await Promise.all([
       getSearchItemsService(supabase, serviceParams),
-      userId
-        ? getUserFavoriteIds(userId).catch(() => []) // Si falla, devuelve array vacío
-        : Promise.resolve([]),
+      userId ? getUserFavoriteIds(userId).catch(() => []) : Promise.resolve([]),
     ]);
 
     const categoryLabel = params.category

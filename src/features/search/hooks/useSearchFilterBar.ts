@@ -13,7 +13,7 @@ export function useSearchFilterBar() {
   const orderBy = (searchParams.get("order_by") as SortOrder) ?? "closest";
 
   // Usamos la constante para chequear si hay filtros activos
-  const hasFilters = FILTER_QUERY_KEYS.some((k) => searchParams.has(k));
+  const hasFilters = FILTER_QUERY_KEYS.some((key) => searchParams.has(key));
 
   const currentSortLabel = SORT_LABELS[orderBy];
 
