@@ -1,13 +1,13 @@
 // features/auth/schemas/login.schema.ts
 
 import { z } from "zod";
+import type { ActionResult } from "./base.schema";
 
 /**
  * Schema de validación para login
  */
 export const loginSchema = z.object({
   email: z.string().min(1, "El email es requerido").email("Email inválido"),
-
   password: z.string().min(1, "La contraseña es requerida"),
 });
 
@@ -22,8 +22,7 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export type LoginServerInput = z.infer<typeof loginServerSchema>;
 
 /**
- * Response del login
+ * Response del login - usando ActionResult
  */
-export type LoginResponse =
-  | { success: true; user: { id: string; email: string } }
-  | { success: false; error: string };
+// login.schema.ts
+export type LoginResponse = ActionResult<void>;
