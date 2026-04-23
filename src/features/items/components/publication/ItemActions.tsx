@@ -9,7 +9,7 @@ import { useState } from "react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { SelectBuyerDialog } from "@/features/items/components/publication/SelectBuyerDialog";
 import { deleteItemAction } from "@/features/items/actions";
-import { AdminDeleteButton } from "@/features/admin/components/shared/AdminDeleteButton";
+import { AdminDeleteButton } from "@/features/admin/components/ui/AdminDeleteButton";
 import { ItemWithProfile } from "@/features/items/types";
 
 interface ItemActionsProps {

@@ -8,7 +8,14 @@ import { EditProfileSchema } from "@/features/profile/schemas";
 import { avatarService } from "@/features/profile/services/avatar-service";
 import { profileMutationService } from "@/features/profile/services/profile-mutation-service";
 
-export async function updateProfileAction(formData: FormData) {
+// Definimos el tipo de respuesta para que el Hook lo entienda perfectamente
+export type UpdateProfileResponse =
+  | { status: "success" }
+  | { status: "error"; message: string };
+
+export async function updateProfileAction(
+  formData: FormData,
+): Promise<UpdateProfileResponse> {
   try {
     const { supabase, user } = await getAuthUser();
     if (!user) redirect("/login");
@@ -20,14 +27,22 @@ export async function updateProfileAction(formData: FormData) {
       5,
       10,
     );
-    if (!allowed) return { error: "Demasiados intentos, esperá unos minutos" };
+    if (!allowed) {
+      return {
+        status: "error",
+        message: "Demasiados intentos, esperá unos minutos",
+      };
+    }
 
     const parsed = EditProfileSchema.safeParse({
       name: formData.get("name"),
       location: formData.get("location"),
       province: formData.get("province"),
     });
-    if (!parsed.success) return { error: parsed.error.issues[0].message };
+
+    if (!parsed.success) {
+      return { status: "error", message: parsed.error.issues[0].message };
+    }
 
     let avatarUrl: string | undefined;
     const avatar = formData.get("avatar") as File | null;
@@ -44,10 +59,14 @@ export async function updateProfileAction(formData: FormData) {
     });
 
     revalidatePath("/profile");
-    return { success: true };
+    return { status: "success" };
   } catch (error) {
+    if (error instanceof Error && error.message === "NEXT_REDIRECT")
+      throw error;
+
     return {
-      error:
+      status: "error",
+      message:
         error instanceof Error ? error.message : "Error al actualizar perfil",
     };
   }
