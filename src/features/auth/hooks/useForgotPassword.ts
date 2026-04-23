@@ -1,74 +1,41 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import { forgotPasswordAction, resetPasswordAction } from "../actions";
 import type { ForgotPasswordInput, ResetPasswordInput } from "../schemas";
+import { useAsyncAction } from "./useAsyncAction";
 
 export function useForgotPassword() {
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const { state, isPending, execute, reset, error, isSuccess } =
+    useAsyncAction<ForgotPasswordInput>();
 
-  const sendResetEmail = async (data: ForgotPasswordInput) => {
-    setError(null);
-    setSuccess(false);
-
-    startTransition(async () => {
-      const result = await forgotPasswordAction(data);
-
-      if (!result.success) {
-        setError(result.error);
-      } else {
-        setSuccess(true);
-      }
-    });
-  };
-
-  const reset = () => {
-    setError(null);
-    setSuccess(false);
+  const sendResetEmail = (data: ForgotPasswordInput) => {
+    return execute(data, forgotPasswordAction);
   };
 
   return {
     sendResetEmail,
     isPending,
+    state,
     error,
-    success,
+    success: isSuccess,
     reset,
   };
 }
 
 export function useResetPassword() {
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const { state, isPending, execute, reset, error, isSuccess } =
+    useAsyncAction<ResetPasswordInput>();
 
-  const resetPassword = async (data: ResetPasswordInput) => {
-    setError(null);
-    setSuccess(false);
-
-    startTransition(async () => {
-      const result = await resetPasswordAction(data);
-
-      // ✅ Chequear success primero
-      if (!result.success) {
-        setError(result.error);
-      } else {
-        setSuccess(true);
-      }
-    });
-  };
-
-  const reset = () => {
-    setError(null);
-    setSuccess(false);
+  const resetPassword = (data: ResetPasswordInput) => {
+    return execute(data, resetPasswordAction);
   };
 
   return {
     resetPassword,
     isPending,
+    state,
     error,
-    success,
+    success: isSuccess,
     reset,
   };
 }

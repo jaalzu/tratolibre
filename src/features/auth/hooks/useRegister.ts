@@ -1,39 +1,23 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import { registerAction } from "../actions";
 import type { RegisterInput } from "../schemas";
+import { useAsyncAction } from "./useAsyncAction";
 
 export function useRegister() {
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const { state, isPending, execute, reset, error, isSuccess } =
+    useAsyncAction<RegisterInput>();
 
-  const register = async (data: RegisterInput) => {
-    setError(null);
-    setSuccess(false);
-
-    startTransition(async () => {
-      const result = await registerAction(data);
-
-      if (!result.success) {
-        setError(result.error);
-      } else {
-        setSuccess(true);
-      }
-    });
-  };
-
-  const reset = () => {
-    setError(null);
-    setSuccess(false);
+  const register = (data: RegisterInput) => {
+    return execute(data, registerAction);
   };
 
   return {
     register,
     isPending,
+    state,
     error,
-    success,
+    success: isSuccess,
     reset,
   };
 }
