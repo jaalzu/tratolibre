@@ -1,34 +1,22 @@
-// features/auth/hooks/useLogin.ts
-
 "use client";
 
-import { useState, useTransition } from "react";
 import { loginAction } from "../actions";
 import type { LoginInput } from "../schemas";
+import { useAsyncAction } from "./useAsyncAction";
 
 export function useLogin() {
-  const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const { state, isPending, execute, reset, error } =
+    useAsyncAction<LoginInput>();
 
-  const login = async (data: LoginInput) => {
-    setError(null);
-
-    startTransition(async () => {
-      const result = await loginAction(data);
-
-      if (!result.success) {
-        setError(result.error);
-      }
-      // Si success === true, el redirect ya ocurrió
-    });
+  const login = (data: LoginInput) => {
+    return execute(data, loginAction);
   };
-
-  const clearError = () => setError(null);
 
   return {
     login,
     isPending,
+    state,
     error,
-    clearError,
+    clearError: reset,
   };
 }
