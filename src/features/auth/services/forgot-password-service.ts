@@ -7,6 +7,7 @@ import type {
   ResetPasswordInput,
   ResetPasswordResponse,
 } from "../schemas";
+import { ok, err } from "../schemas/base.schema";
 
 /**
  * Service: Solicitar reseteo de contraseña
@@ -22,19 +23,13 @@ export async function forgotPasswordService(
     });
 
     if (error) {
-      return {
-        success: false,
-        error: "Error al enviar el email. Intenta nuevamente.",
-      };
+      return err("Error al enviar el email. Intenta nuevamente.");
     }
 
-    return { success: true };
+    return ok();
   } catch (error) {
     console.error("[forgotPasswordService] Error:", error);
-    return {
-      success: false,
-      error: "Error inesperado. Intenta nuevamente.",
-    };
+    return err("Error inesperado. Intenta nuevamente.");
   }
 }
 
@@ -52,18 +47,12 @@ export async function resetPasswordService(
     });
 
     if (error) {
-      return {
-        success: false,
-        error: "Error al cambiar la contraseña. Intenta nuevamente.",
-      };
+      return err("Error al cambiar la contraseña. Intenta nuevamente.");
     }
 
-    return { success: true };
+    return ok();
   } catch (error) {
     console.error("[resetPasswordService] Error:", error);
-    return {
-      success: false,
-      error: "Error inesperado. Intenta nuevamente.",
-    };
+    return err("Error inesperado. Intenta nuevamente.");
   }
 }

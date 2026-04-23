@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { ActionResult } from "./base.schema";
 
 /**
  * Schema para solicitar reseteo de contraseña
@@ -20,17 +21,11 @@ export const resetPasswordSchema = z.object({
     ),
 });
 
-// ✅ TYPES generados desde schemas
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 
 /**
- * Responses
+ * Responses - usando ActionResult
  */
-export type ForgotPasswordResponse =
-  | { success: true }
-  | { success: false; error: string };
-
-export type ResetPasswordResponse =
-  | { success: true }
-  | { success: false; error: string };
+export type ForgotPasswordResponse = ActionResult<void>;
+export type ResetPasswordResponse = ActionResult<void>;

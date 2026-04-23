@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { nameSchema } from "@/lib/validations/name";
+import type { ActionResult } from "./base.schema";
 
 /**
  * Schema de validación para registro
@@ -20,8 +21,6 @@ export const registerSchema = z.object({
 export type RegisterInput = z.infer<typeof registerSchema>;
 
 /**
- * Response del registro
+ * Response del registro - usando ActionResult
  */
-export type RegisterResponse =
-  | { success: true }
-  | { success: false; error: string };
+export type RegisterResponse = ActionResult<void>;
