@@ -12,10 +12,10 @@ export function usePresence({ conversationId, userId }: UsePresenceOptions) {
   const [isOtherOnline, setIsOtherOnline] = useState(false);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const supabaseRef = useRef<any>(null);
-  const setupRef = useRef(false); // ✅ Nueva ref
+  const setupRef = useRef(false);
 
   useEffect(() => {
-    if (setupRef.current) return; // ✅ Evitar doble setup
+    if (setupRef.current) return;
     setupRef.current = true;
 
     const initPresence = async () => {
@@ -25,7 +25,6 @@ export function usePresence({ conversationId, userId }: UsePresenceOptions) {
 
       const channelName = `presence:${conversationId}`;
 
-      // ✅ Limpiar channels existentes
       supabase.getChannels().forEach((ch) => {
         if (ch.topic === `realtime:${channelName}`) {
           supabase.removeChannel(ch);
@@ -66,7 +65,7 @@ export function usePresence({ conversationId, userId }: UsePresenceOptions) {
     initPresence();
 
     return () => {
-      setupRef.current = false; // ✅ Reset
+      setupRef.current = false;
       if (channelRef.current) {
         channelRef.current.unsubscribe();
       }

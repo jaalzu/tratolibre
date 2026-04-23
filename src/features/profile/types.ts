@@ -1,5 +1,9 @@
 import { Database } from "@/lib/supabase/database.types";
 
+export type ActionResponse<T = void> =
+  | { status: "success"; data?: T }
+  | { status: "error"; message: string };
+
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 export type ProfileWithStats = {

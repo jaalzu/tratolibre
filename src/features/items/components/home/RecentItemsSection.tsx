@@ -1,9 +1,7 @@
-// features/items/components/sections/RecentItemsSection.tsx
 "use client";
 
 import { useItems } from "@/features/items/hooks/useItems";
 import { ItemsCategorySection } from "./ItemsCategorySection";
-import { Spinner, Flex } from "@chakra-ui/react";
 
 export function RecentItemsSection({
   userId,

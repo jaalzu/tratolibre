@@ -6,7 +6,6 @@ import { useAsyncAction } from "./useAsyncAction";
 
 // useLogin.ts
 export function useLogin() {
-  // ✅ Ahora es void porque login no retorna data
   const { state, isPending, execute, reset, error } = useAsyncAction<
     LoginInput,
     void

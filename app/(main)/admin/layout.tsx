@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
-import { AdminNav } from "@/features/admin/components/shared/AdminNav";
+import { AdminNav } from "@/features/admin/components/ui/AdminNav";
 import { Box } from "@chakra-ui/react";
 
 export default async function AdminLayout({

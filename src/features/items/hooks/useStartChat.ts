@@ -22,13 +22,11 @@ export function useStartChat() {
       const result = await getOrCreateConversation(itemId, userId);
 
       if ("error" in result) {
-        // ✅ Type narrowing
         setError(result.error);
         return;
       }
 
       if (result.data.id) {
-        // ✅ Ahora TS sabe que es { data: ... }
         router.push(`/chat/${result.data.id}`);
       }
     } catch (err) {

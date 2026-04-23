@@ -6,10 +6,17 @@ import { updateProfileAction } from "@/features/profile/actions/mutations";
 import { EditProfileInput } from "@/features/profile/schemas";
 import { EditProfileDefaultValues } from "@/features/profile/types";
 
+// Unión discriminada
+type FormStatus =
+  | { state: "idle" }
+  | { state: "success" }
+  | { state: "error"; message: string };
+
 export function useEditProfile(defaultValues: EditProfileDefaultValues) {
   const [isPending, startTransition] = useTransition();
-  const [success, setSuccess] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
+
+  const [formStatus, setFormStatus] = useState<FormStatus>({ state: "idle" });
+
   const [avatarUrl, setAvatarUrl] = useState<string | null>(
     defaultValues.avatar_url ?? null,
   );
@@ -36,8 +43,8 @@ export function useEditProfile(defaultValues: EditProfileDefaultValues) {
   };
 
   const handleSubmit = rhfSubmit((data) => {
-    setSuccess(false);
-    setServerError(null);
+    setFormStatus({ state: "idle" });
+
     startTransition(async () => {
       try {
         const formData = new FormData();
@@ -47,14 +54,15 @@ export function useEditProfile(defaultValues: EditProfileDefaultValues) {
         if (avatarFile) formData.append("avatar", avatarFile);
 
         const result = await updateProfileAction(formData);
-        if (result?.error) {
-          setServerError(result.error);
+
+        if (result.status === "error") {
+          setFormStatus({ state: "error", message: result.message });
         } else {
-          setSuccess(true);
-          setTimeout(() => setSuccess(false), 3000);
+          setFormStatus({ state: "success" });
+          setTimeout(() => setFormStatus({ state: "idle" }), 3000);
         }
       } catch (error) {
-        setServerError("Error inesperado");
+        setFormStatus({ state: "error", message: "Error inesperado" });
       }
     });
   });
@@ -62,8 +70,9 @@ export function useEditProfile(defaultValues: EditProfileDefaultValues) {
   return {
     handleSubmit,
     isPending,
-    success,
-    serverError,
+    success: formStatus.state === "success",
+    serverError: formStatus.state === "error" ? formStatus.message : null,
+    status: formStatus.state,
     register,
     errors,
     control,
