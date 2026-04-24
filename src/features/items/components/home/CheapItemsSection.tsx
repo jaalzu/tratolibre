@@ -4,7 +4,6 @@
 import { useItems } from "@/features/items/hooks/useItems";
 import { ItemsCategorySection } from "./ItemsCategorySection";
 
-
 export function CheapItemsSection({
   userId,
   favoriteIds,

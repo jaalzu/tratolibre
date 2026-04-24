@@ -32,12 +32,14 @@ export const NewItemForm = ({
     isSubmitting,
     images,
     uploading,
-    serverError,
+    formState, // ✅ Ahora usamos formState en vez de serverError
+    resetFormState, // ✅ Para limpiar errores
     handleUpload,
     handleRemove,
     setValue,
     control,
   } = useNewItemForm(initialData);
+
   const titleValue = watch("title", "");
   const descValue = watch("description", "");
 
@@ -147,14 +149,17 @@ export const NewItemForm = ({
               error={errors.images?.message}
             />
 
-            {serverError && (
+            {/* ✅ Manejo de error con discriminated union */}
+            {formState.status === "error" && (
               <Text
                 fontSize="xs"
                 color="red.500"
                 textAlign="center"
                 fontWeight="bold"
+                cursor="pointer"
+                onClick={resetFormState}
               >
-                {serverError}
+                {formState.message}
               </Text>
             )}
 

@@ -10,11 +10,17 @@ export default async function EditItemPage({
 }) {
   const { id } = await params;
   const { user } = await getAuthUser();
-  const item = await getItemById(id);
+  const result = await getItemById(id);
 
-  // Validaciones de seguridad en el Servidor
-  if (!item) notFound();
-  if (!user || user.id !== item.owner_id) redirect(`/item/${id}`);
+  if (!result.success || !result.data) {
+    notFound();
+  }
+
+  const item = result.data;
+
+  if (!user || user.id !== item.owner_id) {
+    redirect(`/item/${id}`);
+  }
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">

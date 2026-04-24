@@ -42,10 +42,12 @@ export const SelectBuyerDialog = ({
   const [marking, setMarking] = useState<string | null>(null);
   const [saleResult, setSaleResult] = useState<SaleResult | null>(null);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null); // ✅ Estado de error
 
   useEffect(() => {
     if (!open) return;
     setLoading(true);
+    setError(null); // ✅ Limpiar error al abrir
     getConversationsByItem(itemId).then((data) => {
       setBuyers(data);
       setLoading(false);
@@ -54,17 +56,20 @@ export const SelectBuyerDialog = ({
 
   const handleSelect = async (buyerId: string, buyerName: string) => {
     setMarking(buyerId);
+    setError(null); // ✅ Limpiar error antes de intentar
+
     const result = await markAsSoldToAction(itemId, buyerId);
     setMarking(null);
 
-    if (result?.error) {
-      console.error(result.error);
+    // ✅ Manejo con discriminated union
+    if (!result.success) {
+      setError(result.error);
       return;
     }
 
-    // Guardar resultado y abrir modal de review
+    // ✅ TypeScript sabe que result.data existe
     setSaleResult({
-      purchaseId: result!.purchaseId!,
+      purchaseId: result.data.purchaseId,
       buyerId,
       buyerName,
       itemTitle,
@@ -91,6 +96,22 @@ export const SelectBuyerDialog = ({
                   Elegí la persona que compró este artículo.
                 </Text>
               </Dialog.Description>
+
+              {/* ✅ Mostrar error si existe */}
+              {error && (
+                <Box
+                  bg="red.50"
+                  borderRadius="lg"
+                  p={3}
+                  mb={3}
+                  border="1px solid"
+                  borderColor="red.200"
+                >
+                  <Text fontSize="sm" color="red.700">
+                    {error}
+                  </Text>
+                </Box>
+              )}
 
               {loading ? (
                 <Flex justify="center" py={6}>

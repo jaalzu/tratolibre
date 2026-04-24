@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-
 import { PageContainer } from "@/components/ui/PageContainer";
 import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 import { DynamicFilterPanel } from "@/features/search/components/DynamicFilterPanel";
@@ -22,8 +21,9 @@ export default async function SearchPage({
   // Prefetch de datos en el servidor (React Query)
   const dehydratedState = await prefetchSearchItems(params);
 
-  // Verificamos favoritos si hay usuario
-  const favoriteIds = user ? await getUserFavoriteIds(user.id) : [];
+  // ✅ Verificamos favoritos si hay usuario con manejo de Result
+  const favoriteIdsResult = user ? await getUserFavoriteIds(user.id) : null;
+  const favoriteIds = favoriteIdsResult?.success ? favoriteIdsResult.data : [];
 
   return (
     <>

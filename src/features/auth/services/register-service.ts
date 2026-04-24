@@ -30,7 +30,6 @@ export async function registerService(
       return err("No se pudo crear la cuenta");
     }
 
-    // ✅ Usando helper ok()
     return ok();
   } catch (error) {
     console.error("[registerService] Error inesperado:", error);

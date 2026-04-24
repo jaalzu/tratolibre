@@ -33,9 +33,13 @@ export default async function HomePage() {
     { order_by: "price_asc" },
   ]);
 
-  const [profile, favoriteIds] = user
+  // ✅ Manejar el Result type correctamente
+  const [profile, favoriteIdsResult] = user
     ? await Promise.all([getAuthProfile(), getUserFavoriteIds(user.id)])
-    : [null, []];
+    : [null, null];
+
+  // ✅ Extraer los IDs con type narrowing
+  const favoriteIds = favoriteIdsResult?.success ? favoriteIdsResult.data : [];
 
   return (
     <main>
@@ -45,7 +49,6 @@ export default async function HomePage() {
         <Hero isLoggedIn={false} />
       )}
 
-      {/* Envolver las secciones con ItemsHydration para compartir el cache */}
       <ItemsHydration state={dehydratedState}>
         <Suspense fallback={<SectionSkeleton />}>
           <RecentItemsSection

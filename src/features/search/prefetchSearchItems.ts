@@ -1,11 +1,9 @@
-// features/search/prefetchSearchItems.ts
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getItems } from "@/features/items/services/items-service";
 import { createClient } from "@/lib/supabase/server";
 import { SearchPageParams } from "./types";
 import { ItemSearchParams } from "@/features/items/types";
 
-// Helper para convertir SearchPageParams → ItemSearchParams
 function parseSearchParams(params: SearchPageParams): ItemSearchParams {
   return {
     keywords: params.keywords,
@@ -27,7 +25,16 @@ export async function prefetchSearchItems(params: SearchPageParams) {
 
   await queryClient.prefetchQuery({
     queryKey: ["items", params],
-    queryFn: () => getItems(supabase, serviceParams),
+    queryFn: async () => {
+      const result = await getItems(supabase, serviceParams);
+
+      if (!result.success) {
+        console.error("Error en prefetch:", result.error);
+        return []; // Retornar array vacío como fallback
+      }
+
+      return result.data;
+    },
   });
 
   return dehydrate(queryClient);
