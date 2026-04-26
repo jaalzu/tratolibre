@@ -1,11 +1,10 @@
-// app/items/[id]/page.tsx
 import { Metadata } from "next";
 import { getItemById } from "@/features/items/actions";
 import { notFound } from "next/navigation";
 import ItemPageContent from "@/features/items/components/publication/ItemPageContent";
 import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
-import { prefetchItem } from "@/features/items/prefetch/prefetchItem";
-import { ItemPageHydration } from "@/features/items/components/publication/ItemPageHydration";
+// import { prefetchItem } from "@/features/items/prefetch/prefetchItem";
+// import { ItemPageHydration } from "@/features/items/components/publication/ItemPageHydration";
 
 export async function generateMetadata({
   params,
@@ -13,18 +12,19 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const item = await getItemById(id);
+  const result = await getItemById(id);
 
-  if (!item) {
+  // ✅ Manejar resultado con discriminated union
+  if (!result.success || !result.data) {
     return {
       title: "Publicación no encontrada",
     };
   }
 
+  const item = result.data;
   const title = `${item.title}`;
   const description =
     item.description?.slice(0, 150) ?? "Objeto publicado en TratoLibre";
-
   const image = item.images?.[0] ?? "/og-image.png";
 
   return {
@@ -61,18 +61,17 @@ export default async function ItemPage({
   const { id } = await params;
   const { user, role } = await getAuthUserWithRole();
 
-  const item = await getItemById(id);
-  if (!item) notFound();
+  const result = await getItemById(id);
 
-  const dehydratedState = await prefetchItem(id);
+  if (!result.success || !result.data) {
+    notFound();
+  }
 
   return (
-    <ItemPageHydration state={dehydratedState}>
-      <ItemPageContent
-        itemId={id}
-        userId={user?.id ?? null}
-        isAdmin={role === "admin"}
-      />
-    </ItemPageHydration>
+    <ItemPageContent
+      item={result.data}
+      userId={user?.id ?? null}
+      isAdmin={role === "admin"}
+    />
   );
 }

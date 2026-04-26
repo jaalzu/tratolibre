@@ -14,12 +14,23 @@ interface UseInfiniteItemsOptions {
 export function useInfiniteItems(options?: UseInfiniteItemsOptions) {
   return useInfiniteQuery({
     queryKey: ["items-infinite", options?.params],
-    queryFn: ({ pageParam = 0 }) =>
-      getItems({
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await getItems({
         ...options?.params,
         page: pageParam,
         limit: LIMIT,
-      }),
+      });
+
+      if (!result.success) {
+        throw new Error(
+          result.error.type === "database"
+            ? result.error.message
+            : "Error cargando items",
+        );
+      }
+
+      return result.data;
+    },
     initialPageParam: 0,
     enabled: options?.enabled ?? true,
     getNextPageParam: (lastPage, allPages) => {

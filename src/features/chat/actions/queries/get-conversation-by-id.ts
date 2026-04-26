@@ -12,21 +12,17 @@ export async function getConversationById(
   id: string,
 ): Promise<ConversationExtended | null> {
   try {
-    // 1. Validación de input
     const validatedInput = ConversationIdSchema.parse({ conversationId: id });
 
-    // 2. Auth
     const { supabase, user } = await getAuthUser();
     if (!user) return null;
 
-    // 3. Fetch
     const { data, error } = await fetchConversationById(
       supabase,
       validatedInput.conversationId,
       user.id,
     );
 
-    // 4. Error handling
     if (error) {
       if (process.env.NODE_ENV === "development") {
         console.error("Error fetching conversation:", error);
@@ -36,7 +32,6 @@ export async function getConversationById(
 
     if (!data) return null;
 
-    // 5. Mapeo
     return mapConversationSummaryToExtended(data);
   } catch (error) {
     if (process.env.NODE_ENV === "development") {

@@ -6,7 +6,14 @@ interface PageContainerProps extends BoxProps {
 
 export function PageContainer({ children, ...props }: PageContainerProps) {
   return (
-    <Box maxW="1300px" mx="auto" px={{ base: 3, md: 8 }} py={6} {...props}>
+    <Box
+      maxW="1300px"
+      mx="auto"
+      px={{ base: 3, md: 8 }}
+      py={6}
+      {...props}
+      suppressHydrationWarning
+    >
       {children}
     </Box>
   );

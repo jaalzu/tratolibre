@@ -1,4 +1,3 @@
-// features/items/components/publication/ItemPageContent.tsx
 "use client";
 
 import { Box, Flex, Separator, Text } from "@chakra-ui/react";
@@ -9,27 +8,24 @@ import SellerCard from "./SellerCard";
 import ItemActions from "./ItemActions";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { useItem } from "@/features/items/hooks/useItem";
-import { ItemPageSkeleton } from "./ItemPageSkeleton";
+import { ItemWithProfile } from "@/features/items/types";
 
 interface ItemPageContentProps {
-  itemId: string; // ← Ahora solo recibe el ID
+  item: ItemWithProfile; // ✅ Objeto completo del server
   userId: string | null;
   isAdmin?: boolean;
 }
 
 export default function ItemPageContent({
-  itemId,
+  item, // ✅ Ya viene del server, no necesitás fetch
   userId,
   isAdmin = false,
 }: ItemPageContentProps) {
-  // Usar el hook para obtener el item del cache o hacer fetch
-  const { data: item, isLoading } = useItem(itemId);
-
-  // Mostrar skeleton mientras carga
-  if (isLoading || !item) {
-    return <ItemPageSkeleton />;
-  }
+  // ❌ ELIMINAR ESTAS LÍNEAS - Ya tenés el item
+  // const { data: item, isLoading } = useItem(itemId);
+  // if (isLoading || !item) {
+  //   return <ItemPageSkeleton />;
+  // }
 
   return (
     <Box pb={{ base: "0px", md: 0 }} suppressHydrationWarning>

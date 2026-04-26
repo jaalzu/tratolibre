@@ -1,21 +1,25 @@
-"use client";
-
-import { useItems } from "@/features/items/hooks/useItems";
+// NO "use client" ← Server Component
+import { getItems } from "@/features/items/actions";
 import { ItemsCategorySection } from "./ItemsCategorySection";
 
-export function RecentItemsSection({
+export async function RecentItemsSection({
   userId,
   favoriteIds,
 }: {
   userId: string | null;
   favoriteIds: string[];
 }) {
-  const { data: items } = useItems({ order_by: "most_relevance" });
+  const result = await getItems({ order_by: "most_relevance", limit: 10 });
+
+  if (!result.success) {
+    console.error("Error cargando items recientes:", result.error);
+    return null;
+  }
 
   return (
     <ItemsCategorySection
       title="Publicaciones recientes"
-      items={items?.slice(0, 10) ?? []}
+      items={result.data}
       viewMoreHref="/search"
       userId={userId}
       favoriteIds={favoriteIds}

@@ -8,7 +8,6 @@ import { EditProfileSchema } from "@/features/profile/schemas";
 import { avatarService } from "@/features/profile/services/avatar-service";
 import { profileMutationService } from "@/features/profile/services/profile-mutation-service";
 
-// Definimos el tipo de respuesta para que el Hook lo entienda perfectamente
 export type UpdateProfileResponse =
   | { status: "success" }
   | { status: "error"; message: string };

@@ -7,8 +7,6 @@ import { Providers } from "./providers";
 import { createClient } from "@/lib/supabase/server";
 import { ClientProviders } from "./ClientProviders";
 import { AnalyticsWrapper } from "./AnalyticsWrapper";
-import { Box } from "@chakra-ui/react";
-import { error } from "console";
 
 const geist = Geist({
   subsets: ["latin"],

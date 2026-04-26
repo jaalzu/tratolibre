@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-
 import { PageContainer } from "@/components/ui/PageContainer";
 import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 import { DynamicFilterPanel } from "@/features/search/components/DynamicFilterPanel";
@@ -8,8 +7,8 @@ import { SearchPageParams } from "@/features/search/types";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { Flex } from "@chakra-ui/react";
-import { prefetchSearchItems } from "@/features/search/prefetchSearchItems";
-import { SearchHydration } from "@/features/search/components/SearchHydration";
+// import { prefetchSearchItems } from "@/features/search/prefetchSearchItems";
+// import { SearchHydration } from "@/features/search/components/SearchHydration";
 
 export default async function SearchPage({
   searchParams,
@@ -20,10 +19,11 @@ export default async function SearchPage({
   const { user } = await getAuthUser();
 
   // Prefetch de datos en el servidor (React Query)
-  const dehydratedState = await prefetchSearchItems(params);
+  // const dehydratedState = await prefetchSearchItems(params);
 
-  // Verificamos favoritos si hay usuario
-  const favoriteIds = user ? await getUserFavoriteIds(user.id) : [];
+  // ✅ Verificamos favoritos si hay usuario con manejo de Result
+  const favoriteIdsResult = user ? await getUserFavoriteIds(user.id) : null;
+  const favoriteIds = favoriteIdsResult?.success ? favoriteIdsResult.data : [];
 
   return (
     <>
@@ -32,13 +32,11 @@ export default async function SearchPage({
         <Flex gap={8} align="flex-start">
           <DynamicFilterPanel />
 
-          <SearchHydration state={dehydratedState}>
-            <SearchResults
-              favoriteIds={favoriteIds}
-              userId={user?.id ?? null}
-              params={params}
-            />
-          </SearchHydration>
+          <SearchResults
+            favoriteIds={favoriteIds}
+            userId={user?.id ?? null}
+            params={params}
+          />
         </Flex>
       </PageContainer>
     </>

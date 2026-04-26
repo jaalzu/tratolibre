@@ -9,35 +9,23 @@ const TEST_USER = {
 
 test("DEBUG - ver qué pasa en el login", async ({ page }) => {
   // Capturar errores de consola
-  page.on("console", (msg) => {
-    console.log("🔴 Browser:", msg.text());
-  });
+  page.on("console", (msg) => {});
 
   // Capturar requests fallidos
-  page.on("requestfailed", (request) => {
-    console.log("❌ Request failed:", request.url());
-  });
+  page.on("requestfailed", (request) => {});
 
-  console.log("🔵 Navegando a /login");
   await page.goto("/login");
 
   // Screenshot inicial
   await page.screenshot({ path: "test-results/01-login-page.png" });
 
-  console.log("🔵 Credentials:");
-  console.log("  Email:", TEST_USER.email);
-  console.log("  Password:", TEST_USER.password.substring(0, 3) + "***");
-
-  console.log("🔵 Llenando email");
   await page.getByTestId("email").fill(TEST_USER.email);
 
-  console.log("🔵 Llenando password");
   await page.getByTestId("password").fill(TEST_USER.password);
 
   // Screenshot antes de submit
   await page.screenshot({ path: "test-results/02-before-submit.png" });
 
-  console.log("🔵 Haciendo click en submit");
   await page.getByTestId("submit-button").click();
 
   // Esperar 3 segundos para ver qué pasa
@@ -48,7 +36,6 @@ test("DEBUG - ver qué pasa en el login", async ({ page }) => {
 
   // Ver URL actual
   const currentURL = page.url();
-  console.log("🔵 URL actual:", currentURL);
 
   // Ver si hay mensaje de error
   const errorText = await page
@@ -60,5 +47,4 @@ test("DEBUG - ver qué pasa en el login", async ({ page }) => {
 
   // Ver TODO el HTML
   const bodyText = await page.locator("body").textContent();
-  console.log("📄 Contenido de la página:", bodyText?.substring(0, 500));
 });

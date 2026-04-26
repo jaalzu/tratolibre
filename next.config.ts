@@ -6,7 +6,10 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  turbopack: {}, // importante para evitar warning
+
   allowedDevOrigins: ["192.168.100.13"],
+
   images: {
     formats: ["image/webp"],
     remotePatterns: [
@@ -14,9 +17,11 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
     ],
   },
+
   experimental: {
     optimizePackageImports: ["@chakra-ui/react"],
   },
+
   transpilePackages: ["@chakra-ui/react"],
 };
 

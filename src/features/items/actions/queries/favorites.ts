@@ -2,12 +2,26 @@
 
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { createClient } from "@/lib/supabase/server";
-import { Item } from "@/features/items/types";
+import { Item, FavoritesListResult, FavoriteIdsResult } from "../../types";
+import { mapSupabaseToItemError } from "../../services/item-error.mapper";
 
-export async function getUserFavorites(): Promise<Item[]> {
+// ============================================
+// GET USER FAVORITES
+// ============================================
+
+export async function getUserFavorites(): FavoritesListResult {
   try {
     const { supabase, user } = await getAuthUser();
-    if (!user) return [];
+
+    if (!user) {
+      return {
+        success: false,
+        error: {
+          type: "unauthorized",
+          message: "Debes iniciar sesión para ver tus favoritos",
+        },
+      };
+    }
 
     const { data, error } = await supabase
       .from("favorites")
@@ -15,34 +29,60 @@ export async function getUserFavorites(): Promise<Item[]> {
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
 
-    if (error) throw new Error(error.message);
+    if (error) {
+      return {
+        success: false,
+        error: mapSupabaseToItemError(error, "getUserFavorites"),
+      };
+    }
 
-    return (
-      data
-        ?.map((f) => f.items as unknown as Item)
-        .filter(
-          (item): item is Item => !!item && !item.sold && !!item.available,
-        ) ?? []
-    );
+    // Filtrar items válidos (no vendidos y disponibles)
+    const validItems = (data ?? [])
+      .map((f) => f.items as unknown as Item)
+      .filter((item): item is Item => !!item && !item.sold && !!item.available);
+
+    return {
+      success: true,
+      data: validItems,
+    };
   } catch (error) {
-    console.error("Error fetching user favorites:", error);
-    return [];
+    console.error("Error crítico en getUserFavorites:", error);
+    return {
+      success: false,
+      error: mapSupabaseToItemError(error, "getUserFavorites"),
+    };
   }
 }
 
-export async function getUserFavoriteIds(userId: string): Promise<string[]> {
+// ============================================
+// GET USER FAVORITE IDs
+// ============================================
+
+export async function getUserFavoriteIds(userId: string): FavoriteIdsResult {
   try {
     const supabase = await createClient();
+
     const { data, error } = await supabase
       .from("favorites")
       .select("item_id")
       .eq("user_id", userId);
 
-    if (error) throw new Error(error.message);
+    if (error) {
+      return {
+        success: false,
+        error: mapSupabaseToItemError(error, "getUserFavoriteIds"),
+      };
+    }
 
-    return data?.map((f) => f.item_id) ?? [];
+    return {
+      success: true,
+      data: data?.map((f) => f.item_id) ?? [],
+    };
   } catch (error) {
-    console.error(`Error fetching favorite IDs for user ${userId}:`, error);
-    return [];
+    console.error(`Error crítico en getUserFavoriteIds para ${userId}:`, error);
+    return {
+      success: false,
+      error: mapSupabaseToItemError(error, "getUserFavoriteIds"),
+    };
   }
 }

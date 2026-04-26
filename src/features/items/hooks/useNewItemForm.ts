@@ -3,14 +3,27 @@
 import { useState, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ItemSchema } from "@/features/items/schemas";
-import { ItemFormInput } from "@/features/items/schemas";
+import { ItemSchema, ItemFormInput } from "@/features/items/schemas";
 import { createItemAction, updateItemAction } from "@/features/items/actions";
 import { Item } from "@/features/items/types";
 import { useItemImages } from "./useItemImages";
 
+// ============================================
+// TYPES - Estados del formulario
+// ============================================
+
+type FormState =
+  | { status: "idle" }
+  | { status: "submitting" }
+  | { status: "success"; itemId: string }
+  | { status: "error"; message: string };
+
+// ============================================
+// HOOK
+// ============================================
+
 export const useNewItemForm = (initialData?: Partial<Item>) => {
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [formState, setFormState] = useState<FormState>({ status: "idle" });
 
   const defaultValues = useMemo(
     () => ({
@@ -47,10 +60,16 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     initialData?.images ?? [],
   );
 
+  // ============================================
+  // SUBMIT HANDLER
+  // ============================================
+
   const onSubmit: SubmitHandler<ItemFormInput> = async (data) => {
-    setServerError(null);
+    setFormState({ status: "submitting" });
+
     const formData = new FormData();
 
+    // Agregar todos los campos al FormData
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((v) => formData.append(key, v));
@@ -63,38 +82,83 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
       }
     });
 
-    if (initialData?.id) {
-      formData.append("id", initialData.id);
-      const result = await updateItemAction(null, formData);
-      if (result?.error) {
-        setServerError(
-          typeof result.error === "string"
-            ? result.error
-            : "Error en el servidor",
-        );
+    try {
+      let result;
+
+      // Modo edición
+      if (initialData?.id) {
+        formData.append("id", initialData.id);
+        result = await updateItemAction(null, formData);
       }
-    } else {
-      const result = await createItemAction(null, formData);
-      if (result?.error) {
-        setServerError(
-          typeof result.error === "string"
-            ? result.error
-            : "Error en el servidor",
-        );
+      // Modo creación
+      else {
+        result = await createItemAction(null, formData);
       }
+
+      // Manejar resultado con type narrowing
+      if (!result.success) {
+        setFormState({
+          status: "error",
+          message:
+            typeof result.error === "string"
+              ? result.error
+              : "Error de validación. Revisá los campos",
+        });
+        return;
+      }
+
+      // Success en creación
+      if ("data" in result && result.data && "itemId" in result.data) {
+        setFormState({
+          status: "success",
+          itemId: result.data.itemId,
+        });
+      }
+      // Success en actualización
+      else {
+        setFormState({
+          status: "success",
+          itemId: initialData?.id ?? "",
+        });
+      }
+    } catch (error) {
+      console.error("Error inesperado en submit:", error);
+      setFormState({
+        status: "error",
+        message: "Ocurrió un error inesperado",
+      });
     }
   };
 
+  // ============================================
+  // HELPERS
+  // ============================================
+
+  const resetFormState = () => {
+    setFormState({ status: "idle" });
+  };
+
+  // ============================================
+  // RETURN
+  // ============================================
+
   return {
+    // Form control
     register,
     handleSubmit,
     watch,
-    onSubmit,
+    setValue,
+    control,
+
+    // Form state
     errors,
     isSubmitting,
+    formState,
+    resetFormState,
+
+    // Images
     images,
     uploading,
-    serverError,
     handleUpload: (files: File[]) =>
       handleUpload(files, (imgs) =>
         setValue("images", imgs, { shouldValidate: true }),
@@ -103,7 +167,8 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
       handleRemove(index, (imgs) =>
         setValue("images", imgs, { shouldValidate: true }),
       ),
-    setValue,
-    control,
+
+    // Submit
+    onSubmit,
   };
 };

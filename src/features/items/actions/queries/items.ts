@@ -6,27 +6,66 @@ import {
   applyItemSorting,
   type GetItemsParams,
 } from "../../services/item-filters.service";
+import {
+  ItemWithProfile,
+  ItemWithProfileResult,
+  ItemsListResult,
+} from "../../types";
+import { mapSupabaseToItemError } from "../../services/item-error.mapper";
 
-export async function getItemById(id: string) {
+// ============================================
+// GET ITEM BY ID
+// ============================================
+
+export async function getItemById(id: string): ItemWithProfileResult {
   try {
     const supabase = await createClient();
+
     const { data, error } = await supabase
       .from("items")
       .select("*, profiles(id, name, avatar_url, rating, reviews_count)")
       .eq("id", id)
       .single();
 
-    if (error) return null;
-    return data;
+    if (error) {
+      return {
+        success: false,
+        error: mapSupabaseToItemError(error, "getItemById"),
+      };
+    }
+
+    // Supabase puede retornar null si no encuentra nada
+    if (!data) {
+      return {
+        success: false,
+        error: {
+          type: "not_found",
+          message: "El item no fue encontrado",
+        },
+      };
+    }
+
+    return {
+      success: true,
+      data: data as ItemWithProfile,
+    };
   } catch (error) {
-    console.error(`Error fetching item ${id}:`, error);
-    return null;
+    console.error(`Error crítico en getItemById ${id}:`, error);
+    return {
+      success: false,
+      error: mapSupabaseToItemError(error, "getItemById"),
+    };
   }
 }
 
-export async function getItems(params: GetItemsParams = {}) {
+// ============================================
+// GET ITEMS (con filtros y paginación)
+// ============================================
+
+export async function getItems(params: GetItemsParams = {}): ItemsListResult {
   try {
     const supabase = await createClient();
+
     const limit = params.limit ?? 12;
     const page = params.page ?? 0;
     const from = page * limit;
@@ -44,11 +83,22 @@ export async function getItems(params: GetItemsParams = {}) {
 
     const { data, error } = await query;
 
-    if (error) throw new Error(error.message);
+    if (error) {
+      return {
+        success: false,
+        error: mapSupabaseToItemError(error, "getItems"),
+      };
+    }
 
-    return data ?? [];
+    return {
+      success: true,
+      data: (data ?? []) as ItemWithProfile[],
+    };
   } catch (error) {
-    console.error("Error fetching items list:", error);
-    return [];
+    console.error("Error crítico en getItems:", error);
+    return {
+      success: false,
+      error: mapSupabaseToItemError(error, "getItems"),
+    };
   }
 }
