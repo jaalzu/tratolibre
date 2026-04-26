@@ -40,6 +40,7 @@ export const ItemCard = ({
               sizes="(max-width: 768px) 190px, 226px"
               style={{ objectFit: "cover" }}
               priority={priority}
+              loading={priority ? "eager" : "lazy"} // ✅ eager si es priority
             />
           ) : (
             <Box w="full" h="full" bg="neutral.100" />

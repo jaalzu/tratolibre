@@ -1,42 +1,25 @@
-"use client";
-
-import { useItems } from "@/features/items/hooks/useItems";
+// NO "use client" ← Server Component
+import { getItems } from "@/features/items/actions";
 import { ItemsCategorySection } from "./ItemsCategorySection";
 
-export function RecentItemsSection({
+export async function RecentItemsSection({
   userId,
   favoriteIds,
 }: {
   userId: string | null;
   favoriteIds: string[];
 }) {
-  const {
-    data: items,
-    error,
-    isError,
-    isLoading,
-  } = useItems({ order_by: "most_relevance" });
+  const result = await getItems({ order_by: "most_relevance", limit: 10 });
 
-  // Verificar si items tiene la estructura de Result
-  if (items && typeof items === "object" && "success" in items) {
-    console.error(
-      "❌ ERROR: items todavía es un Result, no está desempaquetado!",
-    );
-  }
-
-  if (isError) {
-    console.error("Error cargando items recientes:", error);
+  if (!result.success) {
+    console.error("Error cargando items recientes:", result.error);
     return null;
-  }
-
-  if (isLoading) {
-    return <div>Cargando...</div>;
   }
 
   return (
     <ItemsCategorySection
       title="Publicaciones recientes"
-      items={items?.slice(0, 10) ?? []}
+      items={result.data}
       viewMoreHref="/search"
       userId={userId}
       favoriteIds={favoriteIds}

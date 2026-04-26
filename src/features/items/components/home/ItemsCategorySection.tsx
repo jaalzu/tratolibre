@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { Box, Flex, Grid, Heading, BoxProps } from "@chakra-ui/react"; // Importamos BoxProps
+import { Box, Flex, Grid, Heading, BoxProps } from "@chakra-ui/react";
 import { PageContainer } from "@/components/ui/PageContainer";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import { Item } from "@/features/items/types";
@@ -75,7 +75,7 @@ export const ItemsCategorySection = ({
                 obj={obj}
                 userId={userId}
                 initialFavorited={favoriteIds.includes(obj.id)}
-                priority={isPrioritySection && index < 4}
+                priority={isPrioritySection && index < 3}
               />
             ))}
           </Grid>

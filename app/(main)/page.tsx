@@ -1,17 +1,14 @@
-import { LoggedInHero } from "@/components/sections/LoggedInHero";
-import { RecentItemsSection } from "@/features/items/components/home/RecentItemsSection";
-import { CheapItemsSection } from "@/features/items/components/home/CheapItemsSection";
+import { Suspense } from "react";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getAuthProfile } from "@/features/profile/actions";
-import { Suspense } from "react";
+import { getUserFavoriteIds } from "@/features/items/actions";
+import { LoggedInHero } from "@/components/sections/LoggedInHero";
+import { Hero } from "@/components/sections/Hero";
 import { SectionSkeleton } from "@/components/sections/SectionSkeleton";
 import { PageContainer } from "@/components/ui/PageContainer";
-import { getUserFavoriteIds } from "@/features/items/actions";
 import { LazySection } from "@/components/ui/LazySection";
+import { ItemsSection } from "@/features/items/components/home/ItemsSection";
 import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
-// import { prefetchMultipleItems } from "@/features/items/prefetch/prefetchItems";
-// import { ItemsHydration } from "@/features/items/components/ItemsHydration";
-import { Hero } from "@/components/sections/Hero";
 import dynamic from "next/dynamic";
 
 const CategoriesGrid = dynamic(
@@ -28,11 +25,6 @@ const CategoriesGrid = dynamic(
 export default async function HomePage() {
   const { user } = await getAuthUser();
 
-  // const dehydratedState = await prefetchMultipleItems([
-  //   { order_by: "most_relevance" },
-  //   { order_by: "price_asc" },
-  // ]);
-
   const [profile, favoriteIdsResult] = user
     ? await Promise.all([getAuthProfile(), getUserFavoriteIds(user.id)])
     : [null, null];
@@ -47,21 +39,27 @@ export default async function HomePage() {
         <Hero isLoggedIn={false} />
       )}
 
-      {/* <ItemsHydration state={dehydratedState}> */}
+      {/* ✅ Secciones dinámicas con Suspense */}
       <Suspense fallback={<SectionSkeleton />}>
-        <RecentItemsSection
+        <ItemsSection
+          title="Publicaciones recientes"
+          params={{ order_by: "most_relevance", limit: 10 }}
+          viewMoreHref="/search"
           userId={user?.id ?? null}
           favoriteIds={favoriteIds}
+          isPriority={true}
         />
       </Suspense>
 
       <Suspense fallback={<SectionSkeleton />}>
-        <CheapItemsSection
+        <ItemsSection
+          title="Los precios más bajos"
+          params={{ order_by: "price_asc", limit: 13 }}
+          viewMoreHref="/search?order_by=price_asc"
           userId={user?.id ?? null}
           favoriteIds={favoriteIds}
         />
       </Suspense>
-      {/* </ItemsHydration> */}
 
       <LazySection fallback={<SectionSkeleton />}>
         <CategoriesGrid />
