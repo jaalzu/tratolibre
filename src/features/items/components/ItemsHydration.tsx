@@ -1,14 +1,14 @@
-"use client";
+// "use client";
 
-import { HydrationBoundary } from "@tanstack/react-query";
-import { ReactNode } from "react";
+// import { HydrationBoundary } from "@tanstack/react-query";
+// import { ReactNode } from "react";
 
-export function ItemsHydration({
-  state,
-  children,
-}: {
-  state: any; // dehydrated state from server
-  children: ReactNode;
-}) {
-  return <HydrationBoundary state={state}>{children}</HydrationBoundary>;
-}
+// export function ItemsHydration({
+//   state,
+//   children,
+// }: {
+//   state: any; // dehydrated state from server
+//   children: ReactNode;
+// }) {
+//   return <HydrationBoundary state={state}>{children}</HydrationBoundary>;
+// }

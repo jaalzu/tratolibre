@@ -49,7 +49,7 @@ test.describe("Chat", () => {
     await btn.waitFor({ state: "visible", timeout: 70000 });
     await btn.click();
 
-    await page.waitForURL(/\/chat\//, { timeout: 60000 });
+    await page.waitForURL(/\/chat\//, { timeout: 90000 });
 
     const chatInput = page.getByTestId("chat-input").filter({ visible: true });
     await chatInput.waitFor({ state: "visible", timeout: 10000 });

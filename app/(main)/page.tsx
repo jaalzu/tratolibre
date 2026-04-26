@@ -9,8 +9,8 @@ import { PageContainer } from "@/components/ui/PageContainer";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { LazySection } from "@/components/ui/LazySection";
 import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
-import { prefetchMultipleItems } from "@/features/items/prefetch/prefetchItems";
-import { ItemsHydration } from "@/features/items/components/ItemsHydration";
+// import { prefetchMultipleItems } from "@/features/items/prefetch/prefetchItems";
+// import { ItemsHydration } from "@/features/items/components/ItemsHydration";
 import { Hero } from "@/components/sections/Hero";
 import dynamic from "next/dynamic";
 
@@ -28,17 +28,15 @@ const CategoriesGrid = dynamic(
 export default async function HomePage() {
   const { user } = await getAuthUser();
 
-  const dehydratedState = await prefetchMultipleItems([
-    { order_by: "most_relevance" },
-    { order_by: "price_asc" },
-  ]);
+  // const dehydratedState = await prefetchMultipleItems([
+  //   { order_by: "most_relevance" },
+  //   { order_by: "price_asc" },
+  // ]);
 
-  // ✅ Manejar el Result type correctamente
   const [profile, favoriteIdsResult] = user
     ? await Promise.all([getAuthProfile(), getUserFavoriteIds(user.id)])
     : [null, null];
 
-  // ✅ Extraer los IDs con type narrowing
   const favoriteIds = favoriteIdsResult?.success ? favoriteIdsResult.data : [];
 
   return (
@@ -49,21 +47,21 @@ export default async function HomePage() {
         <Hero isLoggedIn={false} />
       )}
 
-      <ItemsHydration state={dehydratedState}>
-        <Suspense fallback={<SectionSkeleton />}>
-          <RecentItemsSection
-            userId={user?.id ?? null}
-            favoriteIds={favoriteIds}
-          />
-        </Suspense>
+      {/* <ItemsHydration state={dehydratedState}> */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <RecentItemsSection
+          userId={user?.id ?? null}
+          favoriteIds={favoriteIds}
+        />
+      </Suspense>
 
-        <Suspense fallback={<SectionSkeleton />}>
-          <CheapItemsSection
-            userId={user?.id ?? null}
-            favoriteIds={favoriteIds}
-          />
-        </Suspense>
-      </ItemsHydration>
+      <Suspense fallback={<SectionSkeleton />}>
+        <CheapItemsSection
+          userId={user?.id ?? null}
+          favoriteIds={favoriteIds}
+        />
+      </Suspense>
+      {/* </ItemsHydration> */}
 
       <LazySection fallback={<SectionSkeleton />}>
         <CategoriesGrid />

@@ -1,23 +1,23 @@
-"use server";
+// "use server";
 
-import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { getSearchPageDataAction } from "./queries";
-import { SearchPageParams } from "../types";
+// import { dehydrate, QueryClient } from "@tanstack/react-query";
+// import { getSearchPageDataAction } from "./queries";
+// import { SearchPageParams } from "../types";
 
-export async function prefetchSearchItems(
-  params: SearchPageParams,
-  userId: string | null,
-) {
-  const queryClient = new QueryClient();
+// export async function prefetchSearchItems(
+//   params: SearchPageParams,
+//   userId: string | null,
+// ) {
+//   const queryClient = new QueryClient();
 
-  try {
-    await queryClient.prefetchQuery({
-      queryKey: ["search-results", params],
-      queryFn: () => getSearchPageDataAction(params, userId),
-    });
-  } catch (error) {
-    console.error("Error en prefetchSearchItems:", error);
-  }
+//   try {
+//     await queryClient.prefetchQuery({
+//       queryKey: ["search-results", params],
+//       queryFn: () => getSearchPageDataAction(params, userId),
+//     });
+//   } catch (error) {
+//     console.error("Error en prefetchSearchItems:", error);
+//   }
 
-  return dehydrate(queryClient);
-}
+//   return dehydrate(queryClient);
+// }

@@ -13,7 +13,6 @@ export function useItems(params: GetItemsParams = {}) {
     queryFn: async () => {
       const result = await getItems(params);
 
-      // ✅ Desempaquetar el Result y lanzar error si falla
       if (!result.success) {
         throw new Error(
           result.error.type === "database"
@@ -22,7 +21,6 @@ export function useItems(params: GetItemsParams = {}) {
         );
       }
 
-      // ✅ Retornar solo los datos
       return result.data;
     },
     staleTime: STALE_TIME,

@@ -21,7 +21,6 @@ export function useInfiniteItems(options?: UseInfiniteItemsOptions) {
         limit: LIMIT,
       });
 
-      // ✅ Lanzar error si falla - React Query lo maneja
       if (!result.success) {
         throw new Error(
           result.error.type === "database"

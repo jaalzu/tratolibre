@@ -17,37 +17,31 @@ export async function getOrCreateConversation(
   sellerId: string,
 ): Promise<ConversationDataResponse> {
   try {
-    // 1. Validación de input
     const validatedInput = CreateConversationInputSchema.parse({
       itemId,
       sellerId,
     });
 
-    // 2. Auth
     const { supabase, user } = await getAuthUser();
     if (!user) {
       return { error: "No autorizado" };
     }
 
-    // 3. Validación de negocio: no chatear con uno mismo
     if (user.id === validatedInput.sellerId) {
       return { error: "No podés chatear con vos mismo" };
     }
 
-    // 4. Buscar conversación existente
     const { data: existing, error: findError } = await findExistingConversation(
       supabase,
       validatedInput.itemId,
       user.id,
     );
 
-    // Si existe, retornar
     if (existing) {
       const validated = ConversationRowSchema.parse(existing);
       return { data: validated };
     }
 
-    // 5. Crear nueva conversación
     const { data, error } = await createConversation(
       supabase,
       validatedInput.itemId,
@@ -55,7 +49,6 @@ export async function getOrCreateConversation(
       validatedInput.sellerId,
     );
 
-    // 6. Error handling
     if (error) {
       return { error: mapSupabaseError(error) };
     }
@@ -64,7 +57,6 @@ export async function getOrCreateConversation(
       return { error: "No se pudo crear la conversación" };
     }
 
-    // 7. Validar y retornar
     const validated = ConversationRowSchema.parse(data);
     return { data: validated };
   } catch (error) {

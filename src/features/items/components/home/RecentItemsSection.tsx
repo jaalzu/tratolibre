@@ -10,7 +10,28 @@ export function RecentItemsSection({
   userId: string | null;
   favoriteIds: string[];
 }) {
-  const { data: items } = useItems({ order_by: "most_relevance" });
+  const {
+    data: items,
+    error,
+    isError,
+    isLoading,
+  } = useItems({ order_by: "most_relevance" });
+
+  // Verificar si items tiene la estructura de Result
+  if (items && typeof items === "object" && "success" in items) {
+    console.error(
+      "❌ ERROR: items todavía es un Result, no está desempaquetado!",
+    );
+  }
+
+  if (isError) {
+    console.error("Error cargando items recientes:", error);
+    return null;
+  }
+
+  if (isLoading) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <ItemsCategorySection
