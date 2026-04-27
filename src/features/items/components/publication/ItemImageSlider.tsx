@@ -2,6 +2,7 @@
 
 import { Box, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useImageSlider } from "../../hooks/useImageSlider";
 import { ChevronsLeft, ChevronLeft, ChevronRight } from "@boxicons/react";
 
@@ -39,15 +40,14 @@ export default function ItemImageSlider({
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <img
+        <Image
           src={images[active]}
           alt={title}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block",
-          }}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 400px, 500px"
+          style={{ objectFit: "cover" }}
+          priority={active === 0}
+          quality={85}
         />
 
         {/* Flecha volver */}

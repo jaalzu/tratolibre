@@ -1,8 +1,13 @@
+// src/features/items/components/home/ItemCard.tsx
 import NextLink from "next/link";
 import Image from "next/image";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { FavoriteButton } from "@/components/ui/FavoriteButton";
 import { Item } from "@/features/items/types";
+import {
+  ITEM_IMAGE_SIZE,
+  ITEM_IMAGE_QUALITY,
+} from "@/features/items/constants"; // ✅ Import
 
 interface ItemCardProps {
   obj: Item;
@@ -37,10 +42,11 @@ export const ItemCard = ({
               src={obj.images[0]}
               alt={obj.title}
               fill
-              sizes="(max-width: 768px) 190px, 226px"
+              sizes={ITEM_IMAGE_SIZE} // ✅ Constante
+              quality={ITEM_IMAGE_QUALITY} // ✅ Constante
               style={{ objectFit: "cover" }}
               priority={priority}
-              loading={priority ? "eager" : "lazy"} // ✅ eager si es priority
+              loading={priority ? "eager" : "lazy"}
             />
           ) : (
             <Box w="full" h="full" bg="neutral.100" />

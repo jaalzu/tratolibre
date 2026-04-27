@@ -11,7 +11,6 @@ export default async function FavoritesPage() {
 
   const result = await getUserFavorites();
 
-  // ✅ Manejar error con fallback
   const favorites = result.success ? result.data : [];
 
   if (!result.success) {

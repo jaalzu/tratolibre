@@ -6,7 +6,6 @@ export async function getPendingReviewsService(
   supabase: SupabaseClient,
   userId: string,
 ): Promise<PendingReview[]> {
-  // 1. Buscamos compras completadas donde el usuario sea comprador o vendedor
   const { data: purchases, error: pError } = await supabase
     .from("purchases")
     .select(
@@ -22,7 +21,6 @@ export async function getPendingReviewsService(
 
   if (pError || !purchases?.length) return [];
 
-  // 2. Buscamos qué reseñas ya escribió el usuario
   const { data: myReviews } = await supabase
     .from("reviews")
     .select("purchase_id")
@@ -32,7 +30,6 @@ export async function getPendingReviewsService(
     myReviews?.map((r) => r.purchase_id) ?? [],
   );
 
-  // 3. Filtramos y mapeamos a la interfaz PendingReview
   return (purchases as unknown as PurchaseWithRelations[])
     .filter((p) => !reviewedPurchaseIds.has(p.id))
     .map((p) => {

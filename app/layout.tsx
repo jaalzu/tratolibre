@@ -63,7 +63,16 @@ export default async function RootLayout({
 
   return (
     <html lang="es" className={geist.variable} suppressHydrationWarning>
-      <head></head>
+      <head>
+        <link
+          rel="preconnect"
+          href="https://kgfarjtgqckdofdfokfn.supabase.co"
+        />
+        <link
+          rel="dns-prefetch"
+          href="https://kgfarjtgqckdofdfokfn.supabase.co"
+        />
+      </head>
       <body className={geist.className} suppressHydrationWarning>
         <Providers>
           <ClientProviders userId={user?.id}>
