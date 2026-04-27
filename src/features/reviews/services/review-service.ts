@@ -37,7 +37,7 @@ export async function validateReviewPermissions(
 > {
   const { data: purchase, error } = await supabase
     .from("purchases")
-    .select("*, items(title, images)") // Traer todos los campos de purchase
+    .select("*, items(title, images)")
     .eq("id", purchaseId)
     .single();
 
@@ -45,7 +45,6 @@ export async function validateReviewPermissions(
     return { data: null, error: "Compra no encontrada" };
   }
 
-  // Verificar que el usuario es parte de la compra
   const isPartOfPurchase =
     purchase.buyer_id === userId || purchase.owner_id === userId;
   if (!isPartOfPurchase) {

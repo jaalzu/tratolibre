@@ -1,13 +1,15 @@
-"use client";
-
 import { Box, Text, Flex } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { EmptyState } from "@/components/ui/EmptyState";
+import dynamic from "next/dynamic";
+
+const EmptyState = dynamic(
+  () => import("@/components/ui/EmptyState").then((mod) => mod.EmptyState),
+  { ssr: true },
+);
 
 export default function NotFound() {
   return (
     <Box minH="100dvh" position="relative">
-      {/* Logo */}
       <Box position="absolute" top={6} left={6}>
         <NextLink href="/">
           <Text fontSize="xl" fontWeight="bold" color="neutral.900">

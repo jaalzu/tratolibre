@@ -11,22 +11,16 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ItemWithProfile } from "@/features/items/types";
 
 interface ItemPageContentProps {
-  item: ItemWithProfile; // ✅ Objeto completo del server
+  item: ItemWithProfile;
   userId: string | null;
   isAdmin?: boolean;
 }
 
 export default function ItemPageContent({
-  item, // ✅ Ya viene del server, no necesitás fetch
+  item,
   userId,
   isAdmin = false,
 }: ItemPageContentProps) {
-  // ❌ ELIMINAR ESTAS LÍNEAS - Ya tenés el item
-  // const { data: item, isLoading } = useItem(itemId);
-  // if (isLoading || !item) {
-  //   return <ItemPageSkeleton />;
-  // }
-
   return (
     <Box pb={{ base: "0px", md: 0 }} suppressHydrationWarning>
       <ScrollToTop />

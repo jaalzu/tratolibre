@@ -21,7 +21,6 @@ const EmptyState = dynamic(
   { loading: () => <Skeleton h="300px" w="full" borderRadius="2xl" /> },
 );
 
-// Un pequeño componente interno para el loading del grid
 const SkeletonGrid = () => (
   <SimpleGrid columns={{ base: 2, md: 4, lg: 6 }} gap={4}>
     {[1, 2, 3, 4, 5, 6].map((i) => (
