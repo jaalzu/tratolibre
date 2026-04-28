@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Box, Spinner, Flex, Text } from "@chakra-ui/react";
 import { useInfiniteItems } from "@/features/items/hooks/useInfiniteItems";
 import { ItemCard } from "./ItemCard";
 import { FadeInGrid } from "@/components/ui/FadeInGrid";
+import styles from "./InfiniteGrid.module.css";
 
 interface InfiniteGridProps {
   userId: string | null;
@@ -52,20 +52,8 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
   const allItems = data?.pages.flat().filter(Boolean) || [];
 
   return (
-    <Box
-      ref={containerRef}
-      bg="white"
-      borderRadius="2xl"
-      p={4}
-      shadow="sm"
-      border="1px solid"
-      borderColor="neutral.100"
-      minH="200px"
-      width="100%"
-    >
-      <Text fontWeight="bold" mt={2} fontSize="md" color="neutral.900" mb={3}>
-        Explorar
-      </Text>
+    <div ref={containerRef} className={styles.container}>
+      <h2 className={styles.title}>Explorar</h2>
 
       <FadeInGrid>
         {allItems.map((item, index) => (
@@ -79,13 +67,13 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
         ))}
       </FadeInGrid>
 
-      <Box ref={observerRef} h="20px" mt={4} />
+      <div ref={observerRef} className={styles.observer} />
 
       {(isFetchingNextPage || (isNear && !data)) && (
-        <Flex justify="center" py={8} width="100%">
-          <Spinner borderWidth="3px" color="brand.500" size="lg" />
-        </Flex>
+        <div className={styles.loaderWrapper}>
+          <span className={styles.spinner} />
+        </div>
       )}
-    </Box>
+    </div>
   );
 }

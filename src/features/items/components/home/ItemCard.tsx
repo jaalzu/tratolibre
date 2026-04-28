@@ -1,13 +1,14 @@
-// src/features/items/components/home/ItemCard.tsx
 import NextLink from "next/link";
 import Image from "next/image";
-import { Box, Flex, Text } from "@chakra-ui/react";
 import { FavoriteButton } from "@/components/ui/FavoriteButton";
 import { Item } from "@/features/items/types";
 import {
   ITEM_IMAGE_SIZE,
   ITEM_IMAGE_QUALITY,
-} from "@/features/items/constants"; // ✅ Import
+} from "@/features/items/constants";
+
+// Importamos los estilos del module.css
+import styles from "./ItemCard.module.css";
 
 interface ItemCardProps {
   obj: Item;
@@ -23,54 +24,45 @@ export const ItemCard = ({
   priority = false,
 }: ItemCardProps) => {
   return (
-    <NextLink href={`/item/${obj.id}`} style={{ textDecoration: "none" }}>
-      <Box
-        w="full"
-        transition="transform 0.2s ease"
-        _hover={{ transform: "translateY(-2px)" }}
-      >
-        <Box
-          position="relative"
-          w="full"
-          h="240px"
-          borderRadius="5px"
-          overflow="hidden"
-          bg="neutral.100"
-        >
+    <NextLink href={`/item/${obj.id}`} className={styles.linkWrapper}>
+      <div className={styles.card}>
+        {/* Contenedor de Imagen */}
+        <div className={styles.imageContainer}>
           {obj.images?.[0] ? (
             <Image
               src={obj.images[0]}
               alt={obj.title}
               fill
-              sizes={ITEM_IMAGE_SIZE} // ✅ Constante
-              quality={ITEM_IMAGE_QUALITY} // ✅ Constante
-              style={{ objectFit: "cover" }}
+              sizes={ITEM_IMAGE_SIZE}
+              quality={ITEM_IMAGE_QUALITY}
+              className={styles.image}
               priority={priority}
               loading={priority ? "eager" : "lazy"}
             />
           ) : (
-            <Box w="full" h="full" bg="neutral.100" />
+            <div className={styles.placeholder} />
           )}
-        </Box>
+        </div>
 
-        <Box pt={2}>
-          <Flex justify="space-between" align="center">
+        {/* Info del Producto */}
+        <div className={styles.content}>
+          <div className={styles.priceRow}>
             {obj.sale_price && (
-              <Text fontSize="md" fontWeight="bold" color="neutral.900">
+              <span className={styles.price}>
                 ${obj.sale_price.toLocaleString("es-AR")}
-              </Text>
+              </span>
             )}
+
             <FavoriteButton
               itemId={obj.id}
               initialFavorited={initialFavorited}
               userId={userId}
             />
-          </Flex>
-          <Text fontSize="md" color="neutral.700" lineClamp={1}>
-            {obj.title}
-          </Text>
-        </Box>
-      </Box>
+          </div>
+
+          <p className={styles.title}>{obj.title}</p>
+        </div>
+      </div>
     </NextLink>
   );
 };

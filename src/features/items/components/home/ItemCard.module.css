@@ -1,0 +1,56 @@
+.linkWrapper {
+  text-decoration: none;
+  display: block;
+}
+
+.card {
+  width: 100%;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: var(--chakra-colors-neutral-100);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: var(--chakra-colors-neutral-100);
+}
+
+.content {
+  padding-top: 8px;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.title {
+  font-size: 1rem;
+  color: var(--chakra-colors-neutral-800);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 0.5rem;
+}

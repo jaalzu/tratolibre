@@ -1,8 +1,8 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 import NextLink from "next/link";
 import { HeroCarousel } from "./HeroCarousel";
+import styles from "./Hero.module.css";
 
 interface HeroSlide {
   image: string;
@@ -20,14 +20,14 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
         "Compra, venta e intercambio de artículos de segunda mano y nuevos.",
       buttonLabel: "Vender Ahora",
       buttonHref: isLoggedIn ? "/item/new" : "/register",
-      bg: "brand.100",
+      bg: "var(--chakra-colors-brand-100)",
     },
     {
       image: "/hero/handshake.webp",
       title: "¡Es rápido, fácil y gratis!",
       buttonLabel: "Comenzar a Vender",
       buttonHref: isLoggedIn ? "/item/new" : "/register",
-      bg: "accent.100",
+      bg: "var(--chakra-colors-accent-100)",
     },
   ];
 }
@@ -40,84 +40,63 @@ export function HeroSlideContent({
   priority?: boolean;
 }) {
   return (
-    <>
+    <div style={{ "--slide-bg": slide.bg } as React.CSSProperties}>
       {/* Mobile */}
-      <Box display={{ base: "block", md: "none" }}>
-        <Box w="100%" h="45vw" maxH="400px" overflow="hidden">
+      <div className={styles.mobileContainer}>
+        <div className={styles.imageWrapperMobile}>
           <Image
             src={slide.image}
             alt={slide.title}
             width={1200}
             height={800}
             sizes="100vw"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
+            className={styles.image}
             priority={priority}
             fetchPriority={priority ? "high" : "auto"}
           />
-        </Box>
-
-        <Box bg={slide.bg} px={4} py={5}>
-          <Heading fontSize="xl" fontWeight="bold" color="neutral.900" mb={6}>
-            {slide.title}
-          </Heading>
-          <Button py={1.5} px={8} asChild>
+        </div>
+        <div className={styles.contentMobile}>
+          <h2 className={styles.headingMobile}>{slide.title}</h2>
+          <Button asChild style={{ padding: "6px 32px" }}>
             <NextLink href={slide.buttonHref}>{slide.buttonLabel}</NextLink>
           </Button>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
       {/* Desktop */}
-      <Flex display={{ base: "none", md: "flex" }} h="320px" bg={slide.bg}>
-        <Flex flex={1} direction="column" justify="center" pl="12%" pr={8}>
-          <Heading
-            fontSize="xl"
-            maxW={{ base: "100%", md: "80%" }}
-            fontWeight="bold"
-            color="neutral.900"
-            mb={4}
-          >
-            {slide.title}
-          </Heading>
-
+      <div className={styles.desktopContainer}>
+        <div className={styles.infoCol}>
+          <h2 className={styles.headingDesktop}>{slide.title}</h2>
           <Button
             asChild
-            w="fit-content"
-            py={1}
-            px={4}
-            fontSize="sm"
-            borderRadius="full"
+            style={{
+              width: "fit-content",
+              padding: "4px 16px",
+              fontSize: "0.875rem",
+              borderRadius: "9999px",
+            }}
           >
             <NextLink href={slide.buttonHref}>{slide.buttonLabel}</NextLink>
           </Button>
-        </Flex>
-
-        <Box w="60%" h="100%" flexShrink={0} overflow="hidden">
+        </div>
+        <div className={styles.imageWrapperDesktop}>
           <Image
             src={slide.image}
             alt={slide.title}
             width={1800}
             height={800}
             sizes="(max-width: 868px) 100vw, 70vw"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
+            className={styles.image}
             priority={priority}
             fetchPriority={priority ? "high" : "auto"}
           />
-        </Box>
-      </Flex>
-    </>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
   const slides = getSlides(isLoggedIn);
-
   return <HeroCarousel slides={slides} />;
 }

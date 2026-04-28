@@ -1,0 +1,40 @@
+.card {
+  background-color: var(--chakra-colors-neutral-50);
+  border-radius: 1rem; /* 2xl */
+  padding: 16px;
+  min-height: 381px;
+}
+
+.divider {
+  border-top: 1px solid var(--chakra-colors-neutral-100);
+  margin-top: 16px;
+  margin-bottom: 16px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.flexContainer {
+  display: flex;
+  gap: 12px; /* gap={3} */
+  overflow: hidden;
+}
+
+.cardWrapper {
+  flex-shrink: 0;
+  width: 190px;
+}
+
+.bone {
+  background-color: var(--chakra-colors-neutral-100);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

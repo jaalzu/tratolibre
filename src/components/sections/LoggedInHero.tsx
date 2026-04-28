@@ -1,8 +1,7 @@
-// components/sections/LoggedInHero.tsx
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
 import NextLink from "next/link";
+import { Button } from "@/components/ui/Button";
 import { PageContainer } from "@/components/ui/PageContainer";
+import styles from "./LoggedInHero.module.css";
 
 interface LoggedInHeroProps {
   name: string | null;
@@ -18,58 +17,43 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
   const firstName = getFirstName(name);
 
   return (
+    /* Usamos el PageContainer que ya optimizamos con pt/pb */
     <PageContainer pt={6} pb={2}>
-      <Flex
-        bg="neutral.50"
-        borderRadius="2xl"
-        px={{ base: 2, md: 8 }}
-        py={{ base: 7, md: 10 }}
-        direction="column"
-        align="center"
-        textAlign="center"
-        shadow="base"
-        gap={7}
-      >
-        <Box>
-          <Heading
-            fontSize={{ base: "xl", md: "2xl" }}
-            fontWeight="bold"
-            color="neutral.900"
-            mb={1}
-          >
+      <div className={styles.heroWrapper}>
+        <div>
+          <h2 className={styles.title}>
             {firstName ? `Bienvenido, ${firstName}` : "Bienvenido"}
-          </Heading>
-          <Text fontSize="md" color="fg.muted" px={5}>
+          </h2>
+          <p className={styles.description}>
             Compra y vende artículos nuevos o usados fácilmente.
-          </Text>
-        </Box>
+          </p>
+        </div>
 
-        <Flex gap={5} flexWrap="wrap" justify="center">
+        <div className={styles.buttonGroup}>
           <Button
             asChild
             size="sm"
-            bg="neutral.50"
-            color="black"
-            border="1px solid"
-            borderColor="neutral.500"
-            px={{ base: 8, md: 12 }}
-            py={{ base: 1.5, md: 2 }}
-            fontSize={{ base: "sm", md: "md" }}
-            _hover={{ bg: "neutral.100" }}
+            className={styles.btnExplorar}
+            style={{
+              padding: "6px 32px", // base px 8
+              fontSize: "0.875rem", // sm
+            }}
           >
             <NextLink href="/search">Explorar</NextLink>
           </Button>
+
           <Button
             asChild
             size="sm"
-            px={{ base: 8, md: 12 }}
-            py={{ base: 1.5, md: 2 }}
-            fontSize={{ base: "sm", md: "md" }}
+            style={{
+              padding: "6px 32px", // base px 8
+              fontSize: "0.875rem", // sm
+            }}
           >
             <NextLink href="/item/new">Vender</NextLink>
           </Button>
-        </Flex>
-      </Flex>
+        </div>
+      </div>
     </PageContainer>
   );
 }

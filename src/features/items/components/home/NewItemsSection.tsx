@@ -7,13 +7,11 @@ export async function NewItemsSection({ userId }: { userId: string | null }) {
     userId ? getUserFavoriteIds(userId) : null,
   ]);
 
-  // ✅ Manejar error en items
   if (!itemsResult.success) {
     console.error("Error cargando items nuevos:", itemsResult.error);
     return null;
   }
 
-  // ✅ Manejar favoritos
   const favoriteIds = favoriteIdsResult?.success ? favoriteIdsResult.data : [];
 
   return (

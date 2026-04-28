@@ -39,7 +39,7 @@ export default async function HomePage() {
         <Hero isLoggedIn={false} />
       )}
 
-      {/* ✅ Secciones dinámicas con Suspense */}
+      {/*  Secciones dinámicas con Suspense */}
       <Suspense fallback={<SectionSkeleton />}>
         <ItemsSection
           title="Publicaciones recientes"

@@ -1,0 +1,50 @@
+.container {
+  background-color: white;
+  border-radius: 1rem; /* 2xl */
+  padding: 12px;
+  box-shadow: var(--chakra-shadows-sm);
+  min-height: 200px;
+  width: 100%;
+}
+
+.title {
+  font-weight: bold;
+  margin-top: 8px;
+  font-size: 1.1rem;
+  color: var(--chakra-colors-neutral-900);
+  margin-bottom: 16px;
+}
+
+.observer {
+  height: 20px;
+  margin-top: 16px;
+}
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  width: 100%;
+}
+
+/* Spinner nativo ultra liviano */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--chakra-colors-brand-500);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

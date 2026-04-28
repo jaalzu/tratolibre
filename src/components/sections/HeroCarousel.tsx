@@ -1,14 +1,13 @@
 "use client";
 
-import { Box, Flex } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { HeroSlideContent } from "./Hero";
+import styles from "./HeroCarousel.module.css";
 
 export function HeroCarousel({ slides }: { slides: any[] }) {
   const [index, setIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Autoplay: Directo al grano
   useEffect(() => {
     const interval = setInterval(() => {
       const next = (index + 1) % slides.length;
@@ -26,39 +25,28 @@ export function HeroCarousel({ slides }: { slides: any[] }) {
   };
 
   return (
-    <Box position="relative">
+    <div className={styles.root}>
       {/* El motor es puro CSS: scroll-snap */}
-      <Flex
-        ref={scrollRef}
-        overflowX="auto"
-        css={{
-          scrollSnapType: "x mandatory",
-          scrollbarWidth: "none",
-          "&::-webkit-scrollbar": { display: "none" },
-        }}
-      >
+      <div ref={scrollRef} className={styles.scrollContainer}>
         {slides.map((slide, i) => (
-          <Box key={i} flex="0 0 100%" style={{ scrollSnapAlign: "start" }}>
+          <div key={i} className={styles.slide}>
             <HeroSlideContent slide={slide} priority={i === 0} />
-          </Box>
+          </div>
         ))}
-      </Flex>
+      </div>
 
       {/* Puntitos manuales */}
-      <Flex justify="center" gap={2} mt={4}>
+      <div className={styles.dotContainer}>
         {slides.map((_, i) => (
-          <Box
+          <button
             key={i}
-            as="button"
             onClick={() => scrollTo(i)}
-            w={index === i ? "20px" : "8px"}
-            h="8px"
-            borderRadius="full"
-            bg={index === i ? "brand.default" : "neutral.300"}
-            transition="all 0.3s"
+            className={`${styles.dot} ${
+              index === i ? styles.dotActive : styles.dotInactive
+            }`}
           />
         ))}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 }

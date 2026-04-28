@@ -1,31 +1,17 @@
-import { Box, Text, Flex } from "@chakra-ui/react";
 import NextLink from "next/link";
-import dynamic from "next/dynamic";
-
-const EmptyState = dynamic(
-  () => import("@/components/ui/EmptyState").then((mod) => mod.EmptyState),
-  { ssr: true },
-);
+import { EmptyState } from "@/components/ui/EmptyState";
+import styles from "./Not-found.module.css";
 
 export default function NotFound() {
   return (
-    <Box minH="100dvh" position="relative">
-      <Box position="absolute" top={6} left={6}>
-        <NextLink href="/">
-          <Text fontSize="xl" fontWeight="bold" color="neutral.900">
-            TratoLibre
-          </Text>
+    <div className={styles.root}>
+      <div className={styles.logoWrapper}>
+        <NextLink href="/" className={styles.logo}>
+          TratoLibre
         </NextLink>
-      </Box>
+      </div>
 
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        minH="100dvh"
-        gap={4}
-        px={4}
-      >
+      <main className={styles.main}>
         <EmptyState
           image="/404.webp"
           imageAlt="Perro comiendo la página"
@@ -34,7 +20,7 @@ export default function NotFound() {
           actionLabel="Volver al inicio"
           actionHref="/"
         />
-      </Flex>
-    </Box>
+      </main>
+    </div>
   );
 }

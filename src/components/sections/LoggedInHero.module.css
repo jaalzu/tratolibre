@@ -1,0 +1,56 @@
+.heroWrapper {
+  background-color: var(--chakra-colors-neutral-50);
+  border-radius: 1rem; /* 2xl */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--chakra-shadows-base);
+  gap: 28px; /* gap={7} */
+
+  /* Padding responsive */
+  padding: 28px 8px; /* py 7, px 2 (base) */
+}
+
+@media (min-width: 48em) {
+  .heroWrapper {
+    padding: 40px 32px; /* py 10, px 8 (md) */
+  }
+}
+
+.title {
+  font-weight: bold;
+  color: var(--chakra-colors-neutral-900);
+  margin-bottom: 4px; /* mb 1 */
+  font-size: 1.25rem; /* xl (base) */
+}
+
+@media (min-width: 48em) {
+  .title {
+    font-size: 1.5rem; /* 2xl (md) */
+  }
+}
+
+.description {
+  font-size: 1rem; /* md */
+  color: var(--chakra-colors-fg-muted);
+  padding-left: 20px; /* px 5 */
+  padding-right: 20px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 20px; /* gap 5 */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnExplorar {
+  background-color: var(--chakra-colors-neutral-50) !important;
+  color: black !important;
+  border: 1px solid var(--chakra-colors-neutral-500) !important;
+}
+
+.btnExplorar:hover {
+  background-color: var(--chakra-colors-neutral-100) !important;
+}

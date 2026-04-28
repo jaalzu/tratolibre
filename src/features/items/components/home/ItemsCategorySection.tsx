@@ -1,10 +1,10 @@
 import NextLink from "next/link";
-import { Box, Flex, Grid, Heading, BoxProps } from "@chakra-ui/react";
 import { PageContainer } from "@/components/ui/PageContainer";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import { Item } from "@/features/items/types";
+import styles from "./ItemsCategorySection.module.css";
 
-interface ItemsRowProps extends BoxProps {
+interface ItemsRowProps {
   title: string;
   items: Item[];
   viewMoreHref?: string;
@@ -22,52 +22,27 @@ export const ItemsCategorySection = ({
   userId = null,
   favoriteIds = [],
   isPrioritySection = false,
-  ...rest
 }: ItemsRowProps) => {
   if (!items.length) return null;
 
   return (
-    <PageContainer pt={{ base: 4, md: 8 }} pb={4} {...rest}>
-      <Box bg="neutral.50" borderRadius="2xl" p={4} shadow="base" minH="280px">
-        <Flex align="center" justify="space-between" mb={2}>
-          <Heading as="h2" fontSize="md" fontWeight="bold" color="neutral.900">
-            {title}
-          </Heading>
+    <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
+      <div className={styles.card}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>{title}</h2>
           {viewMoreHref && (
-            <NextLink href={viewMoreHref} style={{ textDecoration: "none" }}>
-              <span
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  color: "var(--chakra-colors-accent-default)",
-                  cursor: "pointer",
-                }}
-              >
-                {viewMoreLabel}
-              </span>
+            <NextLink href={viewMoreHref} className={styles.viewMore}>
+              {viewMoreLabel}
             </NextLink>
           )}
-        </Flex>
+        </div>
 
-        <Box borderTop="1px solid" borderColor="neutral.100" mb={3} mx={-4} />
+        <div className={styles.divider} />
 
-        <Box
-          overflowX="auto"
-          css={{
-            "&::-webkit-scrollbar": { height: "6px" },
-            "&::-webkit-scrollbar-thumb": {
-              borderRadius: "100px",
-              background: "#c1c1c1",
-            },
-            "&::-webkit-scrollbar-track": { background: "transparent" },
-          }}
-        >
-          <Grid
-            templateColumns={{
-              base: `repeat(${items.length}, 190px)`,
-              md: `repeat(${items.length}, 226px)`,
-            }}
-            gap={{ base: "10px", md: "20px" }}
+        <div className={styles.scrollArea}>
+          <div
+            className={styles.grid}
+            style={{ "--items-count": items.length } as React.CSSProperties}
           >
             {items.map((obj: Item, index: number) => (
               <ItemCard
@@ -78,9 +53,9 @@ export const ItemsCategorySection = ({
                 priority={isPrioritySection && index < 3}
               />
             ))}
-          </Grid>
-        </Box>
-      </Box>
+          </div>
+        </div>
+      </div>
     </PageContainer>
   );
 };
