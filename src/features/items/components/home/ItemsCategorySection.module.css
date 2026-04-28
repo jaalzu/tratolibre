@@ -1,0 +1,64 @@
+.card {
+  background-color: var(--chakra-colors-neutral-50);
+  border-radius: 1rem; /* 2xl */
+  padding: 16px;
+  box-shadow: var(--chakra-shadows-base);
+  min-height: 300px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.viewMore {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--chakra-colors-accent-default);
+}
+
+.divider {
+  border-top: 1px solid var(--chakra-colors-neutral-100);
+  margin-bottom: 16px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.scrollArea {
+  overflow-x: auto;
+  /* Personalización del scrollbar */
+  scrollbar-width: thin;
+}
+
+.scrollArea::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background: #c1c1c1ed;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--items-count), 190px);
+  gap: 10px;
+}
+
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(var(--items-count), 226px);
+    gap: 20px;
+  }
+}

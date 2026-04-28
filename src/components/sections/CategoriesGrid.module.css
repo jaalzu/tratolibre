@@ -1,0 +1,79 @@
+.card {
+  background-color: var(--chakra-colors-neutral-50);
+  border-radius: 1rem; /* 2xl */
+  padding: 16px;
+  box-shadow: var(--chakra-shadows-base);
+  transition: min-height 0.2s;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--chakra-colors-neutral-900);
+  margin-bottom: 12px;
+}
+
+.divider {
+  border-top: 1px solid var(--chakra-colors-neutral-100);
+  margin-bottom: 12px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 80px;
+  border-radius: 0.75rem; /* xl */
+  background-color: var(--chakra-colors-neutral-150);
+  transition: all 0.15s;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.categoryItem:hover {
+  background-color: var(--chakra-colors-brand-50);
+}
+
+.categoryLabel {
+  font-size: 0.75rem; /* xs */
+  color: var(--chakra-colors-neutral-700);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.footerDivider {
+  border-top: 1px solid var(--chakra-colors-neutral-100);
+  margin-top: 12px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.expandButton {
+  width: 100%;
+  padding-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.expandText {
+  font-size: 0.875rem; /* sm */
+  color: var(--chakra-colors-accent-default);
+  font-weight: 600;
+}

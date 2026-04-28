@@ -1,102 +1,60 @@
-import { Box, Flex, Text, SimpleGrid } from "@chakra-ui/react";
 import NextLink from "next/link";
+import styles from "./Footer.module.css";
 
-export const Footer = () => (
-  <Box px={{ base: 6, md: 16 }} pb={{ base: "80px", md: 10 }} pt={10}>
-    <Box maxW="full" mx="auto">
-      <Box borderTop="1px solid" borderColor="neutral.100" pt={8}>
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
-          <Box>
-            <Text fontSize="xl" fontWeight="bold" color="brand.default" mb={3}>
-              TratoLibre
-            </Text>
-            <Text fontSize="sm" color="neutral.400" lineHeight="tall">
-              Cada objeto que no usás tiene valor para alguien más. Conectamos
-              personas para darle una segunda vida a las cosas — más simple, más
-              justo, sin intermediarios.
-            </Text>
-          </Box>
+export const Footer = () => {
+  const currentYear = new Date().getFullYear();
 
-          <Box>
-            <Text fontSize="sm" fontWeight="bold" color="neutral.900" mb={3}>
-              Explorá
-            </Text>
-            <Flex direction="column" gap={2}>
-              <NextLink href="/item/new">
-                <Text
-                  fontSize="sm"
-                  color="neutral.400"
-                  _hover={{ color: "brand.hover" }}
-                  transition="color 0.2s"
-                  cursor="pointer"
-                >
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.inner}>
+        <div className={styles.borderContainer}>
+          <div className={styles.grid}>
+            {/* Columna 1: Branding */}
+            <div>
+              <h2 className={styles.brandTitle}>TratoLibre</h2>
+              <p className={styles.text}>
+                Cada objeto que no usás tiene valor para alguien más. Conectamos
+                personas para darle una segunda vida a las cosas — más simple,
+                más justo, sin intermediarios.
+              </p>
+            </div>
+
+            {/* Columna 2: Explorá */}
+            <div>
+              <h3 className={styles.sectionTitle}>Explorá</h3>
+              <nav className={styles.linkGroup}>
+                <NextLink href="/item/new" className={styles.link}>
                   Publicar gratis
-                </Text>
-              </NextLink>
-              <NextLink href="/how-it-works">
-                <Text
-                  fontSize="sm"
-                  color="neutral.400"
-                  _hover={{ color: "brand.hover" }}
-                  transition="color 0.2s"
-                  cursor="pointer"
-                >
+                </NextLink>
+                <NextLink href="/how-it-works" className={styles.link}>
                   Como funciona
-                </Text>
-              </NextLink>
-            </Flex>
-          </Box>
+                </NextLink>
+              </nav>
+            </div>
 
-          <Box>
-            <Text fontSize="sm" fontWeight="bold" color="neutral.900" mb={3}>
-              Legal
-            </Text>
-            <Flex direction="column" gap={2}>
-              <NextLink href="/who-we-are">
-                <Text
-                  fontSize="sm"
-                  color="neutral.400"
-                  _hover={{ color: "brand.hover" }}
-                  transition="color 0.2s"
-                  cursor="pointer"
-                >
+            {/* Columna 3: Legal */}
+            <div>
+              <h3 className={styles.sectionTitle}>Legal</h3>
+              <nav className={styles.linkGroup}>
+                <NextLink href="/who-we-are" className={styles.link}>
                   Quiénes somos
-                </Text>
-              </NextLink>
-              <NextLink href="/terms-and-conditions">
-                <Text
-                  fontSize="sm"
-                  color="neutral.400"
-                  _hover={{ color: "brand.hover" }}
-                  transition="color 0.2s"
-                  cursor="pointer"
-                >
+                </NextLink>
+                <NextLink href="/terms-and-conditions" className={styles.link}>
                   Términos y condiciones
-                </Text>
-              </NextLink>
-              <NextLink href="/privacy-policy">
-                <Text
-                  fontSize="sm"
-                  color="neutral.400"
-                  _hover={{ color: "brand.hover" }}
-                  transition="color 0.2s"
-                  cursor="pointer"
-                >
+                </NextLink>
+                <NextLink href="/privacy-policy" className={styles.link}>
                   Política de privacidad
-                </Text>
-              </NextLink>
-            </Flex>
-          </Box>
-        </SimpleGrid>
+                </NextLink>
+              </nav>
+            </div>
+          </div>
 
-        <Text fontSize="xs" color="neutral.300" textAlign="center" mt={8}>
-          © {new Date().getFullYear()}{" "}
-          <Text as="span" color="brand.default" fontWeight="medium">
-            TratoLibre
-          </Text>
-          . Todos los derechos reservados.
-        </Text>
-      </Box>
-    </Box>
-  </Box>
-);
+          <p className={styles.copyright}>
+            © {currentYear} <span className={styles.brandSpan}>TratoLibre</span>
+            . Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};

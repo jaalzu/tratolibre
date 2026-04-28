@@ -1,22 +1,23 @@
-import { Box, Flex } from "@chakra-ui/react";
 import { PageContainer } from "@/components/ui/PageContainer";
+import styles from "./SectionSkeleton.module.css";
 
 function Bone({
   w = "100%",
   h = "16px",
-  borderRadius = "md",
+  borderRadius = "4px", // md aproximado
 }: {
   w?: string;
   h?: string;
   borderRadius?: string;
 }) {
   return (
-    <Box
-      w={w}
-      h={h}
-      bg="neutral.100"
-      borderRadius={borderRadius}
-      style={{ animation: "pulse 1.5s ease-in-out infinite" }}
+    <div
+      className={styles.bone}
+      style={{
+        width: w,
+        height: h,
+        borderRadius: borderRadius,
+      }}
     />
   );
 }
@@ -24,32 +25,27 @@ function Bone({
 export function SectionSkeleton() {
   return (
     <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
-      <Box bg="neutral.50" borderRadius="2xl" p={4} minH="381px">
+      <div className={styles.card}>
         {/* Título */}
-        <Bone w="200px" h="20px" borderRadius="md" />
-        <Box borderTop="1px solid" borderColor="neutral.100" my={4} mx={-4} />
+        <Bone w="200px" h="20px" borderRadius="4px" />
+
+        <div className={styles.divider} />
+
         {/* Cards */}
-        <Flex gap={3} overflow="hidden">
+        <div className={styles.flexContainer}>
           {[...Array(5)].map((_, i) => (
-            <Box key={i} flexShrink={0} w="190px">
-              <Bone h="240px" borderRadius="xl" />{" "}
-              {/* ← 240px igual que la card real */}
-              <Box mt={2}>
+            <div key={i} className={styles.cardWrapper}>
+              <Bone h="240px" borderRadius="12px" /> {/* xl aproximado */}
+              <div style={{ marginTop: "8px" }}>
                 <Bone w="80%" h="14px" />
-              </Box>
-              <Box mt={1.5}>
+              </div>
+              <div style={{ marginTop: "6px" }}>
                 <Bone w="50%" h="14px" />
-              </Box>
-            </Box>
+              </div>
+            </div>
           ))}
-        </Flex>
-      </Box>
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
+        </div>
+      </div>
     </PageContainer>
   );
 }

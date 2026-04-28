@@ -2,7 +2,6 @@
 
 import { chakra, HTMLChakraProps } from "@chakra-ui/react";
 
-// Definimos explícitamente qué variantes aceptamos para que no herede las de Chakra
 export interface ButtonProps extends HTMLChakraProps<"button"> {
   variant?: "primary" | "secondary" | "ghost" | "amber" | "blue" | "danger";
   size?: "sm" | "md" | "lg";

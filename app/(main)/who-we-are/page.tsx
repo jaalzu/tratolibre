@@ -1,11 +1,8 @@
 import dynamic from "next/dynamic";
 
-// Cargamos el contenido de forma dinámica
 const WhoWeAreContent = dynamic(
   () => import("@/components/layout/footer/WhoWeAreContent"),
   {
-    // Dejamos ssr: true para que Google pueda indexar el texto,
-    // pero el JS de Chakra se hidrata solo cuando es necesario.
     ssr: true,
     loading: () => (
       <div

@@ -1,0 +1,48 @@
+.root {
+  position: relative;
+}
+
+.scrollContainer {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.dotContainer {
+  display: flex;
+  justify-content: center;
+  gap: 8px; /* gap={2} */
+  margin-top: 16px; /* mt={4} */
+}
+
+.dot {
+  padding: 0;
+  border: none;
+  height: 8px;
+  border-radius: 9999px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+/* El punto inactivo */
+.dotInactive {
+  width: 8px;
+  background-color: var(--chakra-colors-neutral-300);
+}
+
+/* El punto activo */
+.dotActive {
+  width: 20px;
+  background-color: var(--chakra-colors-brand-default);
+}

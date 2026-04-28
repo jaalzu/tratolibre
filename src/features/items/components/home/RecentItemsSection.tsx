@@ -1,4 +1,3 @@
-// NO "use client" ← Server Component
 import { getItems } from "@/features/items/actions";
 import { ItemsCategorySection } from "./ItemsCategorySection";
 
