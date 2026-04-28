@@ -3,10 +3,8 @@ import { ItemsCategorySection } from "./ItemsCategorySection";
 
 export async function RecentItemsSection({
   userId,
-  favoriteIds,
 }: {
   userId: string | null;
-  favoriteIds: string[];
 }) {
   const result = await getItems({ order_by: "most_relevance", limit: 10 });
 

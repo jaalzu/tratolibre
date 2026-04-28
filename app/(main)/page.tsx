@@ -42,7 +42,7 @@ export default async function HomePage() {
           params={{ order_by: "most_relevance", limit: 10 }}
           viewMoreHref="/search"
           userId={user?.id ?? null}
-          favoriteIds={[]}
+          // favoriteIds={[]}
           isPriority={true}
         />
       </Suspense>
@@ -53,7 +53,7 @@ export default async function HomePage() {
           params={{ order_by: "price_asc", limit: 13 }}
           viewMoreHref="/search?order_by=price_asc"
           userId={user?.id ?? null}
-          favoriteIds={[]}
+          // favoriteIds={[]}
         />
       </Suspense>
 
