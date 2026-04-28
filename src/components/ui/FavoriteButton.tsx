@@ -3,9 +3,10 @@
 import { Box } from "@chakra-ui/react";
 import { useFavorite } from "@/features/favorites/useFavorite";
 import { Heart } from "@boxicons/react";
+
 interface FavoriteButtonProps {
   itemId: string;
-  initialFavorited: boolean;
+  initialFavorited?: boolean;
   userId: string | null;
 }
 
@@ -14,7 +15,8 @@ export const FavoriteButton = ({
   initialFavorited,
   userId,
 }: FavoriteButtonProps) => {
-  const { favorited, toggle } = useFavorite(itemId, initialFavorited, userId);
+  // El hook ya sabe manejar si initialFavorited es undefined
+  const { favorited, toggle } = useFavorite(itemId, userId, initialFavorited);
 
   return (
     <Box
@@ -31,11 +33,11 @@ export const FavoriteButton = ({
       justifyContent="center"
       _active={{ transform: "scale(0.85)" }}
     >
-      {favorited ? (
-        <Heart width="22px" height="22px" fill="#e53e3e" />
-      ) : (
-        <Heart width="22px" height="22px" fill="#a0aec0" />
-      )}
+      <Heart
+        width="22px"
+        height="22px"
+        fill={favorited ? "#e53e3e" : "#a0aec0"}
+      />
     </Box>
   );
 };

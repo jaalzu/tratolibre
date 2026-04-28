@@ -7,7 +7,6 @@ import {
   ITEM_IMAGE_QUALITY,
 } from "@/features/items/constants";
 
-// Importamos los estilos del module.css
 import styles from "./ItemCard.module.css";
 
 interface ItemCardProps {
@@ -20,7 +19,7 @@ interface ItemCardProps {
 export const ItemCard = ({
   obj,
   userId = null,
-  initialFavorited = false,
+  initialFavorited,
   priority = false,
 }: ItemCardProps) => {
   return (
@@ -55,8 +54,8 @@ export const ItemCard = ({
 
             <FavoriteButton
               itemId={obj.id}
-              initialFavorited={initialFavorited}
               userId={userId}
+              initialFavorited={initialFavorited}
             />
           </div>
 

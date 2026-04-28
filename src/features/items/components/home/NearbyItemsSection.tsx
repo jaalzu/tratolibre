@@ -1,4 +1,4 @@
-import { getItems, getUserFavoriteIds } from "@/features/items/actions";
+import { getItems } from "@/features/items/actions";
 import { getUserProvince } from "@/features/profile/actions";
 import { ItemsCategorySection } from "./ItemsCategorySection";
 
@@ -9,10 +9,7 @@ export async function NearbyItemsSection({
 }) {
   if (!userId) return null;
 
-  const [province, favoriteIdsResult] = await Promise.all([
-    getUserProvince(userId),
-    getUserFavoriteIds(userId),
-  ]);
+  const province = await getUserProvince(userId);
 
   if (!province) return null;
 
@@ -23,15 +20,12 @@ export async function NearbyItemsSection({
     return null;
   }
 
-  const favoriteIds = favoriteIdsResult.success ? favoriteIdsResult.data : [];
-
   return (
     <ItemsCategorySection
       title="Cerca tuyo"
       items={itemsResult.data.slice(0, 13)}
       viewMoreHref={`/search?province=${encodeURIComponent(province)}`}
       userId={userId}
-      favoriteIds={favoriteIds}
     />
   );
 }

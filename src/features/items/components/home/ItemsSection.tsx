@@ -7,7 +7,6 @@ interface ItemsSectionProps {
   params: GetItemsParams;
   viewMoreHref?: string;
   userId: string | null;
-  favoriteIds: string[];
   isPriority?: boolean;
 }
 
@@ -16,7 +15,6 @@ export async function ItemsSection({
   params,
   viewMoreHref,
   userId,
-  favoriteIds,
   isPriority = false,
 }: ItemsSectionProps) {
   const result = await getItems(params);
@@ -36,7 +34,6 @@ export async function ItemsSection({
       items={result.data}
       viewMoreHref={viewMoreHref}
       userId={userId}
-      favoriteIds={favoriteIds}
       isPrioritySection={isPriority}
     />
   );

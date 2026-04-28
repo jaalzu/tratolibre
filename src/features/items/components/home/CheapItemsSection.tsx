@@ -3,7 +3,6 @@ import { ItemsCategorySection } from "./ItemsCategorySection";
 
 export async function CheapItemsSection({
   userId,
-  favoriteIds,
 }: {
   userId: string | null;
   favoriteIds: string[];
@@ -22,7 +21,6 @@ export async function CheapItemsSection({
       viewMoreHref="/search?order_by=price_asc"
       viewMoreLabel="Ver más"
       userId={userId}
-      favoriteIds={favoriteIds}
     />
   );
 }
