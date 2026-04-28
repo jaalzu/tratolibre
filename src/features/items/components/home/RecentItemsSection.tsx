@@ -21,7 +21,6 @@ export async function RecentItemsSection({
       items={result.data}
       viewMoreHref="/search"
       userId={userId}
-      favoriteIds={favoriteIds}
       isPrioritySection={true}
     />
   );

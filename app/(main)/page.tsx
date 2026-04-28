@@ -25,11 +25,7 @@ const CategoriesGrid = dynamic(
 export default async function HomePage() {
   const { user } = await getAuthUser();
 
-  const [profile, favoriteIdsResult] = user
-    ? await Promise.all([getAuthProfile(), getUserFavoriteIds(user.id)])
-    : [null, null];
-
-  const favoriteIds = favoriteIdsResult?.success ? favoriteIdsResult.data : [];
+  const profile = user ? await getAuthProfile() : null;
 
   return (
     <main>
@@ -46,7 +42,7 @@ export default async function HomePage() {
           params={{ order_by: "most_relevance", limit: 10 }}
           viewMoreHref="/search"
           userId={user?.id ?? null}
-          favoriteIds={favoriteIds}
+          favoriteIds={[]}
           isPriority={true}
         />
       </Suspense>
@@ -57,7 +53,7 @@ export default async function HomePage() {
           params={{ order_by: "price_asc", limit: 13 }}
           viewMoreHref="/search?order_by=price_asc"
           userId={user?.id ?? null}
-          favoriteIds={favoriteIds}
+          favoriteIds={[]}
         />
       </Suspense>
 
@@ -66,7 +62,7 @@ export default async function HomePage() {
       </LazySection>
 
       <PageContainer pt={4} pb={24}>
-        <InfiniteGrid userId={user?.id ?? null} favoriteIds={favoriteIds} />
+        <InfiniteGrid userId={user?.id ?? null} favoriteIds={[]} />
       </PageContainer>
     </main>
   );

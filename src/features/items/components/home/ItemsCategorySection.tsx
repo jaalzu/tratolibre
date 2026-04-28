@@ -10,7 +10,6 @@ interface ItemsRowProps {
   viewMoreHref?: string;
   viewMoreLabel?: string;
   userId?: string | null;
-  favoriteIds?: string[];
   isPrioritySection?: boolean;
 }
 
@@ -20,7 +19,6 @@ export const ItemsCategorySection = ({
   viewMoreHref,
   viewMoreLabel = "Ver más",
   userId = null,
-  favoriteIds = [],
   isPrioritySection = false,
 }: ItemsRowProps) => {
   if (!items.length) return null;
@@ -49,7 +47,6 @@ export const ItemsCategorySection = ({
                 key={obj.id}
                 obj={obj}
                 userId={userId}
-                initialFavorited={favoriteIds.includes(obj.id)}
                 priority={isPrioritySection && index < 3}
               />
             ))}
