@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { getAuthUser } from "@/lib/supabase/getAuthUser";
 import { getAuthProfile } from "@/features/profile/actions";
-import { getUserFavoriteIds } from "@/features/items/actions";
 import { LoggedInHero } from "@/components/sections/LoggedInHero";
 import { Hero } from "@/components/sections/Hero";
 import { SectionSkeleton } from "@/components/sections/SectionSkeleton";

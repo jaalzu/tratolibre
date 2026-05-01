@@ -1,5 +1,3 @@
-// features/auth/services/logout.service.ts
-
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -12,7 +10,6 @@ export async function logoutService(): Promise<void> {
     const supabase = await createClient();
     await supabase.auth.signOut();
   } catch (error) {
-    // Logout nunca falla para el usuario
     console.error("[logoutService] Error al cerrar sesión:", error);
   }
 }

@@ -1,19 +1,28 @@
-import { ItemSchema } from "../schemas";
+// features/items/services/item-validation.service.ts
 
 export function parseItemFormData(formData: FormData) {
-  return {
-    title: formData.get("title"),
-    description: formData.get("description"),
-    category: formData.get("category"),
-    condition: formData.get("condition"),
-    sale_price: formData.get("sale_price"),
-    province: formData.get("province"),
-    city: formData.get("city") || undefined,
-    location: formData.get("location") || undefined,
-    images: formData.getAll("images") as string[],
+  const parseJSON = (value: FormDataEntryValue | null): any => {
+    if (!value || value === "null" || value === "undefined") return undefined;
+    try {
+      return JSON.parse(value as string);
+    } catch {
+      return undefined;
+    }
   };
-}
 
-export function validateItemData(data: unknown) {
-  return ItemSchema.safeParse(data);
+  return {
+    title: formData.get("title") as string,
+    description: formData.get("description") as string,
+    category: formData.get("category") as string,
+    salePrice: formData.get("salePrice")
+      ? Number(formData.get("salePrice"))
+      : undefined,
+    province: formData.get("province") as string | undefined,
+    city: formData.get("city") as string | undefined,
+    condition: formData.get("condition") as string | undefined,
+    type: formData.get("type") as string | undefined,
+    images: parseJSON(formData.get("images")),
+    rules: formData.get("rules") as string | undefined,
+    location: formData.get("location") as string | undefined,
+  };
 }

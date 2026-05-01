@@ -1,4 +1,4 @@
-import { createClient } from "./server";
+import { createClient } from "./client/server";
 
 export const getAuthUser = async () => {
   const supabase = await createClient();
