@@ -1,6 +1,5 @@
 import NextLink from "next/link";
 import Image from "next/image";
-import { FavoriteButton } from "@/components/ui/FavoriteButton";
 import { Item } from "@/features/items/types";
 import {
   ITEM_IMAGE_SIZE,
@@ -8,6 +7,8 @@ import {
 } from "@/features/items/constants";
 
 import styles from "./ItemCard.module.css";
+
+import { FavoriteButtonClient } from "@/components/ui/FavoriteButtonClient";
 
 interface ItemCardProps {
   obj: Item;
@@ -32,11 +33,10 @@ export const ItemCard = ({
               src={obj.images[0]}
               alt={obj.title}
               fill
-              sizes={ITEM_IMAGE_SIZE}
-              quality={ITEM_IMAGE_QUALITY}
+              sizes="(max-width: 768px) 50vw, 190px"
+              quality={60}
               className={styles.image}
               priority={priority}
-              loading={priority ? "eager" : "lazy"}
             />
           ) : (
             <div className={styles.placeholder} />
@@ -52,7 +52,7 @@ export const ItemCard = ({
               </span>
             )}
 
-            <FavoriteButton
+            <FavoriteButtonClient
               itemId={obj.id}
               userId={userId}
               initialFavorited={initialFavorited}

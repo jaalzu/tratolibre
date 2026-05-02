@@ -47,7 +47,7 @@ export default function ItemImageSlider({
           sizes="(max-width: 640px) 100vw, (max-width: 768px) 400px, 500px"
           style={{ objectFit: "cover" }}
           priority={active === 0}
-          quality={75}
+          quality={65}
         />
 
         {/* Flecha volver */}
