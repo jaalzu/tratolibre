@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { fetchConversationById } from "@/features/chat/services/conversations.service";
 import { mapConversationSummaryToExtended } from "@/features/chat/mappers/conversation.mapper";
 import {

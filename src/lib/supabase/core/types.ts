@@ -1,5 +1,5 @@
 /**
- * 📝 Tipos generados automáticamente desde Supabase
+ *  Tipos generados automáticamente desde Supabase
  * Generados con: supabase gen types typescript
  */
 

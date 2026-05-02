@@ -6,12 +6,12 @@ vi.mock("next/navigation", () => ({
 }));
 
 // Mock de createClient — interceptamos antes de que la action lo importe
-vi.mock("@/lib/supabase/server", () => ({
+vi.mock("@/lib/supabase/client/server", () => ({
   createClient: vi.fn(),
 }));
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client/server";
 import {
   loginAction,
   registerAction,

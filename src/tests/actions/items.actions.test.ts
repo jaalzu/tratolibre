@@ -1,4 +1,25 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+// ============================================
+// MOCKS - DEBEN IR ANTES DE LOS IMPORTS
+// ============================================
+
+// ✅ Mock de ItemsService con función factory
+const mockCreate = vi.fn();
+const mockUpdate = vi.fn();
+const mockDelete = vi.fn();
+const mockMarkAsSold = vi.fn();
+const mockToggleAvailability = vi.fn();
+
+vi.mock("@/lib/supabase/services", () => ({
+  ItemsService: vi.fn().mockImplementation(() => ({
+    create: mockCreate,
+    update: mockUpdate,
+    delete: mockDelete,
+    markAsSold: mockMarkAsSold,
+    toggleAvailability: mockToggleAvailability,
+  })),
+}));
 
 vi.mock("next/navigation", () => ({
   redirect: vi.fn(),
@@ -8,24 +29,32 @@ vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
 }));
 
-vi.mock("@/lib/supabase/getAuthUser", () => ({
+vi.mock("@/lib/supabase/utils/auth-helpers", () => ({
   getAuthUser: vi.fn(),
 }));
 
-vi.mock("@/lib/supabase/admin", () => ({
-  createAdminClient: vi.fn(),
+vi.mock("@/lib/supabase/client/server", () => ({
+  createClient: vi.fn(),
 }));
 
-vi.mock("@/lib/rateLimit", () => ({
-  checkRateLimit: vi.fn().mockResolvedValue(true),
+vi.mock("@/lib/supabase/utils/rate-limiter", () => ({
+  checkRateLimit: vi.fn().mockResolvedValue(undefined),
+  RATE_LIMITS: {
+    CREATE_ITEM: { max: 10, windowMin: 60 },
+  },
 }));
 
 vi.mock("@/features/notifications", () => ({
   createNotification: vi.fn().mockResolvedValue(true),
 }));
 
+// ============================================
+// IMPORTS - DESPUÉS DE LOS MOCKS
+// ============================================
+
 import { redirect } from "next/navigation";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
+import { createClient } from "@/lib/supabase/client/server";
 import { createNotification } from "@/features/notifications";
 import {
   createItemAction,
@@ -36,7 +65,10 @@ import {
 import { createAuthUser } from "../factories/user.factory";
 import { createItem } from "../factories/item.factory";
 
-// Builder genérico reutilizable
+// ============================================
+// HELPERS
+// ============================================
+
 function createBuilder(resolvedValue: object = { data: null, error: null }) {
   const builder = {} as Record<string, ReturnType<typeof vi.fn>>;
 
@@ -60,10 +92,12 @@ function createBuilder(resolvedValue: object = { data: null, error: null }) {
 function mockAuthUser(user = createAuthUser(), builderOverrides = {}) {
   const builder = { ...createBuilder(), ...builderOverrides };
   const supabase = { from: vi.fn().mockReturnValue(builder) };
+
   vi.mocked(getAuthUser).mockResolvedValue({
     supabase: supabase as any,
     user: user as any,
   });
+
   return { supabase, builder };
 }
 
@@ -71,7 +105,7 @@ function makeFormData(fields: Record<string, string | string[]>) {
   const fd = new FormData();
   for (const [key, value] of Object.entries(fields)) {
     if (Array.isArray(value)) {
-      value.forEach((v) => fd.append(key, v));
+      fd.append(key, JSON.stringify(value));
     } else {
       fd.append(key, value);
     }
@@ -83,7 +117,9 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-// ─── createItemAction ────────────────────────────────────────────────────────
+// ============================================
+// TESTS - createItemAction
+// ============================================
 
 describe("createItemAction", () => {
   const validFormData = makeFormData({
@@ -104,10 +140,7 @@ describe("createItemAction", () => {
       user: null,
     });
 
-    const formData = new FormData();
-    formData.append("title", "Test Item");
-
-    const result = await createItemAction(null, formData);
+    const result = await createItemAction(null, validFormData);
 
     expect(result).toEqual({
       success: false,
@@ -115,30 +148,47 @@ describe("createItemAction", () => {
     });
   });
 
-  it("retorna error si los datos son inválidos", async () => {
-    mockAuthUser();
-    const badFormData = makeFormData({ title: "PS5" }); // título muy corto
-    const result = await createItemAction(null, badFormData);
-    // expect(result?.error).toBeDefined();
-  });
-
   it("inserta el item y redirige si todo es válido", async () => {
-    const item = createItem();
-    const builder = createBuilder({ data: item, error: null });
-    // single() resuelve con el item creado
-    builder.single.mockResolvedValue({ data: item, error: null });
-    const supabase = { from: vi.fn().mockReturnValue(builder) };
+    const user = createAuthUser();
+    const item = createItem({ id: "item-123", owner_id: user.id });
+
     vi.mocked(getAuthUser).mockResolvedValue({
-      supabase: supabase as any,
-      user: createAuthUser() as any,
+      supabase: {} as any,
+      user: user as any,
+    });
+
+    vi.mocked(createClient).mockResolvedValue({} as any);
+
+    // ✅ Mock: ItemsService.create retorna DTO
+    mockCreate.mockResolvedValue({
+      id: item.id,
+      title: item.title,
+      description: item.description,
+      category: item.category,
+      salePrice: item.sale_price,
+      province: item.province,
+      city: item.city,
+      condition: item.condition,
+      images: item.images || [],
+      ownerId: user.id,
+      available: true,
+      sold: false,
+      viewsCount: 0,
+      createdAt: new Date(),
+      updatedAt: null,
+      soldAt: null,
     });
 
     await createItemAction(null, validFormData);
+
+    expect(mockCreate).toHaveBeenCalled();
     expect(redirect).toHaveBeenCalledWith(`/item/${item.id}`);
   });
 });
 
-// ─── deleteItemAction ────────────────────────────────────────────────────────
+// ============================================
+// TESTS - deleteItemAction
+// ============================================
 
 describe("deleteItemAction", () => {
   it("retorna error si no hay usuario", async () => {
@@ -156,48 +206,47 @@ describe("deleteItemAction", () => {
   });
 
   it("elimina el item y redirige a /", async () => {
-    const builder = createBuilder();
-    builder.eq
-      .mockReturnValueOnce(builder)
-      .mockResolvedValueOnce({ error: null });
-    const supabase = { from: vi.fn().mockReturnValue(builder) };
+    const user = createAuthUser();
+
     vi.mocked(getAuthUser).mockResolvedValue({
-      supabase: supabase as any,
-      user: createAuthUser() as any,
+      supabase: {} as any,
+      user: user as any,
     });
 
+    vi.mocked(createClient).mockResolvedValue({} as any);
+
+    mockDelete.mockResolvedValue(undefined);
+
     await deleteItemAction("item-123");
+
+    expect(mockDelete).toHaveBeenCalledWith("item-123", user.id);
     expect(redirect).toHaveBeenCalledWith("/");
   });
 
-  it("retorna error si Supabase falla", async () => {
-    const mockSupabase = {
-      from: vi.fn().mockReturnValue({
-        delete: vi.fn().mockReturnValue({
-          eq: vi.fn().mockReturnValue({
-            eq: vi.fn().mockResolvedValue({
-              error: { message: "DB error", code: "500" },
-            }),
-          }),
-        }),
-      }),
-    };
+  it("retorna error si ItemsService falla", async () => {
+    const user = createAuthUser();
 
     vi.mocked(getAuthUser).mockResolvedValue({
-      supabase: mockSupabase as any,
-      user: { id: "user-123" } as any,
+      supabase: {} as any,
+      user: user as any,
     });
+
+    vi.mocked(createClient).mockResolvedValue({} as any);
+
+    mockDelete.mockRejectedValue(new Error("Database error"));
 
     const result = await deleteItemAction("item-123");
 
     expect(result).toEqual({
       success: false,
-      error: "Hubo un problema con la base de datos. Intentá nuevamente",
+      error: "Ocurrió un error inesperado. Intentá de nuevo.",
     });
   });
 });
 
-// ─── markAsSoldToAction ──────────────────────────────────────────────────────
+// ============================================
+// TESTS - markAsSoldToAction
+// ============================================
 
 describe("markAsSoldToAction", () => {
   it("retorna error si no hay usuario", async () => {
@@ -210,14 +259,14 @@ describe("markAsSoldToAction", () => {
 
     expect(result).toEqual({
       success: false,
-      error: "No autorizado",
+      error: "No autorizado", // ✅ Mensaje correcto
     });
   });
 
   it("retorna error si el item no existe", async () => {
-    const { supabase } = mockAuthUser(createAuthUser(), {
+    mockAuthUser(createAuthUser(), {
       single: vi.fn().mockResolvedValue({
-        data: null, // Item no encontrado
+        data: null,
         error: null,
       }),
     });
@@ -226,7 +275,7 @@ describe("markAsSoldToAction", () => {
 
     expect(result).toEqual({
       success: false,
-      error: "El item que buscás no existe o fue eliminado",
+      error: "El item que buscás no existe o fue eliminado", // ✅ Mensaje correcto
     });
   });
 
@@ -240,12 +289,10 @@ describe("markAsSoldToAction", () => {
 
     const purchaseId = "purchase-123";
 
-    // ✅ Mock completo del flujo de Supabase
     const mockSupabase = {
       from: vi.fn((table: string) => {
         if (table === "items") {
           return {
-            // Para getItemForSale (SELECT)
             select: vi.fn().mockReturnValue({
               eq: vi.fn().mockReturnValue({
                 eq: vi.fn().mockReturnValue({
@@ -256,7 +303,6 @@ describe("markAsSoldToAction", () => {
                 }),
               }),
             }),
-            // Para markItemAsSold (UPDATE)
             update: vi.fn().mockReturnValue({
               eq: vi.fn().mockReturnValue({
                 eq: vi.fn().mockResolvedValue({ error: null }),
@@ -267,7 +313,6 @@ describe("markAsSoldToAction", () => {
 
         if (table === "purchases") {
           return {
-            // Para createPurchase (INSERT)
             insert: vi.fn().mockReturnValue({
               select: vi.fn().mockReturnValue({
                 single: vi.fn().mockResolvedValue({
@@ -291,7 +336,6 @@ describe("markAsSoldToAction", () => {
     const result = await markAsSoldToAction(item.id, "buyer-123");
 
     expect(createNotification).toHaveBeenCalledTimes(2);
-
     expect(result).toMatchObject({
       success: true,
       data: { purchaseId: "purchase-123" },
@@ -299,7 +343,9 @@ describe("markAsSoldToAction", () => {
   });
 });
 
-// ─── toggleFavoriteAction ────────────────────────────────────────────────────
+// ============================================
+// TESTS - toggleFavoriteAction
+// ============================================
 
 describe("toggleFavoriteAction", () => {
   it("retorna error si no hay usuario", async () => {
@@ -307,22 +353,25 @@ describe("toggleFavoriteAction", () => {
       supabase: null as any,
       user: null,
     });
+
     const result = await toggleFavoriteAction("item-123");
-    expect(result).toEqual({ error: "No autorizado" });
+
+    expect(result).toEqual({ error: "No autorizado" }); // ✅ Mensaje correcto
   });
 
   it("agrega a favoritos si no existe", async () => {
     const builder = createBuilder();
-    // eq siempre retorna this, single resuelve
     builder.single.mockResolvedValueOnce({ data: null, error: null });
     builder.insert.mockResolvedValueOnce({ error: null });
     const supabase = { from: vi.fn().mockReturnValue(builder) };
+
     vi.mocked(getAuthUser).mockResolvedValue({
       supabase: supabase as any,
       user: createAuthUser() as any,
     });
 
     const result = await toggleFavoriteAction("item-123");
+
     expect(result).toEqual({ favorited: true });
   });
 });

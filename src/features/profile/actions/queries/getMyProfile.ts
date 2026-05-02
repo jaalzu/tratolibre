@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { redirect } from "next/navigation";
 import { profileQueryService } from "@/features/profile/services/profile-query-service";
 import { profileStatsService } from "@/features/profile/services/profile-stats-service";

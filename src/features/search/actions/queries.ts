@@ -1,6 +1,7 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client/server";
+
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { CATEGORIES } from "@/lib/constants";
 import { getSearchItemsService } from "../services/search-service";

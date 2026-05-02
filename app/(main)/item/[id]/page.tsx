@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { getItemById } from "@/features/items/actions";
 import { notFound } from "next/navigation";
 import ItemPageContent from "@/features/items/components/publication/ItemPageContent";
-import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
+import { getAuthUserWithRole } from "@/lib/supabase/utils/auth-helpers";
 
 export async function generateMetadata({
   params,

@@ -3,6 +3,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
+import { createClient } from "@/lib/supabase/client/browser"; // ✅ BROWSER CLIENT
 
 interface SocialButtonsProps {
   mode: "login" | "register";
@@ -16,8 +17,7 @@ export const SocialButtons = ({
   onEmailClick,
 }: SocialButtonsProps) => {
   const handleGoogle = async () => {
-    const { createClient } = await import("@/lib/supabase/client");
-    const supabase = createClient();
+    const supabase = createClient(); // ✅ Ya no es async import
 
     await supabase.auth.signInWithOAuth({
       provider: "google",

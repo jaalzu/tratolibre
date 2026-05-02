@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client/server";
 import { profileQueryService } from "@/features/profile/services/profile-query-service";
 import { profileStatsService } from "@/features/profile/services/profile-stats-service";
 

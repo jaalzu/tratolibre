@@ -1,7 +1,7 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
+import { createClient } from "@/lib/supabase/client/server";
 import { Item, FavoritesListResult, FavoriteIdsResult } from "../../types";
 import { mapSupabaseToItemError } from "../../services/item-error.mapper";
 

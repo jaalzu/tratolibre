@@ -1,13 +1,13 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { checkRateLimit } from "@/lib/rateLimit";
 import {
   verifyConversationAccess,
   updateConversationTimestamp,
 } from "@/features/chat/services/conversations.service";
 import { insertMessage } from "@/features/chat/services/messages.service";
-import { mapSupabaseError } from "@/lib/supabase/errorMapper";
+import { mapSupabaseError } from "@/lib/supabase/core/errors";
 import {
   SendMessageInputSchema,
   type ActionResponse,

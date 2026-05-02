@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { fetchConversationsByItem } from "@/features/chat/services/conversations.service";
 import { mapConversationsWithBuyers } from "@/features/chat/mappers/conversation.mapper";
 import { ItemIdSchema, type ConversationBuyer } from "@/features/chat/schemas";

@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { deleteConversation } from "@/features/chat/services/conversations.service";
-import { mapSupabaseError } from "@/lib/supabase/errorMapper";
+import { mapSupabaseError } from "@/lib/supabase/core/errors";
 import {
   ConversationIdSchema,
   type ActionResponse,

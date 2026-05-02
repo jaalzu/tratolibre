@@ -4,7 +4,7 @@ import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 import { DynamicFilterPanel } from "@/features/search/components/DynamicFilterPanel";
 import { SearchResults } from "@/features/search/components/SearchResults";
 import { SearchPageParams } from "@/features/search/types";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { getUserFavoriteIds } from "@/features/items/actions";
 import { Flex } from "@chakra-ui/react";
 

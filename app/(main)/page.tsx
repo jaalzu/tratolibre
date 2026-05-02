@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { getAuthProfile } from "@/features/profile/actions";
 import { LoggedInHero } from "@/components/sections/LoggedInHero";
 import { Hero } from "@/components/sections/Hero";

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { Flex, Text, Input, Field, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
+import { createClient } from "@/lib/supabase/client/browser"; // ✅ BROWSER CLIENT
 
 const ResetSchema = z
   .object({
@@ -36,8 +37,7 @@ export const ResetPasswordForm = () => {
     setServerError(null);
 
     try {
-      const { createClient } = await import("@/lib/supabase/client");
-      const supabase = createClient();
+      const supabase = createClient(); // ✅ Ya no es async import
 
       const { error } = await supabase.auth.updateUser({
         password: data.password,

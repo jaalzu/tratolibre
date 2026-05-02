@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { fetchMessages } from "@/features/chat/services/messages.service";
 import { mapMessagesToWithProfile } from "@/features/chat/mappers/message.mapper";
 import {

@@ -52,9 +52,19 @@ export function useImageUpload() {
             signal: AbortSignal.timeout(30000),
           });
 
-          if (!res.ok) continue;
+          if (!res.ok) {
+            const errorData = await res.text();
+            console.error("❌ Upload failed:", res.status, errorData);
+            toaster.create({
+              title: "Error al subir imagen",
+              description: `Error ${res.status}: ${errorData}`,
+              type: "error",
+            });
+            continue;
+          }
 
           const data = await res.json();
+
           if (data.fileName || data.url) {
             urls.push(data.url || `/${data.fileName}`);
           }
