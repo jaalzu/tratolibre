@@ -1,24 +1,31 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // ============================================
-// MOCKS - DEBEN IR ANTES DE LOS IMPORTS
+// CREAR MOCKS DE LOS MÉTODOS
 // ============================================
 
-// ✅ Mock de ItemsService con función factory
 const mockCreate = vi.fn();
 const mockUpdate = vi.fn();
 const mockDelete = vi.fn();
 const mockMarkAsSold = vi.fn();
 const mockToggleAvailability = vi.fn();
 
+// ============================================
+// MOCKS - Usando class en lugar de función
+// ============================================
+
 vi.mock("@/lib/supabase/services", () => ({
-  ItemsService: vi.fn().mockImplementation(() => ({
-    create: mockCreate,
-    update: mockUpdate,
-    delete: mockDelete,
-    markAsSold: mockMarkAsSold,
-    toggleAvailability: mockToggleAvailability,
-  })),
+  ItemsService: class MockItemsService {
+    constructor(supabase: any) {
+      console.log("🟢 ItemsService CONSTRUCTOR CALLED");
+    }
+
+    create = mockCreate;
+    update = mockUpdate;
+    delete = mockDelete;
+    markAsSold = mockMarkAsSold;
+    toggleAvailability = mockToggleAvailability;
+  },
 }));
 
 vi.mock("next/navigation", () => ({
@@ -49,7 +56,7 @@ vi.mock("@/features/notifications", () => ({
 }));
 
 // ============================================
-// IMPORTS - DESPUÉS DE LOS MOCKS
+// IMPORTS
 // ============================================
 
 import { redirect } from "next/navigation";
@@ -159,8 +166,7 @@ describe("createItemAction", () => {
 
     vi.mocked(createClient).mockResolvedValue({} as any);
 
-    // ✅ Mock: ItemsService.create retorna DTO
-    mockCreate.mockResolvedValue({
+    mockCreate.mockResolvedValueOnce({
       id: item.id,
       title: item.title,
       description: item.description,
@@ -215,7 +221,7 @@ describe("deleteItemAction", () => {
 
     vi.mocked(createClient).mockResolvedValue({} as any);
 
-    mockDelete.mockResolvedValue(undefined);
+    mockDelete.mockResolvedValueOnce(undefined);
 
     await deleteItemAction("item-123");
 
@@ -233,7 +239,7 @@ describe("deleteItemAction", () => {
 
     vi.mocked(createClient).mockResolvedValue({} as any);
 
-    mockDelete.mockRejectedValue(new Error("Database error"));
+    mockDelete.mockRejectedValueOnce(new Error("Database error"));
 
     const result = await deleteItemAction("item-123");
 
@@ -259,7 +265,7 @@ describe("markAsSoldToAction", () => {
 
     expect(result).toEqual({
       success: false,
-      error: "No autorizado", // ✅ Mensaje correcto
+      error: "No autorizado",
     });
   });
 
@@ -275,7 +281,7 @@ describe("markAsSoldToAction", () => {
 
     expect(result).toEqual({
       success: false,
-      error: "El item que buscás no existe o fue eliminado", // ✅ Mensaje correcto
+      error: "El item que buscás no existe o fue eliminado",
     });
   });
 
@@ -356,7 +362,7 @@ describe("toggleFavoriteAction", () => {
 
     const result = await toggleFavoriteAction("item-123");
 
-    expect(result).toEqual({ error: "No autorizado" }); // ✅ Mensaje correcto
+    expect(result).toEqual({ error: "No autorizado" });
   });
 
   it("agrega a favoritos si no existe", async () => {
