@@ -1,8 +1,8 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { markConversationMessagesAsRead } from "@/features/chat/services/messages.service";
-import { mapSupabaseError } from "@/lib/supabase/errorMapper";
+import { mapSupabaseError } from "@/lib/supabase/core/errors";
 import {
   ConversationIdSchema,
   type ActionResponse,

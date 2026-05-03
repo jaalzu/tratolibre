@@ -69,11 +69,12 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
 
     const formData = new FormData();
 
-    // Agregar todos los campos al FormData
     Object.entries(data).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+
       if (Array.isArray(value)) {
-        value.forEach((v) => formData.append(key, v));
-      } else if (value !== undefined && value !== null) {
+        formData.append(key, JSON.stringify(value));
+      } else {
         let valueToSend = String(value);
         if (key === "sale_price") {
           valueToSend = valueToSend.replace(/\D/g, "");
@@ -122,6 +123,12 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
         });
       }
     } catch (error) {
+      // ✅ FILTRAR NEXT_REDIRECT (no es un error real)
+      if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+        // El redirect fue exitoso, no hacer nada
+        return;
+      }
+
       console.error("Error inesperado en submit:", error);
       setFormState({
         status: "error",

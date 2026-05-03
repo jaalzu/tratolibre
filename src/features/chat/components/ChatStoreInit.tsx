@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client/browser";
 
 export function ChatStoreInit({ userId }: { userId?: string }) {
   const queryClient = useQueryClient();

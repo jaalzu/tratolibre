@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { useQueryClient } from "@tanstack/react-query";
+import { createClient } from "@/lib/supabase/client/browser";
 
 interface UseMessageBroadcastOptions {
   conversationId: string;
@@ -18,31 +19,26 @@ export function useMessageBroadcast({
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const initBroadcast = async () => {
-      const { createClient } = await import("@/lib/supabase/client");
-      const supabase = createClient();
-      supabaseRef.current = supabase;
+    const supabase = createClient();
+    supabaseRef.current = supabase;
 
-      const channel = supabase.channel(`broadcast:${conversationId}`);
-      channelRef.current = channel;
+    const channel = supabase.channel(`broadcast:${conversationId}`);
+    channelRef.current = channel;
 
-      channel
-        .on("broadcast", { event: "new_message" }, () => {
-          queryClient.refetchQueries({
-            queryKey: ["messages", conversationId],
-          });
-          onNewMessage?.();
-        })
-        .subscribe((status) => {
-          if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
-            if (process.env.NODE_ENV === "development") {
-              console.warn("Broadcast channel error:", status);
-            }
-          }
+    channel
+      .on("broadcast", { event: "new_message" }, () => {
+        queryClient.refetchQueries({
+          queryKey: ["messages", conversationId],
         });
-    };
-
-    initBroadcast();
+        onNewMessage?.();
+      })
+      .subscribe((status) => {
+        if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+          if (process.env.NODE_ENV === "development") {
+            console.warn("Broadcast channel error:", status);
+          }
+        }
+      });
 
     return () => {
       if (supabaseRef.current && channelRef.current) {
@@ -50,7 +46,8 @@ export function useMessageBroadcast({
       }
       channelRef.current = null;
     };
-  }, [conversationId, onNewMessage]);
+  }, [conversationId, onNewMessage, queryClient]);
+
   const sendNewMessage = () => {
     channelRef.current?.send(
       {

@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { getPendingReviewsService } from "../../services/pending-service";
 import type { PendingReview } from "../../types";
 

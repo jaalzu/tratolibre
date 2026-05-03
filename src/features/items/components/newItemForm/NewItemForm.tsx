@@ -32,8 +32,8 @@ export const NewItemForm = ({
     isSubmitting,
     images,
     uploading,
-    formState, // ✅ Ahora usamos formState en vez de serverError
-    resetFormState, // ✅ Para limpiar errores
+    formState,
+    resetFormState,
     handleUpload,
     handleRemove,
     setValue,
@@ -149,7 +149,7 @@ export const NewItemForm = ({
               error={errors.images?.message}
             />
 
-            {/* ✅ Manejo de error con discriminated union */}
+            {/*  Manejo de error con discriminated union */}
             {formState.status === "error" && (
               <Text
                 fontSize="xs"

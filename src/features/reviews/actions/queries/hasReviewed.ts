@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { hasUserReviewed } from "../../services/review-service";
 
 export async function hasReviewedPurchaseAction(

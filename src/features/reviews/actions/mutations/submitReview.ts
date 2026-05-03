@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { revalidatePath } from "next/cache";
 import { createNotification } from "@/features/notifications";
 import { ReviewSchema } from "../../schemas";

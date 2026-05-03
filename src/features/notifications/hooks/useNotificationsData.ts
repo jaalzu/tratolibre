@@ -35,7 +35,7 @@ export function useNotificationsData({
 
     const setupRealtime = async () => {
       try {
-        const { createClient } = await import("@/lib/supabase/client");
+        const { createClient } = await import("@/lib/supabase/client/browser");
         const supabase = createClient();
 
         const channelName = `notifications-badge-${userId}`;

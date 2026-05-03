@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
+import { getAuthUserWithRole } from "@/lib/supabase/utils/auth-helpers";
 import { AdminNav } from "@/features/admin/components/ui/AdminNav";
 import { Box } from "@chakra-ui/react";
 

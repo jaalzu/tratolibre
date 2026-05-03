@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client/server";
 import { getReviewsByProfile } from "../../services/review-service";
 
 export async function getReviewsByProfileAction(profileId: string) {

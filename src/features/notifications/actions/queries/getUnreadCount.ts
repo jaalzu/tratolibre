@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 
 /**
  * Obtener el conteo de notificaciones no leídas del usuario autenticado

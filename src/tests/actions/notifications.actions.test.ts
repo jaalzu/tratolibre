@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("@/lib/supabase/admin", () => ({
+vi.mock("@/lib/supabase/client/admin", () => ({
   createAdminClient: vi.fn(),
 }));
 
-vi.mock("@/lib/supabase/getAuthUser", () => ({
+vi.mock("@/lib/supabase/utils/auth-helpers", () => ({
   getAuthUser: vi.fn(),
 }));
 
-import { createAdminClient } from "@/lib/supabase/admin";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { createAdminClient } from "@/lib/supabase/client/admin";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import {
   createNotification,
   getMyNotifications,

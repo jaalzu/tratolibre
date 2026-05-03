@@ -4,7 +4,7 @@ import { Geist } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Providers } from "./providers";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client/server";
 import { ClientProviders } from "./ClientProviders";
 import { AnalyticsWrapper } from "./AnalyticsWrapper";
 

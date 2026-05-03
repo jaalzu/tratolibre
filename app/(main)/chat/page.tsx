@@ -1,4 +1,4 @@
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { ChatPageView } from "@/features/chat/components/ChatPageView";
 import { redirect } from "next/navigation";
 

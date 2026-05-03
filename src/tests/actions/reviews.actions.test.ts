@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { createNotification } from "@/features/notifications";
 
 import { submitReviewAction } from "@/features/reviews/actions";
@@ -13,7 +13,7 @@ vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
 }));
 
-vi.mock("@/lib/supabase/getAuthUser", () => ({
+vi.mock("@/lib/supabase/utils/auth-helpers", () => ({
   getAuthUser: vi.fn(),
 }));
 

@@ -1,4 +1,4 @@
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { getConversationById } from "@/features/chat/actions";
 import { validateConversationData } from "@/features/chat/utils/conversation-guard";
 import { ChatDetailView } from "@/features/chat/components/ChatDetailView";

@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client/server";
+
 import { mapRegisterInputToSupabaseSignUp } from "../mappers";
 import type { RegisterInput, RegisterResponse } from "../schemas";
 import { ok, err } from "../schemas/base.schema";

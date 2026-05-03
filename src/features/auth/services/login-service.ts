@@ -1,7 +1,5 @@
-// features/auth/services/login.service.ts
+import { createClient } from "@/lib/supabase/client/server";
 
-import { createClient } from "@/lib/supabase/server";
-import { mapSupabaseUserToAppUser } from "../mappers";
 import type { LoginServerInput, LoginResponse } from "../schemas";
 import { ok, err } from "../schemas/base.schema";
 
@@ -37,7 +35,6 @@ export async function loginService(
       return err("No se pudo obtener la información del usuario");
     }
 
-    // ✅ No retornas data porque haces redirect después
     return ok();
   } catch (error) {
     console.error("[loginService] Error inesperado:", error);

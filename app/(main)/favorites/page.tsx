@@ -1,4 +1,4 @@
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { getUserFavorites } from "@/features/items/actions";
 import { redirect } from "next/navigation";
 import { FavoritesView } from "@/features/favorites/FavoritesView";

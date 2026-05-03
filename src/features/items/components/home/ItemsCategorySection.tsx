@@ -47,7 +47,7 @@ export const ItemsCategorySection = ({
                 key={obj.id}
                 obj={obj}
                 userId={userId}
-                priority={isPrioritySection && index < 3}
+                priority={isPrioritySection && index === 0}
               />
             ))}
           </div>

@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { countUnreadMessages } from "@/features/chat/services/messages.service";
 
 export async function getTotalUnreadCount(): Promise<number> {

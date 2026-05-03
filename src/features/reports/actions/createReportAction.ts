@@ -2,7 +2,7 @@
 
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { ReportSchema } from "../schemas";
 import { reportService } from "../services/report-service";

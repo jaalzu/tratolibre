@@ -1,6 +1,6 @@
 import { getItemById } from "@/features/items/actions";
 import { notFound, redirect } from "next/navigation";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { DynamicNewItemForm } from "@/features/items/components/newItemForm/DynamicNewItemForm";
 
 export default async function EditItemPage({

@@ -1,6 +1,7 @@
 "use server";
 
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createAdminClient } from "@/lib/supabase/client/admin";
+
 import type { NotificationType } from "../../types";
 
 interface CreateNotificationParams {

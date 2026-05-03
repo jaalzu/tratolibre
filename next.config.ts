@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ["image/webp"],
+    qualities: [60, 75],
     remotePatterns: [
       { protocol: "https", hostname: "kgfarjtgqckdofdfokfn.supabase.co" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },

@@ -2,7 +2,7 @@ import Navbar from "@/components/layout/navigation/Navbar";
 import BottomNav from "@/components/layout/navigation/BottomNav";
 import { FooterWrapper } from "@/components/layout/footer/FooterWrapper";
 import { getUnreadCount } from "@/features/notifications";
-import { getAuthUserWithRole } from "@/lib/supabase/getAuthUserWithRole";
+import { getAuthUserWithRole } from "@/lib/supabase/utils/auth-helpers";
 
 export default async function MainLayout({
   children,

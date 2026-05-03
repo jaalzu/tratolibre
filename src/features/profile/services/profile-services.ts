@@ -1,5 +1,6 @@
-import { createClient } from "@/lib/supabase/server";
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { createClient } from "@/lib/supabase/client/server";
+
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 
 export const profileService = {
   async getAuthProfile() {

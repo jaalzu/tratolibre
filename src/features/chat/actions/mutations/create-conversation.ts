@@ -1,11 +1,11 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import {
   findExistingConversation,
   createConversation,
 } from "@/features/chat/services/conversations.service";
-import { mapSupabaseError } from "@/lib/supabase/errorMapper";
+import { mapSupabaseError } from "@/lib/supabase/core/errors";
 import {
   CreateConversationInputSchema,
   ConversationRowSchema,

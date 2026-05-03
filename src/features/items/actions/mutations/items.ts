@@ -1,23 +1,19 @@
 "use server";
 
-import { getAuthUser } from "@/lib/supabase/getAuthUser";
+import { createClient } from "@/lib/supabase/client/server";
+import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
+import { ItemsService } from "@/lib/supabase/services";
+import { checkRateLimit, RATE_LIMITS } from "@/lib/supabase/utils/rate-limiter";
+import { mapSupabaseError } from "@/lib/supabase/core/errors";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { checkRateLimit } from "@/lib/rateLimit";
-import {
-  createItem,
-  updateItem,
-  deleteItem,
-} from "../../services/items-service";
-import {
-  parseItemFormData,
-  validateItemData,
-} from "../../services/item-validation.service";
-import { itemErrorToMessage } from "../../services/item-error.mapper";
-import { ItemError } from "../../types";
+import type {
+  CreateItemInput,
+  UpdateItemInput,
+} from "@/lib/supabase/mappers/item";
 
 // ============================================
-// TYPES - Discriminated Union para Actions
+// TYPES
 // ============================================
 
 type ActionResult<T = void> =
@@ -32,65 +28,79 @@ export async function createItemAction(
   _prevState: ActionResult | null,
   formData: FormData,
 ): Promise<ActionResult<{ itemId: string }>> {
+  let itemId: string | undefined;
+
   try {
     // 1. Autenticación
-    const { supabase, user } = await getAuthUser();
+    const { user } = await getAuthUser();
     if (!user) {
-      return {
-        success: false,
-        error: "No autorizado",
-      };
+      return { success: false, error: "No autorizado" };
     }
 
-    // 2. Rate limiting
-    const allowed = await checkRateLimit(
+    // 2. Inicializar cliente y service
+    const supabase = await createClient();
+    const itemsService = new ItemsService(supabase);
+
+    // 3. Rate limiting
+    await checkRateLimit(
       supabase,
       user.id,
       "create_item",
-      8,
-      60,
+      RATE_LIMITS.CREATE_ITEM,
     );
-    if (!allowed) {
+
+    // 4. Helper para parsear JSON seguro
+    const parseImages = (raw: FormDataEntryValue | null): string[] => {
+      if (!raw || raw === "null") return [];
+      try {
+        return JSON.parse(raw as string);
+      } catch {
+        return [];
+      }
+    };
+
+    // 5. Parsear datos del form
+    const itemData: CreateItemInput = {
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      category: formData.get("category") as string,
+      salePrice: formData.get("salePrice")
+        ? Number(formData.get("salePrice"))
+        : undefined,
+      province: formData.get("province") as string | undefined,
+      city: formData.get("city") as string | undefined,
+      condition: formData.get("condition") as string | undefined,
+      type: formData.get("type") as string | undefined,
+      images: parseImages(formData.get("images")),
+      rules: formData.get("rules") as string | undefined,
+      location: formData.get("location") as string | undefined,
+    };
+
+    // 6. Crear item
+    const item = await itemsService.create(itemData, user.id);
+    itemId = item.id;
+
+    // 7. Revalidar
+    revalidatePath("/");
+    revalidatePath(`/item/${itemId}`);
+  } catch (error: any) {
+    console.error("Error en createItemAction:", error);
+
+    if (error.code === "RATE_LIMIT") {
       return {
         success: false,
         error:
-          "Alcanzaste el límite de 8 publicaciones por hora. Intentá más tarde.",
+          "Alcanzaste el límite de publicaciones por hora. Intentá más tarde.",
       };
     }
 
-    // 3. Validación de datos
-    const parsed = validateItemData(parseItemFormData(formData));
-    if (!parsed.success) {
-      return {
-        success: false,
-        error: parsed.error.flatten(),
-      };
-    }
-
-    // 4. Crear item usando el service con Result pattern
-    const result = await createItem(supabase, {
-      ...parsed.data,
-      owner_id: user.id,
-    });
-
-    // 5. Manejar resultado con type narrowing
-    if (!result.success) {
-      return {
-        success: false,
-        error: itemErrorToMessage(result.error),
-      };
-    }
-
-    // 6. Revalidar y redirigir
-    revalidatePath("/");
-    redirect(`/item/${result.data.id}`);
-  } catch (error) {
-    console.error("Error crítico en createItemAction:", error);
     return {
       success: false,
-      error: "Ocurrió un error inesperado al crear el item",
+      error: mapSupabaseError(error),
     };
   }
+
+  redirect(`/item/${itemId}`);
 }
 
 // ============================================
@@ -101,9 +111,19 @@ export async function updateItemAction(
   _prevState: ActionResult | null,
   formData: FormData,
 ): Promise<ActionResult> {
+  const itemId = formData.get("id") as string;
+
   try {
-    // 1. Autenticación
-    const { supabase, user } = await getAuthUser();
+    // 1. Validar ID
+    if (!itemId) {
+      return {
+        success: false,
+        error: "ID del item requerido",
+      };
+    }
+
+    // 2. Autenticación
+    const { user } = await getAuthUser();
     if (!user) {
       return {
         success: false,
@@ -111,44 +131,46 @@ export async function updateItemAction(
       };
     }
 
-    // 2. Extraer ID y validar datos
-    const id = formData.get("id") as string;
-    if (!id) {
-      return {
-        success: false,
-        error: "ID del item requerido",
-      };
-    }
+    // 3. Inicializar cliente y service
+    const supabase = await createClient();
+    const itemsService = new ItemsService(supabase);
 
-    const parsed = validateItemData(parseItemFormData(formData));
-    if (!parsed.success) {
-      return {
-        success: false,
-        error: parsed.error.flatten(),
-      };
-    }
+    // 4. Parsear datos del form
+    const itemData: UpdateItemInput = {
+      title: formData.get("title") as string | undefined,
+      description: formData.get("description") as string | undefined,
+      category: formData.get("category") as string | undefined,
+      salePrice: formData.get("salePrice")
+        ? Number(formData.get("salePrice"))
+        : undefined,
+      province: formData.get("province") as string | undefined,
+      city: formData.get("city") as string | undefined,
+      condition: formData.get("condition") as string | undefined,
+      type: formData.get("type") as string | undefined,
+      images: formData.get("images")
+        ? JSON.parse(formData.get("images") as string)
+        : undefined,
+      rules: formData.get("rules") as string | undefined,
+      location: formData.get("location") as string | undefined,
+      available: formData.get("available") === "true",
+    };
 
-    // 3. Actualizar usando el service
-    const result = await updateItem(supabase, id, user.id, parsed.data);
+    // 5. Actualizar item
+    await itemsService.update(itemId, itemData, user.id);
 
-    // 4. Manejar resultado
-    if (!result.success) {
-      return {
-        success: false,
-        error: itemErrorToMessage(result.error),
-      };
-    }
-
-    // 5. Revalidar y redirigir
-    revalidatePath(`/item/${id}`);
-    redirect(`/item/${id}`);
-  } catch (error) {
-    console.error("Error crítico en updateItemAction:", error);
+    // 6. Revalidar
+    revalidatePath(`/item/${itemId}`);
+    revalidatePath("/");
+  } catch (error: any) {
+    console.error("Error en updateItemAction:", error);
     return {
       success: false,
-      error: "No se pudo actualizar el item",
+      error: mapSupabaseError(error),
     };
   }
+
+  // ✅ redirect() FUERA del try-catch
+  redirect(`/item/${itemId}`);
 }
 
 // ============================================
@@ -158,7 +180,7 @@ export async function updateItemAction(
 export async function deleteItemAction(id: string): Promise<ActionResult> {
   try {
     // 1. Autenticación
-    const { supabase, user } = await getAuthUser();
+    const { user } = await getAuthUser();
     if (!user) {
       return {
         success: false,
@@ -166,25 +188,101 @@ export async function deleteItemAction(id: string): Promise<ActionResult> {
       };
     }
 
-    // 2. Eliminar usando el service
-    const result = await deleteItem(supabase, id, user.id);
+    // 2. Inicializar cliente y service
+    const supabase = await createClient();
+    const itemsService = new ItemsService(supabase);
 
-    // 3. Manejar resultado
-    if (!result.success) {
+    // 3. Eliminar item
+    await itemsService.delete(id, user.id);
+
+    // 4. Revalidar
+    revalidatePath("/");
+  } catch (error: any) {
+    console.error("Error en deleteItemAction:", error);
+    return {
+      success: false,
+      error: mapSupabaseError(error),
+    };
+  }
+
+  redirect("/");
+}
+
+// ============================================
+// TOGGLE AVAILABILITY ACTION
+// ============================================
+
+export async function toggleItemAvailabilityAction(
+  id: string,
+): Promise<ActionResult<{ available: boolean }>> {
+  try {
+    // 1. Autenticación
+    const { user } = await getAuthUser();
+    if (!user) {
       return {
         success: false,
-        error: itemErrorToMessage(result.error),
+        error: "No autorizado",
       };
     }
 
-    // 4. Revalidar y redirigir
+    // 2. Inicializar cliente y service
+    const supabase = await createClient();
+    const itemsService = new ItemsService(supabase);
+
+    const item = await itemsService.toggleAvailability(id, user.id);
+
+    // 4. Revalidar
+    revalidatePath(`/item/${id}`);
     revalidatePath("/");
-    redirect("/");
-  } catch (error) {
-    console.error("Error crítico en deleteItemAction:", error);
+
+    return {
+      success: true,
+      data: { available: item.available },
+    };
+  } catch (error: any) {
+    console.error("Error en toggleItemAvailabilityAction:", error);
     return {
       success: false,
-      error: "No se pudo eliminar el item",
+      error: mapSupabaseError(error),
+    };
+  }
+}
+
+// ============================================
+// MARK AS SOLD ACTION
+// ============================================
+
+export async function markItemAsSoldAction(id: string): Promise<ActionResult> {
+  try {
+    // 1. Autenticación
+    const { user } = await getAuthUser();
+    if (!user) {
+      return {
+        success: false,
+        error: "No autorizado",
+      };
+    }
+
+    // 2. Inicializar cliente y service
+    const supabase = await createClient();
+    const itemsService = new ItemsService(supabase);
+
+    // 3. Marcar como vendido
+    await itemsService.markAsSold(id, user.id);
+
+    // 4. Revalidar
+    revalidatePath(`/item/${id}`);
+    revalidatePath("/");
+
+    return {
+      success: true,
+      data: undefined,
+    };
+  } catch (error: any) {
+    console.error("Error en markItemAsSoldAction:", error);
+    return {
+      success: false,
+      error: mapSupabaseError(error),
     };
   }
 }
