@@ -34,7 +34,7 @@ export const ItemSchema = z.object({
     }, z.number())
     // Aquí es donde controlamos el mensaje de error de forma manual
     .refine((n) => n > 0, {
-      message: "El precio es obligatorio",
+      message: "El precio mínimo es $1",
     })
     .refine((n) => n <= 200000000, {
       message: "El precio es demasiado alto",
