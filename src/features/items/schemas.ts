@@ -18,20 +18,27 @@ export const ItemSchema = z.object({
   description: z
     .string()
     .trim()
-    .min(15, "Por favor, da una descripción más detallada (mín. 15 caracteres)")
+    .min(15, "Da una descripción más detallada (mín. 15 caracteres)")
     .max(800, "La descripción es muy larga (máx. 800 caracteres)"),
 
   category: z.string().min(1, "Elegí una categoría"),
 
   condition: z.string().min(1, "Seleccioná el estado del producto"),
 
-  sale_price: z.preprocess(
-    cleanMoney,
-    z.coerce
-      .number()
-      .min(1, "El precio mínimo es $1")
-      .max(200000000, "El precio es demasiado alto"),
-  ),
+  sale_price: z
+    .preprocess((val) => {
+      if (typeof val !== "string") return val;
+      const cleaned = val.replace(/\D/g, "");
+      // Si está vacío, devolvemos un valor que falle la validación de abajo
+      return cleaned === "" ? 0 : Number(cleaned);
+    }, z.number())
+    // Aquí es donde controlamos el mensaje de error de forma manual
+    .refine((n) => n > 0, {
+      message: "El precio es obligatorio",
+    })
+    .refine((n) => n <= 200000000, {
+      message: "El precio es demasiado alto",
+    }),
 
   province: z.string().min(1, "Elegí una provincia"),
 

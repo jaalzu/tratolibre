@@ -91,7 +91,10 @@ export const NewItemForm = ({
               />
             </FormField>
 
-            <SimpleGrid columns={{ base: 1, sm: 3 }} gap="3">
+            <SimpleGrid
+              columns={{ base: 1, sm: 3 }}
+              gap={{ base: "1", md: "4" }}
+            >
               <FormField label="Categoría" error={errors.category}>
                 <FormSelect
                   value={categoryField.value ?? ""}

@@ -14,7 +14,7 @@ export function HeroSlideContent({ slide, priority }: any) {
             alt={slide.title}
             width={1200}
             height={600}
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, 50vw"
             className={styles.image}
             priority={priority}
             fetchPriority={priority ? "high" : "auto"}
@@ -34,7 +34,7 @@ export function HeroSlideContent({ slide, priority }: any) {
       <div className={styles.desktopContainer}>
         <div className={styles.infoCol}>
           <h2 className={styles.headingDesktop}>{slide.title}</h2>
-          <Button asChild>
+          <Button asChild style={{ padding: "6px 22px" }}>
             <NextLink href={slide.buttonHref}>{slide.buttonLabel}</NextLink>
           </Button>
         </div>
