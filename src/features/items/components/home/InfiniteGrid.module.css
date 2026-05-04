@@ -1,7 +1,7 @@
 .container {
   background-color: white;
   border-radius: 1rem; /* 2xl */
-  padding: 12px;
+  padding: 10px;
   box-shadow: var(--chakra-shadows-sm);
   min-height: 200px;
   width: 100%;
@@ -10,14 +10,22 @@
 .title {
   font-weight: bold;
   margin-top: 8px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--chakra-colors-neutral-900);
   margin-bottom: 16px;
+  margin-left: 0.3rem;
 }
 
 .observer {
   height: 20px;
   margin-top: 16px;
+}
+
+.divider {
+  border-top: 1px solid var(--chakra-colors-neutral-100);
+  margin-bottom: 16px;
+  margin-left: -16px;
+  margin-right: -16px;
 }
 
 .loaderWrapper {

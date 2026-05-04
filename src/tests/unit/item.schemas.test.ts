@@ -35,7 +35,7 @@ describe("ItemSchema", () => {
     expect(result.success).toBe(false);
     // AJUSTADO A 15 CARACTERES:
     expect(result.error?.issues[0].message).toBe(
-      "Por favor, da una descripción más detallada (mín. 15 caracteres)",
+      "Da una descripción más detallada (mín. 15 caracteres)",
     );
   });
 

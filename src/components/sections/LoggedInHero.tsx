@@ -18,7 +18,7 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
 
   return (
     /* Usamos el PageContainer que ya optimizamos con pt/pb */
-    <PageContainer pt={6} pb={2}>
+    <PageContainer pt={0} pb={3}>
       <div className={styles.heroWrapper}>
         <div>
           <h2 className={styles.title}>
@@ -35,8 +35,8 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
             size="sm"
             className={styles.btnExplorar}
             style={{
-              padding: "6px 32px", // base px 8
-              fontSize: "0.875rem", // sm
+              padding: "6px 38px",
+              fontSize: "0.975rem",
             }}
           >
             <NextLink href="/search">Explorar</NextLink>
@@ -46,8 +46,8 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
             asChild
             size="sm"
             style={{
-              padding: "6px 32px", // base px 8
-              fontSize: "0.875rem", // sm
+              padding: "6px 38px",
+              fontSize: "0.975rem",
             }}
           >
             <NextLink href="/item/new">Vender</NextLink>

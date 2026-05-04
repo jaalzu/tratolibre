@@ -24,18 +24,26 @@ export const FormField = ({
   helperText,
 }: FormFieldProps) => (
   <Field.Root invalid={!!error} w="full">
-    <Flex justify="space-between" align="center" mb="1">
+    <Flex justify="space-between" align="center" mb="0.2">
       <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
         {label}
       </Field.Label>
       {helperText && !error && (
-        <Text fontSize="10px" color="neutral.500" px={1}>
+        <Text fontSize="10px" color="neutral.500" ml="4px">
           {helperText}
         </Text>
       )}
     </Flex>
+
     {children}
-    {error && <Field.ErrorText fontSize="xs">{error.message}</Field.ErrorText>}
+
+    <Box h="11px" mt="-6px">
+      {error && (
+        <Field.ErrorText fontSize="10.3px" lineHeight="1" color="red.500" m="0">
+          {error.message}
+        </Field.ErrorText>
+      )}
+    </Box>
   </Field.Root>
 );
 

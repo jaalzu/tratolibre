@@ -123,7 +123,6 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
         });
       }
     } catch (error) {
-      // ✅ FILTRAR NEXT_REDIRECT (no es un error real)
       if (error instanceof Error && error.message === "NEXT_REDIRECT") {
         // El redirect fue exitoso, no hacer nada
         return;

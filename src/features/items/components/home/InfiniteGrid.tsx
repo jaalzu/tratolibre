@@ -55,7 +55,9 @@ export function InfiniteGrid({ userId, favoriteIds }: InfiniteGridProps) {
     <div ref={containerRef} className={styles.container}>
       <h2 className={styles.title}>Explorar</h2>
 
-      <FadeInGrid>
+      <div className={styles.divider} />
+
+      <FadeInGrid columns={{ base: 2, sm: 2, md: 2, lg: 3, xl: 4 }}>
         {allItems.map((item, index) => (
           <ItemCard
             key={item.id}

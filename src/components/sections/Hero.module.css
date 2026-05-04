@@ -47,13 +47,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   padding-left: 12%;
   padding-right: 32px;
 }
 
 .headingDesktop {
-  font-size: 1.25rem; /* xl */
-  max-width: 80%;
+  font-size: 1.55rem; /* xl */
+  max-width: 90%;
   font-weight: bold;
   color: var(--chakra-colors-neutral-900);
   margin-bottom: 16px;

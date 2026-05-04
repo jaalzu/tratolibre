@@ -5,12 +5,18 @@ import React from "react";
 
 interface FadeInGridProps {
   children: React.ReactNode;
-  columns?: { base?: number; md?: number; lg?: number; xl?: number };
+  columns?: {
+    base?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+    xl?: number;
+  };
 }
 
 export function FadeInGrid({
   children,
-  columns = { base: 2, md: 2, lg: 3, xl: 4 },
+  columns = { base: 2, sm: 2, md: 2, lg: 3, xl: 4 },
 }: FadeInGridProps) {
   const items = React.Children.toArray(children).filter(Boolean);
 
@@ -25,10 +31,12 @@ export function FadeInGrid({
           opacity: 0; 
           animation: fadeInUp 0.3s ease-out forwards;
           min-width: 0; 
+          /* Importante: evitar que el contenido rompa el flex/grid */
+          overflow: hidden; 
         }
       `}</style>
 
-      <SimpleGrid columns={columns} gap={4} width="100%">
+      <SimpleGrid columns={columns} gap={{ base: 1.5, md: 2 }} width="100%">
         {items.map((child, idx) => (
           <div
             key={idx}
