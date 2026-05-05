@@ -7,6 +7,7 @@ import { ProfileItemsTabs } from "./items/ProfileItemsTabs";
 import { Profile } from "@/features/profile/types";
 import { ItemSummary } from "@/features/items/types";
 import type { PendingReview } from "@/features/reviews/types";
+import { useProfile } from "@/shared/hooks/useProfile";
 
 const PendingReviewBanner = dynamic(
   () =>
@@ -34,63 +35,71 @@ interface ProfileViewProps {
 }
 
 export const ProfileView = ({
-  profile,
+  profile: initialProfile,
   items,
   salesCount,
   purchasesCount,
   isOwner,
   pendingReviews = [],
-}: ProfileViewProps) => (
-  <Box px={{ base: 4, md: 8 }}>
-    <Box maxW="1200px" mx="auto">
-      {isOwner && pendingReviews.length > 0 && (
-        <Box pt={4}>
-          <PendingReviewBanner pendingReviews={pendingReviews} />
-        </Box>
-      )}
+}: ProfileViewProps) => {
+  const { data: profile } = useProfile(
+    isOwner ? undefined : initialProfile.id,
+    initialProfile,
+  );
 
-      <Box
-        bg="neutral.50"
-        borderBottomLeftRadius="3xl"
-        borderBottomRightRadius="3xl"
-        px={{ base: 5, md: 8 }}
-        pt={4}
-        pb={6}
-      >
-        <ProfileHeader
-          name={profile?.name}
-          avatarUrl={profile?.avatar_url}
-          location={profile?.location}
-          salesCount={salesCount}
-          purchasesCount={purchasesCount}
-          reviewsCount={profile?.reviews_count ?? 0}
-          rating={profile?.rating ?? 0}
-          isOwner={isOwner}
-        />
-
-        {!isOwner && (
-          <Flex justify="center" mt={4}>
-            <ReportButton
-              type="user"
-              targetId={profile.id}
-              color="accent.default"
-              label="Reportar perfil"
-            />
-          </Flex>
+  const displayProfile = profile || initialProfile;
+  return (
+    <Box px={{ base: 4, md: 8 }}>
+      <Box maxW="1200px" mx="auto">
+        {isOwner && pendingReviews.length > 0 && (
+          <Box pt={4}>
+            <PendingReviewBanner pendingReviews={pendingReviews} />
+          </Box>
         )}
-      </Box>
 
-      <Box
-        mt={3}
-        bg="neutral.50"
-        borderRadius="3xl"
-        px={{ base: 5, md: 8 }}
-        pt={5}
-        pb={24}
-        minH="50vh"
-      >
-        <ProfileItemsTabs items={items} isOwner={isOwner} />
+        <Box
+          bg="neutral.50"
+          borderBottomLeftRadius="3xl"
+          borderBottomRightRadius="3xl"
+          px={{ base: 5, md: 8 }}
+          pt={4}
+          pb={6}
+        >
+          <ProfileHeader
+            name={displayProfile.name}
+            avatarUrl={displayProfile.avatar_url}
+            location={displayProfile.location}
+            salesCount={salesCount}
+            purchasesCount={purchasesCount}
+            reviewsCount={displayProfile.reviews_count ?? 0}
+            rating={displayProfile.rating ?? 0}
+            isOwner={isOwner}
+          />
+
+          {displayProfile && (
+            <Flex justify="center" mt={4}>
+              <ReportButton
+                type="user"
+                targetId={displayProfile.id}
+                color="accent.default"
+                label="Reportar perfil"
+              />
+            </Flex>
+          )}
+        </Box>
+
+        <Box
+          mt={3}
+          bg="neutral.50"
+          borderRadius="3xl"
+          px={{ base: 5, md: 8 }}
+          pt={5}
+          pb={24}
+          minH="50vh"
+        >
+          <ProfileItemsTabs items={items} isOwner={isOwner} />
+        </Box>
       </Box>
     </Box>
-  </Box>
-);
+  );
+};

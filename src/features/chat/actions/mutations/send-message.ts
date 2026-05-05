@@ -1,7 +1,10 @@
 "use server";
 
 import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
-import { checkRateLimit } from "@/lib/rateLimit";
+import {
+  checkRateLimit,
+  RateLimitError,
+} from "@/lib/supabase/utils/rate-limiter";
 import {
   verifyConversationAccess,
   updateConversationTimestamp,
@@ -18,7 +21,7 @@ export async function sendMessageAction(
   content: string,
 ): Promise<ActionResponse> {
   try {
-    // 1. Validación de input (incluye trim y límite de caracteres)
+    // 1. Validación de input
     const validatedInput = SendMessageInputSchema.parse({
       conversationId,
       content,
@@ -31,8 +34,12 @@ export async function sendMessageAction(
     }
 
     // 3. Rate limiting + verificación de acceso (parallel)
-    const [allowed, accessResult] = await Promise.all([
-      checkRateLimit(supabase, user.id, "send_message", 30, 1),
+    // Nota: Si checkRateLimit lanza error, el Promise.all cae al catch principal
+    const [_, accessResult] = await Promise.all([
+      checkRateLimit(supabase, user.id, "send_message", {
+        max: 30,
+        windowMin: 1,
+      }),
       verifyConversationAccess(
         supabase,
         validatedInput.conversationId,
@@ -41,12 +48,6 @@ export async function sendMessageAction(
     ]);
 
     // 4. Validaciones de negocio
-    if (!allowed) {
-      return {
-        error: "Estás enviando mensajes muy rápido, esperá un momento",
-      };
-    }
-
     if (accessResult.error) {
       return { error: mapSupabaseError(accessResult.error) };
     }
@@ -69,22 +70,28 @@ export async function sendMessageAction(
       return { error: mapSupabaseError(msgError) };
     }
 
-    // 6. Actualizar timestamp (non-blocking)
+    // 6. Actualizar timestamp
     const { error: updateError } = await updateConversationTimestamp(
       supabase,
       validatedInput.conversationId,
     );
 
-    // Log pero no bloqueamos si falla
     if (updateError && process.env.NODE_ENV === "development") {
       console.error("Error updating conversation timestamp:", updateError);
     }
 
     return { success: true };
   } catch (error) {
+    if (error instanceof RateLimitError) {
+      return {
+        error: "Estás enviando mensajes muy rápido, esperá un momento",
+      };
+    }
+
     if (process.env.NODE_ENV === "development") {
       console.error("Unexpected error in sendMessageAction:", error);
     }
+
     return { error: "Error inesperado al enviar el mensaje" };
   }
 }

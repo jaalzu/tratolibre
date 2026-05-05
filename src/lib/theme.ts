@@ -12,7 +12,8 @@ const config = defineConfig({
         brand: {
           50: { value: "#f0fdf4" },
           100: { value: "#dcfce7" },
-          default: { value: "#25D366" },
+          // default: { value: "#25D366" },
+          default: { value: "#1fb355" },
           hover: { value: "#16a34a" },
           dark: { value: "#15803d" },
         },

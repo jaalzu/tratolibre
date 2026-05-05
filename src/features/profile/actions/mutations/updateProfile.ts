@@ -3,7 +3,10 @@
 import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { checkRateLimit } from "@/lib/rateLimit";
+import {
+  checkRateLimit,
+  RateLimitError,
+} from "@/lib/supabase/utils/rate-limiter";
 import { EditProfileSchema } from "@/features/profile/schemas";
 import { avatarService } from "@/features/profile/services/avatar-service";
 import { profileMutationService } from "@/features/profile/services/profile-mutation-service";
@@ -19,18 +22,19 @@ export async function updateProfileAction(
     const { supabase, user } = await getAuthUser();
     if (!user) redirect("/login");
 
-    const allowed = await checkRateLimit(
-      supabase,
-      user.id,
-      "update_profile",
-      5,
-      10,
-    );
-    if (!allowed) {
-      return {
-        status: "error",
-        message: "Demasiados intentos, esperá unos minutos",
-      };
+    try {
+      await checkRateLimit(supabase, user.id, "update_profile", {
+        max: 5,
+        windowMin: 10,
+      });
+    } catch (error) {
+      if (error instanceof RateLimitError) {
+        return {
+          status: "error",
+          message: "Demasiados intentos, esperá unos minutos",
+        };
+      }
+      throw error;
     }
 
     const parsed = EditProfileSchema.safeParse({
@@ -63,6 +67,7 @@ export async function updateProfileAction(
     if (error instanceof Error && error.message === "NEXT_REDIRECT")
       throw error;
 
+    console.error("[updateProfileAction] Error:", error);
     return {
       status: "error",
       message:

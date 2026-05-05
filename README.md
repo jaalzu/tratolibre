@@ -5,36 +5,38 @@
   <img src="/public/readme-mobile.webp" alt="Mobile preview" width="25%" />
 </p>
 
-Tratolibre es un marketplace moderno enfocado en la publicación rápida y sin fricción de artículos nuevos y de segunda mano. Permite a cualquier usuario listar productos de forma simple, eliminando barreras típicas de plataformas tradicionales.
+Tratolibre es un marketplace moderno enfocado en la publicación rápida y sin fricción de artículos nuevos y de segunda mano. Está diseñado priorizando escalabilidad, rendimiento y una arquitectura desacoplada.
 
 ---
 
-## 🚀 Highlights
+## Highlights
 
-- Arquitectura basada en Features (FSD-like) y separación de capas
+- Arquitectura basada en Features (FSD-like) con enfoque tipo Clean Architecture
+- Separación de capas: dominio, aplicación e infraestructura
+- Manejo de datos consistente: validación + transformación en frontend y backend
 - Next.js App Router con Server / Client Components y Server Actions
 - Seguridad multi-capa: Proxy + Server Actions + Row Level Security (RLS)
 - Realtime con Supabase (chat y notificaciones sin polling)
-- Data fetching desacoplado con React Query (cache + sync)
-- Validación robusta con Zod + React Hook Form
-- Optimización de imágenes (compresión + lazy loading)
-- Testing completo: Vitest (unit) + Playwright (E2E)
-- Observabilidad con Sentry + Vercel Analytics
+- Data fetching desacoplado con React Query (cache + sincronización)
+- Optimización de rendimiento: lazy loading, code splitting e imágenes optimizadas
+- Uso de CSS Modules en la landing para mejorar carga inicial
+- Testing: Vitest (unit) + Playwright (E2E)
+- CI/CD automatizado con Vercel
 
 ---
 
-## 🛠️ Stack
+## Stack
 
 - **Frontend:** Next.js 16, React 19, TypeScript
 - **Backend:** Supabase (Auth, PostgreSQL, Realtime, Storage)
 - **Estado:** React Query + Zustand
-- **UI:** Chakra UI + Emotion
+- **UI:** Chakra UI + CSS Modules
 - **Testing:** Vitest, Testing Library, Playwright
-- **Deploy:** Vercel
+- **Deploy & CI/CD:** Vercel , Github
 
 ---
 
-## 📦 Features
+## Features
 
 ### Marketplace
 
@@ -58,12 +60,12 @@ Tratolibre es un marketplace moderno enfocado en la publicación rápida y sin f
 
 ---
 
-## 🔮 Futuro
+## Futuras features
 
-- 💳 Pagos integrados
-- 🚚 Sistema de envíos
-- 🔔 Notificaciones por email
-- 🤖 Recomendaciones
+- Pagos integrados
+- Sistema de envíos
+- Notificaciones por email
+- Recomendaciones
 
 ---
 
@@ -76,10 +78,14 @@ npm install
 npm run dev
 ```
 
-🔐 Environment
+---
 
-Create a .env.local file:
+## 🔐 Environment
 
+Create a `.env.local` file:
+
+```
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```

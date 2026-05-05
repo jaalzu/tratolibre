@@ -3,15 +3,9 @@
 import { Box, Flex, Text, Circle, Spinner } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import { useStartChat } from "@/features/items/hooks/useStartChat";
+import { useProfile, type AuthProfile } from "@/shared/hooks/useProfile"; // ✅ Importa el tipo
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-interface SellerCardProfile {
-  id: string;
-  name: string | null;
-  avatar_url: string | null;
-  rating: number | null;
-  reviews_count: number | null;
-}
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -34,23 +28,26 @@ export default function SellerCard({
   itemId,
   userId,
 }: {
-  profile: SellerCardProfile | null;
+  profile: Partial<AuthProfile> | null;
   itemId?: string;
   userId?: string | null;
 }) {
   const router = useRouter();
-  const isOwner = userId && profile?.id && userId === profile.id;
-  const rating = profile?.rating ?? 5;
   const { startChat, loading } = useStartChat();
+
+  const { data: activeProfile } = useProfile(profile?.id, profile);
+
+  const currentProfile = activeProfile || profile;
+  const isOwner = userId && currentProfile?.id && userId === currentProfile.id;
+  const rating = currentProfile?.rating ?? 5;
 
   const handleChat = () => {
     if (!userId) {
       router.push("/login");
       return;
     }
-
-    if (!itemId || !profile?.id) return;
-    startChat(itemId, profile.id);
+    if (!itemId || !currentProfile?.id) return;
+    startChat(itemId, currentProfile.id);
   };
 
   return (
@@ -67,10 +64,10 @@ export default function SellerCard({
       py={5}
     >
       <Flex align="center" gap={3}>
-        {profile?.avatar_url ? (
+        {currentProfile?.avatar_url ? (
           <img
-            src={profile.avatar_url}
-            alt={profile?.name ?? ""}
+            src={currentProfile.avatar_url}
+            alt={currentProfile?.name ?? ""}
             style={{
               width: "48px",
               height: "48px",
@@ -88,13 +85,13 @@ export default function SellerCard({
             fontSize="lg"
             flexShrink={0}
           >
-            {profile?.name?.[0]?.toUpperCase()}
+            {currentProfile?.name?.[0]?.toUpperCase()}
           </Circle>
         )}
 
         <Box>
           <Box asChild>
-            <NextLink href={`/profile/${profile?.id}`}>
+            <NextLink href={`/profile/${currentProfile?.id}`}>
               <Text
                 fontSize="md"
                 fontWeight="bold"
@@ -103,14 +100,14 @@ export default function SellerCard({
                 _hover={{ color: "brand.default" }}
                 transition="color 0.15s"
               >
-                {profile?.name}
+                {currentProfile?.name}
               </Text>
             </NextLink>
           </Box>
           <Flex align="center" gap={1} mt={0.5}>
             <StarRating rating={rating} />
             <Text fontSize="xs" color="neutral.400">
-              ({profile?.reviews_count ?? 0})
+              ({currentProfile?.reviews_count ?? 0})
             </Text>
           </Flex>
         </Box>
@@ -128,7 +125,6 @@ export default function SellerCard({
           data-testid="chat-button"
           position="relative"
         >
-          {/* Texto siempre ocupa espacio */}
           <Box
             opacity={loading ? 0 : 1}
             visibility={loading ? "hidden" : "visible"}
@@ -136,7 +132,6 @@ export default function SellerCard({
             Chat
           </Box>
 
-          {/* Spinner flotante centrado */}
           {loading && (
             <Flex position="absolute" inset={0} align="center" justify="center">
               <Spinner size="sm" color="neutral.50" />
