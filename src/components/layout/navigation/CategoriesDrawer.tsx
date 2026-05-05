@@ -20,10 +20,14 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
           bg="blackAlpha.400"
           zIndex={200}
           onClick={onClose}
+          role="presentation"
+          aria-hidden="true"
         />
       )}
 
       <Box
+        as="nav"
+        aria-label="Menú de categorías"
         position="fixed"
         top={0}
         left={0}
@@ -51,7 +55,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
           <IconButton
             variant="ghost"
             onClick={onClose}
-            aria-label="cerrar"
+            aria-label="Cerrar menú"
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -62,7 +66,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
 
         {/* Inicio */}
         <Box px={4} pt={3} pb={1}>
-          <NextLink href="/" onClick={onClose}>
+          <NextLink href="/" onClick={onClose} aria-label="Volver al inicio">
             <Flex
               align="center"
               gap={3}
@@ -99,6 +103,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
                   key={cat.id}
                   href={`/category/${cat.id}`}
                   onClick={onClose}
+                  aria-label={`Categoría ${cat.label}`}
                 >
                   <Flex
                     align="center"

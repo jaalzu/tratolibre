@@ -6,6 +6,8 @@ import { CATEGORIES } from "@/lib/constants";
 
 export const NavbarCategories = () => (
   <Box
+    as="nav"
+    aria-label="Categorías de productos"
     bg="neutral.50"
     overflowX="auto"
     css={{
@@ -14,6 +16,8 @@ export const NavbarCategories = () => (
     }}
   >
     <Flex
+      as="ul"
+      listStyleType="none"
       px={5}
       h="32px"
       align="center"
@@ -23,7 +27,11 @@ export const NavbarCategories = () => (
       mx="0"
     >
       {CATEGORIES.map((cat) => (
-        <NextLink key={cat.id} href={`/category/${cat.id}`}>
+        <NextLink
+          key={cat.id}
+          href={`/category/${cat.id}`}
+          aria-label={`Ver categoría ${cat.label}`}
+        >
           <Text
             fontSize="xs"
             fontWeight="medium"

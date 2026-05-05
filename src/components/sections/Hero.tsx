@@ -22,7 +22,7 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
     },
     {
       image: "/hero/handshake.webp",
-      title: "¡Es rápido, fácil y gratis!",
+      title: "¡Es rápido, fácil y gratis! \n Unete ahora",
       buttonLabel: "Comenzar a Vender",
       buttonHref: isLoggedIn ? "/item/new" : "/register",
       bg: "var(--chakra-colors-accent-100)",

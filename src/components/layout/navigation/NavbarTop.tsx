@@ -46,7 +46,7 @@ export const NavbarTop = ({
       gap={{ base: 2, md: 6 }}
     >
       {/* Logo */}
-      <NextLink href="/" passHref>
+      <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
         <Text
           display={{ base: "none", md: "block" }}
           fontWeight="bold"
@@ -138,6 +138,7 @@ export const NavbarTop = ({
             <Box
               as="button"
               onClick={onOpenMenu}
+              aria-label="Abrir categorías"
               color="white"
               p={1}
               _hover={{ opacity: 0.8 }}
