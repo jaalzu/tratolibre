@@ -12,7 +12,6 @@ export function ChatStoreInit({ userId }: { userId?: string }) {
 
     const supabase = createClient();
 
-    // Suscripción a cambios en mensajes
     const channel = supabase
       .channel("global-messages")
       .on(
@@ -23,7 +22,6 @@ export function ChatStoreInit({ userId }: { userId?: string }) {
           table: "messages",
         },
         () => {
-          // Invalidar React Query en vez del store
           queryClient.invalidateQueries({ queryKey: ["conversations"] });
         },
       )

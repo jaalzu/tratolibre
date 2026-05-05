@@ -5,6 +5,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { ChatMenu } from "./ChatMenu";
 import { ArrowLeft } from "@boxicons/react";
+import { useProfile } from "@/shared/hooks/useProfile"; // ✅ Importar
 
 interface ChatHeaderProps {
   item: {
@@ -21,11 +22,18 @@ interface ChatHeaderProps {
   conversationId: string;
   isOtherOnline?: boolean;
 }
+
 export const ChatHeader = ({
   item,
   seller,
   conversationId,
 }: ChatHeaderProps) => {
+  // ✅ Usar useProfile con los datos iniciales del seller
+  const { data: otherUserProfile } = useProfile(seller.id, seller);
+
+  // ✅ Usar el perfil actualizado o el inicial
+  const currentSeller = otherUserProfile || seller;
+
   if (!item) return null;
 
   return (
@@ -82,7 +90,7 @@ export const ChatHeader = ({
         </Text>
       </Box>
 
-      {/* Avatar vendedor */}
+      {/* Avatar vendedor - ✅ Ahora usa datos de Tanstack Query */}
       <Box position="relative" w="10" h="10" flexShrink={0}>
         <Box
           position="relative"
@@ -93,10 +101,10 @@ export const ChatHeader = ({
           border="1px solid"
           borderColor="whiteAlpha.400"
         >
-          {seller.avatar_url ? (
+          {currentSeller.avatar_url ? (
             <Image
-              src={seller.avatar_url}
-              alt={seller.name}
+              src={currentSeller.avatar_url}
+              alt={currentSeller.name}
               fill
               sizes="40px"
               style={{ objectFit: "cover" }}
@@ -110,7 +118,7 @@ export const ChatHeader = ({
               justify="center"
             >
               <Text fontSize="xs" color="neutral.50" fontWeight="bold">
-                {seller.name?.[0]?.toUpperCase()}
+                {currentSeller.name?.[0]?.toUpperCase()}
               </Text>
             </Flex>
           )}
@@ -121,7 +129,7 @@ export const ChatHeader = ({
       <ChatMenu
         itemId={item.id}
         conversationId={conversationId}
-        otherUserId={seller.id}
+        otherUserId={currentSeller.id}
       />
     </Flex>
   );
