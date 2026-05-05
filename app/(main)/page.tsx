@@ -9,6 +9,7 @@ import { LazySection } from "@/components/ui/LazySection";
 import { ItemsSection } from "@/features/items/components/home/ItemsSection";
 import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
 import dynamic from "next/dynamic";
+import { HeroAvatar } from "@/components/sections/HeroAvatar";
 
 const CategoriesGrid = dynamic(
   () =>
@@ -29,7 +30,7 @@ export default async function HomePage() {
   return (
     <main>
       {profile ? (
-        <LoggedInHero name={profile.name} />
+        <LoggedInHero name={profile.name} avatarSlot={<HeroAvatar />} />
       ) : (
         <Hero isLoggedIn={false} />
       )}
@@ -41,7 +42,6 @@ export default async function HomePage() {
           params={{ order_by: "most_relevance", limit: 10 }}
           viewMoreHref="/search"
           userId={user?.id ?? null}
-          // favoriteIds={[]}
           isPriority={true}
         />
       </Suspense>
@@ -52,7 +52,6 @@ export default async function HomePage() {
           params={{ order_by: "price_asc", limit: 13 }}
           viewMoreHref="/search?order_by=price_asc"
           userId={user?.id ?? null}
-          // favoriteIds={[]}
         />
       </Suspense>
 

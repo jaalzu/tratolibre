@@ -1,11 +1,11 @@
-import { Box, Flex, Skeleton } from '@chakra-ui/react'
+import { Box, Flex, Skeleton } from "@chakra-ui/react";
 
 export default function ItemLoading() {
   return (
     <Box pb={{ base: "140px", md: 0 }}>
       {/* Mobile */}
       <Box display={{ base: "block", md: "none" }}>
-        <Skeleton h="300px" w="100%" />
+        <Skeleton h="340px" w="100%" />
         <Box px={4} pt={4}>
           <Skeleton h="6" w="60%" mb={2} />
           <Skeleton h="8" w="40%" mb={4} />
@@ -38,5 +38,5 @@ export default function ItemLoading() {
         </Box>
       </Box>
     </Box>
-  )
+  );
 }

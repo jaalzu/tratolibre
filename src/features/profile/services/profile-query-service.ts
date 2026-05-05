@@ -4,7 +4,16 @@ export const profileQueryService = {
   async getAuthProfile(supabase: SupabaseClient, userId: string) {
     const { data, error } = await supabase
       .from("profiles")
-      .select("name, avatar_url")
+      .select(
+        `
+      id,
+      name,
+      avatar_url,
+      location,
+      rating,
+      reviews_count
+    `,
+      )
       .eq("id", userId)
       .single();
 

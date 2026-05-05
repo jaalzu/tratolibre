@@ -3,7 +3,8 @@
 "use server";
 
 import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
-import { checkRateLimit } from "@/lib/rateLimit";
+import { checkRateLimit } from "@/lib/supabase/utils/rate-limiter";
+import { RateLimitError } from "@/lib/supabase/core/errors"; // Asegúrate de que la ruta sea correcta
 import { ReportSchema } from "../schemas";
 import { reportService } from "../services/report-service";
 import { CreateReportResult } from "../types";
@@ -19,20 +20,21 @@ export async function createReportAction(
       return { error: "Tenés que iniciar sesión para reportar" };
     }
 
-    // Rate limit
-    const allowed = await checkRateLimit(
-      supabase,
-      user.id,
-      "create_report",
-      REPORT_RATE_LIMIT.MAX_REPORTS,
-      REPORT_RATE_LIMIT.TIME_WINDOW_MINUTES,
-    );
-
-    if (!allowed) {
-      return { error: "Demasiados reportes. Esperá un momento." };
+    // 1. Rate limit (Manejo de excepción y argumentos)
+    try {
+      await checkRateLimit(supabase, user.id, "create_report", {
+        max: REPORT_RATE_LIMIT.MAX_REPORTS,
+        windowMin: REPORT_RATE_LIMIT.TIME_WINDOW_MINUTES,
+      });
+    } catch (error) {
+      if (error instanceof RateLimitError) {
+        return { error: "Demasiados reportes. Esperá un momento." };
+      }
+      // Si es un error de conexión o base de datos, lo lanzamos al catch principal
+      throw error;
     }
 
-    // Validación
+    // 2. Validación de esquema
     const parsed = ReportSchema.safeParse(input);
     if (!parsed.success) {
       return { error: "Datos inválidos" };
@@ -40,12 +42,12 @@ export async function createReportAction(
 
     const { type, target_id, reason, description } = parsed.data;
 
-    // Validación: no reportarse a sí mismo (usuario)
+    // 3. Validación: no reportarse a sí mismo (usuario)
     if (type === "user" && target_id === user.id) {
       return { error: "No podés reportarte a vos mismo" };
     }
 
-    // Validación: no reportar tu propia publicación
+    // 4. Validación: no reportar tu propia publicación
     if (type === "item") {
       const ownerId = await reportService.getItemOwner(supabase, target_id);
 
@@ -54,7 +56,7 @@ export async function createReportAction(
       }
     }
 
-    // Validación: no reportar conversación ajena
+    // 5. Validación: no reportar conversación ajena
     if (type === "conversation") {
       const isInConversation = await reportService.isUserInConversation(
         supabase,
@@ -67,7 +69,7 @@ export async function createReportAction(
       }
     }
 
-    // Validación: no reportar duplicado
+    // 6. Validación: no reportar duplicado
     const hasExisting = await reportService.hasExistingReport(
       supabase,
       user.id,
@@ -78,7 +80,7 @@ export async function createReportAction(
       return { error: "Ya reportaste este contenido. Estamos revisándolo." };
     }
 
-    // Crear reporte
+    // 7. Crear reporte
     await reportService.createReport(supabase, user.id, {
       type,
       target_id,

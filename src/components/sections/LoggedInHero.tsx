@@ -5,6 +5,7 @@ import styles from "./LoggedInHero.module.css";
 
 interface LoggedInHeroProps {
   name: string | null;
+  avatarSlot?: React.ReactNode;
 }
 
 function getFirstName(name: string | null) {
@@ -13,13 +14,16 @@ function getFirstName(name: string | null) {
   return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
 }
 
-export function LoggedInHero({ name }: LoggedInHeroProps) {
+export function LoggedInHero({ name, avatarSlot }: LoggedInHeroProps) {
   const firstName = getFirstName(name);
 
   return (
-    /* Usamos el PageContainer que ya optimizamos con pt/pb */
     <PageContainer pt={0} pb={3}>
       <div className={styles.heroWrapper}>
+        {avatarSlot && (
+          <div className={styles.avatarContainer}>{avatarSlot}</div>
+        )}
+
         <div>
           <h2 className={styles.title}>
             {firstName ? `Bienvenido, ${firstName}` : "Bienvenido"}
@@ -35,7 +39,7 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
             size="sm"
             className={styles.btnExplorar}
             style={{
-              padding: "6px 38px",
+              padding: "6px 42px",
               fontSize: "0.975rem",
             }}
           >
@@ -46,7 +50,7 @@ export function LoggedInHero({ name }: LoggedInHeroProps) {
             asChild
             size="sm"
             style={{
-              padding: "6px 38px",
+              padding: "6px 49px",
               fontSize: "0.975rem",
             }}
           >

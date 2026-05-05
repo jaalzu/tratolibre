@@ -6,6 +6,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { RateLimitError } from "../core/errors";
 
+export { RateLimitError };
+
 interface RateLimitOptions {
   max: number; // Máximo de intentos
   windowMin: number; // Ventana de tiempo en minutos
@@ -32,6 +34,7 @@ export async function checkRateLimit(
     .gte("created_at", since);
 
   if ((count ?? 0) >= max) {
+    // Ahora TS reconoce RateLimitError porque lo importamos arriba
     throw new RateLimitError(action);
   }
 
@@ -40,8 +43,8 @@ export async function checkRateLimit(
 
 // Rate limits predefinidos
 export const RATE_LIMITS = {
-  CREATE_ITEM: { max: 10, windowMin: 60 }, // 10 publicaciones por hora
-  UPDATE_PROFILE: { max: 5, windowMin: 60 }, // 5 actualizaciones por hora
-  SEND_MESSAGE: { max: 250, windowMin: 60 }, // 50 mensajes por hora
-  CREATE_REPORT: { max: 3, windowMin: 60 }, // 3 reportes por hora
+  CREATE_ITEM: { max: 10, windowMin: 60 },
+  UPDATE_PROFILE: { max: 5, windowMin: 60 },
+  SEND_MESSAGE: { max: 250, windowMin: 60 },
+  CREATE_REPORT: { max: 3, windowMin: 60 },
 } as const;

@@ -127,16 +127,6 @@ export default function WhoWeAreContent() {
           py={{ base: 8, md: 12 }}
           mb={3}
         >
-          <Text
-            fontSize="xs"
-            fontWeight="bold"
-            color="brand.fg"
-            textTransform="uppercase"
-            letterSpacing="wider"
-            mb={2}
-          >
-            Lo que nos guía
-          </Text>
           <Heading
             as="h2"
             fontSize={{ base: "lg", md: "xl" }}
