@@ -3,16 +3,16 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
-import type { ConversationExtended } from "@/features/chat/schemas"; // ✅ Cambiado
+import { useProfile } from "@/shared/hooks/useProfile"; // ✅ Importar
+import type { ConversationExtended } from "@/features/chat/schemas";
 
 interface ConversationItemProps {
-  conv: ConversationExtended; // ✅ Tipo correcto
+  conv: ConversationExtended;
   isActive?: boolean;
   userId?: string;
 }
 
 function formatTime(dateStr: string | null) {
-  // ✅ Nullable
   if (!dateStr) return "";
   return new Date(dateStr).toLocaleTimeString("es-AR", {
     hour: "2-digit",
@@ -28,6 +28,10 @@ export const ConversationItem = ({
   const lastMessage = conv.lastMessage;
   const isBuyer = conv.buyer_id === userId;
   const otherPerson = isBuyer ? conv.seller : conv.buyer;
+
+  // ✅ Usar useProfile para el avatar de la otra persona
+  const { data: otherUserProfile } = useProfile(otherPerson?.id, otherPerson);
+  const currentOtherPerson = otherUserProfile || otherPerson;
 
   return (
     <Box
@@ -62,10 +66,10 @@ export const ConversationItem = ({
             )}
           </Box>
 
-          {/* Info */}
+          {/* Info - ✅ Ahora usa datos de Tanstack Query */}
           <Box flex="1" minW="0">
             <Text fontSize="xs" color="neutral.400">
-              {otherPerson?.name ?? "Usuario"}
+              {currentOtherPerson?.name ?? "Usuario"}
             </Text>
             <Text fontSize="md" fontWeight="bold" color="neutral.800" truncate>
               {conv.items?.title}
