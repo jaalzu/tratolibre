@@ -26,6 +26,7 @@ export default function NavLink({
   return (
     <NextLink
       href={href}
+      aria-label={label}
       style={{
         textDecoration: "none",
         display: "flex",

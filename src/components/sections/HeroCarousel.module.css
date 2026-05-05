@@ -22,17 +22,30 @@
 .dotContainer {
   display: flex;
   justify-content: center;
-  gap: 8px; /* gap={2} */
-  margin-top: 16px; /* mt={4} */
+  gap: 12px;
+  min-height: 34px;
+  align-items: center;
 }
 
 .dot {
   padding: 0;
   border: none;
-  height: 8px;
+  height: 12px;
   border-radius: 9999px;
   transition: all 0.3s;
   cursor: pointer;
+  position: relative;
+}
+
+/* --- ÁREA TÁCTIL EXPANDIDA --- */
+.dot::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
 }
 
 /* El punto inactivo */

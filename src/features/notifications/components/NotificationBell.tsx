@@ -15,10 +15,6 @@ interface NotificationBellProps {
   userId: string;
 }
 
-/**
- * Componente principal del bell de notificaciones
- * Muestra el icono con badge de contador y panel desplegable
- */
 export function NotificationBell({
   initialCount,
   userId,

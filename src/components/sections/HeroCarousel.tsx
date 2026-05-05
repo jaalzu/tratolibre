@@ -12,7 +12,6 @@ export function HeroCarousel({ slides }: { slides: any[] }) {
   useEffect(() => {
     setMounted(true);
 
-    // 🔥 ocultar hero SSR
     const staticHero = document.getElementById("hero-static");
     if (staticHero) {
       staticHero.style.display = "none";
@@ -38,11 +37,15 @@ export function HeroCarousel({ slides }: { slides: any[] }) {
     });
   };
 
-  // 🔥 IMPORTANTE: ocultamos hasta que monte
   if (!mounted) return null;
 
   return (
-    <div className={styles.root}>
+    <div
+      className={styles.root}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Carrusel de tratolibre"
+    >
       <div ref={scrollRef} className={styles.scrollContainer}>
         {slides.map((slide, i) => (
           <div key={i} className={styles.slide}>
@@ -52,15 +55,22 @@ export function HeroCarousel({ slides }: { slides: any[] }) {
       </div>
 
       <div className={styles.dotContainer}>
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollTo(i)}
-            className={`${styles.dot} ${
-              index === i ? styles.dotActive : styles.dotInactive
-            }`}
-          />
-        ))}
+        {slides.map(
+          (
+            slide,
+            i, // Cambiamos _ por slide para usar el título si quieres
+          ) => (
+            <button
+              key={i}
+              onClick={() => scrollTo(i)}
+              aria-label={`Ir al slide ${i + 1}: ${slide.title || ""}`}
+              aria-current={index === i ? "true" : "false"}
+              className={`${styles.dot} ${
+                index === i ? styles.dotActive : styles.dotInactive
+              }`}
+            />
+          ),
+        )}
       </div>
     </div>
   );

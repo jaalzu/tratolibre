@@ -3,6 +3,11 @@
   display: block;
 }
 
+.headingMobile,
+.headingDesktop {
+  white-space: pre-line;
+}
+
 @media (min-width: 48em) {
   .mobileContainer {
     display: none;

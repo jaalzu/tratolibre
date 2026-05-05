@@ -15,7 +15,6 @@ export const FavoriteButton = ({
   initialFavorited,
   userId,
 }: FavoriteButtonProps) => {
-  // El hook ya sabe manejar si initialFavorited es undefined
   const { favorited, toggle } = useFavorite(itemId, userId, initialFavorited);
 
   return (
