@@ -1,5 +1,3 @@
-// features/items/services/favorites.service.ts
-
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function checkFavoriteExists(

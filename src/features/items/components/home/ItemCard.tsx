@@ -1,10 +1,6 @@
 import NextLink from "next/link";
 import Image from "next/image";
 import { Item } from "@/features/items/types";
-import {
-  ITEM_IMAGE_SIZE,
-  ITEM_IMAGE_QUALITY,
-} from "@/features/items/constants";
 
 import styles from "./ItemCard.module.css";
 

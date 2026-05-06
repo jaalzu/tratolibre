@@ -75,7 +75,7 @@
 }
 
 .copyright {
-  font-size: 0.75rem; /* xs */
+  font-size: 0.8rem; /* xs */
   color: var(--chakra-colors-neutral-300);
   text-align: center;
   margin-top: 32px; /* mt={8} */
@@ -84,4 +84,10 @@
 .brandSpan {
   color: var(--chakra-colors-brand-default);
   font-weight: 500;
+}
+
+.portfolioLink {
+  font-size: 0.75rem;
+  color: blue;
+  text-decoration: underline;
 }

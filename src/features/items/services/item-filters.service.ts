@@ -1,5 +1,3 @@
-// features/items/services/item-filters.service.ts
-
 type DateFilter = "today" | "week" | "month";
 
 export function getDateFrom(date?: DateFilter): string | null {

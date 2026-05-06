@@ -52,6 +52,15 @@ export const Footer = () => {
           <p className={styles.copyright}>
             © {currentYear} <span className={styles.brandSpan}>TratoLibre</span>
             . Todos los derechos reservados.
+            <br />
+            <a
+              href="https://javalzu.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.portfolioLink}
+            >
+              by javalzu
+            </a>
           </p>
         </div>
       </div>
