@@ -45,7 +45,6 @@ export class MessagingService {
       await this.conversationsRepo.findWithDetails(conversationId);
     if (!conversation) throw new NotFoundError("Conversation", conversationId);
 
-    // Verificar que el usuario sea parte de la conversación
     if (conversation.buyer_id !== userId && conversation.seller_id !== userId) {
       throw new UnauthorizedError("No tenés acceso a esta conversación");
     }
@@ -57,7 +56,6 @@ export class MessagingService {
    * Iniciar o continuar conversación
    */
   async startConversation(buyerId: string, sellerId: string, itemId: string) {
-    // No puede iniciar conversación con uno mismo
     if (buyerId === sellerId) {
       throw new UnauthorizedError(
         "No podés iniciar una conversación con vos mismo",
@@ -80,7 +78,6 @@ export class MessagingService {
     userId: string,
     options?: { limit?: number; offset?: number },
   ): Promise<MessageWithSenderDTO[]> {
-    // Verificar acceso
     const conversation = await this.conversationsRepo.findById(conversationId);
     if (!conversation) throw new NotFoundError("Conversation", conversationId);
     if (conversation.buyer_id !== userId && conversation.seller_id !== userId) {

@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { getItemById } from "@/features/items/actions";
 import { notFound } from "next/navigation";
 import ItemPageContent from "@/features/items/components/publication/ItemPageContent";
@@ -8,7 +7,7 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>;
-}): Promise<Metadata> {
+}) {
   const { id } = await params;
   const result = await getItemById(id);
 
@@ -66,7 +65,8 @@ export default async function ItemPage({
 
   return (
     <ItemPageContent
-      item={result.data}
+      itemId={id} // ✅ Pasar ID
+      initialItem={result.data} // ✅ Pasar datos iniciales
       userId={user?.id ?? null}
       isAdmin={role === "admin"}
     />

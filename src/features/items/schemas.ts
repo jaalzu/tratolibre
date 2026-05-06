@@ -1,13 +1,5 @@
 import { z } from "zod";
 
-const cleanMoney = (val: unknown) => {
-  if (typeof val === "string") {
-    const cleaned = val.replace(/\D/g, "");
-    return cleaned === "" ? undefined : cleaned;
-  }
-  return val;
-};
-
 export const ItemSchema = z.object({
   title: z
     .string()
@@ -29,10 +21,8 @@ export const ItemSchema = z.object({
     .preprocess((val) => {
       if (typeof val !== "string") return val;
       const cleaned = val.replace(/\D/g, "");
-      // Si está vacío, devolvemos un valor que falle la validación de abajo
       return cleaned === "" ? 0 : Number(cleaned);
     }, z.number())
-    // Aquí es donde controlamos el mensaje de error de forma manual
     .refine((n) => n > 0, {
       message: "El precio mínimo es $1",
     })

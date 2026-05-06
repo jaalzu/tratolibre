@@ -1,5 +1,3 @@
-// features/items/services/item-validation.service.ts
-
 export function parseItemFormData(formData: FormData) {
   const parseJSON = (value: FormDataEntryValue | null): any => {
     if (!value || value === "null" || value === "undefined") return undefined;

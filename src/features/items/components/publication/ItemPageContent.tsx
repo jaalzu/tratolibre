@@ -8,40 +8,50 @@ import SellerCard from "./SellerCard";
 import ItemActions from "./ItemActions";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { ItemWithProfile } from "@/features/items/types";
+import { useItem } from "@/shared/hooks/useItem";
+import type { ItemWithProfile } from "@/features/items/types";
 
 interface ItemPageContentProps {
-  item: ItemWithProfile;
+  itemId: string;
+  initialItem: ItemWithProfile;
   userId: string | null;
   isAdmin?: boolean;
 }
 
 export default function ItemPageContent({
-  item,
+  itemId,
+  initialItem,
   userId,
   isAdmin = false,
 }: ItemPageContentProps) {
+  const { data: item } = useItem(itemId, initialItem);
+
+  const currentItem = item || initialItem;
+
   return (
     <Box pb={{ base: "0px", md: 0 }} suppressHydrationWarning>
       <ScrollToTop />
       {/* ── MOBILE ── */}
       <Box display={{ base: "block", md: "none" }}>
         <Box pt={0}>
-          <ItemImageSlider images={item.images ?? []} title={item.title} />
+          <ItemImageSlider
+            images={currentItem.images ?? []}
+            title={currentItem.title}
+          />
         </Box>
 
         <Box px={4} pt={2}>
-          <ItemInfo item={item} />
+          <ItemInfo item={currentItem} />
 
           <Box mt={4}>
             <SellerCard
-              profile={item.profiles}
-              itemId={item.id}
+              profile={currentItem.profiles}
+              itemId={currentItem.id}
               userId={userId}
             />
           </Box>
 
-          {item.category && (
+          {currentItem.category && (
             <Box
               display="inline-block"
               mt={4}
@@ -55,13 +65,13 @@ export default function ItemPageContent({
                 color="neutral.900"
                 textTransform="capitalize"
               >
-                {item.category}
+                {currentItem.category}
               </Text>
             </Box>
           )}
 
           <Separator my={5} borderColor="neutral.100" />
-          <ItemDetails item={item} userId={userId} />
+          <ItemDetails item={currentItem} userId={userId} />
         </Box>
 
         <Box
@@ -76,19 +86,25 @@ export default function ItemPageContent({
           borderColor="neutral.300"
           zIndex={40}
         >
-          <ItemActions item={item} userId={userId} isAdmin={isAdmin} />
+          <ItemActions item={currentItem} userId={userId} isAdmin={isAdmin} />
         </Box>
       </Box>
 
       {/* ── DESKTOP ── */}
       <Box display={{ base: "none", md: "block" }}>
         <Box maxW="900px" mx="auto" px={10} py={5}>
-          <Breadcrumb category={item.category} title={item.title} />
+          <Breadcrumb
+            category={currentItem.category}
+            title={currentItem.title}
+          />
           <Flex gap={10} align="start">
             <Box flex="1" minW={0}>
-              <ItemImageSlider images={item.images ?? []} title={item.title} />
+              <ItemImageSlider
+                images={currentItem.images ?? []}
+                title={currentItem.title}
+              />
 
-              {item.category && (
+              {currentItem.category && (
                 <Box
                   display="inline-block"
                   mt={4}
@@ -103,13 +119,13 @@ export default function ItemPageContent({
                     color="neutral.900"
                     textTransform="capitalize"
                   >
-                    {item.category}
+                    {currentItem.category}
                   </Text>
                 </Box>
               )}
 
               <Separator my={6} borderColor="neutral.100" />
-              <ItemDetails item={item} userId={userId} />
+              <ItemDetails item={currentItem} userId={userId} />
             </Box>
 
             <Box w="300px" flexShrink={0}>
@@ -124,18 +140,18 @@ export default function ItemPageContent({
                   py={6}
                   mb={3}
                 >
-                  <ItemInfo item={item} />
+                  <ItemInfo item={currentItem} />
                   <Box mt={5}>
                     <ItemActions
-                      item={item}
+                      item={currentItem}
                       userId={userId}
                       isAdmin={isAdmin}
                     />
                   </Box>
                 </Box>
                 <SellerCard
-                  profile={item.profiles}
-                  itemId={item.id}
+                  profile={currentItem.profiles}
+                  itemId={currentItem.id}
                   userId={userId}
                 />
               </Box>
