@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import { Item } from "@/features/items/types";
 import styles from "./ItemsCategorySection.module.css";

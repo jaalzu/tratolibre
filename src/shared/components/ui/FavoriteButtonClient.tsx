@@ -4,7 +4,9 @@ import dynamic from "next/dynamic";
 
 const FavoriteButton = dynamic(
   () =>
-    import("@/components/ui/FavoriteButton").then((mod) => mod.FavoriteButton),
+    import("@/shared/components/ui/FavoriteButton").then(
+      (mod) => mod.FavoriteButton,
+    ),
   {
     ssr: false,
     loading: () => <div style={{ width: 22, height: 22 }} />,

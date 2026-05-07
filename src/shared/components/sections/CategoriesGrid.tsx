@@ -3,7 +3,7 @@
 import NextLink from "next/link";
 import { CATEGORIES } from "@/lib/constants";
 import { useState, useEffect, useRef } from "react";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import { ChevronUp, ChevronDown } from "@boxicons/react";
 import styles from "./CategoriesGrid.module.css";
 

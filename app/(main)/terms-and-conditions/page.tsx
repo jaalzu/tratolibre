@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
 const TermsContent = dynamic(
-  () => import("@/components/layout/footer/TermsContent"),
+  () => import("@/shared/components/layout/footer/TermsContent"),
   {
     ssr: true, // Importante para que el contenido legal sea indexable
     loading: () => (

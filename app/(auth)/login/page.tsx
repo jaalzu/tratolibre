@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/shared/components/ui/Card";
 import { LoginForm } from "@/features/auth/components/LoginForm";
 
 export default function LoginPage() {

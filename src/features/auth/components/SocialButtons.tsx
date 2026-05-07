@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client/browser";
 

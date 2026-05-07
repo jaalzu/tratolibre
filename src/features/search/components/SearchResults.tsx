@@ -2,8 +2,8 @@
 
 import { Box, Heading, Text, Spinner, Flex } from "@chakra-ui/react";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { FadeInGrid } from "@/components/ui/FadeInGrid";
+import { EmptyState } from "@/shared/components/ui/EmptyState";
+import { FadeInGrid } from "@/shared/components/ui/FadeInGrid";
 import { SearchPageParams } from "../types";
 import { useSearchResults } from "../hooks/useSearchResults";
 

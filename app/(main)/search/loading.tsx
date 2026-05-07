@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 
 function Bone({

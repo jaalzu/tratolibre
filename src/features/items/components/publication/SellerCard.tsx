@@ -1,9 +1,9 @@
 "use client";
 
 import { Box, Flex, Text, Circle, Spinner } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { useStartChat } from "@/features/items/hooks/useStartChat";
-import { useProfile, type AuthProfile } from "@/shared/hooks/useProfile"; // ✅ Importa el tipo
+import { useProfile, type AuthProfile } from "@/shared/hooks/useProfile";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toaster } from "@/components/ui/toaster";
+import { toaster } from "@/shared/components/ui/toaster";
 import { submitReviewAction } from "../actions/mutations/submitReview";
 import type { ReviewInput } from "../schemas";
 

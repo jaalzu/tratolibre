@@ -4,7 +4,7 @@ import { Box, Flex, Text, Stack } from "@chakra-ui/react";
 import { useSearchFilters } from "../hooks/useSearchFilters";
 import { CATEGORIES, CONDITIONS } from "@/lib/constants";
 import { DATE_OPTIONS, SORT_OPTIONS } from "../constants";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { FilterSelect } from "./FilterSelect";
 import { SectionTitle, OptionButton } from "./filters/FilterAtoms";
 import { PriceInput } from "./filters/PriceInput";

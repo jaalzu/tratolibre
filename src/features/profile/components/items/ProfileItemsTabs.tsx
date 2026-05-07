@@ -4,7 +4,7 @@ import { Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { ProfileItemCard } from "./ProfileItemCard";
 import { ItemSummary } from "@/features/items/types";
-import { EmptyState } from "@/components/ui/EmptyState";
+import { EmptyState } from "@/shared/components/ui/EmptyState";
 
 interface ProfileItemsTabsProps {
   items: ItemSummary[];

@@ -3,9 +3,9 @@
 import { Stack, SimpleGrid, Input, Textarea, Text } from "@chakra-ui/react";
 import { useController } from "react-hook-form";
 import { CATEGORIES, CONDITIONS } from "@/lib/constants";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { Button } from "@/shared/components/ui/Button";
+import { Card } from "@/shared/components/ui/Card";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import { LocationSelector } from "./LocationSelector";
 import { ImageUploader } from "./ImageUploader";
 import { useNewItemForm } from "@/features/items/hooks/useNewItemForm";

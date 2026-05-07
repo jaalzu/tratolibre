@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Text, Flex, Avatar } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { EditProfileFields } from "./EditProfileFields";
 import { useEditProfile } from "@/features/profile/hooks/useEditProfile";
 import { EditProfileDefaultValues } from "@/features/profile/types";

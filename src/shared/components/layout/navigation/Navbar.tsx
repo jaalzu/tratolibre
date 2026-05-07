@@ -8,7 +8,7 @@ import { User } from "@supabase/supabase-js";
 
 const CategoriesDrawer = dynamic(
   () =>
-    import("@/components/layout/navigation/CategoriesDrawer").then(
+    import("@/shared/components/layout/navigation/CategoriesDrawer").then(
       (mod) => mod.CategoriesDrawer,
     ),
   { ssr: false },

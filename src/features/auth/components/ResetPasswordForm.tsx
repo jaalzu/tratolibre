@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { Flex, Text, Input, Field, Stack, Box } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
-import { createClient } from "@/lib/supabase/client/browser"; // ✅ BROWSER CLIENT
+import { Button } from "@/shared/components/ui/Button";
+import { createClient } from "@/lib/supabase/client/browser";
 
 const ResetSchema = z
   .object({

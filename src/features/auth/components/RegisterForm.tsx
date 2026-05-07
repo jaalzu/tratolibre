@@ -7,9 +7,9 @@ import { registerSchema, type RegisterInput } from "@/features/auth/schemas";
 import { useRegister } from "@/features/auth/hooks";
 import NextLink from "next/link";
 import { Flex, Text, Stack } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { FormField } from "./FormField";
-import { toaster } from "@/components/ui/toaster";
+import { toaster } from "@/shared/components/ui/toaster";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);

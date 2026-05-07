@@ -17,7 +17,9 @@ const ReportModal = dynamic(
 
 const ConfirmDialog = dynamic(
   () =>
-    import("@/components/ui/ConfirmDialog").then((mod) => mod.ConfirmDialog),
+    import("@/shared/components/ui/ConfirmDialog").then(
+      (mod) => mod.ConfirmDialog,
+    ),
   { ssr: false },
 );
 

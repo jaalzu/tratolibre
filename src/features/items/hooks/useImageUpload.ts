@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { compressImages } from "@/lib/compress";
-import { toaster } from "@/components/ui/toaster";
+import { toaster } from "@/shared/components/ui/toaster";
 
 export function useImageUpload() {
   const [uploading, setUploading] = useState(false);
@@ -54,7 +54,7 @@ export function useImageUpload() {
 
           if (!res.ok) {
             const errorData = await res.text();
-            console.error("❌ Upload failed:", res.status, errorData);
+            console.error(" Upload failed:", res.status, errorData);
             toaster.create({
               title: "Error al subir imagen",
               description: `Error ${res.status}: ${errorData}`,

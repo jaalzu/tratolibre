@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
 const HowItWorksContent = dynamic(
-  () => import("@/components/layout/footer/HowItWorksContent"),
+  () => import("@/shared/components/layout/footer/HowItWorksContent"),
   {
     ssr: true,
     loading: () => (

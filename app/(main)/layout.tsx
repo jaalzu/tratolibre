@@ -1,6 +1,6 @@
-import Navbar from "@/components/layout/navigation/Navbar";
-import BottomNav from "@/components/layout/navigation/BottomNav";
-import { FooterWrapper } from "@/components/layout/footer/FooterWrapper";
+import Navbar from "@/shared/components/layout/navigation/Navbar";
+import BottomNav from "@/shared/components/layout/navigation/BottomNav";
+import { FooterWrapper } from "@/shared/components/layout/footer/FooterWrapper";
 import { getUnreadCount } from "@/features/notifications";
 import { getAuthUserWithRole } from "@/lib/supabase/utils/auth-helpers";
 

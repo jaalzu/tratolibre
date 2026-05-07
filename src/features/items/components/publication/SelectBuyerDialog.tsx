@@ -10,7 +10,7 @@ import {
   Circle,
   Spinner,
 } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { getConversationsByItem } from "@/features/chat/actions/queries";
 import { markAsSoldToAction } from "@/features/items/actions";
 import { ReviewModal } from "../../../reviews/components/ReviewModal";
@@ -42,12 +42,12 @@ export const SelectBuyerDialog = ({
   const [marking, setMarking] = useState<string | null>(null);
   const [saleResult, setSaleResult] = useState<SaleResult | null>(null);
   const [reviewOpen, setReviewOpen] = useState(false);
-  const [error, setError] = useState<string | null>(null); // ✅ Estado de error
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
     setLoading(true);
-    setError(null); // ✅ Limpiar error al abrir
+    setError(null);
     getConversationsByItem(itemId).then((data) => {
       setBuyers(data);
       setLoading(false);
@@ -56,18 +56,16 @@ export const SelectBuyerDialog = ({
 
   const handleSelect = async (buyerId: string, buyerName: string) => {
     setMarking(buyerId);
-    setError(null); // ✅ Limpiar error antes de intentar
+    setError(null);
 
     const result = await markAsSoldToAction(itemId, buyerId);
     setMarking(null);
 
-    // ✅ Manejo con discriminated union
     if (!result.success) {
       setError(result.error);
       return;
     }
 
-    // ✅ TypeScript sabe que result.data existe
     setSaleResult({
       purchaseId: result.data.purchaseId,
       buyerId,
@@ -97,7 +95,7 @@ export const SelectBuyerDialog = ({
                 </Text>
               </Dialog.Description>
 
-              {/* ✅ Mostrar error si existe */}
+              {/*  Mostrar error si existe */}
               {error && (
                 <Box
                   bg="red.50"
