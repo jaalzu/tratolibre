@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useInfiniteItems } from "@/features/items/hooks/useInfiniteItems";
 import { ItemCard } from "./ItemCard";
-import { FadeInGrid } from "@/components/ui/FadeInGrid";
+import { FadeInGrid } from "@/shared/components/ui/FadeInGrid";
 import styles from "./InfiniteGrid.module.css";
 
 interface InfiniteGridProps {

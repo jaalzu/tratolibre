@@ -2,7 +2,6 @@
 
 "use client";
 
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -12,10 +11,9 @@ import {
 import { useForgotPassword } from "@/features/auth/hooks";
 import NextLink from "next/link";
 import { Flex, Text, Input, Field, Stack } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 
 export const ForgotPasswordForm = () => {
-  // ✅ Hook custom
   const { sendResetEmail, isPending, error, success, reset } =
     useForgotPassword();
 
@@ -40,7 +38,6 @@ export const ForgotPasswordForm = () => {
     _placeholder: { color: "neutral.400" },
   };
 
-  // ✅ Mostrar mensaje de éxito
   if (success) {
     return (
       <Flex direction="column" maxW="360px" mx="auto" w="full" gap={2}>
@@ -93,14 +90,12 @@ export const ForgotPasswordForm = () => {
             )}
           </Field.Root>
 
-          {/* ✅ Error del hook */}
           {error && (
             <Text fontSize="xs" color="feedback.error" textAlign="center">
               {error}
             </Text>
           )}
 
-          {/* ✅ Loading del hook */}
           <Button
             type="submit"
             width="full"

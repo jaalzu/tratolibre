@@ -1,19 +1,19 @@
 import { Suspense } from "react";
 import { getAuthUser } from "@/lib/supabase/utils/auth-helpers";
 import { getAuthProfile } from "@/features/profile/actions";
-import { LoggedInHero } from "@/components/sections/LoggedInHero";
-import { Hero } from "@/components/sections/Hero";
-import { SectionSkeleton } from "@/components/sections/SectionSkeleton";
-import { PageContainer } from "@/components/ui/PageContainer";
-import { LazySection } from "@/components/ui/LazySection";
+import { LoggedInHero } from "@/shared/components/sections/LoggedInHero";
+import { Hero } from "@/shared/components/sections/Hero";
+import { SectionSkeleton } from "@/shared/components/sections/SectionSkeleton";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
+import { LazySection } from "@/shared/components/ui/LazySection";
 import { ItemsSection } from "@/features/items/components/home/ItemsSection";
 import { InfiniteGrid } from "@/features/items/components/home/InfiniteGrid";
 import dynamic from "next/dynamic";
-import { HeroAvatar } from "@/components/sections/HeroAvatar";
+import { HeroAvatar } from "@/shared/components/sections/HeroAvatar";
 
 const CategoriesGrid = dynamic(
   () =>
-    import("@/components/sections/CategoriesGrid").then(
+    import("@/shared/components/sections/CategoriesGrid").then(
       (mod) => mod.CategoriesGrid,
     ),
   {

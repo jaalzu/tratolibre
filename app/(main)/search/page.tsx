@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import { SearchFilterBar } from "@/features/search/components/SearchFilterBar";
 import { DynamicFilterPanel } from "@/features/search/components/DynamicFilterPanel";
 import { SearchResults } from "@/features/search/components/SearchResults";

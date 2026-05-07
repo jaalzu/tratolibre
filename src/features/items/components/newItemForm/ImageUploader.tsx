@@ -1,6 +1,6 @@
 "use client";
 
-import { toaster } from "@/components/ui/toaster";
+import { toaster } from "@/shared/components/ui/toaster";
 import { useRef } from "react";
 import { Box, Flex, Text, Grid, Spinner, Stack } from "@chakra-ui/react";
 import Image from "next/image";

@@ -1,6 +1,6 @@
 import NextLink from "next/link";
-import { Button } from "@/components/ui/Button";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { Button } from "@/shared/components/ui/Button";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import styles from "./LoggedInHero.module.css";
 
 interface LoggedInHeroProps {

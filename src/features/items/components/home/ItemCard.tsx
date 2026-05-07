@@ -4,7 +4,7 @@ import { Item } from "@/features/items/types";
 
 import styles from "./ItemCard.module.css";
 
-import { FavoriteButtonClient } from "@/components/ui/FavoriteButtonClient";
+import { FavoriteButtonClient } from "@/shared/components/ui/FavoriteButtonClient";
 
 interface ItemCardProps {
   obj: Item;

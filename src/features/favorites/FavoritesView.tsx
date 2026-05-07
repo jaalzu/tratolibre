@@ -2,11 +2,12 @@
 
 import dynamic from "next/dynamic";
 import { Text, Box, Skeleton, SimpleGrid } from "@chakra-ui/react";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import { Item } from "@/features/items/types";
 
 const FadeInGrid = dynamic(
-  () => import("@/components/ui/FadeInGrid").then((mod) => mod.FadeInGrid),
+  () =>
+    import("@/shared/components/ui/FadeInGrid").then((mod) => mod.FadeInGrid),
   { loading: () => <SkeletonGrid /> },
 );
 
@@ -17,7 +18,8 @@ const ItemCard = dynamic(() =>
 );
 
 const EmptyState = dynamic(
-  () => import("@/components/ui/EmptyState").then((mod) => mod.EmptyState),
+  () =>
+    import("@/shared/components/ui/EmptyState").then((mod) => mod.EmptyState),
   { loading: () => <Skeleton h="300px" w="full" borderRadius="2xl" /> },
 );
 

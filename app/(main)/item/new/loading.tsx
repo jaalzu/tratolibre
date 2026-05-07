@@ -1,6 +1,6 @@
-import { Box, Stack, Skeleton, SimpleGrid } from '@chakra-ui/react'
-import { PageContainer } from '@/components/ui/PageContainer'
-import { Card } from '@/components/ui/Card'
+import { Box, Stack, Skeleton, SimpleGrid } from "@chakra-ui/react";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
+import { Card } from "@/shared/components/ui/Card";
 
 export default function NewItemLoading() {
   return (
@@ -31,5 +31,5 @@ export default function NewItemLoading() {
         </Stack>
       </Card>
     </PageContainer>
-  )
+  );
 }

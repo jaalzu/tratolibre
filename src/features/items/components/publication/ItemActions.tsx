@@ -1,12 +1,12 @@
 "use client";
 
 import { Text, Flex, Box } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { useStartChat } from "@/features/items/hooks/useStartChat";
 import { useState } from "react";
-import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { ConfirmDialog } from "@/shared/components/ui/ConfirmDialog";
 import { SelectBuyerDialog } from "@/features/items/components/publication/SelectBuyerDialog";
 import { deleteItemAction } from "@/features/items/actions";
 import { AdminDeleteButton } from "@/features/admin/components/ui/AdminDeleteButton";

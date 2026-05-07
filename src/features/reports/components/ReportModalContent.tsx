@@ -1,7 +1,7 @@
 // features/reports/components/ReportModalContent.tsx
 
 import { Dialog, Stack, Text, Textarea } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { REPORT_REASONS } from "../constants";
 import { ReportReason } from "../types";
 import { ReportReasonOption } from "./ReportReasonOption";

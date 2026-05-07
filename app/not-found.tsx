@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { EmptyState } from "@/components/ui/EmptyState";
+import { EmptyState } from "@/shared/components/ui/EmptyState";
 import styles from "./Not-found.module.css";
 
 export default function NotFound() {

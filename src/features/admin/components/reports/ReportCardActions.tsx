@@ -3,8 +3,8 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import NextLink from "next/link";
-import { Button } from "@/components/ui/Button";
-import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Button } from "@/shared/components/ui/Button";
+import { ConfirmDialog } from "@/shared/components/ui/ConfirmDialog";
 import { TARGET_HREF } from "../../constants";
 import { useReportActions } from "../../hooks/useReportActions";
 import { AdminReport } from "../../types";

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
 const PrivacyContent = dynamic(
-  () => import("@/components/layout/footer/PrivacyContent"),
+  () => import("@/shared/components/layout/footer/PrivacyContent"),
   {
     ssr: true,
     loading: () => (

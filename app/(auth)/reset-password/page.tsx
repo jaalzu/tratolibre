@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/shared/components/ui/Card";
 import { ResetPasswordForm } from "@/features/auth/components/ResetPasswordForm";
 
 export default function ResetPasswordPage() {

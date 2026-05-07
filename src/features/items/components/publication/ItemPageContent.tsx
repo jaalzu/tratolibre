@@ -6,8 +6,8 @@ import ItemInfo from "./ItemInfo";
 import ItemDetails from "./ItemDetails";
 import SellerCard from "./SellerCard";
 import ItemActions from "./ItemActions";
-import { ScrollToTop } from "@/components/ui/ScrollToTop";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { ScrollToTop } from "@/shared/components/ui/ScrollToTop";
+import { Breadcrumb } from "@/shared/components/ui/Breadcrumb";
 import { useItem } from "@/shared/hooks/useItem";
 import type { ItemWithProfile } from "@/features/items/types";
 

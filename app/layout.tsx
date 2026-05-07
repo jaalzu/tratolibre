@@ -1,7 +1,7 @@
 // app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/shared/components/ui/toaster";
 import "./globals.css";
 import { Providers } from "./providers";
 import { createClient } from "@/lib/supabase/client/server";

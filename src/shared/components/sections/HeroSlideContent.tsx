@@ -1,6 +1,6 @@
 import Image from "next/image";
 import NextLink from "next/link";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import styles from "./Hero.module.css";
 
 export function HeroSlideContent({ slide, priority }: any) {

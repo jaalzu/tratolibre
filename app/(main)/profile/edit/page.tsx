@@ -1,7 +1,7 @@
 // EditProfilePage.tsx (Server Component)
 import { getMyProfile } from "@/features/profile/actions";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { PageContainer } from "@/components/ui/PageContainer";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import NextLink from "next/link";
 import { ArrowLeft } from "@boxicons/react";
 import dynamic from "next/dynamic";

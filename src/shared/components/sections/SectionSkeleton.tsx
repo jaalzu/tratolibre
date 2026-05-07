@@ -1,4 +1,4 @@
-import { PageContainer } from "@/components/ui/PageContainer";
+import { PageContainer } from "@/shared/components/ui/PageContainer";
 import styles from "./SectionSkeleton.module.css";
 
 function Bone({

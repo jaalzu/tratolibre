@@ -7,7 +7,7 @@ import { loginSchema, type LoginInput } from "@/features/auth/schemas";
 import { useLogin } from "@/features/auth/hooks";
 import NextLink from "next/link";
 import { Flex, Text, Stack, Box } from "@chakra-ui/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { SocialButtons } from "@/features/auth/components/SocialButtons";
 import { FormField } from "./FormField";
 

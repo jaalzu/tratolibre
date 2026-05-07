@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import NavLink from "./NavLink";
 import { ChatNavLink } from "./ChatNavLink";
 import { NotificationBell } from "@/features/notifications/components/NotificationBell";
-import { SearchBar } from "../../../features/search/components/SearchBar";
+import { SearchBar } from "@/features/search/components/SearchBar";
 import { User } from "@supabase/supabase-js";
 import {
   HomeAlt,
