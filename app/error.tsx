@@ -1,50 +1,39 @@
 "use client";
 
 import NextLink from "next/link";
+import Image from "next/image";
 import { AlertCircle } from "@boxicons/react";
+import styles from "./error.module.css";
 
 export default function Error({ reset }: { reset: () => void }) {
   return (
-    <div className="min-h-[100dvh] relative flex flex-col items-center justify-center p-6 bg-[var(--chakra-colors-neutral-50)]">
-      {/* Logo / Link */}
-      <div className="absolute top-6 left-6">
-        <NextLink
-          href="/"
-          className="text-xl font-bold text-[var(--chakra-colors-neutral-900)] no-underline"
-        >
-          TratoLibre
+    <div className={styles.root}>
+      <div className={styles.logoWrapper}>
+        <NextLink href="/">
+          <Image
+            src="/koala/logotext2.png"
+            alt="TratoLibre"
+            width={200}
+            height={100}
+            className={styles.logoImage}
+          />
         </NextLink>
       </div>
 
-      <div className="text-center">
-        <AlertCircle
-          width="64px"
-          height="64px"
-          fill="var(--chakra-colors-feedback-error)"
-          className="mx-auto mb-4"
-        />
-        <h2 className="text-2xl font-semibold mb-2 text-[var(--chakra-colors-neutral-800)]">
-          Algo salió mal
-        </h2>
-        <p className="text-[var(--chakra-colors-neutral-600)] mb-6">
-          Ocurrió un error inesperado.
-        </p>
+      <main className={styles.main}>
+        <AlertCircle className={styles.icon} />
+        <h2 className={styles.title}>Algo salió mal</h2>
+        <p className={styles.description}>Ocurrió un error inesperado.</p>
 
-        <div className="flex gap-4 justify-center">
-          <button
-            onClick={() => reset()}
-            className="px-4 py-2 bg-[var(--chakra-colors-brand-500)] text-white rounded-md font-medium"
-          >
+        <div className={styles.buttonGroup}>
+          <button onClick={reset} className={styles.buttonPrimary}>
             Reintentar
           </button>
-          <NextLink
-            href="/"
-            className="px-4 py-2 border border-[var(--chakra-colors-neutral-200)] rounded-md font-medium"
-          >
+          <NextLink href="/" className={styles.buttonSecondary}>
             Volver al inicio
           </NextLink>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

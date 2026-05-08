@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, Text, Group } from "@chakra-ui/react";
+import { Box, Flex, Group, Image } from "@chakra-ui/react";
 import NextLink from "next/link";
 import NavLink from "./NavLink";
 import { ChatNavLink } from "./ChatNavLink";
@@ -37,6 +37,7 @@ export const NavbarTop = ({
   onOpenMenu,
 }: NavbarTopProps) => (
   <Box bg="brand.default">
+    {/* Desktop Layout */}
     <Flex
       maxW="1280px"
       mx="auto"
@@ -44,27 +45,22 @@ export const NavbarTop = ({
       h="60px"
       align="center"
       gap={{ base: 2, md: 6 }}
+      display={{ base: "none", md: "flex" }}
     >
-      {/* Logo */}
+      {/* Logo Desktop */}
       <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
-        <Text
-          display={{ base: "none", md: "block" }}
-          fontWeight="bold"
-          fontSize="md"
-          color="neutral.50"
-          whiteSpace="nowrap"
-        >
-          TratoLibre
-        </Text>
+        <Box flexShrink={0}>
+          <Image src="/koala/logotextwhite.png" alt="TratoLibre" h="33px" />
+        </Box>
       </NextLink>
 
       {/* Buscador */}
-      <Group flex="1" maxW={{ base: "full", md: "700px" }}>
+      <Group flex="1" maxW="700px">
         <SearchBar />
       </Group>
 
       {/* Desktop nav */}
-      <Flex align="center" gap={2} display={{ base: "none", md: "flex" }}>
+      <Flex align="center" gap={2}>
         {user ? (
           <>
             {loggedNavItems.map((item) => (
@@ -85,9 +81,18 @@ export const NavbarTop = ({
                 variant="desktop"
               />
             )}
-
             <Box color="neutral.50">
               <NotificationBell initialCount={unreadCount} userId={user.id} />
+            </Box>
+            <Box
+              as="button"
+              onClick={onOpenMenu}
+              aria-label="Abrir categorías"
+              color="neutral.50"
+              p={1}
+              _hover={{ opacity: 0.8 }}
+            >
+              <Categories width="28px" height="28px" fill="currentColor" />
             </Box>
           </>
         ) : (
@@ -125,30 +130,38 @@ export const NavbarTop = ({
           </>
         )}
       </Flex>
+    </Flex>
 
-      {/* Mobile */}
-      <Box
-        display={{ base: "flex", md: "none" }}
-        alignItems="center"
-        gap={2}
-        flexShrink={0}
-      >
+    {/* Mobile Layout */}
+    <Box display={{ base: "block", md: "none" }}>
+      {/* Single Row: Logo + Search + Bell + Categories */}
+      <Flex px={1} py={2} align="center" gap={2}>
+        <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
+          <Box flexShrink={0}>
+            <Image src="/koala/logo.png" alt="TratoLibre" h="35px" />
+          </Box>
+        </NextLink>
+
+        <Group flex="1">
+          <SearchBar />
+        </Group>
+
         {user ? (
-          <>
+          <Flex align="center" gap={0.6} flexShrink={0}>
+            <Box color="white">
+              <NotificationBell initialCount={unreadCount} userId={user.id} />
+            </Box>
             <Box
               as="button"
               onClick={onOpenMenu}
               aria-label="Abrir categorías"
               color="white"
-              p={1}
+              p={0.5}
               _hover={{ opacity: 0.8 }}
             >
-              <Categories width="28px" height="28px" fill="currentColor" />
+              <Categories width="26px" height="26px" fill="currentColor" />
             </Box>
-            <Box color="white">
-              <NotificationBell initialCount={unreadCount} userId={user.id} />
-            </Box>
-          </>
+          </Flex>
         ) : (
           <NextLink href="/login">
             <Box
@@ -164,7 +177,7 @@ export const NavbarTop = ({
             </Box>
           </NextLink>
         )}
-      </Box>
-    </Flex>
+      </Flex>
+    </Box>
   </Box>
 );

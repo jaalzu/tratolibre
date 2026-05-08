@@ -6,7 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterInput } from "@/features/auth/schemas";
 import { useRegister } from "@/features/auth/hooks";
 import NextLink from "next/link";
-import { Flex, Text, Stack } from "@chakra-ui/react";
+import Image from "next/image"; // Importamos Image
+import { Flex, Text, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import { FormField } from "./FormField";
 import { toaster } from "@/shared/components/ui/toaster";
@@ -52,7 +53,21 @@ export const RegisterForm = () => {
   };
 
   return (
-    <Flex direction="column" maxW="360px" mx="auto" w="full">
+    <Flex direction="column" maxW="360px" mx="auto" w="full" py={4}>
+      {/* --- LOGO CENTRADO --- */}
+      <Flex justify="center" mb={6}>
+        <NextLink href="/">
+          <Image
+            src="/koala/logotext2.png"
+            alt="TratoLibre Logo"
+            width={180}
+            height={45}
+            priority
+            style={{ width: "auto", height: "45px" }}
+          />
+        </NextLink>
+      </Flex>
+
       <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>
         Registro
       </Text>
@@ -113,9 +128,11 @@ export const RegisterForm = () => {
           />
 
           {error && (
-            <Text fontSize="xs" color="feedback.error" textAlign="center">
-              {error}
-            </Text>
+            <Box py={2}>
+              <Text fontSize="xs" color="feedback.error" textAlign="center">
+                {error}
+              </Text>
+            </Box>
           )}
 
           <Button
@@ -136,7 +153,11 @@ export const RegisterForm = () => {
         ¿Ya tenés cuenta?{" "}
         <Text as="span" color="accent.default" fontWeight="600">
           <NextLink href="/login">
-            <Text as="span" _hover={{ textDecoration: "underline" }}>
+            <Text
+              as="span"
+              _hover={{ textDecoration: "underline" }}
+              cursor="pointer"
+            >
               Iniciá sesión
             </Text>
           </NextLink>

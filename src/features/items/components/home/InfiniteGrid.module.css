@@ -1,6 +1,6 @@
 .container {
   background-color: white;
-  border-radius: 1rem; /* 2xl */
+  border-radius: 1rem;
   padding: 10px;
   box-shadow: var(--chakra-shadows-sm);
   min-height: 200px;
@@ -36,7 +36,6 @@
   width: 100%;
 }
 
-/* Spinner nativo ultra liviano */
 .spinner {
   width: 32px;
   height: 32px;

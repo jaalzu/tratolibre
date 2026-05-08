@@ -10,7 +10,6 @@ export default async function MyProfilePage() {
     getMyProfile(),
     getPendingReviewsAction(),
   ]);
-
   const { profile, items, salesCount, purchasesCount } = profileData;
 
   return (

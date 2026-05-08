@@ -116,6 +116,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
                   >
                     <Icon
                       width="20px"
+                      cursor="pointer"
                       height="20px"
                       fill="var(--chakra-colors-brand-default)"
                     />

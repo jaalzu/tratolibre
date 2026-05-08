@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/features/auth/schemas";
 import { useLogin } from "@/features/auth/hooks";
 import NextLink from "next/link";
+import Image from "next/image";
 import { Flex, Text, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import { SocialButtons } from "@/features/auth/components/SocialButtons";
@@ -31,11 +32,28 @@ export const LoginForm = () => {
 
   return (
     <Flex direction="column" maxW="360px" mx="auto" w="full" py={4}>
-      <Text fontSize="xl" fontWeight="bold" color="neutral.900">
-        Bienvenido
-      </Text>
-      <Text fontSize="xs" color="neutral.400" mt={-1} mb={5}>
-        Iniciá sesión en TratoLibre
+      {/* --- LOGO CENTRADO --- */}
+      <Flex justify="center" mb={6}>
+        <NextLink href="/">
+          <Image
+            src="/koala/logotext2.png"
+            alt="TratoLibre Logo"
+            width={180}
+            height={45}
+            priority
+            style={{ width: "auto", height: "45px" }}
+          />
+        </NextLink>
+      </Flex>
+
+      <Text
+        fontSize="xl"
+        fontWeight="bold"
+        color="neutral.900"
+        textAlign="start"
+        mb={2}
+      >
+        Iniciar sesión
       </Text>
 
       <form onSubmit={handleSubmit(onSubmit)}>
