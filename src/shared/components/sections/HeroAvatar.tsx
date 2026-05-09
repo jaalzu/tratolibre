@@ -34,7 +34,7 @@ export function HeroAvatar() {
         alt={data.name || "Perfil"}
         fill
         priority
-        sizes="80px"
+        sizes="55px"
         className={`${styles.image} ${isLoaded ? styles.imageLoaded : ""}`}
         onLoad={() => setIsLoaded(true)}
       />

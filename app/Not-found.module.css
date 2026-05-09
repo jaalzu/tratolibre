@@ -5,15 +5,8 @@
 
 .logoWrapper {
   position: absolute;
-  top: 24px; /* 6 * 4px */
+  top: 24px;
   left: 24px;
-}
-
-.logo {
-  font-size: 1.25rem; /* xl */
-  font-weight: bold;
-  color: var(--chakra-colors-neutral-900);
-  text-decoration: none;
 }
 
 .main {

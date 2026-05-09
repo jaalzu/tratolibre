@@ -1,5 +1,6 @@
 import NextLink from "next/link";
 import styles from "./Footer.module.css";
+import Image from "next/image";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +12,15 @@ export const Footer = () => {
           <div className={styles.grid}>
             {/* Columna 1: Branding */}
             <div>
-              <h2 className={styles.brandTitle}>TratoLibre</h2>
+              <div className={styles.brandContainer}>
+                <Image
+                  src="/koala/logotext2.png"
+                  alt="TratoLibre"
+                  width={130}
+                  height={34}
+                  priority
+                />
+              </div>
               <p className={styles.text}>
                 Cada objeto que no usás tiene valor para alguien más. Conectamos
                 personas para darle una segunda vida a las cosas — más simple,

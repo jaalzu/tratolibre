@@ -1,36 +1,61 @@
 .heroWrapper {
   background-color: var(--chakra-colors-neutral-50);
-  /* border-radius: 1rem; */
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
   box-shadow: var(--chakra-shadows-base);
-  gap: 28px;
-  padding: 22px 8px;
+  gap: 15px;
+  padding: 12px 8px 22px 8px;
+}
+
+.topSection {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  width: 100%;
 }
 
 .avatarContainer {
-  width: 80px;
-  height: 80px;
-  margin-bottom: -24px;
+  width: 55px;
+  height: 55px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.contentWrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.titleWrapper {
+  margin-left: 2.5rem;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroImageContainer {
+  flex-shrink: 0;
+  display: flex;
+  transform: translateY(-10px);
+}
+
 @media (min-width: 48em) {
   .heroWrapper {
-    padding: 40px 32px;
+    padding: 24px 32px 40px 32px;
   }
 }
 
 .title {
   font-weight: bold;
   color: var(--chakra-colors-neutral-900);
-  margin-bottom: 4px;
   font-size: 1.3rem;
 }
 
@@ -38,13 +63,6 @@
   .title {
     font-size: 1.5rem;
   }
-}
-
-.description {
-  font-size: 1rem; /* md */
-  color: var(--chakra-colors-fg-muted);
-  padding-left: 20px; /* px 5 */
-  padding-right: 20px;
 }
 
 .buttonGroup {

@@ -19,11 +19,9 @@ export function SearchBar() {
       w="full"
       align="center"
       bg="neutral.50"
-      borderRadius="full"
+      borderRadius="2px"
       h="32px"
       overflow="hidden"
-      border="1px solid"
-      borderColor="neutral.200"
     >
       <Input
         placeholder="Buscar en tratolibre"

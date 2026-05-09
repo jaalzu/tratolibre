@@ -1,0 +1,84 @@
+.root {
+  min-height: 100dvh;
+  width: 100%;
+  position: relative;
+  /* Esto asegura el centrado total del hijo (.main) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9fafb;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evita scrolls raros */
+}
+
+.logoWrapper {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+}
+
+.logoImage {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  fill: #ef4444;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.description {
+  color: #4b5563;
+  margin: 0 0 8px 0;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+}
+
+.buttonPrimary {
+  background-color: #22c55e;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.buttonSecondary {
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  background: white;
+  white-space: nowrap;
+}

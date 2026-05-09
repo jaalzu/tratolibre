@@ -91,3 +91,9 @@
   color: blue;
   text-decoration: underline;
 }
+
+.brandContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}

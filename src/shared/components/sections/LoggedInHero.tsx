@@ -1,4 +1,5 @@
 import NextLink from "next/link";
+import Image from "next/image";
 import { Button } from "@/shared/components/ui/Button";
 import { PageContainer } from "@/shared/components/ui/PageContainer";
 import styles from "./LoggedInHero.module.css";
@@ -20,17 +21,27 @@ export function LoggedInHero({ name, avatarSlot }: LoggedInHeroProps) {
   return (
     <PageContainer pt={0} pb={3}>
       <div className={styles.heroWrapper}>
-        {avatarSlot && (
-          <div className={styles.avatarContainer}>{avatarSlot}</div>
-        )}
+        <div className={styles.topSection}>
+          {avatarSlot && (
+            <div className={styles.avatarContainer}>{avatarSlot}</div>
+          )}
+        </div>
 
-        <div>
-          <h2 className={styles.title}>
-            {firstName ? `Bienvenido, ${firstName}` : "Bienvenido"}
-          </h2>
-          <p className={styles.description}>
-            Compra y vende artículos nuevos o usados fácilmente.
-          </p>
+        <div className={styles.contentWrapper}>
+          <div className={styles.titleWrapper}>
+            <h2 className={styles.title}>
+              {firstName ? `Bienvenido, ${firstName}` : "Bienvenido"}
+            </h2>
+            <div className={styles.heroImageContainer}>
+              <Image
+                src="/koala/hero.png"
+                alt="Hero"
+                width={65}
+                height={65}
+                priority
+              />
+            </div>
+          </div>
         </div>
 
         <div className={styles.buttonGroup}>
@@ -50,7 +61,7 @@ export function LoggedInHero({ name, avatarSlot }: LoggedInHeroProps) {
             asChild
             size="sm"
             style={{
-              padding: "6px 49px",
+              padding: "6px 50px",
               fontSize: "0.975rem",
             }}
           >

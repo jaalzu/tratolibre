@@ -35,6 +35,7 @@ export function NotificationBell({
         as="button"
         onClick={handleOpen}
         position="relative"
+        cursor="pointer"
         display="inline-flex"
         p={2}
         color="neutral.50"
@@ -44,7 +45,7 @@ export function NotificationBell({
             : "Notificaciones"
         }
       >
-        <Bell width="28px" height="28px" fill="currentColor" />
+        <Bell width="26px" height="26px" fill="currentColor" />
         {unreadCount > 0 && (
           <Circle
             size="16px"
@@ -66,14 +67,14 @@ export function NotificationBell({
           display={{ base: "none", md: "flex" }}
           flexDirection="column"
           position="absolute"
-          top="calc(100% + 8px)"
+          top="calc(100% + 18px)"
           right={0}
-          w="320px"
+          w="420px"
           bg="neutral.50"
           borderRadius="2xl"
           boxShadow="lg"
           border="1px solid"
-          borderColor="neutral.100"
+          borderColor="brand.100"
           zIndex={300}
           overflow="hidden"
         >
@@ -89,10 +90,12 @@ export function NotificationBell({
         <Box
           display={{ base: "block", md: "none" }}
           position="fixed"
-          top="92px"
+          top="63px"
           left={3}
           right={3}
           bg="neutral.50"
+          border="1px solid"
+          borderColor="brand.100"
           borderRadius="xl"
           boxShadow="base"
           zIndex={201}

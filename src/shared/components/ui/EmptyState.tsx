@@ -44,7 +44,7 @@ export function EmptyState({
         {title}
       </Text>
       {description && (
-        <Text fontSize="sm" color="neutral.400" maxW="320px">
+        <Text fontSize="md" color="neutral.500" maxW="320px">
           {description}
         </Text>
       )}
