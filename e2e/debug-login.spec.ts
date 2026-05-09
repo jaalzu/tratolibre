@@ -42,7 +42,6 @@ test("DEBUG - ver qué pasa en el login", async ({ page }) => {
     .locator("text=/error|incorrect|invalid|contraseña/i")
     .allTextContents();
   if (errorText.length > 0) {
-    console.log("❌ Errores encontrados:", errorText);
   }
 
   // Ver TODO el HTML
