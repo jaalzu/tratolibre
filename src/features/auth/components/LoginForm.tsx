@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/features/auth/schemas";
@@ -9,11 +9,15 @@ import NextLink from "next/link";
 import Image from "next/image";
 import { Flex, Text, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
-import { SocialButtons } from "@/features/auth/components/SocialButtons";
+import { Checkbox } from "@/shared/components/ui/checkbox";
+
 import { FormField } from "./FormField";
+
+const STORAGE_KEY = "tratolibre_remember";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const { login, isPending, error, clearError } = useLogin();
 
@@ -21,18 +25,41 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    mode: "onTouched",
   });
 
+  // Cargar credenciales guardadas al montar
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const { email, password } = JSON.parse(saved);
+        setValue("email", email);
+        setValue("password", password);
+        setRememberMe(true);
+      }
+    } catch (err) {
+      // Si hay error, limpiar localStorage
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, [setValue]);
+
   const onSubmit = async (data: LoginInput) => {
+    // Guardar o limpiar credenciales según el checkbox
+    if (rememberMe) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
     await login(data);
   };
 
   return (
     <Flex direction="column" maxW="360px" mx="auto" w="full" py={4}>
-      {/* --- LOGO CENTRADO --- */}
+      {/* Logo */}
       <Flex justify="center" mb={6}>
         <NextLink href="/">
           <Image
@@ -46,13 +73,7 @@ export const LoginForm = () => {
         </NextLink>
       </Flex>
 
-      <Text
-        fontSize="xl"
-        fontWeight="bold"
-        color="neutral.900"
-        textAlign="start"
-        mb={2}
-      >
+      <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>
         Iniciar sesión
       </Text>
 
@@ -65,6 +86,7 @@ export const LoginForm = () => {
             error={errors.email}
             type="email"
             placeholder="tucorreo@gmail.com"
+            required
             onChange={clearError}
           />
 
@@ -89,22 +111,34 @@ export const LoginForm = () => {
             }
           />
 
-          <Text
-            fontSize="xs"
-            color="accent.default"
-            textAlign="right"
-            cursor="pointer"
-            _hover={{ textDecoration: "underline" }}
-          >
+          {/* Recordarme */}
+          <Flex justify="space-between" align="center" pt={1}>
+            <Checkbox
+              checked={rememberMe}
+              onCheckedChange={(e) => setRememberMe(e.checked === true)}
+            >
+              Recordarme
+            </Checkbox>
+
             <NextLink href="/forgot-password">
-              ¿Olvidaste tu contraseña?
+              <Text
+                fontSize="sm"
+                color="accent.default"
+                fontWeight="600"
+                _hover={{ textDecoration: "underline" }}
+                cursor="pointer"
+              >
+                ¿Olvidaste tu contraseña?
+              </Text>
             </NextLink>
-          </Text>
+          </Flex>
 
           {error && (
-            <Text fontSize="xs" color="feedback.error" textAlign="center">
-              {error}
-            </Text>
+            <Box py={2}>
+              <Text fontSize="xs" color="feedback.error" textAlign="center">
+                {error}
+              </Text>
+            </Box>
           )}
 
           <Button
@@ -112,7 +146,7 @@ export const LoginForm = () => {
             width="full"
             borderRadius="full"
             py={1.5}
-            mt={2}
+            mt={3}
             loading={isPending}
             data-testid="submit-button"
           >
@@ -121,33 +155,20 @@ export const LoginForm = () => {
         </Stack>
       </form>
 
-      <Flex align="center" gap={3} my={3}>
-        <Box flex={1} h="1px" bg="neutral.200" />
-        <Text fontSize="xs" color="neutral.400">
-          o continuá con
+      <Text fontSize="xs" color="neutral.400" textAlign="center" mt="5">
+        ¿No tenés cuenta?{" "}
+        <Text as="span" color="accent.default" fontWeight="600">
+          <NextLink href="/register">
+            <Text
+              as="span"
+              _hover={{ textDecoration: "underline" }}
+              cursor="pointer"
+            >
+              Registrate gratis
+            </Text>
+          </NextLink>
         </Text>
-        <Box flex={1} h="1px" bg="neutral.200" />
-      </Flex>
-
-      <SocialButtons mode="login" />
-
-      <Box textAlign="center" mt="5">
-        <Text as="span" fontSize="sm" color="neutral.700">
-          ¿No tenés cuenta?{" "}
-        </Text>
-        <NextLink href="/register" passHref>
-          <Text
-            as="span"
-            fontSize="sm"
-            color="accent.default"
-            fontWeight="600"
-            _hover={{ textDecoration: "underline" }}
-            cursor="pointer"
-          >
-            Registrate
-          </Text>
-        </NextLink>
-      </Box>
+      </Text>
     </Flex>
   );
 };

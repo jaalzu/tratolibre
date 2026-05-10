@@ -4,10 +4,8 @@ import type { LoginServerInput, LoginResponse } from "../schemas";
 import { ok, err } from "../schemas/base.schema";
 
 /**
- * Service: Login con email y password
+ * Service: Login con email y password (sin validar email confirmado)
  */
-
-// login.service.ts
 export async function loginService(
   input: LoginServerInput,
 ): Promise<LoginResponse> {
@@ -24,9 +22,7 @@ export async function loginService(
         return err("Email o contraseña incorrectos");
       }
 
-      if (error.message.includes("Email not confirmed")) {
-        return err("Debes verificar tu email antes de iniciar sesión");
-      }
+      // ❌ REMOVIDO: Ya no checkeamos "Email not confirmed"
 
       return err("Error al iniciar sesión. Intenta nuevamente.");
     }

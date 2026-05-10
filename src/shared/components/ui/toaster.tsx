@@ -39,6 +39,7 @@ export const Toaster = () => {
             maxWidth={{ base: "100%", md: "400px" }}
             borderRadius={{ base: "0", md: "md" }}
             m={{ base: "0", md: "2" }}
+            p="4"
             suppressHydrationWarning
           >
             {toast.type === "loading" ? (
@@ -46,12 +47,17 @@ export const Toaster = () => {
             ) : (
               <Toast.Indicator />
             )}
-            <Stack gap="1" flex="1" maxWidth="100%">
+            <Stack gap="1.5" flex="1" maxWidth="100%">
+              {" "}
               {toast.title && (
-                <Toast.Title fontSize="sm">{toast.title}</Toast.Title>
+                <Toast.Title fontSize="md" fontWeight="semibold">
+                  {" "}
+                  {toast.title}
+                </Toast.Title>
               )}
               {toast.description && (
-                <Toast.Description fontSize="xs">
+                <Toast.Description fontSize="sm">
+                  {" "}
                   {toast.description}
                 </Toast.Description>
               )}

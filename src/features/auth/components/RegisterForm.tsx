@@ -6,14 +6,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterInput } from "@/features/auth/schemas";
 import { useRegister } from "@/features/auth/hooks";
 import NextLink from "next/link";
-import Image from "next/image"; // Importamos Image
+import Image from "next/image";
 import { Flex, Text, Stack, Box } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
+import { Checkbox } from "@/shared/components/ui/checkbox";
+
 import { FormField } from "./FormField";
 import { toaster } from "@/shared/components/ui/toaster";
+import { useRouter } from "next/navigation";
+
+const STORAGE_KEY = "tratolibre_remember";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const router = useRouter();
 
   const {
     register: registerUser,
@@ -34,27 +41,43 @@ export const RegisterForm = () => {
 
   useEffect(() => {
     if (success) {
+      // Mostrar mensaje de bienvenida
       setTimeout(() => {
         toaster.create({
-          title: "¡Casi listo!",
-          description:
-            "Te enviamos un email. Confirmá tu cuenta para continuar.",
+          title: "¡Bienvenido a TratoLibre!",
+          description: "Tu cuenta fue creada exitosamente. Redirigiendo...",
           type: "success",
-          duration: 10000,
+          duration: 3000,
         });
       }, 0);
 
+      // Redirigir al home después de 1.5 segundos
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
+
       resetForm();
     }
-  }, [success, resetForm]);
+  }, [success, resetForm, router]);
 
   const onSubmit = async (data: RegisterInput) => {
+    // Guardar credenciales si el usuario quiere recordarlas
+    if (rememberMe) {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      );
+    }
+
     await registerUser(data);
   };
 
   return (
     <Flex direction="column" maxW="360px" mx="auto" w="full" py={4}>
-      {/* --- LOGO CENTRADO --- */}
+      {/* Logo */}
       <Flex justify="center" mb={6}>
         <NextLink href="/">
           <Image
@@ -67,11 +90,9 @@ export const RegisterForm = () => {
           />
         </NextLink>
       </Flex>
-
       <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>
         Registro
       </Text>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
           <Flex gap={3} direction={{ base: "column", md: "row" }}>
@@ -127,6 +148,15 @@ export const RegisterForm = () => {
             }
           />
 
+          <Flex pt={2}>
+            <Checkbox
+              checked={rememberMe}
+              onCheckedChange={(e) => setRememberMe(e.checked === true)}
+            >
+              Recordar mis datos
+            </Checkbox>
+          </Flex>
+
           {error && (
             <Box py={2}>
               <Text fontSize="xs" color="feedback.error" textAlign="center">
@@ -148,7 +178,6 @@ export const RegisterForm = () => {
           </Button>
         </Stack>
       </form>
-
       <Text fontSize="xs" color="neutral.400" textAlign="center" mt="5">
         ¿Ya tenés cuenta?{" "}
         <Text as="span" color="accent.default" fontWeight="600">

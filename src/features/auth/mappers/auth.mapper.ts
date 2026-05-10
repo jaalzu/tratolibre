@@ -40,7 +40,7 @@ export const mapSupabaseUserToAppUser = (
 
 /**
  * Mapper: Register Input → Supabase SignUp Options
- * Transforma los datos del form al formato que espera Supabase
+ * ❌ SIN emailRedirectTo para evitar envío de email de confirmación
  */
 export const mapRegisterInputToSupabaseSignUp = (input: {
   email: string;
@@ -52,7 +52,7 @@ export const mapRegisterInputToSupabaseSignUp = (input: {
     email: input.email,
     password: input.password,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      // ❌ REMOVIDO: emailRedirectTo - ya no enviamos email de confirmación
       data: {
         first_name: input.firstName,
         last_name: input.lastName,

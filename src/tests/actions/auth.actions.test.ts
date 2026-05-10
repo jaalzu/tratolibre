@@ -156,7 +156,6 @@ describe("registerAction", () => {
       email: validInput.email,
       password: validInput.password,
       options: {
-        emailRedirectTo: expect.stringContaining("/auth/callback"),
         data: {
           first_name: "Juan",
           last_name: "García",
