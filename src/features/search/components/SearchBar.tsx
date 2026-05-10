@@ -20,13 +20,13 @@ export function SearchBar() {
       align="center"
       bg="neutral.50"
       borderRadius="2px"
-      h="32px"
+      h="33px"
       overflow="hidden"
     >
       <Input
         placeholder="Buscar en tratolibre"
-        ps="4"
-        h="32px"
+        ps="2"
+        h="33px"
         fontSize="sm"
         bg="transparent"
         color="neutral.900"
@@ -45,7 +45,7 @@ export function SearchBar() {
         onClick={handleSearch}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        height="32px"
+        height="33px"
         px="12px"
         display="flex"
         alignItems="center"

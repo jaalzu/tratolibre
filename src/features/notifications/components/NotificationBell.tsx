@@ -37,7 +37,8 @@ export function NotificationBell({
         position="relative"
         cursor="pointer"
         display="inline-flex"
-        p={2}
+        py={1.5}
+        px={1}
         color="neutral.50"
         aria-label={
           unreadCount > 0
@@ -45,7 +46,7 @@ export function NotificationBell({
             : "Notificaciones"
         }
       >
-        <Bell width="26px" height="26px" fill="currentColor" />
+        <Bell width="28px" height="28px" fill="currentColor" />
         {unreadCount > 0 && (
           <Circle
             size="16px"
