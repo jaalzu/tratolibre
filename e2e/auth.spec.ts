@@ -9,19 +9,17 @@ const TEST_USER = {
 };
 
 test.describe("Auth", () => {
-  // ✅ Configurar retries
   test.describe.configure({ retries: 2 });
 
   test("login exitoso redirige al home", async ({ page }) => {
     await page.goto("/login");
-    await page.waitForLoadState("networkidle"); // ✅ Agregar
+    await page.waitForLoadState("networkidle");
 
     await page.getByTestId("email").fill(TEST_USER.email);
     await page.getByTestId("password").fill(TEST_USER.password);
 
     await page.getByTestId("submit-button").click();
 
-    // ✅ Cambiar waitUntil
     await page.waitForURL("/", {
       timeout: 30000,
       waitUntil: "domcontentloaded",
@@ -32,7 +30,7 @@ test.describe("Auth", () => {
 
   test("login con credenciales incorrectas muestra error", async ({ page }) => {
     await page.goto("/login");
-    await page.waitForLoadState("networkidle"); // ✅ Agregar
+    await page.waitForLoadState("networkidle");
 
     await page.getByTestId("email").fill(TEST_USER.email);
     await page.getByTestId("password").fill("wrongpassword123");

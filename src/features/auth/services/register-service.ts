@@ -5,15 +5,28 @@ import type { RegisterInput, RegisterResponse } from "../schemas";
 import { ok, err } from "../schemas/base.schema";
 
 /**
- * Service: Registrar nuevo usuario
+ * Service: Registrar nuevo usuario (sin verificación de email)
  */
 export async function registerService(
   input: RegisterInput,
 ): Promise<RegisterResponse> {
   try {
     const supabase = await createClient();
-    const signUpData = mapRegisterInputToSupabaseSignUp(input);
-    const { data, error } = await supabase.auth.signUp(signUpData);
+
+    // Modificar el signUp para que NO requiera confirmación de email
+    const { data, error } = await supabase.auth.signUp({
+      email: input.email,
+      password: input.password,
+      options: {
+        // IMPORTANTE: esto evita que Supabase envíe el email de confirmación
+        emailRedirectTo: undefined,
+        data: {
+          first_name: input.firstName,
+          last_name: input.lastName,
+          name: `${input.firstName} ${input.lastName}`,
+        },
+      },
+    });
 
     if (error) {
       if (error.message.includes("User already registered")) {
@@ -31,6 +44,8 @@ export async function registerService(
       return err("No se pudo crear la cuenta");
     }
 
+    // ✅ El usuario ya está logueado automáticamente
+    // Supabase crea la sesión al hacer signUp
     return ok();
   } catch (error) {
     console.error("[registerService] Error inesperado:", error);
