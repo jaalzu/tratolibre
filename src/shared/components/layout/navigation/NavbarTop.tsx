@@ -116,8 +116,10 @@ export const NavbarTop = ({
             <NextLink href="/register">
               <Box
                 bg="neutral.50"
-                color="brand.default"
-                px={4}
+                border="1px solid"
+                borderColor="neutral.50"
+                color="black"
+                px={5}
                 py={1.5}
                 borderRadius="md"
                 fontSize="sm"
@@ -135,7 +137,7 @@ export const NavbarTop = ({
     {/* Mobile Layout */}
     <Box display={{ base: "block", md: "none" }}>
       {/* Single Row: Logo + Search + Bell + Categories */}
-      <Flex px={1} py={2} align="center" gap={2}>
+      <Flex px={1} py={2.5} align="center" gap={2}>
         <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
           <Box flexShrink={0}>
             <Image src="/koala/logo.png" alt="TratoLibre" h="35px" />
@@ -159,19 +161,23 @@ export const NavbarTop = ({
               p={0.5}
               _hover={{ opacity: 0.8 }}
             >
-              <Categories width="26px" height="26px" fill="currentColor" />
+              <Categories width="28px" height="28px" fill="currentColor" />
             </Box>
           </Flex>
         ) : (
           <NextLink href="/login">
             <Box
               bg="neutral.50"
-              color="brand.default"
+              color="black"
               fontSize="sm"
               fontWeight="bold"
               px={5}
-              py={1}
-              borderRadius="md"
+              py={1.5}
+              borderRadius="2px"
+              transition="all 0.2s ease"
+              _hover={{
+                bg: "brand.100",
+              }}
             >
               Ingresar
             </Box>
