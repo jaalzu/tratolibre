@@ -34,7 +34,7 @@ export function LoggedInHero({ name, avatarSlot }: LoggedInHeroProps) {
             </h2>
             <div className={styles.heroImageContainer}>
               <Image
-                src="/koala/hero.png"
+                src="/koala/hero.webp"
                 alt="Hero"
                 width={65}
                 height={65}

@@ -52,7 +52,7 @@ export function FavoritesView({
 
         {initialFavorites.length === 0 ? (
           <EmptyState
-            image="/koala/favorites.png"
+            image="/koala/favorites.webp"
             imageAlt="Sin favoritos"
             title="Todavía no tenés favoritos"
             description="Para guardar un producto, tocá el ícono de corazón."

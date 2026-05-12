@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.webp",
         width: 1200,
         height: 630,
       },
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "TratoLibre — Compra y vende objetos",
     description: "Marketplace de objetos usados entre personas",
-    images: ["/og-image.png"],
+    images: ["/og-image.webp"],
   },
 };
 

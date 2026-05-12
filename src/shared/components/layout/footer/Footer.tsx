@@ -14,7 +14,7 @@ export const Footer = () => {
             <div>
               <div className={styles.brandContainer}>
                 <Image
-                  src="/koala/logotext2.png"
+                  src="/koala/logotext.webp"
                   alt="TratoLibre"
                   width={130}
                   height={34}

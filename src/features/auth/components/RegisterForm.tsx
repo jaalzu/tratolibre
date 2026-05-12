@@ -81,7 +81,7 @@ export const RegisterForm = () => {
       <Flex justify="center" mb={6}>
         <NextLink href="/">
           <Image
-            src="/koala/logotext2.png"
+            src="/koala/logotext.webp"
             alt="TratoLibre Logo"
             width={180}
             height={45}
