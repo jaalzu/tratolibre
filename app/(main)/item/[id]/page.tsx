@@ -21,7 +21,7 @@ export async function generateMetadata({
   const title = `${item.title}`;
   const description =
     item.description?.slice(0, 150) ?? "Objeto publicado en TratoLibre";
-  const image = item.images?.[0] ?? "/og-image.png";
+  const image = item.images?.[0] ?? "/og-image.webp";
 
   return {
     title: item.title,

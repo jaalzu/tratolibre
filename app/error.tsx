@@ -11,7 +11,7 @@ export default function Error({ reset }: { reset: () => void }) {
       <div className={styles.logoWrapper}>
         <NextLink href="/">
           <Image
-            src="/koala/logotext2.png"
+            src="/koala/logotext.webp"
             alt="TratoLibre"
             width={200}
             height={100}

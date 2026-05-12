@@ -14,7 +14,7 @@ export async function generateMetadata({
 
   const title = data.profile.name ?? "Usuario";
   const description = `Perfil de ${title} en TratoLibre`;
-  const image = data.profile.avatar_url ?? "/og-image.png";
+  const image = data.profile.avatar_url ?? "/og-image.webp";
 
   return {
     title,

@@ -50,7 +50,7 @@ export const NavbarTop = ({
       {/* Logo Desktop */}
       <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
         <Box flexShrink={0}>
-          <Image src="/koala/logotextwhite.png" alt="TratoLibre" h="33px" />
+          <Image src="/koala/logotextwhite.webp" alt="TratoLibre" h="33px" />
         </Box>
       </NextLink>
 
@@ -137,10 +137,10 @@ export const NavbarTop = ({
     {/* Mobile Layout */}
     <Box display={{ base: "block", md: "none" }}>
       {/* Single Row: Logo + Search + Bell + Categories */}
-      <Flex px={1} py={2.5} align="center" gap={2}>
+      <Flex px={2} py={2.5} align="center" gap={2}>
         <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
           <Box flexShrink={0}>
-            <Image src="/koala/logo.png" alt="TratoLibre" h="35px" />
+            <Image src="/koala/logo.webp" alt="TratoLibre" h="35px" />
           </Box>
         </NextLink>
 
