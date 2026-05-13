@@ -56,5 +56,10 @@
     "supabase": "^2.76.16",
     "typescript": "^5",
     "vitest": "^4.1.0"
-  }
+  },
+  "engines": {
+    "node": ">=22.13.0",
+    "pnpm": ">=11.0.0"
+  },
+  "packageManager": "pnpm@11.0.0"
 }
