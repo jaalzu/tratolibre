@@ -56,5 +56,9 @@
     "supabase": "^2.76.16",
     "typescript": "^5",
     "vitest": "^4.1.0"
+  },
+  "engines": {
+    "pnpm": ">=9.0.0",
+    "npm": "never"
   }
 }
