@@ -12,8 +12,8 @@ export function parseItemFormData(formData: FormData) {
     title: formData.get("title") as string,
     description: formData.get("description") as string,
     category: formData.get("category") as string,
-    salePrice: formData.get("salePrice")
-      ? Number(formData.get("salePrice"))
+    salePrice: formData.get("sale_price")
+      ? Number(formData.get("sale_price"))
       : undefined,
     province: formData.get("province") as string | undefined,
     city: formData.get("city") as string | undefined,

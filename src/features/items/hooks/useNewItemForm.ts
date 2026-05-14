@@ -86,17 +86,13 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     try {
       let result;
 
-      // Modo edición
       if (initialData?.id) {
         formData.append("id", initialData.id);
         result = await updateItemAction(null, formData);
-      }
-      // Modo creación
-      else {
+      } else {
         result = await createItemAction(null, formData);
       }
 
-      // Manejar resultado con type narrowing
       if (!result.success) {
         setFormState({
           status: "error",
@@ -108,26 +104,15 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
         return;
       }
 
-      // Success en creación
       if ("data" in result && result.data && "itemId" in result.data) {
         setFormState({
           status: "success",
           itemId: result.data.itemId,
         });
-      }
-      // Success en actualización
-      else {
-        setFormState({
-          status: "success",
-          itemId: initialData?.id ?? "",
-        });
+
+        window.location.href = `/item/${result.data.itemId}`;
       }
     } catch (error) {
-      if (error instanceof Error && error.message === "NEXT_REDIRECT") {
-        // El redirect fue exitoso, no hacer nada
-        return;
-      }
-
       console.error("Error inesperado en submit:", error);
       setFormState({
         status: "error",

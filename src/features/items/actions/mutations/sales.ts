@@ -54,7 +54,6 @@ async function notifySaleCompleted(
     ]);
   } catch (error) {
     console.error("Error enviando notificaciones de venta:", error);
-    // No propagamos el error - las notificaciones son no críticas
   }
 }
 
@@ -67,7 +66,6 @@ export async function markAsSoldToAction(
   buyerId: string,
 ): Promise<SaleActionResult> {
   try {
-    // 1. Autenticación
     const { supabase, user } = await getAuthUser();
     if (!user) {
       return {
@@ -76,7 +74,6 @@ export async function markAsSoldToAction(
       };
     }
 
-    // 2. Obtener item para venta
     const itemResult = await getItemForSale(supabase, itemId, user.id);
     if (!itemResult.success) {
       return {
@@ -85,7 +82,6 @@ export async function markAsSoldToAction(
       };
     }
 
-    // 3. Marcar como vendido
     const soldResult = await markItemAsSold(supabase, itemId, user.id);
     if (!soldResult.success) {
       return {
@@ -94,7 +90,6 @@ export async function markAsSoldToAction(
       };
     }
 
-    // 4. Crear registro de compra
     const purchaseResult = await createPurchase(supabase, {
       itemId,
       buyerId,
@@ -103,15 +98,13 @@ export async function markAsSoldToAction(
     });
 
     if (!purchaseResult.success) {
-      // Intentar revertir el sold=true si falla la compra
-      await markItemAsSold(supabase, itemId, user.id); // Idealmente tendríamos un rollback
+      await markItemAsSold(supabase, itemId, user.id);
       return {
         success: false,
         error: itemErrorToMessage(purchaseResult.error),
       };
     }
 
-    // 5. Notificar (no bloqueante)
     await notifySaleCompleted(
       itemId,
       itemResult.data.title,
@@ -120,7 +113,6 @@ export async function markAsSoldToAction(
       purchaseResult.data.id,
     );
 
-    // 6. Revalidar paths
     revalidatePath(`/item/${itemId}`);
     revalidatePath("/profile");
 

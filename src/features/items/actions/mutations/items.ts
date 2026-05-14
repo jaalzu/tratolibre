@@ -31,17 +31,14 @@ export async function createItemAction(
   let itemId: string | undefined;
 
   try {
-    // 1. Autenticación
     const { user } = await getAuthUser();
     if (!user) {
       return { success: false, error: "No autorizado" };
     }
 
-    // 2. Inicializar cliente y service
     const supabase = await createClient();
     const itemsService = new ItemsService(supabase);
 
-    // 3. Rate limiting
     await checkRateLimit(
       supabase,
       user.id,
@@ -49,7 +46,6 @@ export async function createItemAction(
       RATE_LIMITS.CREATE_ITEM,
     );
 
-    // 4. Helper para parsear JSON seguro
     const parseImages = (raw: FormDataEntryValue | null): string[] => {
       if (!raw || raw === "null") return [];
       try {
@@ -59,13 +55,12 @@ export async function createItemAction(
       }
     };
 
-    // 5. Parsear datos del form
     const itemData: CreateItemInput = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       category: formData.get("category") as string,
-      salePrice: formData.get("salePrice")
-        ? Number(formData.get("salePrice"))
+      salePrice: formData.get("sale_price")
+        ? Number(formData.get("sale_price"))
         : undefined,
       province: formData.get("province") as string | undefined,
       city: formData.get("city") as string | undefined,
@@ -76,11 +71,9 @@ export async function createItemAction(
       location: formData.get("location") as string | undefined,
     };
 
-    // 6. Crear item
     const item = await itemsService.create(itemData, user.id);
     itemId = item.id;
 
-    // 7. Revalidar
     revalidatePath("/");
     revalidatePath(`/item/${itemId}`);
   } catch (error: any) {
@@ -110,11 +103,10 @@ export async function createItemAction(
 export async function updateItemAction(
   _prevState: ActionResult | null,
   formData: FormData,
-): Promise<ActionResult> {
+): Promise<ActionResult<{ itemId: string }>> {
   const itemId = formData.get("id") as string;
 
   try {
-    // 1. Validar ID
     if (!itemId) {
       return {
         success: false,
@@ -122,7 +114,6 @@ export async function updateItemAction(
       };
     }
 
-    // 2. Autenticación
     const { user } = await getAuthUser();
     if (!user) {
       return {
@@ -131,17 +122,15 @@ export async function updateItemAction(
       };
     }
 
-    // 3. Inicializar cliente y service
     const supabase = await createClient();
     const itemsService = new ItemsService(supabase);
 
-    // 4. Parsear datos del form
     const itemData: UpdateItemInput = {
       title: formData.get("title") as string | undefined,
       description: formData.get("description") as string | undefined,
       category: formData.get("category") as string | undefined,
-      salePrice: formData.get("salePrice")
-        ? Number(formData.get("salePrice"))
+      salePrice: formData.get("sale_price")
+        ? Number(formData.get("sale_price"))
         : undefined,
       province: formData.get("province") as string | undefined,
       city: formData.get("city") as string | undefined,
@@ -152,15 +141,18 @@ export async function updateItemAction(
         : undefined,
       rules: formData.get("rules") as string | undefined,
       location: formData.get("location") as string | undefined,
-      available: formData.get("available") === "true",
+      // available: formData.get("available") === "true",
     };
 
-    // 5. Actualizar item
     await itemsService.update(itemId, itemData, user.id);
 
-    // 6. Revalidar
     revalidatePath(`/item/${itemId}`);
     revalidatePath("/");
+
+    return {
+      success: true,
+      data: { itemId },
+    };
   } catch (error: any) {
     console.error("Error en updateItemAction:", error);
     return {
@@ -168,9 +160,6 @@ export async function updateItemAction(
       error: mapSupabaseError(error),
     };
   }
-
-  // ✅ redirect() FUERA del try-catch
-  redirect(`/item/${itemId}`);
 }
 
 // ============================================
@@ -179,7 +168,6 @@ export async function updateItemAction(
 
 export async function deleteItemAction(id: string): Promise<ActionResult> {
   try {
-    // 1. Autenticación
     const { user } = await getAuthUser();
     if (!user) {
       return {
@@ -188,14 +176,11 @@ export async function deleteItemAction(id: string): Promise<ActionResult> {
       };
     }
 
-    // 2. Inicializar cliente y service
     const supabase = await createClient();
     const itemsService = new ItemsService(supabase);
 
-    // 3. Eliminar item
     await itemsService.delete(id, user.id);
 
-    // 4. Revalidar
     revalidatePath("/");
   } catch (error: any) {
     console.error("Error en deleteItemAction:", error);
@@ -216,7 +201,6 @@ export async function toggleItemAvailabilityAction(
   id: string,
 ): Promise<ActionResult<{ available: boolean }>> {
   try {
-    // 1. Autenticación
     const { user } = await getAuthUser();
     if (!user) {
       return {
@@ -225,13 +209,11 @@ export async function toggleItemAvailabilityAction(
       };
     }
 
-    // 2. Inicializar cliente y service
     const supabase = await createClient();
     const itemsService = new ItemsService(supabase);
 
     const item = await itemsService.toggleAvailability(id, user.id);
 
-    // 4. Revalidar
     revalidatePath(`/item/${id}`);
     revalidatePath("/");
 
@@ -254,7 +236,6 @@ export async function toggleItemAvailabilityAction(
 
 export async function markItemAsSoldAction(id: string): Promise<ActionResult> {
   try {
-    // 1. Autenticación
     const { user } = await getAuthUser();
     if (!user) {
       return {
@@ -263,14 +244,11 @@ export async function markItemAsSoldAction(id: string): Promise<ActionResult> {
       };
     }
 
-    // 2. Inicializar cliente y service
     const supabase = await createClient();
     const itemsService = new ItemsService(supabase);
 
-    // 3. Marcar como vendido
     await itemsService.markAsSold(id, user.id);
 
-    // 4. Revalidar
     revalidatePath(`/item/${id}`);
     revalidatePath("/");
 
