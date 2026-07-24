@@ -30,7 +30,7 @@ export const ItemCard = ({
               alt={obj.title}
               fill
               sizes="(max-width: 768px) 50vw, 190px"
-              quality={60}
+              quality={65}
               className={styles.image}
               priority={priority}
             />
