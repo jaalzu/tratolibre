@@ -6,7 +6,7 @@ export async function RecentItemsSection({
 }: {
   userId: string | null;
 }) {
-  const result = await getItems({ order_by: "most_relevance", limit: 6 });
+  const result = await getItems({ order_by: "most_relevance", limit: 5 });
 
   if (!result.success) {
     console.error("Error cargando items recientes:", result.error);

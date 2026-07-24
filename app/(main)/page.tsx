@@ -39,7 +39,7 @@ export default async function HomePage() {
       <Suspense fallback={<SectionSkeleton />}>
         <ItemsSection
           title="Publicaciones recientes"
-          params={{ order_by: "most_relevance", limit: 10 }}
+          params={{ order_by: "most_relevance", limit: 7 }}
           viewMoreHref="/search"
           userId={user?.id ?? null}
           isPriority={true}
@@ -49,7 +49,7 @@ export default async function HomePage() {
       <Suspense fallback={<SectionSkeleton />}>
         <ItemsSection
           title="Los precios más bajos"
-          params={{ order_by: "price_asc", limit: 13 }}
+          params={{ order_by: "price_asc", limit: 7 }}
           viewMoreHref="/search?order_by=price_asc"
           userId={user?.id ?? null}
         />

@@ -1,5 +1,5 @@
 .container {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.976);
   border-radius: 1rem;
   padding: 10px;
   box-shadow: var(--chakra-shadows-sm);
@@ -10,7 +10,7 @@
 .title {
   font-weight: bold;
   margin-top: 8px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--chakra-colors-neutral-900);
   margin-bottom: 16px;
   margin-left: 0.3rem;
