@@ -2,7 +2,8 @@ import { getItemById } from "@/features/items/actions";
 import { notFound } from "next/navigation";
 import ItemPageContent from "@/features/items/components/publication/ItemPageContent";
 import { getAuthUserWithRole } from "@/lib/supabase/utils/auth-helpers";
-
+import { Suspense } from "react";
+import { RelatedItems } from "@/features/items/components/publication/RelatedItems";
 export async function generateMetadata({
   params,
 }: {
@@ -65,10 +66,18 @@ export default async function ItemPage({
 
   return (
     <ItemPageContent
-      itemId={id} // ✅ Pasar ID
-      initialItem={result.data} // ✅ Pasar datos iniciales
+      itemId={id}
+      initialItem={result.data}
       userId={user?.id ?? null}
       isAdmin={role === "admin"}
-    />
+    >
+      <Suspense fallback={null}>
+        <RelatedItems
+          category={result.data.category}
+          excludeId={id}
+          userId={user?.id ?? null}
+        />
+      </Suspense>
+    </ItemPageContent>
   );
 }
