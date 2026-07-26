@@ -3,6 +3,7 @@ import { PageContainer } from "@/shared/components/ui/PageContainer";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import { Item } from "@/features/items/types";
 import styles from "./ItemsCategorySection.module.css";
+import { ScrollableRow } from "./ScrollableRow";
 
 interface ItemsRowProps {
   title: string;
@@ -22,7 +23,6 @@ export const ItemsCategorySection = ({
   isPrioritySection = false,
 }: ItemsRowProps) => {
   if (!items.length) return null;
-
   return (
     <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
       <div className={styles.card}>
@@ -37,7 +37,7 @@ export const ItemsCategorySection = ({
 
         <div className={styles.divider} />
 
-        <div className={styles.scrollArea}>
+        <ScrollableRow>
           <div
             className={styles.grid}
             style={{ "--items-count": items.length } as React.CSSProperties}
@@ -51,7 +51,7 @@ export const ItemsCategorySection = ({
               />
             ))}
           </div>
-        </div>
+        </ScrollableRow>
       </div>
     </PageContainer>
   );

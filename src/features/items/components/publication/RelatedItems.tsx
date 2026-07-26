@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { ItemsCarousel } from "./ItemsCarousel";
 import { getItems } from "@/features/items/actions";
 
@@ -26,10 +26,11 @@ export async function RelatedItems({
 
   return (
     <Box>
-      <Text fontSize="lg" fontWeight="bold" color="neutral.900" mb={4}>
-        Otras personas están viendo
-      </Text>
-      <ItemsCarousel items={items} userId={userId} />
+      <ItemsCarousel
+        title="Otras personas están viendo"
+        items={items}
+        userId={userId}
+      />
     </Box>
   );
 }
