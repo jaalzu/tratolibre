@@ -1,17 +1,22 @@
 "use client";
 
-import { Box, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Text } from "@chakra-ui/react";
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "@boxicons/react";
 import { ItemCard } from "@/features/items/components/home/ItemCard";
 import type { ItemWithProfile } from "@/features/items/types";
 
 interface ItemsCarouselProps {
+  title: string;
   items: ItemWithProfile[];
   userId?: string | null;
 }
 
-export function ItemsCarousel({ items, userId = null }: ItemsCarouselProps) {
+export function ItemsCarousel({
+  title,
+  items,
+  userId = null,
+}: ItemsCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -38,29 +43,46 @@ export function ItemsCarousel({ items, userId = null }: ItemsCarouselProps) {
   const scrollBy = (dir: 1 | -1) => {
     const el = scrollRef.current;
     if (!el) return;
-    const cardWidth = el.firstElementChild?.clientWidth ?? 200;
-    el.scrollBy({ left: dir * (cardWidth + 16) * 2, behavior: "smooth" });
+    el.scrollBy({ left: dir * el.clientWidth * 0.9, behavior: "smooth" });
   };
 
   return (
-    <Box position="relative">
-      {canScrollLeft && (
-        <IconButton
-          aria-label="Anterior"
-          onClick={() => scrollBy(-1)}
-          position="absolute"
-          left="-4px"
-          top="35%"
-          zIndex={2}
-          size="sm"
-          borderRadius="full"
-          display={{ base: "none", md: "flex" }}
-          boxShadow="md"
-          bg="white"
-        >
-          <ChevronLeft width="18px" height="18px" />
-        </IconButton>
-      )}
+    <Box>
+      {/* Header: título + flechas <> juntas a la derecha */}
+      <Flex justify="space-between" align="center" mb={4}>
+        <Text fontSize="lg" fontWeight="bold" color="neutral.900">
+          {title}
+        </Text>
+
+        <Flex gap={2}>
+          <IconButton
+            aria-label="Anterior"
+            onClick={() => scrollBy(-1)}
+            size="md"
+            borderRadius="full"
+            variant="outline"
+            borderColor="brand.default"
+            color="brand.default"
+            disabled={!canScrollLeft}
+            opacity={canScrollLeft ? 1 : 0.35}
+          >
+            <ChevronLeft width="18px" height="18px" />
+          </IconButton>
+          <IconButton
+            aria-label="Siguiente"
+            onClick={() => scrollBy(1)}
+            size="md"
+            borderRadius="full"
+            variant="outline"
+            borderColor="brand.default"
+            color="brand.default"
+            disabled={!canScrollRight}
+            opacity={canScrollRight ? 1 : 0.35}
+          >
+            <ChevronRight width="18px" height="18px" />
+          </IconButton>
+        </Flex>
+      </Flex>
 
       <Flex
         ref={scrollRef}
@@ -77,31 +99,13 @@ export function ItemsCarousel({ items, userId = null }: ItemsCarouselProps) {
           <Box
             key={obj.id}
             flex="0 0 auto"
-            w={{ base: "270px", md: "330px" }}
+            w={{ base: "170px", md: "240px" }}
             css={{ scrollSnapAlign: "start" }}
           >
             <ItemCard obj={obj} userId={userId} variant="wide" />
           </Box>
         ))}
       </Flex>
-
-      {canScrollRight && (
-        <IconButton
-          aria-label="Siguiente"
-          onClick={() => scrollBy(1)}
-          position="absolute"
-          right="-4px"
-          top="35%"
-          zIndex={2}
-          size="sm"
-          borderRadius="full"
-          display={{ base: "none", md: "flex" }}
-          boxShadow="md"
-          bg="white"
-        >
-          <ChevronRight width="18px" height="18px" />
-        </IconButton>
-      )}
     </Box>
   );
 }

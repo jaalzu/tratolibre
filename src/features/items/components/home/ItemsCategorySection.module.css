@@ -4,6 +4,7 @@
   padding: 16px;
   box-shadow: var(--chakra-shadows-base);
   min-height: 300px;
+  position: relative;
 }
 
 .header {
@@ -31,23 +32,17 @@
   margin-right: -16px;
 }
 
+.scrollWrapper {
+  position: relative;
+}
+
 .scrollArea {
   overflow-x: auto;
-  /* Personalización del scrollbar */
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 .scrollArea::-webkit-scrollbar {
-  height: 6px;
-}
-
-.scrollArea::-webkit-scrollbar-thumb {
-  border-radius: 100px;
-  background: #c1c1c1ed;
-}
-
-.scrollArea::-webkit-scrollbar-track {
-  background: transparent;
+  display: none;
 }
 
 .grid {
@@ -61,4 +56,29 @@
     grid-template-columns: repeat(var(--items-count), 226px);
     gap: 20px;
   }
+}
+
+.arrows {
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+  display: flex;
+  gap: 7px;
+}
+.arrowButton {
+  width: 31px;
+  height: 31px;
+  border-radius: 100px;
+  border: 1px solid var(--chakra-colors-brand-default);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--chakra-colors-brand-default);
+}
+
+.arrowButton:disabled {
+  opacity: 0.3;
+  cursor: default;
 }
