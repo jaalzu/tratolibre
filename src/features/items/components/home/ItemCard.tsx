@@ -11,6 +11,7 @@ interface ItemCardProps {
   userId?: string | null;
   initialFavorited?: boolean;
   priority?: boolean;
+  variant?: "default" | "wide";
 }
 
 export const ItemCard = ({
@@ -18,12 +19,17 @@ export const ItemCard = ({
   userId = null,
   initialFavorited,
   priority = false,
+  variant = "default",
 }: ItemCardProps) => {
   return (
     <NextLink href={`/item/${obj.id}`} className={styles.linkWrapper}>
       <div className={styles.card}>
         {/* Contenedor de Imagen */}
-        <div className={styles.imageContainer}>
+        <div
+          className={`${styles.imageContainer} ${
+            variant === "wide" ? styles.imageContainerWide : ""
+          }`}
+        >
           {obj.images?.[0] ? (
             <Image
               src={obj.images[0]}

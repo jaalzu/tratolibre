@@ -1,5 +1,5 @@
-import { Box, Grid, Text } from "@chakra-ui/react";
-import { ItemCard } from "@/features/items/components/home/ItemCard";
+import { Box, Text } from "@chakra-ui/react";
+import { ItemsCarousel } from "./ItemsCarousel";
 import { getItems } from "@/features/items/actions";
 
 interface RelatedItemsProps {
@@ -15,13 +15,12 @@ export async function RelatedItems({
 }: RelatedItemsProps) {
   const result = await getItems({ category });
 
-  // ✅ Manejar error
   if (!result.success) {
     console.error("Error cargando items relacionados:", result.error);
     return null;
   }
 
-  const items = result.data.filter((i) => i.id !== excludeId).slice(0, 6);
+  const items = result.data.filter((i) => i.id !== excludeId).slice(0, 8);
 
   if (!items.length) return null;
 
@@ -30,15 +29,7 @@ export async function RelatedItems({
       <Text fontSize="lg" fontWeight="bold" color="neutral.900" mb={4}>
         Otras personas están viendo
       </Text>
-      <Grid
-        templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }}
-        gap={4}
-        justifyItems="start"
-      >
-        {items.map((obj) => (
-          <ItemCard key={obj.id} obj={obj} userId={userId} />
-        ))}
-      </Grid>
+      <ItemsCarousel items={items} userId={userId} />
     </Box>
   );
 }

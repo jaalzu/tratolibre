@@ -16,6 +16,7 @@ interface ItemPageContentProps {
   initialItem: ItemWithProfile;
   userId: string | null;
   isAdmin?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function ItemPageContent({
@@ -23,6 +24,7 @@ export default function ItemPageContent({
   initialItem,
   userId,
   isAdmin = false,
+  children,
 }: ItemPageContentProps) {
   const { data: item } = useItem(itemId, initialItem);
 
@@ -159,6 +161,11 @@ export default function ItemPageContent({
           </Flex>
         </Box>
       </Box>
+      {children && (
+        <Box maxW="900px" mx="auto" px={{ base: 4, md: 10 }} py={8}>
+          {children}
+        </Box>
+      )}
     </Box>
   );
 }
