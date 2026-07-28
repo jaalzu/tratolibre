@@ -35,33 +35,29 @@ export type ItemUpdateData = Partial<EditableItemFields>;
 // ============================================
 // EXTENDED TYPES (lo que ya tenías)
 // ============================================
-export interface ItemWithProfile extends Item {
-  profiles: {
-    id: string;
-    name: string;
-    avatar_url: string;
-    rating: number;
-    reviews_count: number;
-  } | null;
-}
-
-export interface ItemWithOwner extends Item {
-  profiles: {
-    id: string;
-    name: string;
-    avatar_url: string;
-    rating: number;
-  } | null;
-}
-
-export interface ItemSummary {
+export type ProfileSummary = {
   id: string;
-  title: string;
-  sale_price: number;
-  images: string[] | null;
-  sold: boolean;
-}
+  name: string;
+  avatar_url: string;
+  rating: number;
+};
 
+export type ProfileWithReviews = ProfileSummary & {
+  reviews_count: number;
+};
+
+export type ItemWithProfile = Item & {
+  profiles: ProfileWithReviews | null;
+};
+
+export type ItemWithOwner = Item & {
+  profiles: ProfileSummary | null;
+};
+
+export type ItemSummary = Pick<
+  Item,
+  "id" | "title" | "sale_price" | "images" | "sold"
+>;
 // ============================================
 // RESULT TYPES - Discriminated Unions (NUEVO)
 // ============================================
