@@ -49,6 +49,7 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     watch,
     setValue,
     control,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<ItemFormInput>({
     resolver: zodResolver(ItemSchema),
@@ -140,6 +141,7 @@ export const useNewItemForm = (initialData?: Partial<Item>) => {
     watch,
     setValue,
     control,
+    trigger,
 
     // Form state
     errors,
