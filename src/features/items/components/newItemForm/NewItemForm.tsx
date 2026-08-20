@@ -20,7 +20,7 @@ import { ImageUploader } from "./ImageUploader";
 import { StepIndicator } from "./StepIndicator";
 import { useNewItemForm } from "@/features/items/hooks/useNewItemForm";
 import { FormField, FormHeader, inputStyles } from "./FormFields";
-import { FormSelect } from "./FormSelect";
+import FormSelect from "./FormSelect";
 import { Item } from "@/features/items/types";
 
 const formatArgentinePesos = (value: string) => {
