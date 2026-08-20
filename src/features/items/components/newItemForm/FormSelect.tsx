@@ -19,7 +19,7 @@ interface FormSelectProps {
   disabled?: boolean;
 }
 
-export default function FormSelect({
+export function FormSelect({
   value,
   onChange,
   options,
@@ -31,7 +31,6 @@ export default function FormSelect({
   const ref = useRef<HTMLDivElement>(null);
   const selected = options.find((o) => o.id === value);
 
-  // Navegación por teclado
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (disabled) return;
     if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
@@ -227,3 +226,5 @@ export default function FormSelect({
     </Box>
   );
 }
+
+export default FormSelect;
