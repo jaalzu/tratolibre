@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, chakra } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
 import NextLink from "next/link";
 import { useDeleteConversation } from "../../hooks/useDeleteConversation";
@@ -99,6 +99,10 @@ export const ChatMenu = ({
         display="flex"
         alignItems="center"
         justifyContent="center"
+        as="button"
+        aria-label="Opciones de la conversación"
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
         <DotsVerticalRounded width="24px" height="24px" fill="white" />
       </Box>
@@ -145,15 +149,21 @@ export const ChatMenu = ({
                 {Content}
               </NextLink>
             ) : (
-              <Box
+              <chakra.button
                 key={opt.label}
+                type="button"
+                w="full"
+                textAlign="left"
+                border="none"
+                bg="transparent"
+                p="0"
                 onClick={() => {
                   opt.onClick?.();
                   setOpen(false);
                 }}
               >
                 {Content}
-              </Box>
+              </chakra.button>
             );
           })}
         </Box>

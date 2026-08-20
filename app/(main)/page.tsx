@@ -28,9 +28,9 @@ export default async function HomePage() {
   const profile = user ? await getAuthProfile() : null;
 
   return (
-    <main>
+    <div>
       {profile ? (
-        <LoggedInHero name={profile.name} avatarSlot={<HeroAvatar />} />
+        <LoggedInHero name={profile.name} location={profile.location} avatarSlot={<HeroAvatar />} />
       ) : (
         <Hero isLoggedIn={false} />
       )}
@@ -62,6 +62,6 @@ export default async function HomePage() {
       <PageContainer pt={4} pb={24}>
         <InfiniteGrid userId={user?.id ?? null} favoriteIds={[]} />
       </PageContainer>
-    </main>
+    </div>
   );
 }

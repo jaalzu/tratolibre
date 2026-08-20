@@ -12,9 +12,12 @@ interface EmblaSliderProps {
 }
 
 export const EmblaSlider = ({ slides, autoplay = true, delay = 4000 }: EmblaSliderProps) => {
+  const reducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
-    autoplay ? [Autoplay({ delay, stopOnInteraction: true })] : []
+    autoplay && !reducedMotion ? [Autoplay({ delay, stopOnInteraction: true })] : []
   )
   const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -48,6 +51,8 @@ export const EmblaSlider = ({ slides, autoplay = true, delay = 4000 }: EmblaSlid
           <Box
             key={i}
             as="button"
+            aria-label={`Ir al slide ${i + 1}`}
+            aria-current={selectedIndex === i ? 'true' : undefined}
             w={selectedIndex === i ? '20px' : '8px'}
             h="8px"
             borderRadius="full"

@@ -17,7 +17,6 @@ const StyledCard = chakra("div", {
     display: "flex",
     flexDirection: "column",
     position: "relative",
-    overflow: "hidden",
   },
 });
 

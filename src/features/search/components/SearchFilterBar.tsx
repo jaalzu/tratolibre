@@ -46,6 +46,8 @@ export function SearchFilterBar() {
           onClick={() => setFilterOpen(true)}
           _hover={{ bg: "neutral.50" }}
           position="relative"
+          aria-haspopup="dialog"
+          aria-expanded={filterOpen}
         >
           <SliderAlt
             width="18px"
@@ -78,6 +80,8 @@ export function SearchFilterBar() {
           py={3}
           onClick={() => setSortOpen(true)}
           _hover={{ bg: "neutral.50" }}
+          aria-haspopup="dialog"
+          aria-expanded={sortOpen}
         >
           <ArrowDownUp
             width="18px"

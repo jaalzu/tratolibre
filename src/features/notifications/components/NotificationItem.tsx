@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, chakra } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { getNotificationConfig } from "../services/notification-config.service";
 import { NotificationLabel } from "./NotificationLabel";
@@ -39,16 +39,21 @@ export function NotificationItem({
   const NotificationIcon = cfg.Icon;
 
   return (
-    <Box
+    <chakra.button
+      type="button"
       onClick={handleClick}
       cursor="pointer"
       px={4}
       py={3}
+      w="full"
+      textAlign="left"
       bg={notification.read ? "neutral.50" : "brand.50"}
+      border="none"
       borderBottom="1px solid"
       borderColor="neutral.100"
       _hover={{ bg: "neutral.50" }}
       transition="background 0.15s"
+      display="block"
     >
       <Flex align="flex-start" gap={3}>
         <Flex
@@ -89,6 +94,6 @@ export function NotificationItem({
           />
         )}
       </Flex>
-    </Box>
+    </chakra.button>
   );
 }

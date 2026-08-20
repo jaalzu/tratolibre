@@ -48,6 +48,8 @@ export function SearchResults({
             fontWeight="normal"
             color="neutral.400"
             ml={2}
+            role="status"
+            aria-live="polite"
           >
             ({count} resultados)
           </Text>

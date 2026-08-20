@@ -3,6 +3,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import Image from "next/image";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client/browser";
 
 interface SocialButtonsProps {
@@ -16,13 +17,20 @@ export const SocialButtons = ({
   showEmail,
   onEmailClick,
 }: SocialButtonsProps) => {
-  const handleGoogle = async () => {
-    const supabase = createClient();
+  const [googleLoading, setGoogleLoading] = useState(false);
 
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
+  const handleGoogle = async () => {
+    setGoogleLoading(true);
+    try {
+      const supabase = createClient();
+
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+    } finally {
+      setGoogleLoading(false);
+    }
   };
 
   const googleLabel =
@@ -35,6 +43,7 @@ export const SocialButtons = ({
       label: googleLabel,
       icon: "/svg/google.svg",
       onClick: handleGoogle,
+      loading: googleLoading,
     },
     ...(showEmail && onEmailClick
       ? [
@@ -66,7 +75,7 @@ export const SocialButtons = ({
 
   return (
     <Flex direction="column" gap={3}>
-      {buttons.map(({ label, icon, onClick }) => (
+      {buttons.map(({ label, icon, onClick, loading }) => (
         <Button
           key={label}
           py={1.5}
@@ -74,6 +83,8 @@ export const SocialButtons = ({
           variant="secondary"
           borderRadius="full"
           onClick={onClick}
+          loading={loading}
+          disabled={loading}
         >
           {inner(icon, label)}
         </Button>

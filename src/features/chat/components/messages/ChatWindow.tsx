@@ -44,7 +44,14 @@ export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
       </Box>
 
       {sendError && (
-        <Text fontSize="xs" color="red.500" textAlign="center" px={4} py={1}>
+        <Text
+          fontSize="xs"
+          color="red.500"
+          textAlign="center"
+          px={4}
+          py={1}
+          role="alert"
+        >
           {sendError}
         </Text>
       )}

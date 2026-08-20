@@ -7,7 +7,7 @@ import { registerSchema, type RegisterInput } from "@/features/auth/schemas";
 import { useRegister } from "@/features/auth/hooks";
 import NextLink from "next/link";
 import Image from "next/image";
-import { Flex, Text, Stack, Box } from "@chakra-ui/react";
+import { Flex, Text, Stack, Box, chakra } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 
@@ -136,15 +136,23 @@ export const RegisterForm = () => {
             placeholder="Mínimo 8 caracteres"
             onChange={reset}
             rightElement={
-              <Text
+              <chakra.button
+                type="button"
+                aria-label={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
+                aria-pressed={showPassword}
                 fontSize="xs"
                 color="neutral.400"
                 cursor="pointer"
                 userSelect="none"
+                bg="transparent"
+                border="none"
+                p="0"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "Ocultar" : "Ver"}
-              </Text>
+              </chakra.button>
             }
           />
 
@@ -158,7 +166,7 @@ export const RegisterForm = () => {
           </Flex>
 
           {error && (
-            <Box py={2}>
+            <Box py={2} role="alert">
               <Text fontSize="xs" color="feedback.error" textAlign="center">
                 {error}
               </Text>

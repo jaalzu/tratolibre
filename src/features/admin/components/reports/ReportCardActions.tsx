@@ -60,6 +60,7 @@ export function ReportCardActions({ report }: ReportCardActionsProps) {
         >
           <NextLink
             href={targetHref}
+            aria-label="Ver publicación reportada"
             target={report.type !== "conversation" ? "_blank" : undefined}
           >
             <Flex align="center" gap={1.5}>
@@ -76,10 +77,10 @@ export function ReportCardActions({ report }: ReportCardActionsProps) {
                 py={1.5}
                 px={3}
                 bg="neutral.50"
-                color="brand.dark"
+                color="accent.default"
                 border="1px solid"
-                borderColor="brand.dark"
-                _hover={{ bg: "brand.100" }}
+                borderColor="accent.default"
+                _hover={{ bg: "accent.50" }}
                 onClick={() => setConfirmDelete(true)}
               >
                 Eliminar
@@ -91,10 +92,10 @@ export function ReportCardActions({ report }: ReportCardActionsProps) {
                 py={1.5}
                 px={3}
                 bg="neutral.50"
-                color="brand.dark"
+                color="accent.default"
                 border="1px solid"
-                borderColor="brand.dark"
-                _hover={{ bg: "brand.100" }}
+                borderColor="accent.default"
+                _hover={{ bg: "accent.50" }}
                 onClick={() => setConfirmReviewed(true)}
               >
                 Marcar revisado

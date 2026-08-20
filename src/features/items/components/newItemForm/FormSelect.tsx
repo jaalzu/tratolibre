@@ -31,6 +31,27 @@ export function FormSelect({
   const ref = useRef<HTMLDivElement>(null);
   const selected = options.find((o) => o.id === value);
 
+  // Navegación por teclado
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return;
+    if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+      e.preventDefault();
+      setOpen(true);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    }
+  };
+
+  const handleOptionKeyDown = (e: React.KeyboardEvent, optId: string) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onChange(optId);
+      setOpen(false);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    }
+  };
+
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node))
@@ -45,6 +66,9 @@ export function FormSelect({
       <button
         type="button"
         data-testid={`select-${placeholder?.toLowerCase().replace(/\s/g, "-")}`}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onKeyDown={handleKeyDown}
         onClick={() => {
           if (!disabled) setOpen((o) => !o);
         }}
@@ -131,6 +155,7 @@ export function FormSelect({
           zIndex={50}
           maxH="220px"
           overflowY="auto"
+          role="listbox"
           css={{
             "&::-webkit-scrollbar": { width: "4px" },
             "&::-webkit-scrollbar-thumb": {
@@ -147,6 +172,10 @@ export function FormSelect({
               <button
                 key={opt.id}
                 type="button"
+                role="option"
+                aria-selected={isSelected}
+                tabIndex={0}
+                onKeyDown={(e) => handleOptionKeyDown(e, opt.id)}
                 data-testid={`option-${opt.id}`}
                 onClick={() => {
                   onChange(opt.id);

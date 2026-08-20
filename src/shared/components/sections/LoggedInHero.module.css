@@ -10,9 +10,9 @@
 }
 
 .topSection {
-  display: grid;
-  grid-template-columns: 60px 1fr auto;
+  display: flex;
   align-items: center;
+  gap: 10px;
   width: 100%;
 }
 
@@ -22,6 +22,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
+}
+
+.locationContainer {
+  display: flex;
+  align-items: center;
+}
+
+.locationText {
+  font-size: 0.9rem;
+  color: var(--chakra-colors-neutral-600);
+  font-weight: 500;
 }
 
 .contentWrapper {

@@ -16,17 +16,18 @@ export function SearchBar() {
 
   return (
     <Flex
-      w="full"
+      w="calc(100% + 2px)"
       align="center"
       bg="neutral.50"
       borderRadius="2px"
-      h="33px"
+      h="35px"
       overflow="hidden"
     >
       <Input
         placeholder="Buscar en tratolibre"
+        aria-label="Buscar en tratolibre"
         ps="2"
-        h="33px"
+        h="36px"
         fontSize="sm"
         bg="transparent"
         color="neutral.900"
@@ -45,18 +46,18 @@ export function SearchBar() {
         onClick={handleSearch}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        height="33px"
+        height="26px"
         px="12px"
         display="flex"
         alignItems="center"
         justifyContent="center"
         borderLeft="1px solid"
         borderColor="neutral.200"
+        ml="1px"
         bg="transparent"
         cursor="pointer"
         flexShrink={0}
         transition="all 0.2s"
-        _hover={{ bg: "neutral.100" }}
       >
         <Search
           width="18px"

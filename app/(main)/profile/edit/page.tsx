@@ -23,7 +23,7 @@ export default async function EditProfilePage() {
   return (
     <PageContainer maxW="480px">
       <Flex align="center" gap={3} mb={6}>
-        <NextLink href="/profile" passHref>
+        <NextLink href="/profile" passHref aria-label="Volver al perfil">
           <Box
             as="span"
             color="neutral.600"

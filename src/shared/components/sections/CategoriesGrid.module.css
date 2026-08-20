@@ -7,17 +7,14 @@
 }
 
 .title {
-  font-weight: bold;
   font-size: 1rem;
   color: var(--chakra-colors-neutral-900);
   margin-bottom: 12px;
 }
 
 .divider {
-  border-top: 1px solid var(--chakra-colors-neutral-100);
+  border-top: 1px solid var(--chakra-colors-neutral-150);
   margin-bottom: 12px;
-  margin-left: -16px;
-  margin-right: -16px;
 }
 
 .grid {

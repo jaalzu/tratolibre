@@ -54,6 +54,7 @@ export default function ItemImageSlider({
         <Box
           as="button"
           onClick={() => router.back()}
+          aria-label="Volver"
           position="absolute"
           top={3}
           left={3}
@@ -86,7 +87,12 @@ export default function ItemImageSlider({
             px={3}
             py={1}
           >
-            <Text fontSize="xs" color="neutral.50" fontWeight="medium">
+            <Text
+              fontSize="xs"
+              color="neutral.50"
+              fontWeight="medium"
+              aria-live="polite"
+            >
               {active + 1}/{images.length}
             </Text>
           </Box>
@@ -98,6 +104,7 @@ export default function ItemImageSlider({
             <Box
               as="button"
               onClick={goPrev}
+              aria-label="Imagen anterior"
               position="absolute"
               left={3}
               top="50%"
@@ -117,6 +124,7 @@ export default function ItemImageSlider({
             <Box
               as="button"
               onClick={goNext}
+              aria-label="Imagen siguiente"
               position="absolute"
               right={3}
               top="50%"
