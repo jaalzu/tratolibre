@@ -26,18 +26,21 @@ export const ItemsCategorySection = ({
   return (
     <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
       <div className={styles.card}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>{title}</h2>
-          {viewMoreHref && (
-            <NextLink href={viewMoreHref} className={styles.viewMore}>
-              {viewMoreLabel}
-            </NextLink>
-          )}
-        </div>
-
-        <div className={styles.divider} />
-
-        <ScrollableRow>
+        <ScrollableRow
+          header={
+            <div className={styles.header}>
+              <div>
+                <h2 className={styles.title}>{title}</h2>
+                {viewMoreHref && (
+                  <NextLink href={viewMoreHref} className={styles.viewMore}>
+                    {viewMoreLabel}
+                  </NextLink>
+                )}
+              </div>
+            </div>
+          }
+        >
+          <div className={styles.divider} />
           <div
             className={styles.grid}
             style={{ "--items-count": items.length } as React.CSSProperties}

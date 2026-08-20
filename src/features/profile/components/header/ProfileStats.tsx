@@ -30,7 +30,11 @@ export const ProfileStats = ({
     {isOwner && (
       <Box ml="auto">
         <form action={logoutAction}>
-          <button type="submit" style={{ display: "flex", cursor: "pointer" }}>
+          <button
+            type="submit"
+            style={{ display: "flex", cursor: "pointer" }}
+            aria-label="Cerrar sesión"
+          >
             <ArrowOutLeftSquareHalf
               width="28px"
               height="28px"

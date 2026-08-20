@@ -7,6 +7,7 @@ import styles from "./HeroCarousel.module.css";
 export function HeroCarousel({ slides }: { slides: any[] }) {
   const [index, setIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [paused, setPaused] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,8 +19,13 @@ export function HeroCarousel({ slides }: { slides: any[] }) {
     }
   }, []);
 
+  const reducedMotion = useRef(
+    typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  ).current;
+
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || reducedMotion || paused) return;
 
     const interval = setInterval(() => {
       const next = (index + 1) % slides.length;
@@ -27,7 +33,7 @@ export function HeroCarousel({ slides }: { slides: any[] }) {
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [index, slides.length, mounted]);
+  }, [index, slides.length, mounted, reducedMotion, paused]);
 
   const scrollTo = (i: number) => {
     setIndex(i);
@@ -55,6 +61,14 @@ export function HeroCarousel({ slides }: { slides: any[] }) {
       </div>
 
       <div className={styles.dotContainer}>
+        <button
+          className={styles.pauseButton}
+          onClick={() => setPaused((p) => !p)}
+          aria-pressed={paused}
+          aria-label={paused ? "Reproducir carrusel" : "Pausar carrusel"}
+        >
+          {paused ? "▶" : "⏸"}
+        </button>
         {slides.map(
           (
             slide,

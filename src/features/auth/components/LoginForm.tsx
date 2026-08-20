@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/features/auth/schemas";
 import NextLink from "next/link";
 import Image from "next/image";
-import { Flex, Text, Stack, Box } from "@chakra-ui/react";
+import { Flex, Text, Stack, Box, chakra } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useLogin, useGoogleLogin } from "@/features/auth/hooks";
@@ -137,15 +137,23 @@ export const LoginForm = () => {
             placeholder="Tu contraseña"
             onChange={clearError}
             rightElement={
-              <Text
+              <chakra.button
+                type="button"
+                aria-label={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
+                aria-pressed={showPassword}
                 fontSize="xs"
                 color="neutral.400"
                 cursor="pointer"
                 userSelect="none"
+                bg="transparent"
+                border="none"
+                p="0"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "Ocultar" : "Ver"}
-              </Text>
+              </chakra.button>
             }
           />
 
@@ -171,7 +179,7 @@ export const LoginForm = () => {
           </Flex>
 
           {error && (
-            <Box py={2}>
+            <Box py={2} role="alert">
               <Text fontSize="xs" color="feedback.error" textAlign="center">
                 {error}
               </Text>

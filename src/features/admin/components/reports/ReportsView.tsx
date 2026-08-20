@@ -30,7 +30,14 @@ export function ReportsView({ reports }: { reports: AdminReport[] }) {
       </Box>
 
       {/* Contador */}
-      <Text fontSize="xs" color="fg.muted" mb={3} px={1}>
+      <Text
+        fontSize="xs"
+        color="fg.muted"
+        mb={3}
+        px={1}
+        role="status"
+        aria-live="polite"
+      >
         {filtered.length} {filtered.length === 1 ? "reporte" : "reportes"}
       </Text>
 

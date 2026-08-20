@@ -9,6 +9,7 @@ import {
   Textarea,
   Button,
   Portal,
+  chakra,
   DialogRoot as Root,
   DialogBackdrop as Backdrop,
   DialogPositioner as Positioner,
@@ -52,6 +53,18 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
     onClose();
   };
 
+  const handleStarKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      const dir = e.key === "ArrowRight" ? 1 : -1;
+      const next = Math.min(5, Math.max(1, (rating || 1) + dir));
+      setRating(next);
+      e.currentTarget
+        .querySelector<HTMLElement>(`[data-star="${next}"]`)
+        ?.focus();
+    }
+  };
+
   return (
     <Root
       open={open}
@@ -90,25 +103,40 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                   </Text>
                 </Box>
 
-                <Flex gap={1} justify="center">
+                <Flex
+                  gap={1}
+                  justify="center"
+                  role="radiogroup"
+                  aria-label="Calificación"
+                  onKeyDown={handleStarKeyDown}
+                >
                   {[1, 2, 3, 4, 5].map((star) => {
                     const isActive = (hovered || rating) >= star;
                     return (
-                      <Box
+                      <chakra.button
                         key={star}
+                        type="button"
+                        role="radio"
+                        aria-checked={rating === star}
+                        aria-label={`${star} de 5 estrellas`}
+                        data-star={star}
                         cursor="pointer"
                         onMouseEnter={() => setHovered(star)}
                         onMouseLeave={() => setHovered(0)}
                         onClick={() => setRating(star)}
+                        onFocus={() => setHovered(star)}
                         transition="transform 0.1s"
                         _active={{ transform: "scale(0.9)" }}
+                        bg="transparent"
+                        border="none"
+                        p="0"
                       >
                         <Star
                           width="36px"
                           height="36px"
                           fill={isActive ? "#ecc94b" : "#e2e8f0"}
                         />
-                      </Box>
+                      </chakra.button>
                     );
                   })}
                 </Flex>
@@ -131,6 +159,7 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                 <Box>
                   <Textarea
                     placeholder="Contá tu experiencia"
+                    aria-label="Contá tu experiencia"
                     value={comment}
                     pt={2.5}
                     pb={6}
@@ -153,7 +182,12 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                 </Box>
 
                 {error && (
-                  <Text fontSize="sm" color="red.500" textAlign="center">
+                  <Text
+                    fontSize="sm"
+                    color="red.500"
+                    textAlign="center"
+                    role="alert"
+                  >
                     {error}
                   </Text>
                 )}

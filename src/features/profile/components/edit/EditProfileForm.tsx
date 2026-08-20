@@ -34,6 +34,7 @@ export const EditProfileForm = ({ defaultValues }: EditProfileFormProps) => {
           </Avatar.Root>
           <label
             htmlFor="avatar-upload"
+            aria-label="Cambiar foto de perfil"
             style={{
               position: "absolute",
               bottom: 0,

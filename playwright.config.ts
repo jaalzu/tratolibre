@@ -9,7 +9,8 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  // 1 worker evita el crash de Chromium en Windows (0xC0000142)
+  workers: 1,
   reporter: "html",
   timeout: 120000,
 
@@ -30,9 +31,9 @@ export default defineConfig({
     command: "npm run dev",
     url: "http://localhost:3000",
     reuseExistingServer: true,
-    timeout: 120000,
+    // Margen para el compilado en frío de Turbopack (cold start)
+    timeout: 180000,
 
-    // ✅ CAMBIAR A IGNORE (no pipe)
     stdout: "ignore",
     stderr: "ignore",
   },

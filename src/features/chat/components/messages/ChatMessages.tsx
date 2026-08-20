@@ -26,7 +26,27 @@ function isSameDay(a: string | null, b: string | null) {
 }
 export const ChatMessages = memo(
   ({ messages, userId, bottomRef, isOtherTyping }: ChatMessagesProps) => (
-    <Box flex="1" overflowY="auto" px="4" py="2">
+    <Box
+      flex="1"
+      overflowY="auto"
+      px="4"
+      py="2"
+      css={{
+        "&::-webkit-scrollbar": {
+          width: "4px",
+        },
+        "&::-webkit-scrollbar-track": {
+          background: "transparent",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "var(--chakra-colors-neutral-200)",
+          borderRadius: "100px",
+        },
+        "&::-webkit-scrollbar-thumb:hover": {
+          background: "var(--chakra-colors-neutral-300)",
+        },
+      }}
+    >
       <ChatSecurityNote />
       <Stack gap="2">
         {messages.map((msg, i) => {

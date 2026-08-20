@@ -50,12 +50,11 @@ export function PendingReviewBanner({
           </Flex>
 
           <Box flex={1}>
-            <Text fontSize="sm" fontWeight="semibold">
+            <Text fontSize="sm" fontWeight="semibold" aria-live="polite">
               {total === 1
                 ? "Tenés una reseña pendiente"
                 : `Reseña ${current + 1} de ${total}`}
-            </Text>
-            <Text fontSize="xs" color="neutral.500">
+            </Text>            <Text fontSize="xs" color="neutral.500">
               Calificá tu experiencia con {currentReview.reviewedName}
             </Text>
           </Box>
@@ -66,6 +65,7 @@ export function PendingReviewBanner({
                 <Box
                   as="button"
                   onClick={prev}
+                  aria-label="Reseña anterior"
                   style={{
                     cursor: current === 0 ? "not-allowed" : "pointer",
                     opacity: current === 0 ? 0.3 : 1,
@@ -78,6 +78,7 @@ export function PendingReviewBanner({
                 <Box
                   as="button"
                   onClick={next} // <--- Usamos 'next' del hook
+                  aria-label="Reseña siguiente"
                   style={{
                     cursor: current === total - 1 ? "not-allowed" : "pointer",
                     opacity: current === total - 1 ? 0.3 : 1,

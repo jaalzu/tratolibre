@@ -40,6 +40,8 @@ export function NotificationBell({
         py={1.5}
         px={1}
         color="neutral.50"
+        aria-haspopup="true"
+        aria-expanded={open}
         aria-label={
           unreadCount > 0
             ? `Notificaciones (${unreadCount} sin leer)`

@@ -81,8 +81,8 @@ export default function ItemPageContent({
           bottom="60px"
           left={0}
           right={0}
-          px={4}
-          py={3}
+          px={3}
+          py={2}
           bg="neutral.150"
           borderTop="1px solid"
           borderColor="neutral.300"

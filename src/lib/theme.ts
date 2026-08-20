@@ -29,8 +29,8 @@ const config = defineConfig({
           dark: { value: "#1d4ed8" },
         },
         neutral: {
-          50: { value: "#ffffff" },
-          100: { value: "#e7e7e7" },
+          50: { value: "#fafafa" },
+          100: { value: "#e0e0e0" },
           150: { value: "#eff3f6" },
           200: { value: "#c6c5c5" },
           300: { value: "#ada9a9" },

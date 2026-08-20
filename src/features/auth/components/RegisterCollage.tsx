@@ -52,7 +52,7 @@ export const RegisterCollage = () => (
         >
           <Image
             src={src}
-            alt={`photo-${i}`}
+            alt=""
             fill
             sizes={
               areas[i].colSpan === 2

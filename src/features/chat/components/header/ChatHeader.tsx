@@ -5,7 +5,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { ChatMenu } from "./ChatMenu";
 import { ArrowLeft } from "@boxicons/react";
-import { useProfile } from "@/shared/hooks/useProfile"; // ✅ Importar
+import { useProfile } from "@/shared/hooks/useProfile";
 
 interface ChatHeaderProps {
   item: {
@@ -28,10 +28,8 @@ export const ChatHeader = ({
   seller,
   conversationId,
 }: ChatHeaderProps) => {
-  // ✅ Usar useProfile con los datos iniciales del seller
   const { data: otherUserProfile } = useProfile(seller.id, seller);
 
-  // ✅ Usar el perfil actualizado o el inicial
   const currentSeller = otherUserProfile || seller;
 
   if (!item) return null;
@@ -49,7 +47,7 @@ export const ChatHeader = ({
       zIndex={10}
     >
       {/* Flecha atrás */}
-      <NextLink href="/chat">
+      <NextLink href="/chat" aria-label="Volver al buzón">
         <Box
           display={{ base: "block", md: "none" }}
           color="white"

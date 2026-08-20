@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { Flex, Text, Input, Field, Stack, Box } from "@chakra-ui/react";
+import { Flex, Text, Input, Field, Stack, Box, chakra } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import { createClient } from "@/lib/supabase/client/browser";
 
@@ -88,7 +88,12 @@ export const ResetPasswordForm = () => {
                 {...inputStyles}
                 pr="40px"
               />
-              <Text
+              <chakra.button
+                type="button"
+                aria-label={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
+                aria-pressed={showPassword}
                 position="absolute"
                 right="12px"
                 top="50%"
@@ -97,10 +102,13 @@ export const ResetPasswordForm = () => {
                 color="neutral.400"
                 cursor="pointer"
                 userSelect="none"
+                bg="transparent"
+                border="none"
+                p="0"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "Ocultar" : "Ver"}
-              </Text>
+              </chakra.button>
             </Box>
             {errors.password && (
               <Field.ErrorText fontSize="xs">

@@ -5,7 +5,7 @@ import {
   FormField,
   inputStyles,
 } from "@/features/items/components/newItemForm/FormFields";
-import { FormSelect } from "@/features/items/components/newItemForm/FormSelect";
+import FormSelect from "@/features/items/components/newItemForm/FormSelect";
 import { useController } from "react-hook-form";
 import { PROVINCES } from "@/lib/constants";
 

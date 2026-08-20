@@ -23,8 +23,24 @@ export function ChatLayout({
       </Box>
       <Box
         display={{ base: "none", md: "flex" }}
-        h="calc(100dvh - 90px)"
+        h="calc(100vh - 72px)"
         overflow="hidden"
+        css={{
+          "*::-webkit-scrollbar": {
+            width: "5px",
+            height: "5px",
+          },
+          "*::-webkit-scrollbar-track": {
+            background: "transparent",
+          },
+          "*::-webkit-scrollbar-thumb": {
+            background: "var(--chakra-colors-neutral-200)",
+            borderRadius: "100px",
+          },
+          "*::-webkit-scrollbar-thumb:hover": {
+            background: "var(--chakra-colors-neutral-300)",
+          },
+        }}
       >
         {desktop}
       </Box>

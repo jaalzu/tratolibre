@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 const FormSkeleton = () => (
-  <div className="animate-pulse space-y-6">
+  <div className="animate-pulse space-y-">
     {/* Título */}
     <div className="h-8 bg-gray-200 rounded-md w-1/3 mb-8"></div>
 
@@ -18,7 +18,7 @@ const FormSkeleton = () => (
     {/* Área de texto/descripción */}
     <div className="space-y-2">
       <div className="h-4 bg-gray-200 rounded w-24"></div>
-      <div className="h-32 bg-gray-100 rounded-lg w-full"></div>
+      <div className="h-16 bg-gray-100 rounded-lg w-full"></div>
     </div>
 
     {/* Botón */}
