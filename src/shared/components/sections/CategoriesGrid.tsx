@@ -44,7 +44,7 @@ export function CategoriesGrid() {
 
             <div className={styles.divider} />
 
-            <div className={styles.grid}>
+            <div className={styles.grid} id="categories-grid">
               {visible.map((cat) => {
                 const Icon = cat.icon;
 
@@ -70,6 +70,8 @@ export function CategoriesGrid() {
             <button
               onClick={() => setExpanded(!expanded)}
               className={styles.expandButton}
+              aria-expanded={expanded}
+              aria-controls="categories-grid"
             >
               <span className={styles.expandText}>
                 {expanded

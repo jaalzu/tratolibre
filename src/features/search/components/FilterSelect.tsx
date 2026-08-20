@@ -42,6 +42,8 @@ export function FilterSelect({
         bg="transparent"
         cursor="pointer"
         onClick={toggle}
+        aria-haspopup="listbox"
+        aria-expanded={open}
         transition="border-color 0.15s"
       >
         <Text
@@ -84,6 +86,7 @@ export function FilterSelect({
           zIndex={100} // Aumentado para que no lo tape nada
           maxH="220px"
           overflowY="auto"
+          role="listbox"
           css={{
             "&::-webkit-scrollbar": { width: "4px" },
             "&::-webkit-scrollbar-thumb": {
@@ -99,6 +102,7 @@ export function FilterSelect({
             textAlign="left"
             px={3}
             py={2}
+            role="option"
             _hover={{ bg: "neutral.50" }}
             onClick={() => {
               onChange("");
@@ -121,6 +125,8 @@ export function FilterSelect({
                 textAlign="left"
                 px={3}
                 py={2}
+                role="option"
+                aria-selected={isSelected}
                 bg={isSelected ? "brand.50" : "transparent"}
                 _hover={{ bg: isSelected ? "brand.50" : "neutral.50" }}
                 onClick={() => {

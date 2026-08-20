@@ -26,6 +26,7 @@ export const ChatInput = memo(
         onKeyDown={(e) => e.key === "Enter" && onSend()}
         data-testid="chat-input"
         placeholder="Escribí un mensaje..."
+        aria-label="Escribí un mensaje"
         fontSize="md"
         borderColor="neutral.200"
         borderRadius="full"
@@ -36,6 +37,7 @@ export const ChatInput = memo(
         as="button"
         onClick={onSend}
         data-testid="send-button"
+        aria-label="Enviar mensaje"
         w="10"
         h="10"
         borderRadius="full"

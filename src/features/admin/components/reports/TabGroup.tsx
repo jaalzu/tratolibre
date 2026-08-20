@@ -57,6 +57,7 @@ export function TabGroup({
               fontWeight="medium"
               textAlign="center"
               color={value === f.value ? "fg" : "fg.muted"}
+              aria-pressed={value === f.value}
               onClick={() => onChange(f.value)}
               cursor="pointer"
               bg="transparent"
@@ -91,6 +92,7 @@ export function TabGroup({
             fontWeight="medium"
             bg={value === f.value ? "brand.default" : "neutral.150"}
             color={value === f.value ? "white" : "fg.muted"}
+            aria-pressed={value === f.value}
             onClick={() => onChange(f.value)}
             cursor="pointer"
             transition="all 0.15s"

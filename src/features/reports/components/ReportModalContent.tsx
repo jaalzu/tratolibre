@@ -32,7 +32,7 @@ export function ReportModalContent({
       </Dialog.Title>
 
       <Dialog.Description mt={4}>
-        <Stack gap={2}>
+        <Stack gap={2} role="radiogroup" aria-label="Motivo del reporte">
           {REPORT_REASONS.map((r) => (
             <ReportReasonOption
               key={r.value}
@@ -45,6 +45,7 @@ export function ReportModalContent({
           {reason === "otro" && (
             <Textarea
               placeholder="Contanos más detalles (opcional)"
+              aria-label="Contanos más detalles (opcional)"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               fontSize="sm"

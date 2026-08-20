@@ -9,6 +9,7 @@ import {
   Text,
   Circle,
   Spinner,
+  chakra,
 } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import { getConversationsByItem } from "@/features/chat/actions/queries";
@@ -125,7 +126,7 @@ export const SelectBuyerDialog = ({
                   No hay conversaciones para este artículo
                 </Text>
               ) : (
-                <Flex direction="column" gap={2}>
+                <Flex direction="column" gap={2} role="radiogroup" aria-label="Comprador">
                   {buyers.map((conv: ConversationBuyer) => {
                     const buyer = Array.isArray(conv.buyer)
                       ? conv.buyer[0]
@@ -133,9 +134,12 @@ export const SelectBuyerDialog = ({
                     const isMarking = marking === buyer?.id;
 
                     return (
-                      <Flex
+                      <chakra.button
                         key={conv.id}
-                        align="center"
+                        type="button"
+                        role="radio"
+                        aria-checked={false}
+                        alignItems="center"
                         gap={3}
                         p={3}
                         borderRadius="xl"
@@ -143,12 +147,17 @@ export const SelectBuyerDialog = ({
                         borderColor="neutral.100"
                         cursor={marking ? "not-allowed" : "pointer"}
                         opacity={marking && !isMarking ? 0.5 : 1}
+                        disabled={!!marking}
                         _hover={{ bg: "neutral.50" }}
                         onClick={() =>
                           !marking &&
                           buyer?.id &&
                           handleSelect(buyer.id, buyer.name ?? "el comprador")
                         }
+                        w="full"
+                        textAlign="left"
+                        display="flex"
+                        bg="transparent"
                       >
                         {buyer?.avatar_url ? (
                           <Box
@@ -188,7 +197,7 @@ export const SelectBuyerDialog = ({
                         {isMarking && (
                           <Spinner size="sm" color="brand.default" />
                         )}
-                      </Flex>
+                      </chakra.button>
                     );
                   })}
                 </Flex>

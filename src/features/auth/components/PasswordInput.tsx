@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Input, Box, Text } from "@chakra-ui/react";
+import { Input, Box, chakra } from "@chakra-ui/react";
 import { inputStyles } from "./FormField";
 import { UseFormRegisterReturn } from "react-hook-form";
 
@@ -26,7 +26,10 @@ export const PasswordInput = ({
         {...inputStyles}
         pr="40px"
       />
-      <Text
+      <chakra.button
+        type="button"
+        aria-label={show ? "Ocultar contraseña" : "Mostrar contraseña"}
+        aria-pressed={show}
         position="absolute"
         right="12px"
         top="50%"
@@ -35,10 +38,13 @@ export const PasswordInput = ({
         color="neutral.400"
         cursor="pointer"
         userSelect="none"
+        bg="transparent"
+        border="none"
+        p="0"
         onClick={() => setShow((s) => !s)}
       >
         {show ? "Ocultar" : "Ver"}
-      </Text>
+      </chakra.button>
     </Box>
   );
 };

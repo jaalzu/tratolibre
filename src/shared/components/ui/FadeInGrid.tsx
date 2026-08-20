@@ -36,7 +36,7 @@ export function FadeInGrid({
         }
       `}</style>
 
-      <SimpleGrid columns={columns} gap={{ base: 1.5, md: 2 }} width="100%">
+      <SimpleGrid columns={columns} gap={{ base: "12px", md: "20px" }} width="100%">
         {items.map((child, idx) => (
           <div
             key={idx}

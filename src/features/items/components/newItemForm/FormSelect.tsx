@@ -33,10 +33,24 @@ export function FormSelect({
   const btnRef = useRef<HTMLButtonElement>(null);
   const selected = options.find((o) => o.id === value);
 
-  const updateCoords = () => {
-    if (btnRef.current) {
-      const rect = btnRef.current.getBoundingClientRect();
-      setCoords({ top: rect.bottom + 4, left: rect.left, width: rect.width });
+  // Navegación por teclado
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return;
+    if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+      e.preventDefault();
+      setOpen(true);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    }
+  };
+
+  const handleOptionKeyDown = (e: React.KeyboardEvent, optId: string) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onChange(optId);
+      setOpen(false);
+    } else if (e.key === "Escape") {
+      setOpen(false);
     }
   };
 
@@ -79,7 +93,12 @@ export function FormSelect({
         ref={btnRef}
         type="button"
         data-testid={`select-${placeholder?.toLowerCase().replace(/\s/g, "-")}`}
-        onClick={toggleOpen}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onKeyDown={handleKeyDown}
+        onClick={() => {
+          if (!disabled) setOpen((o) => !o);
+        }}
         style={{
           width: "100%",
           height: "44px",
@@ -150,65 +169,71 @@ export function FormSelect({
       </button>
 
       {open && (
-        <Portal>
-          <Box
-            data-formselect-dropdown
-            position="fixed"
-            top={`${coords.top}px`}
-            left={`${coords.left}px`}
-            width={`${coords.width}px`}
-            bg="neutral.50"
-            border="1px solid"
-            borderColor="neutral.200"
-            borderRadius="lg"
-            boxShadow="md"
-            zIndex={1500}
-            maxH="220px"
-            overflowY="auto"
-            css={{
-              "&::-webkit-scrollbar": { width: "4px" },
-              "&::-webkit-scrollbar-thumb": {
-                borderRadius: "100px",
-                background: "#c1c1c1",
-              },
-            }}
-          >
-            {options.map((opt) => {
-              const Icon = opt.iconClass;
-              const isSelected = value === opt.id;
+        <Box
+          position="absolute"
+          top="calc(100% + 4px)"
+          left={0}
+          right={0}
+          bg="neutral.50"
+          border="1px solid"
+          borderColor="neutral.200"
+          borderRadius="lg"
+          boxShadow="md"
+          zIndex={50}
+          maxH="220px"
+          overflowY="auto"
+          role="listbox"
+          css={{
+            "&::-webkit-scrollbar": { width: "4px" },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: "100px",
+              background: "#c1c1c1",
+            },
+          }}
+        >
+          {options.map((opt) => {
+            const Icon = opt.iconClass;
+            const isSelected = value === opt.id;
 
-              return (
-                <button
-                  key={opt.id}
-                  type="button"
-                  data-testid={`option-${opt.id}`}
-                  onClick={() => {
-                    onChange(opt.id);
-                    setOpen(false);
-                  }}
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    padding: "8px 12px",
-                    background: isSelected
-                      ? "var(--chakra-colors-brand-50)"
-                      : "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isSelected)
-                      (e.currentTarget as HTMLButtonElement).style.background =
-                        "var(--chakra-colors-neutral-50)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isSelected)
-                      (e.currentTarget as HTMLButtonElement).style.background =
-                        "transparent";
-                  }}
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                tabIndex={0}
+                onKeyDown={(e) => handleOptionKeyDown(e, opt.id)}
+                data-testid={`option-${opt.id}`}
+                onClick={() => {
+                  onChange(opt.id);
+                  setOpen(false);
+                }}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "8px 12px",
+                  background: isSelected
+                    ? "var(--chakra-colors-brand-50)"
+                    : "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected)
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "var(--chakra-colors-neutral-50)";
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected)
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "transparent";
+                }}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
                   <div
                     style={{

@@ -23,8 +23,8 @@ export default async function EditItemPage({
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
-      <div className="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm">
+    <div className="max-w-5xl mx-auto py-10 px-4">
+      <div className="bg-white p-6 md:p-8 rounded-xl   ">
         <DynamicNewItemForm initialData={item} />
       </div>
     </div>

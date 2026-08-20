@@ -23,6 +23,7 @@ export function PriceInput({
       <input
         type="number"
         placeholder={placeholder}
+        aria-label={label}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         min={0}

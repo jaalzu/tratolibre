@@ -21,7 +21,7 @@ export const STATUS_LABEL: Record<string, string> = {
 
 export const STATUS_COLORS: Record<string, string> = {
   pending: "orange.500",
-  reviewed: "green.500",
+  reviewed: "accent.default",
   dismissed: "fg.muted",
 };
 

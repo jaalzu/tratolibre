@@ -51,7 +51,7 @@ export function SortModal({ open, onClose }: SortModalProps) {
           <Text fontWeight="bold" fontSize="lg" color="neutral.900">
             Ordenar por
           </Text>
-          <Box as="button" onClick={onClose} color="neutral.400">
+          <Box as="button" onClick={onClose} color="neutral.400" aria-label="Cerrar">
             <X width="28px" height="28px" fill="currentColor" />
           </Box>
         </Flex>

@@ -1,7 +1,7 @@
 .card {
   background-color: var(--chakra-colors-neutral-50);
-  border-radius: 1rem; /* 2xl */
-  padding: 16px;
+  border-radius: var(--chakra-radii-lg);
+  padding: 20px;
   box-shadow: var(--chakra-shadows-base);
   min-height: 300px;
   position: relative;
@@ -9,27 +9,34 @@
 
 .header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 14px;
 }
 
 .title {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: var(--chakra-fontSizes-lg);
+  font-weight: var(--chakra-fontWeights-bold);
+  line-height: 1.2;
+  color: var(--chakra-colors-neutral-900);
 }
 
 .viewMore {
-  font-size: 15px;
-  font-weight: bold;
+  font-size: var(--chakra-fontSizes-sm);
+  font-weight: var(--chakra-fontWeights-bold);
   color: var(--chakra-colors-accent-default);
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.viewMore:hover {
+  text-decoration: underline;
 }
 
 .divider {
-  border-top: 1px solid var(--chakra-colors-neutral-100);
+  border-top: 1px solid var(--chakra-colors-neutral-150);
   margin-bottom: 16px;
-  margin-left: -16px;
-  margin-right: -16px;
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 .scrollWrapper {
@@ -46,36 +53,43 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(var(--items-count), 190px);
-  gap: 10px;
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding-bottom: 4px;
+}
+
+.grid > * {
+  width: 190px;
+  flex-shrink: 0;
 }
 
 @media (min-width: 48em) {
-  .grid {
-    grid-template-columns: repeat(var(--items-count), 226px);
-    gap: 20px;
+  .grid > * {
+    width: 226px;
   }
 }
 
 .arrows {
-  position: absolute;
-  bottom: -8px;
-  right: 0;
   display: flex;
-  gap: 7px;
+  gap: 8px;
 }
+
 .arrowButton {
-  width: 31px;
-  height: 31px;
-  border-radius: 100px;
-  border: 1px solid var(--chakra-colors-brand-default);
-  background: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid var(--chakra-colors-accent-default);
+  background: var(--chakra-colors-neutral-50);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--chakra-colors-brand-default);
+  color: var(--chakra-colors-accent-default);
+}
+
+.arrowButton:hover {
+  opacity: 0.8;
 }
 
 .arrowButton:disabled {

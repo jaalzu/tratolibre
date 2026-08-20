@@ -48,6 +48,37 @@
   height: 44px;
 }
 
+.pauseButton {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--chakra-colors-neutral-500);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  position: relative;
+}
+
+.pauseButton::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+}
+
+.pauseButton:hover {
+  color: var(--chakra-colors-neutral-800);
+}
+
 /* El punto inactivo */
 .dotInactive {
   width: 8px;

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import { Box, SimpleGrid, Text, Flex, chakra } from "@chakra-ui/react";
 import { useState } from "react";
 import { ProfileItemCard } from "./ProfileItemCard";
 import { ItemSummary } from "@/features/items/types";
@@ -23,18 +23,46 @@ export const ProfileItemsTabs = ({ items, isOwner }: ProfileItemsTabsProps) => {
   const sold = items.filter((i) => i.sold);
   const current = tab === "active" ? active : sold;
 
+  const handleTabKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+      e.preventDefault();
+      const dir = e.key === "ArrowRight" ? 1 : -1;
+      const idx = tabs.findIndex((t) => t.key === tab);
+      const next = tabs[(idx + dir + tabs.length) % tabs.length];
+      setTab(next.key);
+      e.currentTarget
+        .querySelector<HTMLElement>(`[data-tab="${next.key}"]`)
+        ?.focus();
+    }
+  };
+
   return (
     <Box>
-      <Flex justify="center" gap={10} mb={8}>
+      <Flex
+        justify="center"
+        gap={10}
+        mb={8}
+        role="tablist"
+        aria-label="Mis publicaciones"
+        onKeyDown={handleTabKeyDown}
+      >
         {tabs.map((t) => {
           const count = t.key === "active" ? active.length : sold.length;
           const isActive = tab === t.key;
           return (
-            <Box
+            <chakra.button
               key={t.key}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              data-tab={t.key}
+              tabIndex={isActive ? 0 : -1}
               onClick={() => setTab(t.key)}
               cursor="pointer"
               textAlign="center"
+              bg="transparent"
+              border="none"
+              p="0"
             >
               <Text
                 fontSize="xl"
@@ -54,7 +82,7 @@ export const ProfileItemsTabs = ({ items, isOwner }: ProfileItemsTabsProps) => {
               >
                 {t.label}
               </Text>
-            </Box>
+            </chakra.button>
           );
         })}
       </Flex>

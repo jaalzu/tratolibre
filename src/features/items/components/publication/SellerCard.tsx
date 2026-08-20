@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, Text, Circle, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Text, Circle } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import { useStartChat } from "@/features/items/hooks/useStartChat";
 import { useProfile, type AuthProfile } from "@/shared/hooks/useProfile";
@@ -14,7 +14,7 @@ function StarRating({ rating }: { rating: number }) {
         <Text
           key={star}
           fontSize="md"
-          color={star <= Math.round(rating) ? "#f5a623" : "neutral.200"}
+          color={star <= Math.round(rating) ? "secondary.default" : "neutral.200"}
         >
           ★
         </Text>
@@ -121,22 +121,10 @@ export default function SellerCard({
           px={6}
           flexShrink={0}
           onClick={handleChat}
-          disabled={loading}
+          loading={loading}
           data-testid="chat-button"
-          position="relative"
         >
-          <Box
-            opacity={loading ? 0 : 1}
-            visibility={loading ? "hidden" : "visible"}
-          >
-            Chat
-          </Box>
-
-          {loading && (
-            <Flex position="absolute" inset={0} align="center" justify="center">
-              <Spinner size="sm" color="neutral.50" />
-            </Flex>
-          )}
+          Chat
         </Button>
       )}
     </Flex>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Text, Flex, Box } from "@chakra-ui/react";
+import { Text, Flex, Box, chakra } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -71,39 +71,48 @@ export default function ItemActions({
         <Flex direction="column" gap={2}>
           {!item.sold && (
             <>
-              <Text
-                fontSize="md"
-                color="accent.default"
-                textAlign="center"
-                cursor="pointer"
-                textDecoration="underline"
-                onClick={() => setSoldOpen(true)}
-                _hover={{ color: "accent.hover" }}
-              >
-                Marcar como vendido
-              </Text>
-              <Button
-                asChild
-                width="full"
-                borderRadius="2xl"
-                py={1}
-                _hover={{ opacity: 0.85 }}
-              >
-                <NextLink href={`/item/${item.id}/edit`}>
-                  Editar publicación
-                </NextLink>
-              </Button>
-              <Button
-                width="full"
-                borderRadius="2xl"
-                py={1}
-                bg="feedback.error"
-                onClick={() => setOpen(true)}
-                data-testid="delete-item-button"
-                _hover={{ opacity: 0.85 }}
-              >
-                Eliminar
-              </Button>
+              <Flex gap={2} width="full">
+                <Button
+                  asChild
+                  flex={1}
+                  borderRadius="md"
+                  py={1}
+                  _hover={{ opacity: 0.85 }}
+                >
+                  <NextLink href={`/item/${item.id}/edit`}>
+                    Editar
+                  </NextLink>
+                </Button>
+                <Button
+                  flex={1}
+                  borderRadius="md"
+                  py={1}
+                  bg="feedback.error"
+                  onClick={() => setOpen(true)}
+                  data-testid="delete-item-button"
+                  _hover={{ opacity: 0.85 }}
+                >
+                  Eliminar
+                </Button>
+              </Flex>
+              <Flex justify="center" width="full" mt={1}>
+                <chakra.button
+                  type="button"
+                  fontSize="sm"
+                  color="accent.default"
+                  textAlign="center"
+                  cursor="pointer"
+                  textDecoration="underline"
+                  aria-haspopup="dialog"
+                  onClick={() => setSoldOpen(true)}
+                  _hover={{ color: "accent.hover" }}
+                  bg="transparent"
+                  border="none"
+                  p="0"
+                >
+                  Marcar como vendido
+                </chakra.button>
+              </Flex>
             </>
           )}
         </Flex>

@@ -2,7 +2,7 @@
 
 import { toaster } from "@/shared/components/ui/toaster";
 import { useRef } from "react";
-import { Box, Flex, Text, Grid, Spinner, Stack } from "@chakra-ui/react";
+import { Box, Flex, Text, Grid, Spinner, Stack, chakra } from "@chakra-ui/react";
 import Image from "next/image";
 
 const MAX_IMAGES = 4;
@@ -26,8 +26,8 @@ export const ImageUploader = ({
 }: ImageUploaderProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
+  const processFiles = (filesList: FileList | File[]) => {
+    const files = Array.from(filesList);
     const tooLarge = files.some((f) => f.size > MAX_BYTES);
 
     if (tooLarge) {
@@ -48,8 +48,30 @@ export const ImageUploader = ({
 
     const valid = files.filter((f) => f.size <= MAX_BYTES);
     const available = MAX_IMAGES - images.length;
-    onUpload(valid.slice(0, available));
+    if (valid.length > 0) {
+      onUpload(valid.slice(0, available));
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      processFiles(e.target.files);
+    }
     e.target.value = "";
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (uploading) return;
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      processFiles(e.dataTransfer.files);
+    }
   };
 
   return (
@@ -83,13 +105,15 @@ export const ImageUploader = ({
           >
             <Image
               src={url}
-              alt={`foto-${i}`}
+              alt=""
               fill
               sizes="(max-width: 768px) 25vw, 150px"
               style={{ objectFit: "cover" }}
               priority={i === 0}
             />
-            <Box
+            <chakra.button
+              type="button"
+              aria-label={`Eliminar foto ${i + 1}`}
               position="absolute"
               top="4px"
               right="4px"
@@ -103,11 +127,13 @@ export const ImageUploader = ({
               cursor="pointer"
               color="white"
               zIndex={2}
+              border="none"
+              p="0"
               _hover={{ bg: "black" }}
               onClick={() => onRemove(i)}
             >
               ×
-            </Box>
+            </chakra.button>
             {i === 0 && (
               <Box
                 position="absolute"
@@ -131,7 +157,18 @@ export const ImageUploader = ({
         ))}
 
         {images.length < MAX_IMAGES && (
-          <Box
+          <chakra.button
+            type="button"
+            disabled={uploading}
+            aria-label="Agregar foto o arrastrar aquí"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                if (!uploading) inputRef.current?.click();
+              }
+            }}
             aspectRatio="1"
             width="full"
             borderRadius="lg"
@@ -148,6 +185,7 @@ export const ImageUploader = ({
             }
             transition="all 0.2s"
             p={1}
+            bg="transparent"
           >
             {uploading ? (
               <Stack align="center" gap={1}>
@@ -171,7 +209,7 @@ export const ImageUploader = ({
                 </Text>
               </>
             )}
-          </Box>
+          </chakra.button>
         )}
       </Grid>
 
@@ -181,6 +219,7 @@ export const ImageUploader = ({
         accept="image/jpeg,image/jpg,image/png,image/webp,image/heic,image/heif"
         multiple
         onChange={handleChange}
+        aria-label="Subir fotos del artículo"
         hidden
       />
       {error && (

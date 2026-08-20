@@ -1,18 +1,20 @@
 "use client";
 
-import { chakra, HTMLChakraProps } from "@chakra-ui/react";
+import { chakra, HTMLChakraProps, Spinner } from "@chakra-ui/react";
 
 export interface ButtonProps extends HTMLChakraProps<"button"> {
   variant?: "primary" | "secondary" | "ghost" | "amber" | "blue" | "danger";
   size?: "sm" | "md" | "lg";
   width?: "full";
   loading?: boolean;
+  loadingText?: string;
   asChild?: boolean;
 }
 
 const StyledButton = chakra("button", {
   base: {
     display: "inline-flex",
+    position: "relative",
     alignItems: "center",
     justifyContent: "center",
     fontWeight: "bold",
@@ -28,9 +30,9 @@ const StyledButton = chakra("button", {
   variants: {
     variant: {
       primary: {
-        bg: "brand.default",
+        bg: "accent.default",
         color: "white",
-        _hover: { bg: "brand.hover" },
+        _hover: { bg: "accent.hover" },
       },
       secondary: {
         border: "1.5px solid",
@@ -76,10 +78,38 @@ const StyledButton = chakra("button", {
   },
 });
 
-export function Button({ loading, children, disabled, ...props }: ButtonProps) {
+export function Button({
+  loading,
+  loadingText,
+  children,
+  disabled,
+  ...props
+}: ButtonProps) {
+  const spinnerSize =
+    props.size === "sm" ? "xs" : props.size === "lg" ? "md" : "sm";
+
   return (
-    <StyledButton disabled={loading || disabled} {...props}>
-      {loading ? "Cargando..." : children}
+    <StyledButton
+      disabled={loading || disabled}
+      aria-busy={loading || undefined}
+      data-loading={loading || undefined}
+      {...props}
+    >
+      {loading ? (
+        <>
+          <Spinner
+            size={spinnerSize}
+            flexShrink={0}
+            position="absolute"
+            zIndex={1}
+          />
+          <span style={{ visibility: "hidden" }}>
+            {loadingText ?? children}
+          </span>
+        </>
+      ) : (
+        children
+      )}
     </StyledButton>
   );
 }

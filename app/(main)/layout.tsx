@@ -19,7 +19,7 @@ export default async function MainLayout({
         unreadCount={unreadCount}
         isAdmin={role === "admin"}
       />
-      <main>{children}</main>
+      <div>{children}</div>
       <FooterWrapper />
       <BottomNav userId={user?.id} isAdmin={role === "admin"} />
     </>

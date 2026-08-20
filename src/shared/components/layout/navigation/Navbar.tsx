@@ -30,6 +30,7 @@ export default function Navbar({
   return (
     <Box
       as="nav"
+      aria-label="Navegación principal"
       position="sticky"
       top={0}
       zIndex={50}

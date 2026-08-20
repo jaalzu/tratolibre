@@ -6,6 +6,7 @@ import styles from "./LoggedInHero.module.css";
 
 interface LoggedInHeroProps {
   name: string | null;
+  location?: string | null;
   avatarSlot?: React.ReactNode;
 }
 
@@ -15,7 +16,7 @@ function getFirstName(name: string | null) {
   return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
 }
 
-export function LoggedInHero({ name, avatarSlot }: LoggedInHeroProps) {
+export function LoggedInHero({ name, location, avatarSlot }: LoggedInHeroProps) {
   const firstName = getFirstName(name);
 
   return (
@@ -24,6 +25,11 @@ export function LoggedInHero({ name, avatarSlot }: LoggedInHeroProps) {
         <div className={styles.topSection}>
           {avatarSlot && (
             <div className={styles.avatarContainer}>{avatarSlot}</div>
+          )}
+          {location && (
+            <div className={styles.locationContainer}>
+              <span className={styles.locationText}>{location}</span>
+            </div>
           )}
         </div>
 
@@ -35,7 +41,7 @@ export function LoggedInHero({ name, avatarSlot }: LoggedInHeroProps) {
             <div className={styles.heroImageContainer}>
               <Image
                 src="/koala/hero.webp"
-                alt="Hero"
+                alt=""
                 width={65}
                 height={65}
                 priority
