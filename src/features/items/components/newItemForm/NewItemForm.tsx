@@ -129,7 +129,7 @@ export const NewItemForm = ({
                 >
                   <Textarea
                     {...register("description")}
-                    maxLength={600}
+                    maxLength={599}
                     data-testid="description"
                     rows={3}
                     p={4}
