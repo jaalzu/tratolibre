@@ -1,7 +1,16 @@
 "use client";
 
-import { Flex, Input, chakra } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Image,
+  Input,
+  Spinner,
+  Text,
+  chakra,
+} from "@chakra-ui/react";
 import { Search } from "@boxicons/react";
+import NextLink from "next/link";
 import { useSearchBar } from "../hooks/useSearchBar";
 
 export function SearchBar() {
@@ -10,6 +19,12 @@ export function SearchBar() {
     setQuery,
     isHovered,
     setIsHovered,
+    suggestions,
+    isSuggestionsOpen,
+    isFetchingSuggestions,
+    hasSuggestionsError,
+    shouldFetchSuggestions,
+    setIsSuggestionsOpen,
     handleSearch,
     handleKeyDown,
   } = useSearchBar();
