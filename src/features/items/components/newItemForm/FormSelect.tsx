@@ -1,5 +1,6 @@
 "use client";
 
+import { Box, Text, Portal } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
 import { ChevronUp, ChevronDown } from "@boxicons/react";
 import styles from "./FormSelect.module.css";
@@ -28,7 +29,9 @@ export function FormSelect({
   disabled,
 }: FormSelectProps) {
   const [open, setOpen] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
   const ref = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
   const selected = options.find((o) => o.id === value);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -53,24 +56,41 @@ export function FormSelect({
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
+      const target = e.target as HTMLElement;
+      if (
+        ref.current &&
+        !ref.current.contains(target) &&
+        !target.closest("[data-formselect-dropdown]")
+      ) {
         setOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const buttonClassName = [
-    styles.button,
-    open ? styles.buttonOpen : "",
-    invalid ? styles.buttonInvalid : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  useEffect(() => {
+    if (!open) return;
+    updateCoords();
+    const handle = () => updateCoords();
+    window.addEventListener("scroll", handle, true);
+    window.addEventListener("resize", handle);
+    return () => {
+      window.removeEventListener("scroll", handle, true);
+      window.removeEventListener("resize", handle);
+    };
+  }, [open]);
+
+  const toggleOpen = () => {
+    if (disabled) return;
+    if (!open) updateCoords();
+    setOpen((o) => !o);
+  };
 
   return (
     <div className={styles.container} ref={ref}>
       <button
+        ref={btnRef}
         type="button"
         data-testid={`select-${placeholder?.toLowerCase().replace(/\s/g, "-")}`}
         aria-haspopup="listbox"
@@ -143,24 +163,32 @@ export function FormSelect({
                   isSelected ? styles.optionSelected : ""
                 }`}
               >
-                <div className={styles.optionContent}>
-                  {Icon && (
-                    <Icon width="18px" height="18px" fill="currentColor" />
-                  )}
-                  <p
-                    className={`${styles.optionText} ${
-                      isSelected
-                        ? styles.optionTextSelected
-                        : styles.optionTextNormal
-                    }`}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
                   >
-                    {opt.label}
-                  </p>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+                    {Icon && (
+                      <Icon width="18px" height="18px" fill="currentColor" />
+                    )}
+                    <Text
+                      fontSize="sm"
+                      color={isSelected ? "brand.default" : "neutral.700"}
+                      fontWeight={isSelected ? "bold" : "normal"}
+                    >
+                      {opt.label}
+                    </Text>
+                  </div>
+                </button>
+              );
+            })}
+          </Box>
+        </Portal>
       )}
     </div>
   );
