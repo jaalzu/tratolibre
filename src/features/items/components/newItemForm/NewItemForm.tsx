@@ -8,7 +8,6 @@ import {
   Textarea,
   Text,
   Flex,
-  Box,
 } from "@chakra-ui/react";
 import { useController } from "react-hook-form";
 import { CATEGORIES, CONDITIONS } from "@/lib/constants";
@@ -22,16 +21,20 @@ import { useNewItemForm } from "@/features/items/hooks/useNewItemForm";
 import { FormField, FormHeader, inputStyles } from "./FormFields";
 import FormSelect from "./FormSelect";
 import { Item } from "@/features/items/types";
+import { ItemFormInput } from "@/features/items/schemas";
 
 const formatArgentinePesos = (value: string) => {
   const number = value.replace(/\D/g, "");
   return number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
 
-const STEPS = [
-  { label: "Información" },
-  { label: "Ubicación" },
-  { label: "Fotos" },
+const STEPS: { label: string; fields: (keyof ItemFormInput)[] }[] = [
+  { label: "Detalles", fields: ["title", "description", "category"] },
+  {
+    label: "Precio y ubicación",
+    fields: ["sale_price", "condition", "province", "city"],
+  },
+  { label: "Fotos", fields: ["images"] },
 ];
 
 export const NewItemForm = ({
@@ -57,7 +60,11 @@ export const NewItemForm = ({
     trigger,
     setValue,
     control,
+    trigger,
   } = useNewItemForm(initialData);
+
+  const [step, setStep] = useState(0);
+  const isLastStep = step === STEPS.length - 1;
 
   const titleValue = watch("title", "");
   const descValue = watch("description", "");
@@ -197,9 +204,10 @@ export const NewItemForm = ({
                 register={register}
                 setValue={setValue}
               />
-            )}
+            </Stack>
 
-            {currentStep === 2 && (
+            {/* Step 2: Fotos */}
+            <Stack gap="4" display={step === 2 ? "flex" : "none"}>
               <ImageUploader
                 images={images}
                 uploading={uploading}

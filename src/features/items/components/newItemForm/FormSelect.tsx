@@ -1,8 +1,8 @@
 "use client";
 
+import { Box, Text, Portal } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
 import { ChevronUp, ChevronDown } from "@boxicons/react";
-import styles from "./FormSelect.module.css";
 
 interface Option {
   id: string;
@@ -28,7 +28,9 @@ export function FormSelect({
   disabled,
 }: FormSelectProps) {
   const [open, setOpen] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
   const ref = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
   const selected = options.find((o) => o.id === value);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -53,37 +55,79 @@ export function FormSelect({
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
+      const target = e.target as HTMLElement;
+      if (
+        ref.current &&
+        !ref.current.contains(target) &&
+        !target.closest("[data-formselect-dropdown]")
+      ) {
         setOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const buttonClassName = [
-    styles.button,
-    open ? styles.buttonOpen : "",
-    invalid ? styles.buttonInvalid : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  useEffect(() => {
+    if (!open) return;
+    updateCoords();
+    const handle = () => updateCoords();
+    window.addEventListener("scroll", handle, true);
+    window.addEventListener("resize", handle);
+    return () => {
+      window.removeEventListener("scroll", handle, true);
+      window.removeEventListener("resize", handle);
+    };
+  }, [open]);
+
+  const toggleOpen = () => {
+    if (disabled) return;
+    if (!open) updateCoords();
+    setOpen((o) => !o);
+  };
 
   return (
-    <div className={styles.container} ref={ref}>
+    <Box position="relative" ref={ref} w="full">
       <button
+        ref={btnRef}
         type="button"
         data-testid={`select-${placeholder?.toLowerCase().replace(/\s/g, "-")}`}
         aria-haspopup="listbox"
         aria-expanded={open}
-        disabled={disabled}
-        aria-disabled={disabled}
         onKeyDown={handleKeyDown}
         onClick={() => {
           if (!disabled) setOpen((o) => !o);
         }}
-        className={buttonClassName}
+        style={{
+          width: "100%",
+          height: "44px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 12px",
+          border: `1px solid ${
+            invalid
+              ? "var(--chakra-colors-feedback-error)"
+              : open
+                ? "var(--chakra-colors-brand-default)"
+                : "var(--chakra-colors-neutral-500)"
+          }`,
+          borderRadius: "8px",
+          background: "var(--chakra-colors-neutral-50)",
+          cursor: disabled ? "not-allowed" : "pointer",
+          opacity: disabled ? 0.5 : 1,
+          transition: "border-color 0.15s",
+        }}
       >
-        <div className={styles.contentWrapper}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            flex: 1,
+            overflow: "hidden",
+          }}
+        >
           {selected?.iconClass &&
             (() => {
               const Icon = selected.iconClass;
@@ -96,13 +140,16 @@ export function FormSelect({
                 />
               );
             })()}
-          <p
-            className={`${styles.text} ${
-              selected ? styles.textSelected : styles.textPlaceholder
-            }`}
+          <Text
+            fontSize="sm"
+            color={selected ? "neutral.900" : "neutral.400"}
+            overflow="hidden"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            textAlign="left"
           >
             {selected ? selected.label : placeholder}
-          </p>
+          </Text>
         </div>
 
         {open ? (
@@ -121,7 +168,28 @@ export function FormSelect({
       </button>
 
       {open && (
-        <div className={styles.dropdown} role="listbox">
+        <Box
+          position="absolute"
+          top="calc(100% + 4px)"
+          left={0}
+          right={0}
+          bg="neutral.50"
+          border="1px solid"
+          borderColor="neutral.200"
+          borderRadius="lg"
+          boxShadow="md"
+          zIndex={50}
+          maxH="220px"
+          overflowY="auto"
+          role="listbox"
+          css={{
+            "&::-webkit-scrollbar": { width: "4px" },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: "100px",
+              background: "#c1c1c1",
+            },
+          }}
+        >
           {options.map((opt) => {
             const Icon = opt.iconClass;
             const isSelected = value === opt.id;
@@ -139,30 +207,58 @@ export function FormSelect({
                   onChange(opt.id);
                   setOpen(false);
                 }}
-                className={`${styles.optionButton} ${
-                  isSelected ? styles.optionSelected : ""
-                }`}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "8px 12px",
+                  background: isSelected
+                    ? "var(--chakra-colors-brand-50)"
+                    : "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected)
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "var(--chakra-colors-neutral-50)";
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected)
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "transparent";
+                }}
               >
-                <div className={styles.optionContent}>
-                  {Icon && (
-                    <Icon width="18px" height="18px" fill="currentColor" />
-                  )}
-                  <p
-                    className={`${styles.optionText} ${
-                      isSelected
-                        ? styles.optionTextSelected
-                        : styles.optionTextNormal
-                    }`}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
                   >
-                    {opt.label}
-                  </p>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+                    {Icon && (
+                      <Icon width="18px" height="18px" fill="currentColor" />
+                    )}
+                    <Text
+                      fontSize="sm"
+                      color={isSelected ? "brand.default" : "neutral.700"}
+                      fontWeight={isSelected ? "bold" : "normal"}
+                    >
+                      {opt.label}
+                    </Text>
+                  </div>
+                </button>
+              );
+            })}
+          </Box>
+        </Portal>
       )}
-    </div>
+    </Box>
   );
 }
 
