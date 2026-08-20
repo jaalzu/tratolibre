@@ -1,8 +1,8 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
 import { ChevronUp, ChevronDown } from "@boxicons/react";
+import styles from "./FormSelect.module.css";
 
 interface Option {
   id: string;
@@ -60,47 +60,30 @@ export function FormSelect({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  const buttonClassName = [
+    styles.button,
+    open ? styles.buttonOpen : "",
+    invalid ? styles.buttonInvalid : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <Box position="relative" ref={ref} w="full">
+    <div className={styles.container} ref={ref}>
       <button
         type="button"
         data-testid={`select-${placeholder?.toLowerCase().replace(/\s/g, "-")}`}
         aria-haspopup="listbox"
         aria-expanded={open}
+        disabled={disabled}
+        aria-disabled={disabled}
         onKeyDown={handleKeyDown}
         onClick={() => {
           if (!disabled) setOpen((o) => !o);
         }}
-        style={{
-          width: "100%",
-          height: "44px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 12px",
-          border: `1px solid ${
-            invalid
-              ? "var(--chakra-colors-feedback-error)"
-              : open
-                ? "var(--chakra-colors-brand-default)"
-                : "var(--chakra-colors-neutral-500)"
-          }`,
-          borderRadius: "8px",
-          background: "var(--chakra-colors-neutral-50)",
-          cursor: disabled ? "not-allowed" : "pointer",
-          opacity: disabled ? 0.5 : 1,
-          transition: "border-color 0.15s",
-        }}
+        className={buttonClassName}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            flex: 1,
-            overflow: "hidden",
-          }}
-        >
+        <div className={styles.contentWrapper}>
           {selected?.iconClass &&
             (() => {
               const Icon = selected.iconClass;
@@ -113,16 +96,13 @@ export function FormSelect({
                 />
               );
             })()}
-          <Text
-            fontSize="sm"
-            color={selected ? "neutral.900" : "neutral.400"}
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace="nowrap"
-            textAlign="left"
+          <p
+            className={`${styles.text} ${
+              selected ? styles.textSelected : styles.textPlaceholder
+            }`}
           >
             {selected ? selected.label : placeholder}
-          </Text>
+          </p>
         </div>
 
         {open ? (
@@ -141,28 +121,7 @@ export function FormSelect({
       </button>
 
       {open && (
-        <Box
-          position="absolute"
-          top="calc(100% + 4px)"
-          left={0}
-          right={0}
-          bg="neutral.50"
-          border="1px solid"
-          borderColor="neutral.200"
-          borderRadius="lg"
-          boxShadow="md"
-          zIndex={50}
-          maxH="220px"
-          overflowY="auto"
-          role="listbox"
-          css={{
-            "&::-webkit-scrollbar": { width: "4px" },
-            "&::-webkit-scrollbar-thumb": {
-              borderRadius: "100px",
-              background: "#c1c1c1",
-            },
-          }}
-        >
+        <div className={styles.dropdown} role="listbox">
           {options.map((opt) => {
             const Icon = opt.iconClass;
             const isSelected = value === opt.id;
@@ -180,50 +139,30 @@ export function FormSelect({
                   onChange(opt.id);
                   setOpen(false);
                 }}
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  padding: "8px 12px",
-                  background: isSelected
-                    ? "var(--chakra-colors-brand-50)"
-                    : "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isSelected)
-                    (e.currentTarget as HTMLButtonElement).style.background =
-                      "var(--chakra-colors-neutral-50)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!isSelected)
-                    (e.currentTarget as HTMLButtonElement).style.background =
-                      "transparent";
-                }}
+                className={`${styles.optionButton} ${
+                  isSelected ? styles.optionSelected : ""
+                }`}
               >
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
+                <div className={styles.optionContent}>
                   {Icon && (
                     <Icon width="18px" height="18px" fill="currentColor" />
                   )}
-                  <Text
-                    fontSize="sm"
-                    color={isSelected ? "brand.default" : "neutral.700"}
-                    fontWeight={isSelected ? "bold" : "normal"}
+                  <p
+                    className={`${styles.optionText} ${
+                      isSelected
+                        ? styles.optionTextSelected
+                        : styles.optionTextNormal
+                    }`}
                   >
                     {opt.label}
-                  </Text>
+                  </p>
                 </div>
               </button>
             );
           })}
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 }
 
