@@ -60,7 +60,6 @@ export const NewItemForm = ({
     trigger,
     setValue,
     control,
-    trigger,
   } = useNewItemForm(initialData);
 
   const [step, setStep] = useState(0);
@@ -204,10 +203,9 @@ export const NewItemForm = ({
                 register={register}
                 setValue={setValue}
               />
-            </Stack>
+            )}
 
-            {/* Step 2: Fotos */}
-            <Stack gap="4" display={step === 2 ? "flex" : "none"}>
+            {currentStep === 2 && (
               <ImageUploader
                 images={images}
                 uploading={uploading}
