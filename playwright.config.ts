@@ -34,7 +34,6 @@ export default defineConfig({
     // Margen para el compilado en frío de Turbopack (cold start)
     timeout: 180000,
 
-    // ✅ CAMBIAR A IGNORE (no pipe)
     stdout: "ignore",
     stderr: "ignore",
   },
