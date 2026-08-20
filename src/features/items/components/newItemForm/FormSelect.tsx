@@ -19,7 +19,7 @@ interface FormSelectProps {
   disabled?: boolean;
 }
 
-export function FormSelect({
+export default function FormSelect({
   value,
   onChange,
   options,

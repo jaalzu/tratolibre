@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Flex, Text, Input, Field } from "@chakra-ui/react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { ItemFormInput } from "@/features/items/schemas";
-import { FormSelect } from "./FormSelect";
+import FormSelect from "./FormSelect";
 
 interface Province {
   id: string;
