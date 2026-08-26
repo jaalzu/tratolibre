@@ -56,7 +56,7 @@ export const EmblaSlider = ({ slides, autoplay = true, delay = 4000 }: EmblaSlid
             w={selectedIndex === i ? '20px' : '8px'}
             h="8px"
             borderRadius="full"
-            bg={selectedIndex === i ? 'brand.default' : 'neutral.300'}
+            bg={selectedIndex === i ? 'brand.default' : 'neutral.200'}
             transition="all 0.3s ease"
             onClick={() => scrollTo(i)}
             cursor="pointer"

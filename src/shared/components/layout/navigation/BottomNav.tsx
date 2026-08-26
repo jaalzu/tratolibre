@@ -46,12 +46,12 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
       right={0}
       bg="brand.default"
       zIndex={100}
-      px={2}
+      px={1}
       boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
     >
       <Grid
         templateColumns="repeat(auto-fit, minmax(0, 1fr))"
-        h="60px"
+        h="56px"
         alignItems="center"
       >
         {navItems.map((item) =>

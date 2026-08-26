@@ -40,7 +40,7 @@ export const ChatHeader = ({
       gap="4"
       px="3"
       py="2"
-      borderColor="neutral.150"
+      borderColor="neutral.100"
       bg="accent.hover"
       position="sticky"
       top="0"
@@ -80,10 +80,10 @@ export const ChatHeader = ({
 
       {/* Info del producto  */}
       <Box flex="1" minW="0">
-        <Text fontSize="md" fontWeight="medium" color="whiteAlpha.900" truncate>
+        <Text fontSize="md" fontWeight="medium" color="fg.inverted" truncate>
           {item.title}
         </Text>
-        <Text fontSize="md" color="whiteAlpha.900" fontWeight="bold">
+        <Text fontSize="md" color="fg.inverted" fontWeight="bold">
           ${item.sale_price?.toLocaleString("es-AR")}
         </Text>
       </Box>
@@ -97,7 +97,7 @@ export const ChatHeader = ({
           borderRadius="full"
           overflow="hidden"
           border="1px solid"
-          borderColor="whiteAlpha.400"
+          borderColor="fg.inverted"
         >
           {currentSeller.avatar_url ? (
             <Image
@@ -111,7 +111,7 @@ export const ChatHeader = ({
             <Flex
               w="full"
               h="full"
-              bg="whiteAlpha.300"
+              bg="neutral.100"
               align="center"
               justify="center"
             >

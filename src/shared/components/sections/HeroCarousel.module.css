@@ -31,7 +31,7 @@
   padding: 0;
   border: none;
   height: 12px;
-  border-radius: 9999px;
+  border-radius: var(--chakra-radii-full);
   transition: all 0.3s;
   cursor: pointer;
   position: relative;
@@ -52,7 +52,7 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--chakra-colors-neutral-500);
+  color: var(--chakra-colors-neutral-400);
   font-size: 12px;
   line-height: 1;
   cursor: pointer;
@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: var(--chakra-radii-full);
   position: relative;
 }
 
@@ -76,13 +76,13 @@
 }
 
 .pauseButton:hover {
-  color: var(--chakra-colors-neutral-800);
+  color: var(--chakra-colors-neutral-600);
 }
 
 /* El punto inactivo */
 .dotInactive {
   width: 8px;
-  background-color: var(--chakra-colors-neutral-300);
+  background-color: var(--chakra-colors-neutral-200);
 }
 
 /* El punto activo */

@@ -125,7 +125,7 @@ export default function PrivacyContent() {
               bg="brand.subtle"
               borderRadius="xl"
               border="2px solid"
-              borderColor="brand.default"
+              borderColor="border"
             >
               <Text fontSize="md" color="fg.muted" lineHeight="tall">
                 En TratoLibre nos tomamos en serio la privacidad de tus datos.

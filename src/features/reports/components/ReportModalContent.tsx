@@ -57,7 +57,7 @@ export function ReportModalContent({
           )}
 
           {error && (
-            <Text fontSize="sm" color="red.500">
+            <Text fontSize="sm" color="feedback.error">
               {error}
             </Text>
           )}

@@ -28,6 +28,7 @@ export function LoggedInHero({ name, location, avatarSlot }: LoggedInHeroProps) 
           )}
           {location && (
             <div className={styles.locationContainer}>
+              <span className={styles.locationLabel}>Ubicación</span>
               <span className={styles.locationText}>{location}</span>
             </div>
           )}

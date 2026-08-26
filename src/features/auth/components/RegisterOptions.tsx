@@ -38,7 +38,7 @@ export const RegisterOptions = () => {
         onEmailClick={() => router.push("/register/email")}
       />
 
-      <Text fontSize="sm" color="neutral.700" textAlign="center">
+      <Text fontSize="sm" color="neutral.600" textAlign="center">
         ¿Ya tenés cuenta?{" "}
         <Text as="span" color="accent.default" fontWeight="600">
           <NextLink href="/login" style={{ textDecoration: "none" }}>

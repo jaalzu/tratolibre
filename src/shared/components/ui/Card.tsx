@@ -8,9 +8,9 @@ export interface CardProps extends HTMLChakraProps<"div"> {
 
 const StyledCard = chakra("div", {
   base: {
-    bg: "white",
+    bg: "bg.card",
     borderWidth: "1px",
-    borderColor: "neutral.100",
+    borderColor: "border.subtle",
     borderRadius: "lg",
     boxShadow: "base",
     p: "5",

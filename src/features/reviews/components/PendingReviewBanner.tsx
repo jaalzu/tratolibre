@@ -28,10 +28,10 @@ export function PendingReviewBanner({
   return (
     <>
       <Box
-        bg="brand.50"
+        bg="brand.subtle"
         border="1px solid"
-        borderColor="brand.200"
-        borderRadius="2xl"
+        borderColor="border.subtle"
+        borderRadius="lg"
         p={4}
         mb={4}
       >
@@ -43,7 +43,7 @@ export function PendingReviewBanner({
             w="36px"
             h="36px"
             borderRadius="full"
-            bg="brand.100"
+            bg="brand.subtle"
             color="brand.default"
           >
             <Star width="18px" height="18px" fill="currentColor" />
@@ -54,7 +54,7 @@ export function PendingReviewBanner({
               {total === 1
                 ? "Tenés una reseña pendiente"
                 : `Reseña ${current + 1} de ${total}`}
-            </Text>            <Text fontSize="xs" color="neutral.500">
+            </Text>            <Text fontSize="xs" color="neutral.400">
               Calificá tu experiencia con {currentReview.reviewedName}
             </Text>
           </Box>
@@ -100,7 +100,7 @@ export function PendingReviewBanner({
               px={3}
               py={1}
               borderRadius="lg"
-              bg="brand.100"
+              bg="brand.subtle"
               fontSize="xs"
               fontWeight="semibold"
               color="brand.default"

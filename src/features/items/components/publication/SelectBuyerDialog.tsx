@@ -86,12 +86,12 @@ export const SelectBuyerDialog = ({
         <Portal>
           <Dialog.Backdrop />
           <Dialog.Positioner>
-            <Dialog.Content borderRadius="2xl" p={4} maxW="340px">
+            <Dialog.Content borderRadius="lg" p={4} maxW="340px">
               <Dialog.Title fontSize="md" fontWeight="bold" mb={1}>
                 ¿A quién le vendiste?
               </Dialog.Title>
               <Dialog.Description mb={4}>
-                <Text fontSize="sm" color="neutral.500">
+                <Text fontSize="sm" color="neutral.400">
                   Elegí la persona que compró este artículo.
                 </Text>
               </Dialog.Description>
@@ -99,14 +99,14 @@ export const SelectBuyerDialog = ({
               {/*  Mostrar error si existe */}
               {error && (
                 <Box
-                  bg="red.50"
+                  bg="brand.subtle"
                   borderRadius="lg"
                   p={3}
                   mb={3}
                   border="1px solid"
-                  borderColor="red.200"
+                  borderColor="neutral.200"
                 >
-                  <Text fontSize="sm" color="red.700">
+                  <Text fontSize="sm" color="feedback.error">
                     {error}
                   </Text>
                 </Box>
@@ -142,7 +142,7 @@ export const SelectBuyerDialog = ({
                         alignItems="center"
                         gap={3}
                         p={3}
-                        borderRadius="xl"
+                        borderRadius="lg"
                         border="1px solid"
                         borderColor="neutral.100"
                         cursor={marking ? "not-allowed" : "pointer"}

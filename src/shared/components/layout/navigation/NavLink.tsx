@@ -39,21 +39,22 @@ export default function NavLink({
         align="center"
         justify="center"
         w={isMobile ? "100%" : "auto"}
-        minW={isMobile ? "auto" : "64px"}
+        minW={isMobile ? "auto" : "56px"}
         h="full"
-        px={isMobile ? 0 : 2}
+        px={isMobile ? 1 : 2}
+        py={isMobile ? 1 : 1}
         _hover={{
-          opacity: 0.8,
-          bg: isMobile ? "transparent" : "whiteAlpha.50",
+          bg: isMobile ? "transparent" : "rgba(255,255,255,0.08)",
         }}
         transition="0.2s"
         cursor="pointer"
         position="relative"
+        borderRadius="md"
       >
         <Box position="relative" display="inline-flex">
           <IconComponent
-            width="24px"
-            height="24px"
+            width={isMobile ? "28px" : "22px"}
+            height={isMobile ? "28px" : "22px"}
             fill="var(--chakra-colors-neutral-50)"
           />
 
@@ -62,7 +63,7 @@ export default function NavLink({
               position="absolute"
               top="-3px"
               right="-7px"
-              bg="red.500"
+              bg="feedback.error"
               color="white"
               borderRadius="full"
               minW="15px"
@@ -80,16 +81,18 @@ export default function NavLink({
           )}
         </Box>
 
-        <Text
-          fontSize={isMobile ? "sm" : "xs"}
-          fontWeight={isActive ? "bold" : "medium"}
-          color="neutral.50"
-          textAlign="center"
-          lineHeight="1.1"
-          mt={isMobile ? 1 : 0.5}
-        >
-          {label}
-        </Text>
+        {!isMobile && (
+          <Text
+            fontSize="xs"
+            fontWeight={isActive ? "bold" : "medium"}
+            color="neutral.50"
+            textAlign="center"
+            lineHeight="1.1"
+            mt={0.5}
+          >
+            {label}
+          </Text>
+        )}
       </Flex>
     </NextLink>
   );

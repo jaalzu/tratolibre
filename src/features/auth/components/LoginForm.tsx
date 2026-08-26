@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/features/auth/schemas";
@@ -8,16 +8,12 @@ import NextLink from "next/link";
 import Image from "next/image";
 import { Flex, Text, Stack, Box, chakra } from "@chakra-ui/react";
 import { Button } from "@/shared/components/ui/Button";
-import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useLogin, useGoogleLogin } from "@/features/auth/hooks";
 
 import { FormField } from "./FormField";
 
-const STORAGE_KEY = "tratolibre_remember";
-
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
 
   const { login, isPending, error, clearError } = useLogin();
   const { handleGoogleLogin, isPending: isGooglePending } = useGoogleLogin();
@@ -26,31 +22,11 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const { email, password } = JSON.parse(saved);
-        setValue("email", email);
-        setValue("password", password);
-        setRememberMe(true);
-      }
-    } catch (err) {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  }, [setValue]);
-
   const onSubmit = async (data: LoginInput) => {
-    if (rememberMe) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } else {
-      localStorage.removeItem(STORAGE_KEY);
-    }
     await login(data);
   };
 
@@ -75,7 +51,7 @@ export const LoginForm = () => {
 
       {/* Botón de Google  */}
       <Button
-        variant="blue"
+        variant="accent"
         width="full"
         borderRadius="full"
         py={1.5}
@@ -157,14 +133,7 @@ export const LoginForm = () => {
             }
           />
 
-          <Flex justify="space-between" align="center" pt={1}>
-            <Checkbox
-              checked={rememberMe}
-              onCheckedChange={(e) => setRememberMe(e.checked === true)}
-            >
-              Recordarme
-            </Checkbox>
-
+          <Flex justify="flex-end" align="center" pt={1}>
             <NextLink href="/forgot-password">
               <Text
                 fontSize="sm"

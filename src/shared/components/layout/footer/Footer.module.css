@@ -76,7 +76,7 @@
 
 .copyright {
   font-size: 0.8rem; /* xs */
-  color: var(--chakra-colors-neutral-300);
+  color: var(--chakra-colors-neutral-200);
   text-align: center;
   margin-top: 32px; /* mt={8} */
 }
@@ -88,7 +88,7 @@
 
 .portfolioLink {
   font-size: 0.75rem;
-  color: blue;
+  color: var(--chakra-colors-accent-default);
   text-decoration: underline;
 }
 

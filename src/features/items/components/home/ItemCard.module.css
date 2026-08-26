@@ -17,7 +17,7 @@
   position: relative;
   width: 100%;
   height: 240px;
-  border-radius: 5px;
+  border-radius: var(--chakra-radii-sm);
   overflow: hidden;
   background-color: var(--chakra-colors-neutral-100);
 }
@@ -49,7 +49,7 @@
 
 .title {
   font-size: 1rem;
-  color: var(--chakra-colors-neutral-800);
+  color: var(--chakra-colors-fg);
   margin-bottom: 0.5rem;
   overflow-wrap: break-word;
   display: -webkit-box;

@@ -26,7 +26,7 @@ export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
     return (
       <Flex p="8" justify="center" align="center" direction="column" gap="2">
         <Spinner color="brand.default" size="lg" />
-        <Text fontSize="lg" color="neutral.500">
+        <Text fontSize="lg" color="neutral.400">
           Cargando mensajes...
         </Text>
       </Flex>
@@ -46,7 +46,7 @@ export const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
       {sendError && (
         <Text
           fontSize="xs"
-          color="red.500"
+          color="feedback.error"
           textAlign="center"
           px={4}
           py={1}

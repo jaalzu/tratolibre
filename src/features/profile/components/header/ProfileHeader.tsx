@@ -75,7 +75,7 @@ export const ProfileHeader = ({
             height="16px"
             fill="var(--chakra-colors-neutral-400)"
           />
-          <Text fontSize="md" color="neutral.700">
+          <Text fontSize="md" color="neutral.600">
             {location}
           </Text>
         </Flex>
@@ -137,7 +137,7 @@ export const ProfileHeader = ({
                 height="16px"
                 fill="var(--chakra-colors-neutral-400)"
               />
-              <Text fontSize="md" color="neutral.700">
+              <Text fontSize="md" color="neutral.600">
                 {location}
               </Text>
             </Flex>

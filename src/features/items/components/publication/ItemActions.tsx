@@ -49,16 +49,15 @@ export default function ItemActions({
         left={0}
         right={0}
         p={{ base: 3, md: 0 }}
-        bg="neutral.150"
+        bg="bg.card"
         zIndex={100}
       >
         <Button
           asChild
+          variant="accent"
           width="full"
           p={{ base: 1, md: 1 }}
-          borderRadius="xl"
-          bg="accent.default"
-          _hover={{ opacity: 0.9 }}
+          borderRadius="lg"
         >
           <NextLink href="/login">Iniciar sesión para contactar</NextLink>
         </Button>
@@ -74,10 +73,10 @@ export default function ItemActions({
               <Flex gap={2} width="full">
                 <Button
                   asChild
+                  variant="accent"
                   flex={1}
                   borderRadius="md"
                   py={1}
-                  _hover={{ opacity: 0.85 }}
                 >
                   <NextLink href={`/item/${item.id}/edit`}>
                     Editar
@@ -152,9 +151,9 @@ export default function ItemActions({
     <Flex direction="column" gap={2}>
       {isAdmin && <AdminDeleteButton itemId={item.id} />}
       <Button
+        variant="accent"
         width="full"
-        borderRadius="2xl"
-        bg="accent.default"
+        borderRadius="lg"
         py={1.5}
         onClick={handleContact}
         loading={loading}

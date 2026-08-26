@@ -77,7 +77,7 @@ export const ImageUploader = ({
   return (
     <Flex direction="column" gap={3}>
       <Flex justify="space-between" align="center" minH="20px">
-        <Text fontSize="xs" fontWeight="medium" color="neutral.700">
+        <Text fontSize="xs" fontWeight="medium" color="neutral.600">
           Fotos{" "}
           <Text as="span" color="neutral.400">
             ({images.length}/{MAX_IMAGES})
@@ -86,13 +86,13 @@ export const ImageUploader = ({
 
         {/* TEXTO NUEVO: ARRIBA, DERECHA Y ROJO */}
         {uploading && (
-          <Text fontSize="xs" color="red.500" fontWeight="bold">
+          <Text fontSize="xs" color="feedback.error" fontWeight="bold">
             Esto puede tardar unos segundos
           </Text>
         )}
       </Flex>
 
-      <Grid templateColumns="repeat(4, 1fr)" gap={2} width="full">
+      <Grid templateColumns="repeat(4, 72px)" gap={2} width="full" maxW="320px">
         {images.map((url, i) => (
           <Box
             key={url + i}
@@ -120,7 +120,8 @@ export const ImageUploader = ({
               w="24px"
               h="24px"
               borderRadius="full"
-              bg="blackAlpha.700"
+              bg="neutral.900"
+              opacity={0.7}
               display="flex"
               alignItems="center"
               justifyContent="center"
@@ -129,7 +130,7 @@ export const ImageUploader = ({
               zIndex={2}
               border="none"
               p="0"
-              _hover={{ bg: "black" }}
+              _hover={{ bg: "neutral.900" }}
               onClick={() => onRemove(i)}
             >
               ×
@@ -140,7 +141,8 @@ export const ImageUploader = ({
                 bottom="0"
                 width="full"
                 py={1}
-                bg="blackAlpha.600"
+                bg="neutral.900"
+                opacity={0.6}
                 textAlign="center"
               >
                 <Text
@@ -173,7 +175,7 @@ export const ImageUploader = ({
             width="full"
             borderRadius="lg"
             border="2px dashed"
-            borderColor={uploading ? "brand.500" : "neutral.300"}
+            borderColor={uploading ? "brand.default" : "neutral.200"}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -181,7 +183,7 @@ export const ImageUploader = ({
             cursor={uploading ? "not-allowed" : "pointer"}
             onClick={() => !uploading && inputRef.current?.click()}
             _hover={
-              !uploading ? { borderColor: "brand.500", bg: "gray.50" } : {}
+              !uploading ? { borderColor: "brand.default", bg: "neutral.50" } : {}
             }
             transition="all 0.2s"
             p={1}
@@ -189,10 +191,10 @@ export const ImageUploader = ({
           >
             {uploading ? (
               <Stack align="center" gap={1}>
-                <Spinner size="xs" color="brand.500" />
+                <Spinner size="xs" color="brand.default" />
                 <Text
                   fontSize="9px"
-                  color="brand.500"
+                  color="brand.default"
                   fontWeight="bold"
                   textAlign="center"
                 >
@@ -223,7 +225,7 @@ export const ImageUploader = ({
         hidden
       />
       {error && (
-        <Text fontSize="xs" color="red.500">
+        <Text fontSize="xs" color="feedback.error">
           {error}
         </Text>
       )}

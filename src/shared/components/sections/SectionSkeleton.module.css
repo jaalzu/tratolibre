@@ -1,27 +1,36 @@
 .card {
   background-color: var(--chakra-colors-neutral-50);
-  border-radius: 1rem; /* 2xl */
-  padding: 16px;
-  min-height: 381px;
+  border-radius: var(--chakra-radii-lg);
+  padding: 20px;
+  min-height: 300px;
 }
 
 .divider {
-  border-top: 1px solid var(--chakra-colors-neutral-100);
+  border-top: 1px solid var(--chakra-colors-border-subtle);
+  opacity: 0.6;
   margin-top: 16px;
   margin-bottom: 16px;
-  margin-left: -16px;
-  margin-right: -16px;
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 .flexContainer {
   display: flex;
-  gap: 12px; /* gap={3} */
+  gap: 16px;
+  width: max-content;
+  padding-bottom: 4px;
   overflow: hidden;
 }
 
 .cardWrapper {
   flex-shrink: 0;
   width: 190px;
+}
+
+@media (min-width: 48em) {
+  .cardWrapper {
+    width: 226px;
+  }
 }
 
 .bone {

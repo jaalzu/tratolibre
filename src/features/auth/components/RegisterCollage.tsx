@@ -7,7 +7,7 @@ const photos = [
   "/login/deal-login.webp",
 ];
 
-const accents = ["brand.default", "secondary.default", "accent.hover", "red"];
+const accents = ["brand.default", "secondary.default", "accent.hover", "feedback.error"];
 
 const areas = [
   { colSpan: 2, rowSpan: 2, h: "120px" }, // bike — ocupa 2 cols, 2 rows
@@ -37,7 +37,7 @@ export const RegisterCollage = () => (
           right="-5px"
           w="100%"
           h="100%"
-          borderRadius="xl"
+          borderRadius="lg"
           bg={accents[i]}
           zIndex={0}
         />
@@ -46,7 +46,7 @@ export const RegisterCollage = () => (
           position="relative"
           w="100%"
           h={areas[i].h}
-          borderRadius="xl"
+          borderRadius="lg"
           overflow="hidden"
           zIndex={1}
         >

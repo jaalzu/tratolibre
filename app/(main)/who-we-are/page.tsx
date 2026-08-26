@@ -13,7 +13,7 @@ const WhoWeAreContent = dynamic(
           justifyContent: "center",
         }}
       >
-        <p style={{ color: "#ada9a9", fontSize: "14px" }}>
+        <p style={{ color: "var(--chakra-colors-neutral-200)", fontSize: "14px" }}>
           Cargando información...
         </p>
       </div>

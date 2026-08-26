@@ -22,7 +22,7 @@
 }
 
 .divider {
-  border-top: 1px solid var(--chakra-colors-neutral-150);
+  border-top: 1px solid var(--chakra-colors-border-subtle);
   margin-bottom: 16px;
   margin-left: -20px;
   margin-right: -20px;
@@ -39,7 +39,7 @@
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid var(--chakra-colors-brand-500);
+  border: 3px solid var(--chakra-colors-brand-default);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

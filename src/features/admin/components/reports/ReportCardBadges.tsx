@@ -31,7 +31,7 @@ export function ReportCardBadges({
             {TYPE_LABEL[type] ?? type}
           </Text>
         </Box>
-        <Box px={2.5} py={0.5} bg="neutral.150" borderRadius="full">
+        <Box px={2.5} py={0.5} bg="neutral.100" borderRadius="full">
           <Text
             fontSize="xs"
             fontWeight="semibold"
@@ -41,7 +41,7 @@ export function ReportCardBadges({
           </Text>
         </Box>
       </Flex>
-      <Text fontSize="xs" color="neutral.500">
+      <Text fontSize="xs" color="neutral.400">
         {new Date(createdAt).toLocaleDateString("es-AR", {
           day: "2-digit",
           month: "short",

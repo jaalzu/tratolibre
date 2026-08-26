@@ -10,6 +10,6 @@ body {
 
 /* globals.css */
 .app-container {
-  background-color: #eff3f6; /* neutral-150 */
+  background-color: var(--chakra-colors-bg-canvas); /* bg.canvas */
   min-height: 100dvh;
 }

@@ -46,7 +46,7 @@ export function FavoritesView({
         <Text fontSize="2xl" fontWeight="bold" color="neutral.900">
           Mis favoritos
         </Text>
-        <Text color="neutral.500" mb={6}>
+        <Text color="neutral.400" mb={6}>
           Estos son los productos de TratoLibre que más te gustan
         </Text>
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, Dialog, Portal, Text, Flex, Spinner } from "@chakra-ui/react";
+import { Dialog, Portal, Text, Flex, Spinner } from "@chakra-ui/react";
+import { Button } from "@/shared/components/ui/Button";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -30,7 +31,7 @@ export const ConfirmDialog = ({
     <Portal>
       <Dialog.Backdrop />
       <Dialog.Positioner mt={5}>
-        <Dialog.Content borderRadius="2xl" p={5} maxW="380px">
+        <Dialog.Content borderRadius="lg" p={5} maxW="380px">
           {loading ? (
             <Flex align="center" gap={3} py={2}>
               <Spinner size="sm" color="brand.default" />
@@ -44,7 +45,7 @@ export const ConfirmDialog = ({
                 {title}
               </Dialog.Title>
               <Dialog.Description mt={4}>
-                <Text fontSize="md" color="neutral.600">
+                <Text fontSize="md" color="fg.muted">
                   {description}
                 </Text>
               </Dialog.Description>
@@ -59,7 +60,7 @@ export const ConfirmDialog = ({
                   Cancelar
                 </Button>
                 <Button
-                  colorPalette="red"
+                  variant="destructive"
                   size="sm"
                   p={2}
                   data-testid="confirm-button"

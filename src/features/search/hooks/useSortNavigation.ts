@@ -8,11 +8,11 @@ export function useSortNavigation() {
   const searchParams = useSearchParams();
   const currentOrder = (searchParams.get("order_by") as SortOrder) ?? "closest";
 
-  const handleSortChange = (id: SortOrder, onClose: () => void) => {
+  const handleSortChange = (id: SortOrder, onClose?: () => void) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("order_by", id);
     router.push(`/search?${params.toString()}`);
-    onClose();
+    onClose?.();
   };
 
   return { currentOrder, handleSortChange };

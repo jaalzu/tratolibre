@@ -19,7 +19,7 @@ export function AdminNav() {
       <Text
         fontSize={{ base: "xl", md: "2xl" }}
         fontWeight="bold"
-        color="neutral.800"
+        color="neutral.900"
       >
         {current.label}
       </Text>
@@ -34,7 +34,7 @@ export function AdminNav() {
               px={4}
               py={2}
               borderRadius="xl"
-              bg={isActive ? "brand.default" : "neutral.150"}
+              bg={isActive ? "brand.default" : "neutral.100"}
               color={isActive ? "neutral.50" : "fg.muted"}
               transition="all 0.15s"
               _hover={{ bg: isActive ? "brand.default" : "neutral.200" }}

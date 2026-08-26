@@ -28,12 +28,21 @@
 .locationContainer {
   display: flex;
   align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+.locationLabel {
+  font-size: 0.85rem;
+  color: var(--chakra-colors-neutral-400);
+  font-weight: var(--chakra-fontWeights-normal);
 }
 
 .locationText {
   font-size: 0.9rem;
   color: var(--chakra-colors-neutral-600);
-  font-weight: 500;
+  font-weight: var(--chakra-fontWeights-medium);
 }
 
 .contentWrapper {
@@ -87,8 +96,8 @@
 
 .btnExplorar {
   background-color: var(--chakra-colors-neutral-50) !important;
-  color: black !important;
-  border: 1px solid var(--chakra-colors-neutral-500) !important;
+  color: var(--chakra-colors-fg) !important;
+  border: 1px solid var(--chakra-colors-neutral-400) !important;
 }
 
 .btnExplorar:hover {

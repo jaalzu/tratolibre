@@ -1,29 +1,23 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { Box, Stack } from "@chakra-ui/react";
 
 const FormSkeleton = () => (
-  <div className="animate-pulse space-y-">
-    {/* Título */}
-    <div className="h-8 bg-gray-200 rounded-md w-1/3 mb-8"></div>
-
-    {/* Inputs del formulario */}
+  <Stack gap={4} animation="pulse 1.5s ease-in-out infinite">
+    <Box h="32px" bg="neutral.100" borderRadius="md" w="1/3" mb={8} />
     {[1, 2, 3, 4].map((i) => (
-      <div key={i} className="space-y-2">
-        <div className="h-4 bg-gray-200 rounded w-20"></div>
-        <div className="h-12 bg-gray-100 rounded-lg w-full border border-gray-100"></div>
-      </div>
+      <Stack key={i} gap={2}>
+        <Box h="16px" bg="neutral.100" borderRadius="md" w="20" />
+        <Box h="48px" bg="neutral.50" borderRadius="lg" w="full" border="1px solid" borderColor="neutral.100" />
+      </Stack>
     ))}
-
-    {/* Área de texto/descripción */}
-    <div className="space-y-2">
-      <div className="h-4 bg-gray-200 rounded w-24"></div>
-      <div className="h-16 bg-gray-100 rounded-lg w-full"></div>
-    </div>
-
-    {/* Botón */}
-    <div className="h-12 bg-gray-200 rounded-full w-full mt-10"></div>
-  </div>
+    <Stack gap={2}>
+      <Box h="16px" bg="neutral.100" borderRadius="md" w="24" />
+      <Box h="64px" bg="neutral.50" borderRadius="lg" w="full" />
+    </Stack>
+    <Box h="48px" bg="neutral.100" borderRadius="full" w="full" mt={10} />
+  </Stack>
 );
 
 export const DynamicNewItemForm = dynamic(

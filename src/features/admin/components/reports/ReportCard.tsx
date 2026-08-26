@@ -17,7 +17,7 @@ export function ReportCard({ report }: { report: AdminReport }) {
         />
 
         <Box mb={4}>
-          <Text fontSize="md" fontWeight="bold" color="neutral.800" mb={1}>
+          <Text fontSize="md" fontWeight="bold" color="neutral.900" mb={1}>
             {REASON_LABEL[report.reason] ?? report.reason}
           </Text>
           {report.description && (
@@ -27,7 +27,7 @@ export function ReportCard({ report }: { report: AdminReport }) {
           )}
         </Box>
 
-        <Separator borderColor="neutral.150" mb={6} />
+        <Separator borderColor="neutral.100" mb={6} />
         <ReportCardActions report={report} />
       </Box>
     </Box>

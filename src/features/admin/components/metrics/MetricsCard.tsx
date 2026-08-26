@@ -57,12 +57,12 @@ export function MetricCard({
       <Text
         fontSize="3xl"
         fontWeight="bold"
-        color={alert ? "secondary.default" : "neutral.700"}
+        color={alert ? "secondary.default" : "neutral.600"}
         lineHeight="1"
       >
         {primary.value}
       </Text>
-      <Text fontSize="xs" color="neutral.500" mt={1}>
+      <Text fontSize="xs" color="neutral.400" mt={1}>
         {primary.label}
       </Text>
 

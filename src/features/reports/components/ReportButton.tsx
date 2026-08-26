@@ -18,7 +18,7 @@ export function ReportButton({
   type,
   targetId,
   label = "Reportar",
-  color = "neutral.700",
+  color = "neutral.600",
 }: ReportButtonProps) {
   const { isOpen, openModal, closeModal } = useReportModal({ type, targetId });
 
@@ -31,7 +31,7 @@ export function ReportButton({
         cursor="pointer"
         color={color}
         onClick={openModal}
-        _hover={{ color: "red.500" }}
+        _hover={{ color: "feedback.error" }}
         transition="color 0.2s"
       >
         {label}

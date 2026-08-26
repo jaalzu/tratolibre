@@ -44,23 +44,39 @@ export const NavbarTop = ({
       px={2}
       h="60px"
       align="center"
-      gap={{ base: 2, md: 6 }}
+      gap={{ base: 2, md: 3 }}
       display={{ base: "none", md: "flex" }}
     >
-      {/* Logo Desktop */}
-      <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
-        <Box flexShrink={0}>
-          <Image src="/koala/logotextwhite.webp" alt="TratoLibre" h="33px" />
-        </Box>
-      </NextLink>
+      {/* Logo Desktop — oculto < 1000px para dar espacio al search */}
+      <Box
+        display={{ base: "none", lg: "block" }}
+        flexShrink={0}
+        css={{
+          "@media (max-width: 999px)": { display: "none" },
+          "@media (min-width: 1000px)": { display: "block" },
+        }}
+      >
+        <NextLink href="/" passHref aria-label="Ir al inicio de TratoLibre">
+          <Image src="/koala/logotextwhite.webp" alt="TratoLibre" h="31px" />
+        </NextLink>
+      </Box>
 
       {/* Buscador */}
-      <Group flex="1" maxW="700px">
+      <Group
+        flex="1"
+        minW={0}
+        css={{
+          "@media (max-width: 999px)": {
+            marginLeft: "var(--chakra-spacing-6)",
+          },
+          "@media (min-width: 1000px)": { marginLeft: "0" },
+        }}
+      >
         <SearchBar />
       </Group>
 
       {/* Desktop nav */}
-      <Flex align="center" gap={2}>
+      <Flex align="center" gap={1} flexShrink={0}>
         {user ? (
           <>
             {loggedNavItems.map((item) => (
@@ -74,14 +90,16 @@ export const NavbarTop = ({
             ))}
             <ChatNavLink />
             {isAdmin && (
-              <NavLink
-                href="/admin"
-                label="Admin"
-                icon={Shield}
-                variant="desktop"
-              />
+              <Box ml={1}>
+                <NavLink
+                  href="/admin"
+                  label="Admin"
+                  icon={Shield}
+                  variant="desktop"
+                />
+              </Box>
             )}
-            <Box color="neutral.50">
+            <Box ml={1} color="neutral.50">
               <NotificationBell initialCount={unreadCount} userId={user.id} />
             </Box>
             <Box
@@ -89,10 +107,15 @@ export const NavbarTop = ({
               onClick={onOpenMenu}
               aria-label="Abrir categorías"
               color="neutral.50"
-              p={1}
-              _hover={{ opacity: 0.8 }}
+              px={2}
+              py={1.5}
+              _hover={{ bg: "rgba(255,255,255,0.08)" }}
+              borderRadius="md"
+              display="inline-flex"
+              alignItems="center"
+              justifyContent="center"
             >
-              <Categories width="28px" height="28px" fill="currentColor" />
+              <Categories width="24px" height="24px" fill="currentColor" />
             </Box>
           </>
         ) : (
@@ -107,7 +130,7 @@ export const NavbarTop = ({
                 borderRadius="md"
                 fontSize="sm"
                 fontWeight="bold"
-                _hover={{ bg: "whiteAlpha.200" }}
+                _hover={{ bg: "rgba(255,255,255,0.08)" }}
                 transition="0.2s"
               >
                 Regístrate o Inicia sesión
@@ -124,7 +147,7 @@ export const NavbarTop = ({
                 borderRadius="md"
                 fontSize="sm"
                 fontWeight="bold"
-                _hover={{ bg: "neutral.100" }}
+                _hover={{ bg: "rgba(255,255,255,0.85)" }}
               >
                 Vender
               </Box>
@@ -149,7 +172,7 @@ export const NavbarTop = ({
         </Group>
 
         {user ? (
-          <Flex align="center" gap={0.6} flexShrink={0}>
+          <Flex align="center" gap={1} flexShrink={0}>
             <Box color="white">
               <NotificationBell initialCount={unreadCount} userId={user.id} />
             </Box>
@@ -158,8 +181,13 @@ export const NavbarTop = ({
               onClick={onOpenMenu}
               aria-label="Abrir categorías"
               color="white"
-              p={0.5}
-              _hover={{ opacity: 0.8 }}
+              px={2}
+              py={1.5}
+              _hover={{ bg: "rgba(255,255,255,0.08)" }}
+              borderRadius="md"
+              display="inline-flex"
+              alignItems="center"
+              justifyContent="center"
             >
               <Categories width="28px" height="28px" fill="currentColor" />
             </Box>

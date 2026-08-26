@@ -7,7 +7,7 @@ import {
 } from "react-hook-form";
 
 export const inputStyles = {
-  borderColor: "neutral.500",
+  borderColor: "neutral.400",
   borderRadius: "lg",
   h: "44px",
   px: "3",
@@ -40,7 +40,7 @@ export function FormField<T extends FieldValues>({
 }: FormFieldProps<T>) {
   return (
     <Field.Root invalid={!!error}>
-      <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
+      <Field.Label fontSize="xs" fontWeight="medium" color="neutral.600">
         {label}
         {required && " *"}
       </Field.Label>

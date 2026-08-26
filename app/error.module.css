@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f9fafb;
+  background-color: var(--chakra-colors-bg-canvas);
   margin: 0;
   padding: 0;
   overflow: hidden; /* Evita scrolls raros */
@@ -39,18 +39,18 @@
 .icon {
   width: 64px;
   height: 64px;
-  fill: #ef4444;
+  fill: var(--chakra-colors-feedback-error);
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--chakra-colors-fg);
   margin: 0;
 }
 
 .description {
-  color: #4b5563;
+  color: var(--chakra-colors-fg-muted);
   margin: 0 0 8px 0;
 }
 
@@ -62,10 +62,10 @@
 }
 
 .buttonPrimary {
-  background-color: #22c55e;
+  background-color: var(--chakra-colors-brand-default);
   color: white;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: var(--chakra-radii-md);
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -73,10 +73,10 @@
 }
 
 .buttonSecondary {
-  border: 1px solid #d1d5db;
-  color: #374151;
+  border: 1px solid var(--chakra-colors-border-subtle);
+  color: var(--chakra-colors-fg-muted);
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: var(--chakra-radii-md);
   font-weight: 600;
   text-decoration: none;
   background: white;

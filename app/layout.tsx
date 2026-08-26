@@ -17,7 +17,7 @@ const geist = Geist({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#1A202C",
+  themeColor: "#0f0d0d",
 };
 
 export const metadata: Metadata = {

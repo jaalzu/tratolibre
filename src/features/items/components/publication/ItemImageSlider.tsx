@@ -61,7 +61,7 @@ export default function ItemImageSlider({
           w="36px"
           h="36px"
           borderRadius="full"
-          bg="whiteAlpha.800"
+          bg="fg.inverted"
           alignItems="center"
           display={{ base: "flex", md: "none" }}
           justifyContent="center"
@@ -82,7 +82,7 @@ export default function ItemImageSlider({
             position="absolute"
             bottom={3}
             right={3}
-            bg="blackAlpha.600"
+            bg="neutral.900"
             borderRadius="full"
             px={3}
             py={1}
@@ -112,7 +112,7 @@ export default function ItemImageSlider({
               w="36px"
               h="36px"
               borderRadius="full"
-              bg="whiteAlpha.800"
+              bg="fg.inverted"
               display="flex"
               alignItems="center"
               justifyContent="center"
@@ -132,7 +132,7 @@ export default function ItemImageSlider({
               w="36px"
               h="36px"
               borderRadius="full"
-              bg="whiteAlpha.800"
+              bg="fg.inverted"
               display="flex"
               alignItems="center"
               justifyContent="center"
