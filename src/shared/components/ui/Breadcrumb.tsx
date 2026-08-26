@@ -15,7 +15,7 @@ export function Breadcrumb({ category, title }: BreadcrumbProps) {
       <NextLink href="/">
         <Text
           fontSize="sm"
-          color="neutral.500"
+          color="neutral.400"
           _hover={{ color: "brand.default" }}
           transition="color 0.15s"
         >
@@ -24,13 +24,13 @@ export function Breadcrumb({ category, title }: BreadcrumbProps) {
       </NextLink>
       {categoryLabel && (
         <>
-          <Text fontSize="sm" color="neutral.300">
+          <Text fontSize="sm" color="neutral.200">
             /
           </Text>
           <NextLink href={`/search?category=${category}`}>
             <Text
               fontSize="sm"
-              color="neutral.500"
+              color="neutral.400"
               _hover={{ color: "brand.default" }}
               transition="color 0.15s"
             >
@@ -39,10 +39,10 @@ export function Breadcrumb({ category, title }: BreadcrumbProps) {
           </NextLink>
         </>
       )}
-      <Text fontSize="sm" color="neutral.300">
+      <Text fontSize="sm" color="neutral.200">
         /
       </Text>
-      <Text fontSize="sm" color="neutral.800" fontWeight="medium" lineClamp={1}>
+      <Text fontSize="sm" color="neutral.900" fontWeight="medium" lineClamp={1}>
         {title}
       </Text>
     </Flex>

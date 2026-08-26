@@ -26,7 +26,7 @@ export function TabGroup({
         display={{ base: "none", md: "block" }}
         position="relative"
         w="full"
-        bg="neutral.150"
+        bg="neutral.100"
         borderRadius="xl"
         p={1}
       >
@@ -90,7 +90,7 @@ export function TabGroup({
             borderRadius="xl"
             fontSize="sm"
             fontWeight="medium"
-            bg={value === f.value ? "brand.default" : "neutral.150"}
+            bg={value === f.value ? "brand.default" : "neutral.100"}
             color={value === f.value ? "white" : "fg.muted"}
             aria-pressed={value === f.value}
             onClick={() => onChange(f.value)}
@@ -103,7 +103,7 @@ export function TabGroup({
                 as="span"
                 ml={1}
                 fontSize="xs"
-                color={value === f.value ? "whiteAlpha.800" : "fg.muted"}
+                color={value === f.value ? "fg.inverted" : "fg.muted"}
               >
                 {reports.filter((r) => r.status === f.value).length}
               </Text>

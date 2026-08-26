@@ -37,7 +37,7 @@ export function NotificationsPanel({
           as="button"
           onClick={onClose}
           color="feedback.error"
-          _hover={{ color: "neutral.700" }}
+          _hover={{ color: "neutral.600" }}
           aria-label="Cerrar notificaciones"
         >
           <X width="24px" height="24px" fill="currentColor" />

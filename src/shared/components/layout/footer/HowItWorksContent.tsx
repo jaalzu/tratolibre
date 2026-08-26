@@ -179,7 +179,7 @@ export default function HowItWorksContent() {
                     <Text
                       fontSize="xs"
                       fontWeight="bold"
-                      color="brand.fg"
+                      color="brand.default"
                       textTransform="uppercase"
                       letterSpacing="wider"
                       mb={1}
@@ -229,7 +229,7 @@ export default function HowItWorksContent() {
           </Text>
           <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
             {reasons.map((r) => (
-              <Box key={r.title} p={5} bg="neutral.150" borderRadius="2xl">
+              <Box key={r.title} p={5} bg="neutral.100" borderRadius="2xl">
                 <Text fontWeight="semibold" color="fg" mb={2}>
                   {r.title}
                 </Text>
@@ -269,7 +269,7 @@ export default function HowItWorksContent() {
               borderRadius="lg"
               fontWeight="semibold"
               fontSize="sm"
-              _hover={{ textDecoration: "none", bg: "gray.100" }}
+              _hover={{ textDecoration: "none", bg: "neutral.100" }}
             >
               Explorar publicaciones
             </Link>

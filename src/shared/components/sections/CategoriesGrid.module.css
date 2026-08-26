@@ -1,6 +1,6 @@
 .card {
   background-color: var(--chakra-colors-neutral-50);
-  border-radius: 1rem; /* 2xl */
+  border-radius: var(--chakra-radii-lg); /* 2xl */
   padding: 16px;
   box-shadow: var(--chakra-shadows-base);
   transition: min-height 0.2s;
@@ -13,7 +13,8 @@
 }
 
 .divider {
-  border-top: 1px solid var(--chakra-colors-neutral-150);
+  border-top: 1px solid var(--chakra-colors-border-subtle);
+  opacity: 0.6;
   margin-bottom: 12px;
 }
 
@@ -32,8 +33,8 @@
   justify-content: center;
   gap: 4px;
   height: 80px;
-  border-radius: 0.75rem; /* xl */
-  background-color: var(--chakra-colors-neutral-150);
+  border-radius: var(--chakra-radii-lg);
+  background-color: var(--chakra-colors-bg-canvas);
   transition: all 0.15s;
   cursor: pointer;
   text-align: center;
@@ -41,18 +42,21 @@
 }
 
 .categoryItem:hover {
-  background-color: var(--chakra-colors-brand-50);
+  background-color: var(--chakra-colors-brand-subtle);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
 }
 
 .categoryLabel {
-  font-size: 0.75rem; /* xs */
-  color: var(--chakra-colors-neutral-700);
+  font-size: 0.75rem;
+  color: var(--chakra-colors-fg-muted);
   font-weight: 500;
   line-height: 1.25;
 }
 
 .footerDivider {
-  border-top: 1px solid var(--chakra-colors-neutral-100);
+  border-top: 1px solid var(--chakra-colors-border-subtle);
+  opacity: 0.6;
   margin-top: 12px;
   margin-left: -16px;
   margin-right: -16px;

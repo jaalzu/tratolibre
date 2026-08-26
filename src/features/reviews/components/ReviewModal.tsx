@@ -80,7 +80,7 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                 <Text fontWeight="bold" fontSize="md" textAlign="center">
                   ¡Reseña enviada!
                 </Text>
-                <Text fontSize="sm" color="neutral.500" textAlign="center">
+                  <Text fontSize="sm" color="neutral.400" textAlign="center">
                   Tu opinión ayuda a construir una comunidad de confianza.
                 </Text>
                 <Button w="full" p={1.5} onClick={handleClose}>
@@ -93,11 +93,11 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                   <Title fontSize="md" fontWeight="bold" mb={1}>
                     Calificá a {reviewedName}
                   </Title>
-                  <Text fontSize="sm" color="neutral.500">
+                  <Text fontSize="sm" color="neutral.400">
                     {role === "buyer"
                       ? "Calificá al vendedor de"
                       : "Calificá al comprador de"}{" "}
-                    <Text as="span" fontWeight="semibold" color="neutral.700">
+                    <Text as="span" fontWeight="semibold" color="neutral.600">
                       {itemTitle}
                     </Text>
                   </Text>
@@ -134,7 +134,7 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                         <Star
                           width="36px"
                           height="36px"
-                          fill={isActive ? "#ecc94b" : "#e2e8f0"}
+                          fill={isActive ? "var(--chakra-colors-secondary-default)" : "var(--chakra-colors-neutral-200)"}
                         />
                       </chakra.button>
                     );
@@ -184,7 +184,7 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                 {error && (
                   <Text
                     fontSize="sm"
-                    color="red.500"
+                    color="feedback.error"
                     textAlign="center"
                     role="alert"
                   >

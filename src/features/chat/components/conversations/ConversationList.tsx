@@ -113,8 +113,8 @@ export const ConversationList = ({
                 px={3}
                 py={2}
                 fontSize="xs"
-                bg={filter === "all" ? "brand.50" : "transparent"}
-                color={filter === "all" ? "brand.default" : "neutral.700"}
+                bg={filter === "all" ? "brand.subtle" : "transparent"}
+                color={filter === "all" ? "brand.default" : "neutral.600"}
                 fontWeight={filter === "all" ? "bold" : "normal"}
                 border="none"
                 cursor="pointer"
@@ -133,8 +133,8 @@ export const ConversationList = ({
                 px={3}
                 py={2}
                 fontSize="xs"
-                bg={filter === "unread" ? "brand.50" : "transparent"}
-                color={filter === "unread" ? "brand.default" : "neutral.700"}
+                bg={filter === "unread" ? "brand.subtle" : "transparent"}
+                color={filter === "unread" ? "brand.default" : "neutral.600"}
                 fontWeight={filter === "unread" ? "bold" : "normal"}
                 border="none"
                 cursor="pointer"
@@ -153,8 +153,8 @@ export const ConversationList = ({
                 px={3}
                 py={2}
                 fontSize="xs"
-                bg={filter === "buying" ? "brand.50" : "transparent"}
-                color={filter === "buying" ? "brand.default" : "neutral.700"}
+                bg={filter === "buying" ? "brand.subtle" : "transparent"}
+                color={filter === "buying" ? "brand.default" : "neutral.600"}
                 fontWeight={filter === "buying" ? "bold" : "normal"}
                 border="none"
                 cursor="pointer"
@@ -173,8 +173,8 @@ export const ConversationList = ({
                 px={3}
                 py={1.5}
                 fontSize="xs"
-                bg={filter === "selling" ? "brand.50" : "transparent"}
-                color={filter === "selling" ? "brand.default" : "neutral.700"}
+                bg={filter === "selling" ? "brand.subtle" : "transparent"}
+                color={filter === "selling" ? "brand.default" : "neutral.600"}
                 fontWeight={filter === "selling" ? "bold" : "normal"}
                 border="none"
                 cursor="pointer"
@@ -193,8 +193,8 @@ export const ConversationList = ({
                 px={3}
                 py={1.5}
                 fontSize="xs"
-                bg={filter === "oldest" ? "brand.50" : "transparent"}
-                color={filter === "oldest" ? "brand.default" : "neutral.700"}
+                bg={filter === "oldest" ? "brand.subtle" : "transparent"}
+                color={filter === "oldest" ? "brand.default" : "neutral.600"}
                 fontWeight={filter === "oldest" ? "bold" : "normal"}
                 border="none"
                 cursor="pointer"

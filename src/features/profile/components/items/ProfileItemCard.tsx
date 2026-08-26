@@ -32,7 +32,7 @@ export const ProfileItemCard = ({ item }: ProfileItemCardProps) => (
             position="absolute"
             top={2}
             left={2}
-            bg="neutral.800"
+            bg="neutral.900"
             px={2}
             py={0.5}
             borderRadius="full"

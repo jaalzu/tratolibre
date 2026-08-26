@@ -37,9 +37,14 @@ export function NotificationBell({
         position="relative"
         cursor="pointer"
         display="inline-flex"
+        alignItems="center"
+        justifyContent="center"
         py={1.5}
-        px={1}
+        px={2}
         color="neutral.50"
+        borderRadius="md"
+        _hover={{ bg: "rgba(255,255,255,0.08)" }}
+        transition="background 0.2s"
         aria-haspopup="true"
         aria-expanded={open}
         aria-label={
@@ -75,9 +80,9 @@ export function NotificationBell({
           w="420px"
           bg="neutral.50"
           borderRadius="2xl"
-          boxShadow="lg"
+          boxShadow="base"
           border="1px solid"
-          borderColor="brand.100"
+          borderColor="border.subtle"
           zIndex={300}
           overflow="hidden"
         >
@@ -98,7 +103,7 @@ export function NotificationBell({
           right={3}
           bg="neutral.50"
           border="1px solid"
-          borderColor="brand.100"
+          borderColor="border.subtle"
           borderRadius="xl"
           boxShadow="base"
           zIndex={201}

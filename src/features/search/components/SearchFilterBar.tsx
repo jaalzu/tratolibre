@@ -2,104 +2,36 @@
 
 import { Box, Flex, Text } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { SliderAlt, ArrowDownUp } from "@boxicons/react";
+import { SliderAlt } from "@boxicons/react";
 import { useSearchFilterBar } from "../hooks/useSearchFilterBar";
+import { useSearchParams } from "next/navigation";
 
-const FilterDrawer = dynamic(
-  () => import("./FilterDrawer").then((mod) => mod.FilterDrawer),
-  { ssr: false },
-);
-
-const SortModal = dynamic(
-  () => import("./SortModal").then((mod) => mod.SortModal),
-  { ssr: false },
-);
+const FilterDrawer = dynamic(() => import("./FilterDrawer").then((m) => m.FilterDrawer), { ssr: false });
 
 export function SearchFilterBar() {
-  const {
-    filterOpen,
-    setFilterOpen,
-    sortOpen,
-    setSortOpen,
-    hasFilters,
-    currentSortLabel,
-  } = useSearchFilterBar();
+  const { filterOpen, setFilterOpen } = useSearchFilterBar();
+  const sp = useSearchParams();
+  const count = ["category","province","min_price","max_price","date","condition"].filter((k) => sp.get(k)).length;
 
   return (
     <>
-      <Box
-        display={{ base: "flex", md: "none" }}
-        borderTop="1px solid"
-        borderBottom="1px solid"
-        borderColor="neutral.200"
-      >
-        {/* Botón de Filtros */}
-        <Flex
-          as="button"
-          flex={1}
-          align="center"
-          justify="center"
-          gap={2}
-          py={3}
-          borderRight="1px solid"
-          borderColor="neutral.200"
-          onClick={() => setFilterOpen(true)}
-          _hover={{ bg: "neutral.50" }}
-          position="relative"
-          aria-haspopup="dialog"
-          aria-expanded={filterOpen}
-        >
-          <SliderAlt
-            width="18px"
-            height="18px"
-            fill="var(--chakra-colors-neutral-600)"
-          />
-          <Text fontSize="sm" fontWeight="medium" color="neutral.700">
-            Filtros
-          </Text>
-          {hasFilters && (
-            <Box
-              w="7px"
-              h="7px"
-              borderRadius="full"
-              bg="brand.default"
-              position="absolute"
-              top="8px"
-              right="calc(50% - 32px)"
-            />
-          )}
-        </Flex>
-
-        {/* Botón de Ordenamiento */}
-        <Flex
-          as="button"
-          flex={1}
-          align="center"
-          justify="center"
-          gap={2}
-          py={3}
-          onClick={() => setSortOpen(true)}
-          _hover={{ bg: "neutral.50" }}
-          aria-haspopup="dialog"
-          aria-expanded={sortOpen}
-        >
-          <ArrowDownUp
-            width="18px"
-            height="18px"
-            fill="var(--chakra-colors-neutral-600)"
-          />
-          <Text fontSize="sm" fontWeight="medium" color="neutral.700">
-            {currentSortLabel}
-          </Text>
+      {/* Mobile */}
+      <Box display={{ base: "flex", md: "none" }} borderTop="1px solid" borderBottom="1px solid" borderColor="neutral.200">
+        <Flex as="button" w="full" align="center" justify="center" gap={1} py={3} minW={0} onClick={() => setFilterOpen(true)} _hover={{ bg: "neutral.50" }}>
+          <SliderAlt width="16px" height="16px" fill="var(--chakra-colors-accent-default)" />
+          <Text fontSize="sm" fontWeight="medium" color="accent.default" whiteSpace="nowrap">Filtrar{count ? ` · ${count}` : ""}</Text>
         </Flex>
       </Box>
 
-      {filterOpen && (
-        <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)} />
-      )}
-      {sortOpen && (
-        <SortModal open={sortOpen} onClose={() => setSortOpen(false)} />
-      )}
+      {/* Desktop / tablet controls — solo botón Filtrar en tablet */}
+      <Flex display={{ base: "none", md: "flex", lg: "none" }} align="center" justify="center" px={{ md: 4, lg: 8 }} py={2}>
+        <Flex as="button" align="center" gap={1.5} px={3} py={1.5} border="1px solid" borderColor="neutral.200" borderRadius="full" onClick={() => setFilterOpen(true)} _hover={{ bg: "neutral.50" }}>
+          <SliderAlt width="16px" height="16px" fill="var(--chakra-colors-neutral-600)" />
+          <Text fontSize="sm" fontWeight="medium" color="neutral.700">Filtrar</Text>
+        </Flex>
+      </Flex>
+
+      {filterOpen && <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)} />}
     </>
   );
 }

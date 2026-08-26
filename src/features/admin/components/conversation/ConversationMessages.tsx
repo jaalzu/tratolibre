@@ -53,7 +53,7 @@ const avatarColor = 'white'
                   {new Date(msg.created_at).toLocaleString('es-AR')}
                 </Text>
               </Flex>
-              <Box bg="neutral.150" borderRadius="xl" px={4} py={2}>
+              <Box bg="neutral.100" borderRadius="xl" px={4} py={2}>
                 <Text fontSize="sm" color="fg">{msg.content}</Text>
               </Box>
             </Box>

@@ -3,7 +3,7 @@
 import { chakra, HTMLChakraProps, Spinner } from "@chakra-ui/react";
 
 export interface ButtonProps extends HTMLChakraProps<"button"> {
-  variant?: "primary" | "secondary" | "ghost" | "amber" | "blue" | "danger";
+  variant?: "primary" | "accent" | "secondary" | "ghost" | "destructive";
   size?: "sm" | "md" | "lg";
   width?: "full";
   loading?: boolean;
@@ -31,36 +31,33 @@ const StyledButton = chakra("button", {
     variant: {
       primary: {
         bg: "accent.default",
-        color: "white",
+        color: "fg.inverted",
         _hover: { bg: "accent.hover" },
+        _disabled: { bg: "accent.disabled", color: "fg.inverted", opacity: 1 },
+      },
+      accent: {
+        bg: "accent.default",
+        color: "fg.inverted",
+        _hover: { bg: "accent.hover" },
+        _disabled: { bg: "accent.disabled", color: "fg.inverted", opacity: 1 },
       },
       secondary: {
         border: "1.5px solid",
-        borderColor: "neutral.300",
-        color: "neutral.900",
+        borderColor: "border.default",
+        color: "fg",
         bg: "transparent",
-        _hover: { bg: "neutral.50" },
+        _hover: { bg: "bg.muted" },
       },
       ghost: {
-        color: "neutral.700",
-        _hover: { bg: "neutral.50" },
+        color: "fg.muted",
+        _hover: { bg: "bg.muted" },
       },
-      amber: {
-        bg: "secondary.default",
-        color: "white",
-        _hover: { bg: "secondary.hover" },
-      },
-      blue: {
-        bg: "accent.default",
-        color: "white",
-        _hover: { bg: "accent.hover" },
-      },
-      danger: {
+      destructive: {
         border: "1px solid",
-        borderColor: "red.400",
-        color: "red.600",
+        borderColor: "feedback.error",
+        color: "feedback.error",
         bg: "transparent",
-        _hover: { bg: "red.50" },
+        _hover: { bg: "brand.subtle" },
       },
     },
     size: {

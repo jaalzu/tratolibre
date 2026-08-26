@@ -10,6 +10,7 @@ import { ScrollToTop } from "@/shared/components/ui/ScrollToTop";
 import { Breadcrumb } from "@/shared/components/ui/Breadcrumb";
 import { useItem } from "@/shared/hooks/useItem";
 import type { ItemWithProfile } from "@/features/items/types";
+import { ItemPageSkeleton } from "./ItemPageSkeleton";
 
 interface ItemPageContentProps {
   itemId: string;
@@ -27,7 +28,6 @@ export default function ItemPageContent({
   children,
 }: ItemPageContentProps) {
   const { data: item } = useItem(itemId, initialItem);
-
   const currentItem = item || initialItem;
 
   return (
@@ -53,10 +53,10 @@ export default function ItemPageContent({
             />
           </Box>
 
-          {currentItem.category && (
+          {/* {currentItem.category && (
             <Box
               display="inline-block"
-              mt={4}
+              mt={7}
               px={5}
               py={1}
               bg="neutral.100"
@@ -70,7 +70,7 @@ export default function ItemPageContent({
                 {currentItem.category}
               </Text>
             </Box>
-          )}
+          )} */}
 
           <Separator my={5} borderColor="neutral.100" />
           <ItemDetails item={currentItem} userId={userId} />
@@ -78,14 +78,14 @@ export default function ItemPageContent({
 
         <Box
           position="fixed"
-          bottom="60px"
+          bottom="56px"
           left={0}
           right={0}
           px={3}
-          py={2}
-          bg="neutral.150"
+          py={3}
+          bg="bg.card"
           borderTop="1px solid"
-          borderColor="neutral.300"
+          borderColor="border.subtle"
           zIndex={40}
         >
           <ItemActions item={currentItem} userId={userId} isAdmin={isAdmin} />
@@ -106,7 +106,7 @@ export default function ItemPageContent({
                 title={currentItem.title}
               />
 
-              {currentItem.category && (
+              {/* {currentItem.category && (
                 <Box
                   display="inline-block"
                   mt={4}
@@ -124,26 +124,26 @@ export default function ItemPageContent({
                     {currentItem.category}
                   </Text>
                 </Box>
-              )}
+              )} */}
 
               <Separator my={6} borderColor="neutral.100" />
               <ItemDetails item={currentItem} userId={userId} />
             </Box>
 
-            <Box w="300px" flexShrink={0}>
+            <Box w="320px" flexShrink={0}>
               <Box position="sticky" top="24px">
                 <Box
                   border="1px solid"
                   boxShadow="base"
-                  borderColor="neutral.900"
-                  borderRadius="xl"
-                  bg="neutral.150"
-                  px={4}
+                  borderColor="border.subtle"
+                  borderRadius="lg"
+                  bg="bg.card"
+                  px={5}
                   py={6}
                   mb={3}
                 >
                   <ItemInfo item={currentItem} />
-                  <Box mt={5}>
+                  <Box mt={9}>
                     <ItemActions
                       item={currentItem}
                       userId={userId}

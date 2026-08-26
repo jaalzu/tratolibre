@@ -35,7 +35,7 @@ export const FavoriteButton = ({
       <Heart
         width="22px"
         height="22px"
-        fill={favorited ? "#e53e3e" : "#a0aec0"}
+        fill={favorited ? "var(--chakra-colors-feedback-error)" : "var(--chakra-colors-neutral-400)"}
       />
     </Box>
   );

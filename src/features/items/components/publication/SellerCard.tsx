@@ -56,10 +56,10 @@ export default function SellerCard({
       justify="space-between"
       gap={3}
       border="1px solid"
-      bg="neutral.150"
+      bg="bg.card"
       boxShadow="base"
-      borderColor="neutral.900"
-      borderRadius="xl"
+      borderColor="border.subtle"
+      borderRadius="lg"
       px={5}
       py={5}
     >
@@ -115,7 +115,7 @@ export default function SellerCard({
 
       {itemId && !isOwner && (
         <Button
-          variant="primary"
+          variant="accent"
           size="md"
           py={2}
           px={6}

@@ -30,7 +30,7 @@ export const ForgotPasswordForm = () => {
   };
 
   const inputStyles = {
-    borderColor: "neutral.500",
+    borderColor: "neutral.400",
     borderRadius: "lg",
     h: "44px",
     px: "3",
@@ -44,7 +44,7 @@ export const ForgotPasswordForm = () => {
         <Text fontSize="xl" fontWeight="bold" color="neutral.900">
           Revisá tu email
         </Text>
-        <Text fontSize="xs" color="neutral.500">
+        <Text fontSize="xs" color="neutral.400">
           Te enviamos un enlace para restablecer tu contraseña. Revisá tu
           bandeja de entrada y spam.
         </Text>
@@ -73,7 +73,7 @@ export const ForgotPasswordForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
           <Field.Root invalid={!!errors.email}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
+            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.600">
               Email
             </Field.Label>
             <Input

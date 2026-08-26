@@ -24,7 +24,7 @@ export function ConversationHeader({ conversation }: ConversationHeaderProps) {
           <Flex
             align="center"
             gap={2}
-            color="neutral.700"
+            color="neutral.600"
             _hover={{ color: "fg" }}
             transition="color 0.15s"
             mb={4}
@@ -32,7 +32,7 @@ export function ConversationHeader({ conversation }: ConversationHeaderProps) {
             <ArrowLeft
               width="24px"
               height="24px"
-              fill="var(--chakra-colors-neutral-800)"
+              fill="var(--chakra-colors-neutral-900)"
             />
             <Text fontSize="sm">Volver a reportes</Text>
           </Flex>
@@ -57,20 +57,20 @@ export function ConversationHeader({ conversation }: ConversationHeaderProps) {
           borderRadius="full"
         >
           <Box w={2} h={2} borderRadius="full" bg="accent.default" />
-          <Text fontSize="sm" color="accent.fg" fontWeight="medium">
+          <Text fontSize="sm" color="fg" fontWeight="medium">
             Comprador: {conversation.buyer?.name ?? "desconocido"}
           </Text>
         </Flex>
         <Flex
           align="center"
           gap={1.5}
-          bg="secondary.subtle"
+          bg="secondary.default"
           px={3}
           py={1}
           borderRadius="full"
         >
           <Box w={2} h={2} borderRadius="full" bg="secondary.default" />
-          <Text fontSize="sm" color="secondary.fg" fontWeight="medium">
+          <Text fontSize="sm" color="neutral.600" fontWeight="medium">
             Vendedor: {conversation.seller?.name ?? "desconocido"}
           </Text>
         </Flex>

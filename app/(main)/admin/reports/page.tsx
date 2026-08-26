@@ -10,7 +10,7 @@ const ReportsView = dynamic(
   {
     loading: () => (
       <Center py={20}>
-        <Spinner size="xl" color="brand.500" />
+        <Spinner size="xl" color="brand.default" />
       </Center>
     ),
   },

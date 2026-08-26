@@ -40,11 +40,11 @@ export function EmptyState({
           style={{ width: "220px", opacity: 0.85 }}
         />
       )}
-      <Text fontSize="lg" fontWeight="bold" color="neutral.800">
+      <Text fontSize="lg" fontWeight="bold" color="neutral.900">
         {title}
       </Text>
       {description && (
-        <Text fontSize="md" color="neutral.500" maxW="320px">
+        <Text fontSize="md" color="neutral.400" maxW="320px">
           {description}
         </Text>
       )}

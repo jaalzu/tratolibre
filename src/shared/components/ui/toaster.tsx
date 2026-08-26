@@ -43,7 +43,7 @@ export const Toaster = () => {
             suppressHydrationWarning
           >
             {toast.type === "loading" ? (
-              <Spinner size="sm" color="blue.500" />
+              <Spinner size="sm" color="accent.default" />
             ) : (
               <Toast.Indicator />
             )}

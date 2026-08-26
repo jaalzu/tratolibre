@@ -2,7 +2,7 @@ import { Field, Box, Text, Flex } from "@chakra-ui/react";
 import { FieldError } from "react-hook-form";
 
 export const inputStyles = {
-  borderColor: "neutral.500",
+  borderColor: "neutral.400",
   borderRadius: "lg",
   h: "44px",
   px: "3",
@@ -25,11 +25,11 @@ export const FormField = ({
 }: FormFieldProps) => (
   <Field.Root invalid={!!error} w="full">
     <Flex justify="space-between" align="center" mb="0.2">
-      <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
+      <Field.Label fontSize="xs" fontWeight="medium" color="neutral.600">
         {label}
       </Field.Label>
       {helperText && !error && (
-        <Text fontSize="10px" color="neutral.500" ml="4px">
+        <Text fontSize="10px" color="neutral.400" ml="4px">
           {helperText}
         </Text>
       )}
@@ -39,7 +39,7 @@ export const FormField = ({
 
     <Box h="11px" mt="-6px">
       {error && (
-        <Field.ErrorText fontSize="10.3px" lineHeight="1" color="red.500" m="0">
+        <Field.ErrorText fontSize="10.3px" lineHeight="1" color="feedback.error" m="0">
           {error.message}
         </Field.ErrorText>
       )}

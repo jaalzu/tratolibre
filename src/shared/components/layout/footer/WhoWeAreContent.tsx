@@ -91,7 +91,7 @@ export default function WhoWeAreContent() {
           <Text
             fontSize="xs"
             fontWeight="bold"
-            color="brand.fg"
+            color="brand.default"
             textTransform="uppercase"
             letterSpacing="wider"
             mb={3}
@@ -144,7 +144,7 @@ export default function WhoWeAreContent() {
                   key={v.title}
                   gap={4}
                   p={5}
-                  bg="neutral.150"
+                  bg="neutral.100"
                   borderRadius="2xl"
                   align="flex-start"
                 >

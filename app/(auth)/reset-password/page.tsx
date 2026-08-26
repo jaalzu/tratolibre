@@ -4,7 +4,7 @@ import { ResetPasswordForm } from "@/features/auth/components/ResetPasswordForm"
 
 export default function ResetPasswordPage() {
   return (
-    <Flex minH="100dvh" align="center" justify="center" bg="neutral.150">
+    <Flex minH="100dvh" align="center" justify="center" bg="bg.canvas">
       <Card p={5} mx={3} w="100%" maxW="440px">
         <ResetPasswordForm />
       </Card>

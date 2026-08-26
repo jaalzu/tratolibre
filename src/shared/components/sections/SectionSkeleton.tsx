@@ -26,16 +26,19 @@ export function SectionSkeleton() {
   return (
     <PageContainer pt={{ base: 4, md: 8 }} pb={4}>
       <div className={styles.card}>
-        {/* Título */}
-        <Bone w="200px" h="20px" borderRadius="4px" />
+        <div>
+          <Bone w="200px" h="20px" borderRadius="4px" />
+          <div style={{ marginTop: "2px" }}>
+            <Bone w="80px" h="14px" borderRadius="4px" />
+          </div>
+        </div>
 
         <div className={styles.divider} />
 
-        {/* Cards */}
         <div className={styles.flexContainer}>
           {[...Array(5)].map((_, i) => (
             <div key={i} className={styles.cardWrapper}>
-              <Bone h="240px" borderRadius="12px" /> {/* xl aproximado */}
+              <Bone h="226px" borderRadius="12px" />
               <div style={{ marginTop: "8px" }}>
                 <Bone w="80%" h="14px" />
               </div>

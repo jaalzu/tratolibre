@@ -104,12 +104,12 @@ export default function TermsContent() {
             as="h1"
             fontSize={{ base: "2xl", md: "4xl" }}
             fontWeight="bold"
-            color="neutral.800"
+            color="neutral.900"
             mb={3}
           >
             Términos y Condiciones
           </Heading>
-          <Text fontSize="sm" color="neutral.400">
+          <Text fontSize="sm" color="fg.muted">
             Última actualización: {lastUpdated}
           </Text>
         </Box>
@@ -142,7 +142,7 @@ export default function TermsContent() {
                   as="h2"
                   fontSize={{ base: "md", md: "lg" }}
                   fontWeight="semibold"
-                  color="neutral.900"
+                  color="fg"
                   mb={4}
                 >
                   {section.title}
@@ -151,7 +151,7 @@ export default function TermsContent() {
                   {section.content.map((paragraph, i) => (
                     <Text
                       key={i}
-                      color="neutral.700"
+                      color="fg.muted"
                       lineHeight="tall"
                       fontSize="sm"
                     >

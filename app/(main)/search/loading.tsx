@@ -37,16 +37,34 @@ function ItemCardSkeleton() {
   );
 }
 
+function FilterPanelSkeleton() {
+  return (
+    <Box w="280px" flexShrink={0} bg="bg.card" boxShadow="base" borderRadius="lg" p={4} display={{ base: "none", lg: "block" }}>
+      <Flex align="center" justify="space-between" mb={3} pb={3} borderBottom="1px solid" borderColor="neutral.100">
+        <Bone w="50px" h="16px" />
+        <Bone w="40px" h="12px" />
+      </Flex>
+      {/* 6 collapsed rows: Ordenar, Categoría, Ubicación, Precio, Fecha, Estado */}
+      {[...Array(6)].map((_, i) => (
+        <Flex key={i} align="center" justify="space-between" py={3} borderBottom={i === 5 ? "none" : "1px solid"} borderColor="neutral.100">
+          <Bone w={`${70 + (i % 2) * 20}px`} h="14px" />
+          <Bone w="80px" h="12px" borderRadius="full" />
+        </Flex>
+      ))}
+      <Box mt={3} pt={3} borderTop="1px solid" borderColor="neutral.100">
+        <Bone h="44px" borderRadius="full" />
+      </Box>
+    </Box>
+  );
+}
+
 export default function SearchLoading() {
   return (
     <>
       <SearchFilterBar />
       <PageContainer pt={{ base: 4, md: 8 }} pb={24} px={{ base: 4, md: 8 }}>
         <Flex gap={8} align="flex-start">
-          {/* FilterPanel placeholder — solo desktop */}
-          <Box display={{ base: "none", md: "block" }} w="240px" flexShrink={0}>
-            <Bone h="400px" borderRadius="xl" />
-          </Box>
+          <FilterPanelSkeleton />
 
           {/* Results */}
           <Box flex={1}>

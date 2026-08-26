@@ -62,7 +62,7 @@ export const ChatMenu = ({
       Icon: Link,
       href: `/item/${itemId}`,
       iconColor: "var(--chakra-colors-neutral-500)",
-      textColor: "neutral.700",
+      textColor: "neutral.600",
     },
     {
       label: "Ver perfil",
@@ -70,7 +70,7 @@ export const ChatMenu = ({
       href: `/profile/${otherUserId}`,
       prefetch: false,
       iconColor: "var(--chakra-colors-neutral-500)",
-      textColor: "neutral.700",
+      textColor: "neutral.600",
     },
     {
       label: "Reportar usuario",
@@ -94,7 +94,7 @@ export const ChatMenu = ({
         cursor="pointer"
         p={1}
         borderRadius="md"
-        _hover={{ bg: "whiteAlpha.200" }}
+        _hover={{ bg: "neutral.100" }}
         onClick={() => setOpen(!open)}
         display="flex"
         alignItems="center"

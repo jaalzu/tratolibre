@@ -10,6 +10,7 @@ interface Option {
 export function useFilterSelect(value: string, options: Option[]) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const selected = options.find((opt) => opt.id === value);
 
@@ -18,9 +19,9 @@ export function useFilterSelect(value: string, options: Option[]) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        close();
-      }
+      const target = event.target as Node;
+      if (ref.current?.contains(target) || dropdownRef.current?.contains(target)) return;
+      close();
     };
 
     if (open) {
@@ -35,6 +36,7 @@ export function useFilterSelect(value: string, options: Option[]) {
   return {
     open,
     ref,
+    dropdownRef,
     selected,
     toggle,
     close,

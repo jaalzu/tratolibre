@@ -20,7 +20,8 @@ export function SortModal({ open, onClose }: SortModalProps) {
         <Box
           position="fixed"
           inset={0}
-          bg="blackAlpha.400"
+          bg="blackAlpha.500"
+          css={{ backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}
           zIndex={200}
           onClick={onClose}
         />
@@ -75,7 +76,7 @@ export function SortModal({ open, onClose }: SortModalProps) {
               >
                 <Text
                   fontSize="md"
-                  color={isSelected ? "brand.default" : "neutral.700"}
+                  color={isSelected ? "brand.default" : "neutral.600"}
                   fontWeight={isSelected ? "bold" : "normal"}
                 >
                   {opt.label}

@@ -48,7 +48,7 @@ export const EditProfileForm = ({ defaultValues }: EditProfileFormProps) => {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
-              boxShadow: "var(--chakra-shadows-sm)",
+              boxShadow: "var(--chakra-shadows-base)",
             }}
           >
             <Camera width="14px" height="14px" fill="currentColor" />
@@ -72,7 +72,7 @@ export const EditProfileForm = ({ defaultValues }: EditProfileFormProps) => {
       {success && (
         <Text
           fontSize="xs"
-          color="green.500"
+          color="feedback.success"
           mt={3}
           textAlign="center"
           fontWeight="medium"
@@ -84,7 +84,7 @@ export const EditProfileForm = ({ defaultValues }: EditProfileFormProps) => {
       {serverError && (
         <Text
           fontSize="xs"
-          color="red.500"
+          color="feedback.error"
           mt={3}
           textAlign="center"
           fontWeight="medium"

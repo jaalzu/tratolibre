@@ -6,7 +6,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Box bg="neutral.150" minH="100dvh" display="flex" flexDir="column">
+    <Box bg="bg.canvas" minH="100dvh" display="flex" flexDir="column">
       {children}
     </Box>
   );

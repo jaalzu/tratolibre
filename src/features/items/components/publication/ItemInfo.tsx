@@ -13,13 +13,13 @@ export default function ItemInfo({ item }: { item: Item }) {
   return (
     <Box>
       {/* Título */}
-      <Text fontSize="xl" fontWeight="bold" color="neutral.900">
+      <Text fontSize="xl" fontWeight="bold" color="neutral.900" mb={1}>
         {item.title}
       </Text>
 
       {/* Estado */}
       {item.condition && (
-        <Text fontSize="md" color="neutral.400" mb={1}>
+        <Text fontSize="md" color="neutral.400" mb={2}>
           Estado del producto:{" "}
           {CONDITION_LABEL[item.condition] ?? item.condition}
         </Text>
@@ -27,7 +27,7 @@ export default function ItemInfo({ item }: { item: Item }) {
 
       {/* Sold / Pausado */}
       {item.sold && (
-        <Text fontSize="14px" color="neutral.500" mb={2}>
+        <Text fontSize="14px" color="neutral.400" mb={2}>
           Vendido
         </Text>
       )}
@@ -39,7 +39,7 @@ export default function ItemInfo({ item }: { item: Item }) {
 
       {/* Precio */}
       {item.sale_price && (
-        <Text fontSize="2xl" fontWeight="bold" color="neutral.900">
+        <Text fontSize="2xl" fontWeight="bold" color="neutral.900" mt={2}>
           ${item.sale_price.toLocaleString("es-AR")}
         </Text>
       )}

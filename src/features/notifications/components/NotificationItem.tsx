@@ -47,7 +47,7 @@ export function NotificationItem({
       py={3}
       w="full"
       textAlign="left"
-      bg={notification.read ? "neutral.50" : "brand.50"}
+      bg={notification.read ? "neutral.50" : "brand.subtle"}
       border="none"
       borderBottom="1px solid"
       borderColor="neutral.100"
@@ -71,7 +71,7 @@ export function NotificationItem({
           )}
         </Flex>
         <Box flex={1}>
-          <Text fontSize="sm" color="neutral.800" lineHeight="1.4">
+          <Text fontSize="sm" color="neutral.900" lineHeight="1.4">
             <NotificationLabel label={cfg.label} />
           </Text>
           <Text fontSize="xs" color="neutral.400" mt={0.5}>

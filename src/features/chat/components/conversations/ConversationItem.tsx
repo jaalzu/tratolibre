@@ -62,7 +62,7 @@ export const ConversationItem = ({
                 style={{ objectFit: "cover" }}
               />
             ) : (
-              <Box w="full" h="full" bg="gray.200" borderRadius="md" />
+              <Box w="full" h="full" bg="neutral.200" borderRadius="md" />
             )}
           </Box>
 
@@ -71,11 +71,11 @@ export const ConversationItem = ({
             <Text fontSize="xs" color="neutral.400">
               {currentOtherPerson?.name ?? "Usuario"}
             </Text>
-            <Text fontSize="md" fontWeight="bold" color="neutral.800" truncate>
+            <Text fontSize="md" fontWeight="bold" color="neutral.900" truncate>
               {conv.items?.title}
             </Text>
             {lastMessage && (
-              <Text fontSize="xs" color="neutral.500" truncate mt="1">
+              <Text fontSize="xs" color="neutral.400" truncate mt="1">
                 {lastMessage.content}
               </Text>
             )}

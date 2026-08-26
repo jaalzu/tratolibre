@@ -36,7 +36,7 @@ export function ReportCardActions({ report }: ReportCardActionsProps) {
           alignItems="center"
           justifyContent="center"
         >
-          <Text fontSize="xs" fontWeight="bold" color="brand.fg">
+          <Text fontSize="xs" fontWeight="bold" color="brand.default">
             {report.reporter?.name?.[0]?.toUpperCase() ?? "?"}
           </Text>
         </Box>
@@ -106,10 +106,10 @@ export function ReportCardActions({ report }: ReportCardActionsProps) {
               py={1.5}
               px={3}
               bg="neutral.50"
-              color="red.600"
+              color="feedback.error"
               border="1px solid"
-              borderColor="red.600"
-              _hover={{ bg: "red.50" }}
+              borderColor="feedback.error"
+              _hover={{ bg: "brand.subtle" }}
               onClick={() => setConfirmDismiss(true)}
             >
               Desestimar

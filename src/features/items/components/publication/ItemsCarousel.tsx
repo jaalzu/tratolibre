@@ -61,10 +61,12 @@ export function ItemsCarousel({
             size="md"
             borderRadius="full"
             variant="outline"
-            borderColor="brand.default"
-            color="brand.default"
+            borderColor="accent.default"
+            color="accent.default"
+            bg="neutral.50"
+            _hover={{ opacity: 0.8 }}
             disabled={!canScrollLeft}
-            opacity={canScrollLeft ? 1 : 0.35}
+            opacity={canScrollLeft ? 1 : 0.3}
           >
             <ChevronLeft width="18px" height="18px" />
           </IconButton>
@@ -74,10 +76,12 @@ export function ItemsCarousel({
             size="md"
             borderRadius="full"
             variant="outline"
-            borderColor="brand.default"
-            color="brand.default"
+            borderColor="accent.default"
+            color="accent.default"
+            bg="neutral.50"
+            _hover={{ opacity: 0.8 }}
             disabled={!canScrollRight}
-            opacity={canScrollRight ? 1 : 0.35}
+            opacity={canScrollRight ? 1 : 0.3}
           >
             <ChevronRight width="18px" height="18px" />
           </IconButton>

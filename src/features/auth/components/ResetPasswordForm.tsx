@@ -56,7 +56,7 @@ export const ResetPasswordForm = () => {
   };
 
   const inputStyles = {
-    borderColor: "neutral.500",
+    borderColor: "neutral.400",
     borderRadius: "lg",
     h: "44px",
     px: "3",
@@ -76,7 +76,7 @@ export const ResetPasswordForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="2">
           <Field.Root invalid={!!errors.password}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
+            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.600">
               Nueva contraseña
             </Field.Label>
             <Box position="relative" w="full">
@@ -118,7 +118,7 @@ export const ResetPasswordForm = () => {
           </Field.Root>
 
           <Field.Root invalid={!!errors.confirm}>
-            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
+            <Field.Label fontSize="xs" fontWeight="medium" color="neutral.600">
               Confirmá la contraseña
             </Field.Label>
             <Input

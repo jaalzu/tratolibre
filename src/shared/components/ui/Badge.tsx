@@ -1,12 +1,12 @@
 import { Box } from "@chakra-ui/react";
 
 const variants: Record<string, { bg: string; color: string }> = {
-  pending: { bg: "#fef9c3", color: "#854d0e" },
-  accepted: { bg: "#dcfce7", color: "#166534" },
-  rejected: { bg: "#fee2e2", color: "#991b1b" },
-  active: { bg: "#dbeafe", color: "#1e40af" },
-  completed: { bg: "#f3f4f6", color: "#374151" },
-  cancelled: { bg: "#fee2e2", color: "#991b1b" },
+  pending: { bg: "secondary.default", color: "fg.inverted" },
+  accepted: { bg: "brand.subtle", color: "brand.hover" },
+  rejected: { bg: "feedback.error", color: "fg.inverted" },
+  active: { bg: "accent.subtle", color: "accent.hover" },
+  completed: { bg: "neutral.50", color: "fg.muted" },
+  cancelled: { bg: "feedback.error", color: "fg.inverted" },
 };
 
 const labels: Record<string, string> = {
@@ -19,7 +19,7 @@ const labels: Record<string, string> = {
 };
 
 export function StatusBadge({ status }: { status: string }) {
-  const s = variants[status] ?? { bg: "neutral.100", color: "neutral.700" };
+  const s = variants[status] ?? { bg: "neutral.100", color: "fg.muted" };
   return (
     <Box
       as="span"

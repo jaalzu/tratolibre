@@ -13,7 +13,7 @@ const PrivacyContent = dynamic(
           justifyContent: "center",
         }}
       >
-        <p style={{ color: "#958e8e", fontSize: "14px" }}>
+        <p style={{ color: "var(--chakra-colors-neutral-400)", fontSize: "14px" }}>
           Cargando políticas de privacidad...
         </p>
       </div>

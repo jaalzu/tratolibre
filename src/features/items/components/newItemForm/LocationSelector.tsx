@@ -26,7 +26,7 @@ interface LocationSelectorProps {
 }
 
 const inputStyles = {
-  borderColor: "neutral.500",
+  borderColor: "neutral.400",
   borderRadius: "lg",
   h: "44px",
   px: "3",
@@ -77,65 +77,19 @@ export const LocationSelector = ({
 
   return (
     <Flex direction="column" gap={3}>
-      <Text fontSize="sm" fontWeight="bold" color="neutral.700">
+      <Text fontSize="sm" fontWeight="bold" color="neutral.600">
         Ubicación
       </Text>
 
-      {/* Provincia + Ciudad + Barrio en una fila en desktop */}
       <Flex gap={3} direction={{ base: "column", md: "row" }}>
-        <Field.Root
-          invalid={!!errors?.province}
-          w={{ base: "full", md: "30%" }}
-          flexShrink={0}
-        >
-          <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
-            Provincia *
-          </Field.Label>
-          <FormSelect
-            value={selectedProvince}
-            onChange={handleProvinceChange}
-            options={provinces.map((p) => ({ id: p.nombre, label: p.nombre }))}
-            placeholder="Provincia..."
-            invalid={!!errors?.province}
-          />
-          {errors?.province && (
-            <Field.ErrorText fontSize="xs">
-              {errors.province.message}
-            </Field.ErrorText>
-          )}
+        <Field.Root invalid={!!errors?.province} flex={1}>
+          <Field.Label fontSize="xs" fontWeight="medium" color="neutral.600">Provincia *</Field.Label>
+          <FormSelect value={selectedProvince} onChange={handleProvinceChange} options={provinces.map((p) => ({ id: p.nombre, label: p.nombre }))} placeholder="Provincia..." invalid={!!errors?.province} />
+          {errors?.province && <Field.ErrorText fontSize="xs">{errors.province.message}</Field.ErrorText>}
         </Field.Root>
-
-        <Field.Root w={{ base: "full", md: "30%" }} flexShrink={0}>
-          <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
-            Ciudad{" "}
-            <Text as="span" color="neutral.400">
-              (opcional)
-            </Text>
-          </Field.Label>
-          <FormSelect
-            value={selectedCity}
-            disabled={!selectedProvince}
-            onChange={handleCityChange}
-            options={municipalities.map((m) => ({
-              id: m.nombre,
-              label: m.nombre,
-            }))}
-            placeholder={selectedProvince ? "Ciudad..." : "Primero provincia"}
-          />
-        </Field.Root>
-
         <Field.Root flex={1}>
-          <Field.Label fontSize="xs" fontWeight="medium" color="neutral.700">
-            Barrio / Zona{" "}
-            <Text as="span" color="neutral.400">
-              (opcional)
-            </Text>
-          </Field.Label>
-          <Input
-            {...register("location")}
-            placeholder="Ej: Palermo, Centro..."
-            {...inputStyles}
-          />
+          <Field.Label fontSize="xs" fontWeight="medium" color="neutral.600">Ciudad <Text as="span" color="neutral.400">(opcional)</Text></Field.Label>
+          <FormSelect value={selectedCity} disabled={!selectedProvince} onChange={handleCityChange} options={municipalities.map((m) => ({ id: m.nombre, label: m.nombre }))} placeholder={selectedProvince ? "Ciudad..." : "Primero provincia"} />
         </Field.Root>
       </Flex>
     </Flex>

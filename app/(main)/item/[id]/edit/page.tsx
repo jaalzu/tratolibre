@@ -23,8 +23,8 @@ export default async function EditItemPage({
   }
 
   return (
-    <div className="max-w-5xl mx-auto py-10 px-4">
-      <div className="bg-white p-6 md:p-8 rounded-xl   ">
+    <div style={{ maxWidth: "1024px", margin: "0 auto", padding: "40px 16px" }}>
+      <div style={{ background: "var(--chakra-colors-bg-card)", padding: "24px", borderRadius: "var(--chakra-radii-lg)", boxShadow: "var(--chakra-shadows-base)" }}>
         <DynamicNewItemForm initialData={item} />
       </div>
     </div>

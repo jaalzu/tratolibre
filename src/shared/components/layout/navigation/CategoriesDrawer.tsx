@@ -17,7 +17,8 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
         <Box
           position="fixed"
           inset={0}
-          bg="blackAlpha.400"
+          bg="blackAlpha.500"
+          css={{ backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}
           zIndex={200}
           onClick={onClose}
           role="presentation"
@@ -33,13 +34,13 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
         left={0}
         h="100dvh"
         w="280px"
-        bg="#ffffff"
+        bg="bg.card"
         zIndex={201}
         transform={open ? "translateX(0)" : "translateX(-100%)"}
         transition="transform 0.25s ease"
         display="flex"
         flexDirection="column"
-        boxShadow="lg"
+        boxShadow="base"
       >
         {/* Header */}
         <Flex
@@ -60,7 +61,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
             alignItems="center"
             justifyContent="center"
           >
-            <X width="28px" height="28px" fill="red" />
+            <X width="28px" height="28px" fill="var(--chakra-colors-feedback-error)" />
           </IconButton>
         </Flex>
 
@@ -73,7 +74,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
               px={3}
               py={2.5}
               borderRadius="lg"
-              _hover={{ bg: "brand.50" }}
+              _hover={{ bg: "brand.subtle" }}
               transition="all 0.15s"
             >
               <Home
@@ -81,7 +82,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
                 height="20px"
                 fill="var(--chakra-colors-brand-default)"
               />
-              <Text fontSize="sm" color="neutral.700" fontWeight="medium">
+              <Text fontSize="sm" color="neutral.600" fontWeight="medium">
                 Inicio
               </Text>
             </Flex>
@@ -111,7 +112,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
                     px={3}
                     py={2.5}
                     borderRadius="lg"
-                    _hover={{ bg: "brand.50" }}
+                    _hover={{ bg: "brand.subtle" }}
                     transition="all 0.15s"
                   >
                     <Icon
@@ -120,7 +121,7 @@ export function CategoriesDrawer({ open, onClose }: CategoriesDrawerProps) {
                       height="20px"
                       fill="var(--chakra-colors-brand-default)"
                     />
-                    <Text fontSize="sm" color="neutral.700" fontWeight="medium">
+                    <Text fontSize="sm" color="neutral.600" fontWeight="medium">
                       {cat.label}
                     </Text>
                   </Flex>

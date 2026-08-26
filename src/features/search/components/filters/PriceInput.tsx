@@ -17,7 +17,7 @@ export function PriceInput({
 }: PriceInputProps) {
   return (
     <Box flex={1}>
-      <Text fontSize="xs" color="neutral.500" mb={1}>
+      <Text fontSize="xs" color="neutral.400" mb={1}>
         {label}
       </Text>
       <input

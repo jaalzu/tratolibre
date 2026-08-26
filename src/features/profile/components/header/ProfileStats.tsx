@@ -14,13 +14,13 @@ export const ProfileStats = ({
   isOwner,
 }: ProfileStatsProps) => (
   <Flex gap={6} align="center" mb={3} w="full">
-    <Text fontSize="sm" color="neutral.700">
+    <Text fontSize="sm" color="neutral.600">
       <Text as="span" fontWeight="bold">
         {salesCount}
       </Text>{" "}
       Ventas
     </Text>
-    <Text fontSize="sm" color="neutral.700">
+    <Text fontSize="sm" color="neutral.600">
       <Text as="span" fontWeight="bold">
         {purchasesCount}
       </Text>{" "}
