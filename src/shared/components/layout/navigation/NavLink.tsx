@@ -43,19 +43,29 @@ export default function NavLink({
         h="full"
         px={isMobile ? 1 : 2}
         py={isMobile ? 1 : 1}
+        gap={isMobile ? "1px" : undefined}
+        transform={isMobile ? "translateY(-2px)" : undefined}
+        opacity={isMobile ? (isActive ? 1 : 0.9) : 1}
         _hover={{
           bg: isMobile ? "transparent" : "rgba(255,255,255,0.08)",
+          opacity: 1,
         }}
-        transition="0.2s"
+        transition="all 0.13s ease"
         cursor="pointer"
         position="relative"
         borderRadius="md"
       >
-        <Box position="relative" display="inline-flex">
+        <Box
+          position="relative"
+          display="inline-flex"
+          transition="all 0.13s ease"
+          transform={isMobile && isActive ? "scale(1.05)" : "scale(1)"}
+        >
           <IconComponent
-            width={isMobile ? "28px" : "22px"}
-            height={isMobile ? "28px" : "22px"}
+            width={isMobile ? (isActive ? "25px" : "24px") : "22px"}
+            height={isMobile ? (isActive ? "25px" : "24px") : "22px"}
             fill="var(--chakra-colors-neutral-50)"
+            style={{ transition: "all 0.13s ease" }}
           />
 
           {badge > 0 && (
@@ -81,18 +91,19 @@ export default function NavLink({
           )}
         </Box>
 
-        {!isMobile && (
-          <Text
-            fontSize="xs"
-            fontWeight={isActive ? "bold" : "medium"}
-            color="neutral.50"
-            textAlign="center"
-            lineHeight="1.1"
-            mt={0.5}
-          >
-            {label}
-          </Text>
-        )}
+        <Text
+          fontSize={isMobile ? (isActive ? "11px" : "10px") : "xs"}
+          fontWeight={isActive ? "bold" : "medium"}
+          color="neutral.50"
+          textAlign="center"
+          lineHeight="1"
+          mt={isMobile ? "5px" : 0.5}
+          transform={isMobile ? "translateY(-1px)" : undefined}
+          transition="all 0.13s ease"
+          letterSpacing="0.3px"
+        >
+          {label}
+        </Text>
       </Flex>
     </NextLink>
   );
