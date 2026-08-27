@@ -30,7 +30,7 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
       bg="brand.default"
       zIndex={100}
       px={1}
-      pb="env(safe-area-inset-bottom)"
+      pb="calc(env(safe-area-inset-bottom) + 2px)"
       boxShadow="0 -4px 18px rgba(0,0,0,0.14), 0 -1px 4px rgba(0,0,0,0.08)"
       overflow="visible"
     >

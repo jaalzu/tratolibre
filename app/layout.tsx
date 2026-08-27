@@ -18,6 +18,7 @@ const geist = Geist({
 
 export const viewport: Viewport = {
   themeColor: "#0f0d0d",
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
