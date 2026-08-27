@@ -13,3 +13,9 @@ body {
   background-color: var(--chakra-colors-bg-canvas); /* bg.canvas */
   min-height: 100dvh;
 }
+
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(74px + env(safe-area-inset-bottom));
+  }
+}
