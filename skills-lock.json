@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "typography": {
+      "source": "jaalzu/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/typography/SKILL.md",
+      "computedHash": "2b3e15b7f042acc66dee0635f1e20cdb763336394dabc36fbb176be51c4d4b13"
+    }
+  }
+}

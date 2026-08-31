@@ -6,7 +6,7 @@ const config = defineConfig({
       fonts: {
         heading: { value: "var(--font-geist-sans), system-ui, sans-serif" },
         body: { value: "var(--font-geist-sans), system-ui, sans-serif" },
-        mono: { value: "var(--font-geist-sans), monospace" },
+        mono: { value: "monospace" },
       },
       colors: {
         brand: {

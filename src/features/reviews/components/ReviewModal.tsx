@@ -97,7 +97,7 @@ export function ReviewModal({ open, onClose, data }: ReviewModalProps) {
                     {role === "buyer"
                       ? "Calificá al vendedor de"
                       : "Calificá al comprador de"}{" "}
-                    <Text as="span" fontWeight="semibold" color="neutral.600">
+                    <Text as="span" fontWeight="bold" color="neutral.600">
                       {itemTitle}
                     </Text>
                   </Text>

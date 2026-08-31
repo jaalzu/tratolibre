@@ -18,14 +18,18 @@ function getSlides(isLoggedIn: boolean): HeroSlide[] {
         "Compra, venta e intercambio de artículos de segunda mano y nuevos.",
       buttonLabel: "Vender Ahora",
       buttonHref: isLoggedIn ? "/item/new" : "/register",
-      bg: "var(--chakra-colors-brand-100)",
+      bg: isLoggedIn
+        ? "var(--chakra-colors-brand-100)"
+        : "rgba(31, 179, 85, 0.12)",
     },
     {
       image: "/hero/handshake.webp",
       title: "¡Es rápido, fácil y gratis! \n Unete ahora",
       buttonLabel: "Comenzar a Vender",
       buttonHref: isLoggedIn ? "/item/new" : "/register",
-      bg: "var(--chakra-colors-accent-100)",
+      bg: isLoggedIn
+        ? "var(--chakra-colors-accent-100)"
+        : "rgba(31, 179, 85, 0.12)",
     },
   ];
 }

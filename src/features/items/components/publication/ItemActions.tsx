@@ -45,7 +45,7 @@ export default function ItemActions({
     return (
       <Box
         position={{ base: "fixed", md: "static" }}
-        bottom={{ base: "60px", md: 0 }}
+        bottom={{ base: "65px", md: 0 }}
         left={0}
         right={0}
         p={{ base: 3, md: 0 }}
@@ -56,7 +56,7 @@ export default function ItemActions({
           asChild
           variant="accent"
           width="full"
-          p={{ base: 1, md: 1 }}
+          p={{ base: 1.5, md: 1.5 }}
           borderRadius="lg"
         >
           <NextLink href="/login">Iniciar sesión para contactar</NextLink>
@@ -67,34 +67,10 @@ export default function ItemActions({
   if (item.profiles?.id === userId)
     return (
       <>
-        <Flex direction="column" gap={2}>
+        <Flex direction="column" gap={1.5} pb={3}>
           {!item.sold && (
             <>
-              <Flex gap={2} width="full">
-                <Button
-                  asChild
-                  variant="accent"
-                  flex={1}
-                  borderRadius="md"
-                  py={1}
-                >
-                  <NextLink href={`/item/${item.id}/edit`}>
-                    Editar
-                  </NextLink>
-                </Button>
-                <Button
-                  flex={1}
-                  borderRadius="md"
-                  py={1}
-                  bg="feedback.error"
-                  onClick={() => setOpen(true)}
-                  data-testid="delete-item-button"
-                  _hover={{ opacity: 0.85 }}
-                >
-                  Eliminar
-                </Button>
-              </Flex>
-              <Flex justify="center" width="full" mt={1}>
+              <Flex justify="center" width="full">
                 <chakra.button
                   type="button"
                   fontSize="sm"
@@ -111,6 +87,28 @@ export default function ItemActions({
                 >
                   Marcar como vendido
                 </chakra.button>
+              </Flex>
+              <Flex gap={2} width="full">
+                <Button
+                  asChild
+                  variant="accent"
+                  flex={1}
+                  borderRadius="md"
+                  py={1}
+                >
+                  <NextLink href={`/item/${item.id}/edit`}>Editar</NextLink>
+                </Button>
+                <Button
+                  flex={1}
+                  borderRadius="md"
+                  py={1}
+                  bg="feedback.error"
+                  onClick={() => setOpen(true)}
+                  data-testid="delete-item-button"
+                  _hover={{ opacity: 0.85 }}
+                >
+                  Eliminar
+                </Button>
               </Flex>
             </>
           )}

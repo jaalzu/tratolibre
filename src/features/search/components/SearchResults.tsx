@@ -46,7 +46,7 @@ export function SearchResults({
         <Box mb={2}>
           <ActiveFilterChips />
         </Box>
-        <Heading as="h1" fontSize="lg" fontWeight="bold" color="neutral.900" mb={4}>
+        <Heading as="h1" fontSize="xl" fontWeight="bold" color="neutral.900" mb={4}>
           {title}
         </Heading>
         <SearchSkeleton />
@@ -61,7 +61,7 @@ export function SearchResults({
       </Box>
       <Heading
         as="h1"
-        fontSize="lg"
+        fontSize="xl"
         fontWeight="bold"
         color="neutral.900"
         mb={4}

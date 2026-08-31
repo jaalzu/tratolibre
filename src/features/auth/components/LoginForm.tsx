@@ -138,7 +138,7 @@ export const LoginForm = () => {
               <Text
                 fontSize="sm"
                 color="accent.default"
-                fontWeight="600"
+                fontWeight="bold"
                 _hover={{ textDecoration: "underline" }}
                 cursor="pointer"
               >
@@ -172,7 +172,7 @@ export const LoginForm = () => {
 
       <Text fontSize="xs" color="neutral.400" textAlign="center" mt="5">
         ¿No tenés cuenta?{" "}
-        <Text as="span" color="accent.default" fontWeight="600">
+        <Text as="span" color="accent.default" fontWeight="bold">
           <NextLink href="/register">
             <Text
               as="span"

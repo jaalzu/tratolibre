@@ -112,7 +112,7 @@ export default function HowItWorksContent() {
           <Heading
             as="h2"
             fontSize={{ base: "lg", md: "xl" }}
-            fontWeight="semibold"
+            fontWeight="bold"
             color="fg"
             mb={8}
           >
@@ -188,8 +188,8 @@ export default function HowItWorksContent() {
                     </Text>
                     <Heading
                       as="h3"
-                      fontSize={{ base: "md", md: "sm" }}
-                      fontWeight="semibold"
+                      fontSize={{ base: "md", md: "md" }}
+                      fontWeight="bold"
                       color="fg"
                       mb={2}
                     >
@@ -216,7 +216,7 @@ export default function HowItWorksContent() {
           <Heading
             as="h2"
             fontSize={{ base: "lg", md: "xl" }}
-            fontWeight="semibold"
+            fontWeight="bold"
             color="fg"
             mb={2}
           >
@@ -230,7 +230,7 @@ export default function HowItWorksContent() {
           <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
             {reasons.map((r) => (
               <Box key={r.title} p={5} bg="neutral.100" borderRadius="2xl">
-                <Text fontWeight="semibold" color="fg" mb={2}>
+                <Text fontWeight="bold" color="fg" mb={2}>
                   {r.title}
                 </Text>
                 <Text fontSize="sm" color="fg.muted" lineHeight="tall">
@@ -250,7 +250,7 @@ export default function HowItWorksContent() {
           <Heading
             as="h2"
             fontSize={{ base: "xl", md: "2xl" }}
-            fontWeight="semibold"
+            fontWeight="bold"
             color="fg"
             mb={3}
           >
@@ -267,7 +267,7 @@ export default function HowItWorksContent() {
               bg="neutral.50"
               color="neutral.900"
               borderRadius="lg"
-              fontWeight="semibold"
+              fontWeight="bold"
               fontSize="sm"
               _hover={{ textDecoration: "none", bg: "neutral.100" }}
             >
@@ -280,7 +280,7 @@ export default function HowItWorksContent() {
               bg="brand.default"
               color="white"
               borderRadius="lg"
-              fontWeight="semibold"
+              fontWeight="bold"
               fontSize="sm"
               border="1px solid"
               borderColor="border"
