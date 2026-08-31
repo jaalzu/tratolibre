@@ -49,7 +49,7 @@ export const ForgotPasswordForm = () => {
           bandeja de entrada y spam.
         </Text>
         <Text fontSize="xs" color="neutral.400" textAlign="center" mt={4}>
-          <Text as="span" color="accent.default" fontWeight="600">
+          <Text as="span" color="accent.default" fontWeight="bold">
             <NextLink href="/login">
               <Text as="span" _hover={{ textDecoration: "underline" }}>
                 Volver al inicio de sesión
@@ -110,7 +110,7 @@ export const ForgotPasswordForm = () => {
       </form>
 
       <Text fontSize="xs" color="neutral.400" textAlign="center" mt={5}>
-        <Text as="span" color="accent.default" fontWeight="600">
+        <Text as="span" color="accent.default" fontWeight="bold">
           <NextLink href="/login">
             <Text as="span" _hover={{ textDecoration: "underline" }}>
               Volver al inicio de sesión

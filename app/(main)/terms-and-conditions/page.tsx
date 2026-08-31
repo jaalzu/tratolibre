@@ -13,7 +13,7 @@ const TermsContent = dynamic(
           justifyContent: "center",
         }}
       >
-        <p style={{ color: "var(--chakra-colors-neutral-400)", fontSize: "14px" }}>
+        <p style={{ color: "var(--chakra-colors-neutral-400)", fontSize: "0.875rem" }}>
           Cargando términos legales...
         </p>
       </div>

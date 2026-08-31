@@ -58,7 +58,7 @@ export function LoggedInHero({ name, location, avatarSlot }: LoggedInHeroProps) 
             className={styles.btnExplorar}
             style={{
               padding: "6px 42px",
-              fontSize: "0.975rem",
+              fontSize: "1rem",
             }}
           >
             <NextLink href="/search">Explorar</NextLink>
@@ -69,7 +69,7 @@ export function LoggedInHero({ name, location, avatarSlot }: LoggedInHeroProps) 
             size="sm"
             style={{
               padding: "6px 50px",
-              fontSize: "0.975rem",
+              fontSize: "1rem",
             }}
           >
             <NextLink href="/item/new">Vender</NextLink>

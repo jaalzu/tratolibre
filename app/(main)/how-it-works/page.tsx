@@ -13,7 +13,7 @@ const HowItWorksContent = dynamic(
           justifyContent: "center",
         }}
       >
-        <p style={{ color: "var(--chakra-colors-neutral-400)", fontSize: "14px" }}>
+        <p style={{ color: "var(--chakra-colors-neutral-400)", fontSize: "0.875rem" }}>
           Cargando guía de uso...
         </p>
       </div>

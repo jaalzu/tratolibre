@@ -33,7 +33,7 @@ export function PriceInput({
           padding: "0 10px",
           borderRadius: "8px",
           border: "1px solid var(--chakra-colors-neutral-200)",
-          fontSize: "13px",
+          fontSize: "0.875rem",
           outline: "none",
           backgroundColor: "transparent",
         }}

@@ -30,7 +30,7 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
       bg="brand.default"
       zIndex={100}
       px={1}
-      pb="calc(env(safe-area-inset-bottom) + 2px)"
+      pb="calc(env(safe-area-inset-bottom) + 0px)"
       boxShadow="0 -4px 18px rgba(0,0,0,0.14), 0 -1px 4px rgba(0,0,0,0.08)"
       overflow="visible"
     >
@@ -45,15 +45,19 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
         pb="2px"
       >
         {/* 1. Inicio */}
-        <NavLink href="/" label="Inicio" icon={HomeAlt} variant="mobile" />
+        <Flex pb="8px">
+          <NavLink href="/" label="Inicio" icon={HomeAlt} variant="mobile" />
+        </Flex>
 
         {/* 2. Favoritos */}
-        <NavLink
-          href={userId ? "/favorites" : "/login"}
-          label="Favoritos"
-          icon={Heart}
-          variant="mobile"
-        />
+        <Flex pb="8px">
+          <NavLink
+            href={userId ? "/favorites" : "/login"}
+            label="Favoritos"
+            icon={Heart}
+            variant="mobile"
+          />
+        </Flex>
 
         {/* 3. FAB Central: Publicar — wrapper keeps Grid cell but FAB protrudes via absolute */}
         <Flex
@@ -67,28 +71,39 @@ export default function BottomNav({ userId, isAdmin = false }: BottomNavProps) {
         </Flex>
 
         {/* 4. Buzón */}
-        {userId ? (
-          <ChatNavLink variant="mobile" />
-        ) : (
-          <NavLink
-            href="/login"
-            label="Buzón"
-            icon={MessageDetail}
-            variant="mobile"
-          />
-        )}
+        <Flex pb="8px">
+          {userId ? (
+            <ChatNavLink variant="mobile" />
+          ) : (
+            <NavLink
+              href="/login"
+              label="Buzón"
+              icon={MessageDetail}
+              variant="mobile"
+            />
+          )}
+        </Flex>
 
         {/* 5. Perfil */}
-        <NavLink
-          href={userId ? "/profile" : "/login"}
-          label="Perfil"
-          icon={User}
-          variant="mobile"
-        />
+        <Flex pb="8px">
+          <NavLink
+            href={userId ? "/profile" : "/login"}
+            label="Perfil"
+            icon={User}
+            variant="mobile"
+          />
+        </Flex>
 
         {/* 6. Admin (si aplica) */}
         {isAdmin && userId && (
-          <NavLink href="/admin" label="Admin" icon={Shield} variant="mobile" />
+          <Flex pb="8px">
+            <NavLink
+              href="/admin"
+              label="Admin"
+              icon={Shield}
+              variant="mobile"
+            />
+          </Flex>
         )}
       </Grid>
     </Box>

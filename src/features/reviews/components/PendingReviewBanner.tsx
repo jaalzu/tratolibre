@@ -50,7 +50,7 @@ export function PendingReviewBanner({
           </Flex>
 
           <Box flex={1}>
-            <Text fontSize="sm" fontWeight="semibold" aria-live="polite">
+            <Text fontSize="sm" fontWeight="bold" aria-live="polite">
               {total === 1
                 ? "Tenés una reseña pendiente"
                 : `Reseña ${current + 1} de ${total}`}
@@ -102,7 +102,7 @@ export function PendingReviewBanner({
               borderRadius="lg"
               bg="brand.subtle"
               fontSize="xs"
-              fontWeight="semibold"
+              fontWeight="bold"
               color="brand.default"
             >
               Calificar

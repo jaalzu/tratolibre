@@ -19,7 +19,7 @@ interface PublishFabProps {
 // ─────────────────────────────────────────────────────────────
 
 const FAB_SIZE = "60px";
-const FAB_TOP = "-19px";
+const FAB_TOP = "-10px";
 const ICON_SIZE = "26px";
 
 export function PublishFab({ href }: PublishFabProps) {

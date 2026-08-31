@@ -34,13 +34,13 @@
 }
 
 .locationLabel {
-  font-size: 0.85rem;
+  font-size: var(--chakra-fontSizes-xs);
   color: var(--chakra-colors-neutral-400);
   font-weight: var(--chakra-fontWeights-normal);
 }
 
 .locationText {
-  font-size: 0.9rem;
+  font-size: var(--chakra-fontSizes-sm);
   color: var(--chakra-colors-neutral-600);
   font-weight: var(--chakra-fontWeights-medium);
 }
@@ -78,12 +78,13 @@
 .title {
   font-weight: bold;
   color: var(--chakra-colors-neutral-900);
-  font-size: 1.3rem;
+  font-size: var(--chakra-fontSizes-lg);
+  line-height: 1.2;
 }
 
 @media (min-width: 48em) {
   .title {
-    font-size: 1.5rem;
+    font-size: var(--chakra-fontSizes-xl);
   }
 }
 

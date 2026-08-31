@@ -58,7 +58,7 @@
 }
 
 .headingDesktop {
-  font-size: 1.55rem; /* xl */
+  font-size: 1.5rem; /* xl */
   max-width: 90%;
   font-weight: bold;
   color: var(--chakra-colors-neutral-900);
